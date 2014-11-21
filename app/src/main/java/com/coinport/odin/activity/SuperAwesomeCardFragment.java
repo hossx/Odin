@@ -16,6 +16,9 @@
 
 package com.coinport.odin.activity;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -67,8 +70,11 @@ public class SuperAwesomeCardFragment extends Fragment {
 		v.setLayoutParams(params);
 		v.setGravity(Gravity.CENTER);
 		v.setBackgroundResource(R.drawable.background_card);
-		v.setText("CARD " + (position + 1));
-
+//		v.setText("CARD " + (position + 1));
+        Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "coinport.ttf");
+        v.setTypeface(tf);
+        v.setText("\ue617");
+        v.setTextColor(Color.BLUE);
 		fl.addView(v);
 		return fl;
 	}

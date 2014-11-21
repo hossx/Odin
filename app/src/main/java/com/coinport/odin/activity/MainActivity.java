@@ -1,4 +1,4 @@
-package com.coinport.odin;
+package com.coinport.odin.activity;
 
 
 import android.graphics.Color;
