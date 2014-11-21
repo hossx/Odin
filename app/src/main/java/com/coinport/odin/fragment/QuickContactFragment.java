@@ -1,4 +1,4 @@
-package com.coinport.odin.activity;
+package com.coinport.odin.fragment;
 
 import android.graphics.Point;
 import android.os.Build;
@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.astuetz.PagerSlidingTabStrip;
 import com.astuetz.PagerSlidingTabStrip.IconTabProvider;
 import com.coinport.odin.R;
+import com.coinport.odin.adapter.ContactPagerAdapter;
 
 public class QuickContactFragment extends DialogFragment {
 
@@ -42,7 +43,7 @@ public class QuickContactFragment extends DialogFragment {
 
 		tabs = (PagerSlidingTabStrip) root.findViewById(R.id.tabs);
 		pager = (ViewPager) root.findViewById(R.id.pager);
-		adapter = new ContactPagerAdapter();
+		adapter = new ContactPagerAdapter(this);
 
 		pager.setAdapter(adapter);
 
@@ -79,51 +80,6 @@ public class QuickContactFragment extends DialogFragment {
 
 			getDialog().getWindow().setLayout(w, h);
 		}
-	}
-
-	public class ContactPagerAdapter extends PagerAdapter implements IconTabProvider {
-
-		private final int[] ICONS = { R.drawable.ic_launcher_gplus, R.drawable.ic_launcher_gmail,
-				R.drawable.ic_launcher_gmaps, R.drawable.ic_launcher_chrome };
-
-		public ContactPagerAdapter() {
-			super();
-		}
-
-		@Override
-		public int getCount() {
-			return ICONS.length;
-		}
-
-		@Override
-		public int getPageIconResId(int position) {
-			return ICONS[position];
-		}
-
-		@Override
-		public Object instantiateItem(ViewGroup container, int position) {
-			// looks a little bit messy here
-			TextView v = new TextView(getActivity());
-			v.setBackgroundResource(R.color.background_window);
-			v.setText("PAGE " + (position + 1));
-			final int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources()
-					.getDisplayMetrics());
-			v.setPadding(padding, padding, padding, padding);
-			v.setGravity(Gravity.CENTER);
-			container.addView(v, 0);
-			return v;
-		}
-
-		@Override
-		public void destroyItem(ViewGroup container, int position, Object view) {
-			container.removeView((View) view);
-		}
-
-		@Override
-		public boolean isViewFromObject(View v, Object o) {
-			return v == ((View) o);
-		}
-
 	}
 
 }

@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.coinport.odin.activity;
+package com.coinport.odin.fragment;
 
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;

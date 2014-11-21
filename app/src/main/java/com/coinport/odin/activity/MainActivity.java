@@ -17,13 +17,13 @@ import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.coinport.odin.R;
-import com.coinport.odin.activity.QuickContactFragment;
-import com.coinport.odin.activity.SuperAwesomeCardFragment;
+import com.coinport.odin.adapter.CpPagerAdapter;
+import com.coinport.odin.fragment.QuickContactFragment;
+import com.coinport.odin.fragment.SuperAwesomeCardFragment;
 
 public class MainActivity extends FragmentActivity {
 
@@ -31,7 +31,7 @@ public class MainActivity extends FragmentActivity {
 
     private PagerSlidingTabStrip tabs;
     private ViewPager pager;
-    private MyPagerAdapter adapter;
+    private CpPagerAdapter adapter;
 
     private Drawable oldBackground = null;
     private int currentColor = 0xFF5161BC;
@@ -44,7 +44,7 @@ public class MainActivity extends FragmentActivity {
 
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         pager = (ViewPager) findViewById(R.id.pager);
-        adapter = new MyPagerAdapter(getSupportFragmentManager());
+        adapter = new CpPagerAdapter(getSupportFragmentManager(), this);
 
         pager.setAdapter(adapter);
 
@@ -55,6 +55,11 @@ public class MainActivity extends FragmentActivity {
         tabs.setViewPager(pager);
 
         changeColor(currentColor);
+        tabs.setIndicatorHeight(4);
+        tabs.setBackgroundColor(currentColor);
+        tabs.setTextColor(Color.WHITE);
+        tabs.setIndicatorColor(Color.WHITE);
+        tabs.setDividerColor(Color.WHITE);
 //        pager.setCurrentItem(3);
     }
 
@@ -157,30 +162,5 @@ public class MainActivity extends FragmentActivity {
         }
     };
 
-    public class MyPagerAdapter extends FragmentPagerAdapter {
-
-        private final String[] TITLES = { "Categories", "Home", "Top Paid", "Top Free", "Top Grossing", "Top New Paid",
-                "Top New Free", "Trending" };
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return TITLES[position];
-        }
-
-        @Override
-        public int getCount() {
-            return TITLES.length;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return SuperAwesomeCardFragment.newInstance(position);
-        }
-
-    }
 
 }

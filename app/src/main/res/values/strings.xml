@@ -8,7 +8,8 @@
 
     <string name="tab_market">行情</string>
     <string name="tab_trade">交易</string>
-    <string name="tab_setting">设置</string>
+    <string name="tab_deposit_withdrawal">冲提</string>
+    <string name="tab_user">用户</string>
     <string name="activity_fullscreen">全屏</string>
 
     <!-- text name in setting page -->

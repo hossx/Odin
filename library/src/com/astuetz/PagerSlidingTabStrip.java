@@ -33,6 +33,7 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
@@ -48,6 +49,10 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 	public interface IconTabProvider {
 		public int getPageIconResId(int position);
 	}
+
+    public interface ViewTabProvider {
+        public View getPageViewTab(int position);
+    }
 
 	// @formatter:off
 	private static final int[] ATTRS = new int[] {
@@ -196,7 +201,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
 			if (pager.getAdapter() instanceof IconTabProvider) {
 				addIconTab(i, ((IconTabProvider) pager.getAdapter()).getPageIconResId(i));
-			} else {
+			} else if (pager.getAdapter() instanceof ViewTabProvider) {
+                addViewTab(i, ((ViewTabProvider) pager.getAdapter()).getPageViewTab(i));
+            } else {
 				addTextTab(i, pager.getAdapter().getPageTitle(i).toString());
 			}
 
@@ -242,6 +249,10 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 		addTab(position, tab);
 
 	}
+
+    private void addViewTab(final int position, View tab) {
+        addTab(position, tab);
+    }
 
 	private void addTab(final int position, View tab) {
 		tab.setFocusable(true);
