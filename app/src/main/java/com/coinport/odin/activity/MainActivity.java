@@ -55,7 +55,7 @@ public class MainActivity extends FragmentActivity {
         tabs.setViewPager(pager);
 
         changeColor(currentColor);
-        tabs.setIndicatorHeight(4);
+        tabs.setIndicatorHeight(8);
         tabs.setBackgroundColor(currentColor);
         tabs.setTextColor(Color.WHITE);
         tabs.setIndicatorColor(Color.WHITE);
