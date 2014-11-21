@@ -80,13 +80,13 @@ public class CpPagerAdapter extends FragmentPagerAdapter implements PagerSliding
         iconTextView.setTypeface(tf);
         iconTextView.setText(icon);
         iconTextView.setTextColor(Color.WHITE);
-        iconTextView.setTextSize(20);
+        iconTextView.setTextSize(30);
 
         TextView titleTextView = (TextView) tab.findViewById(R.id.tab_name);
         titleTextView.setGravity(Gravity.CENTER);
         titleTextView.setText(title);
         titleTextView.setTextColor(Color.WHITE);
-        titleTextView.setTextSize(10);
+        titleTextView.setTextSize(15);
         titleTextView.setPadding(0, 4, 0, 0);
     }
 }
