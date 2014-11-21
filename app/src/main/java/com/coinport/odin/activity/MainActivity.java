@@ -34,7 +34,7 @@ public class MainActivity extends FragmentActivity {
     private MyPagerAdapter adapter;
 
     private Drawable oldBackground = null;
-    private int currentColor = 0xFF666666;
+    private int currentColor = 0xFF5161BC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,13 +123,6 @@ public class MainActivity extends FragmentActivity {
         }
 
         currentColor = newColor;
-
-    }
-
-    public void onColorClicked(View v) {
-
-        int color = Color.parseColor(v.getTag().toString());
-        changeColor(color);
 
     }
 

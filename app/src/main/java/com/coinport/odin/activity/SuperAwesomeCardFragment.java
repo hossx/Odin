@@ -73,8 +73,9 @@ public class SuperAwesomeCardFragment extends Fragment {
 //		v.setText("CARD " + (position + 1));
         Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "coinport.ttf");
         v.setTypeface(tf);
-        v.setText("\ue617");
+        v.setText("\ue616");
         v.setTextColor(Color.BLUE);
+        v.setTextSize(200);
 		fl.addView(v);
 		return fl;
 	}
