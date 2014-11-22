@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="action_contact" type="id"/>
+    <item name="btc_view" type="id"/>
+    <item name="cny_view" type="id"/>
+</resources>

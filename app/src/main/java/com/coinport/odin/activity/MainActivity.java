@@ -1,7 +1,9 @@
 package com.coinport.odin.activity;
 
 
+import android.app.ActionBar;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -19,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.coinport.odin.R;
@@ -38,6 +41,7 @@ public class MainActivity extends FragmentActivity {
 
     private Drawable oldBackground = null;
     private int currentColor = 0xFF5161BC;
+    private Menu menu = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,20 @@ public class MainActivity extends FragmentActivity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
 
-        getOverflowMenu();
+        final ActionBar actionBar = getActionBar();
+        actionBar.setCustomView(R.layout.base_currency_selector);
+        Typeface tf = Typeface.createFromAsset(getAssets(), "coinport.ttf");
+        TextView cnyTV = ((TextView) actionBar.getCustomView().findViewById(R.id.base_cny_view));
+        cnyTV.setTypeface(tf);
+        cnyTV.setTextSize(22);
+        cnyTV.setTextColor(Color.WHITE);
+        TextView btcTV = ((TextView) actionBar.getCustomView().findViewById(R.id.base_btc_view));
+        btcTV.setTypeface(tf);
+        btcTV.setTextSize(22);
+        btcTV.setTextColor(Color.WHITE);
+
+        actionBar.setDisplayShowCustomEnabled(true);
+//        getOverflowMenu();
 
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         pager = (ViewPager) findViewById(R.id.pager);
@@ -65,12 +82,56 @@ public class MainActivity extends FragmentActivity {
         tabs.setTextColor(Color.WHITE);
         tabs.setIndicatorColor(Color.WHITE);
         tabs.setDividerColor(Color.WHITE);
+        final FragmentActivity self = this;
+        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+////                    menu.add(Menu.NONE, R.id.action_contact, Menu.NONE, "contact").setIcon(R.drawable.ic_action_user).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//                    MenuItem mi = menu.findItem(R.id.action_contact);
+//                    if (mi != null)
+//                        mi.setVisible(true);
+//                    else {
+//                        TextView btcActionView = new TextView(self);
+//                        btcActionView.setId(R.id.btc_view);
+//                        btcActionView.setPadding(4, 0, 4, 0);
+//                        Typeface tf = Typeface.createFromAsset(self.getAssets(), "coinport.ttf");
+//                        btcActionView.setTypeface(tf);
+//                        btcActionView.setTextColor(Color.WHITE);
+//                        btcActionView.setTextSize(25);
+//                        btcActionView.setText("\ue62a");
+//                        btcActionView.setBackgroundColor(Color.BLUE);
+//                        menu.add(Menu.NONE, R.id.action_contact, Menu.NONE, "contact").setActionView(btcActionView).setIcon(R.drawable.ic_action_user).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//                    }
+                } else if (position == 1) {
+                    TextView textView = new TextView(self);
+                    textView.setText("ok");
+                    self.getActionBar().setCustomView(textView);
+
+                    actionBar.setDisplayShowCustomEnabled(true);
+//
+//                    MenuItem mi = menu.findItem(R.id.action_contact);
+//                    if (mi != null) mi.setVisible(false);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 //        pager.setCurrentItem(3);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        this.menu = menu;
         return true;
     }
 
