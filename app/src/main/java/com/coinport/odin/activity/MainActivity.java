@@ -17,6 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewConfiguration;
 import android.view.Window;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -24,6 +25,8 @@ import com.coinport.odin.R;
 import com.coinport.odin.adapter.CpPagerAdapter;
 import com.coinport.odin.fragment.QuickContactFragment;
 import com.coinport.odin.fragment.SuperAwesomeCardFragment;
+
+import java.lang.reflect.Field;
 
 public class MainActivity extends FragmentActivity {
 
@@ -41,6 +44,8 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
+
+        getOverflowMenu();
 
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         pager = (ViewPager) findViewById(R.id.pager);
@@ -162,5 +167,20 @@ public class MainActivity extends FragmentActivity {
         }
     };
 
+    private void getOverflowMenu() {
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if (menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
