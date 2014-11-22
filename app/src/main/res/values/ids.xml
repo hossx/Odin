@@ -3,4 +3,7 @@
     <item name="action_contact" type="id"/>
     <item name="btc_view" type="id"/>
     <item name="cny_view" type="id"/>
+    <item name="base_currency_selector" type="id"/>
+    <item name="config_more" type="id"/>
+    <item name="market_selector" type="id"/>
 </resources>

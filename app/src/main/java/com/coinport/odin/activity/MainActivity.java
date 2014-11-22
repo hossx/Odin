@@ -1,7 +1,6 @@
 package com.coinport.odin.activity;
 
 
-import android.app.ActionBar;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -11,23 +10,21 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.coinport.odin.R;
 import com.coinport.odin.adapter.CpPagerAdapter;
 import com.coinport.odin.fragment.QuickContactFragment;
-import com.coinport.odin.fragment.SuperAwesomeCardFragment;
 
 import java.lang.reflect.Field;
 
@@ -42,6 +39,8 @@ public class MainActivity extends FragmentActivity {
     private Drawable oldBackground = null;
     private int currentColor = 0xFF5161BC;
     private Menu menu = null;
+    private LinearLayout baseCurrencySelector = null;
+    private TextView textView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,20 +48,47 @@ public class MainActivity extends FragmentActivity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
 
-        final ActionBar actionBar = getActionBar();
-        actionBar.setCustomView(R.layout.base_currency_selector);
+        baseCurrencySelector = (LinearLayout) getLayoutInflater().inflate(R.layout.base_currency_selector, null);
+//        final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources()
+//                .getDisplayMetrics());
+//        baseCurrencySelector.setPadding(0, 0, margin, 0);
         Typeface tf = Typeface.createFromAsset(getAssets(), "coinport.ttf");
-        TextView cnyTV = ((TextView) actionBar.getCustomView().findViewById(R.id.base_cny_view));
+        final TextView cnyTV = ((TextView) baseCurrencySelector.findViewById(R.id.base_cny_view));
         cnyTV.setTypeface(tf);
-        cnyTV.setTextSize(22);
+        cnyTV.setTextSize(30);
         cnyTV.setTextColor(Color.WHITE);
-        TextView btcTV = ((TextView) actionBar.getCustomView().findViewById(R.id.base_btc_view));
+        cnyTV.setBackgroundResource(R.drawable.background_tab);
+        final TextView btcTV = ((TextView) baseCurrencySelector.findViewById(R.id.base_btc_view));
         btcTV.setTypeface(tf);
-        btcTV.setTextSize(22);
-        btcTV.setTextColor(Color.WHITE);
+        btcTV.setTextSize(30);
+        btcTV.setTextColor(Color.GRAY);
+        btcTV.setBackgroundResource(R.drawable.background_tab);
 
-        actionBar.setDisplayShowCustomEnabled(true);
-//        getOverflowMenu();
+        cnyTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("cny clicked");
+                cnyTV.setTextColor(Color.WHITE);
+                btcTV.setTextColor(Color.GRAY);
+            }
+        });
+        btcTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("btc clicked");
+                btcTV.setTextColor(Color.WHITE);
+                cnyTV.setTextColor(Color.GRAY);
+            }
+        });
+
+        textView = new TextView(this);
+        textView.setText("ok");
+//        final ActionBar actionBar = getActionBar();
+//        actionBar.setCustomView(baseCurrencySelector);
+
+//        actionBar.setDisplayShowCustomEnabled(true);
+//        actionBar.setDisplayShowTitleEnabled(false);
+        getOverflowMenu();
 
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         pager = (ViewPager) findViewById(R.id.pager);
@@ -76,7 +102,8 @@ public class MainActivity extends FragmentActivity {
 
         tabs.setViewPager(pager);
 
-        changeColor(currentColor);
+//        changeColor(currentColor);
+        tabs.setIndicatorColor(currentColor);
         tabs.setIndicatorHeight(8);
         tabs.setBackgroundColor(currentColor);
         tabs.setTextColor(Color.WHITE);
@@ -92,6 +119,10 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
+                    MenuItem tmp = menu.findItem(R.id.market_selector);
+                    if (tmp != null) tmp.setVisible(false);
+                    MenuItem mi = menu.findItem(R.id.base_currency_selector);
+                    if (mi != null) mi.setVisible(true);
 ////                    menu.add(Menu.NONE, R.id.action_contact, Menu.NONE, "contact").setIcon(R.drawable.ic_action_user).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 //                    MenuItem mi = menu.findItem(R.id.action_contact);
 //                    if (mi != null)
@@ -109,11 +140,12 @@ public class MainActivity extends FragmentActivity {
 //                        menu.add(Menu.NONE, R.id.action_contact, Menu.NONE, "contact").setActionView(btcActionView).setIcon(R.drawable.ic_action_user).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 //                    }
                 } else if (position == 1) {
-                    TextView textView = new TextView(self);
-                    textView.setText("ok");
-                    self.getActionBar().setCustomView(textView);
+                    MenuItem tmp = menu.findItem(R.id.market_selector);
+                    if (tmp != null) tmp.setVisible(true);
+                    MenuItem mi = menu.findItem(R.id.base_currency_selector);
+                    if (mi != null) mi.setVisible(false);
 
-                    actionBar.setDisplayShowCustomEnabled(true);
+//                    actionBar.setDisplayShowCustomEnabled(true);
 //
 //                    MenuItem mi = menu.findItem(R.id.action_contact);
 //                    if (mi != null) mi.setVisible(false);
@@ -132,6 +164,13 @@ public class MainActivity extends FragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         this.menu = menu;
+        this.menu.add(Menu.NONE, R.id.base_currency_selector, Menu.NONE, "bcs").setActionView(baseCurrencySelector)
+            .setVisible(true).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        this.menu.add(Menu.NONE, R.id.market_selector, Menu.NONE, "bcs").setActionView(textView).setVisible(false)
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//        this.menu.add(Menu.NONE, R.id.config_more, Menu.NONE, getString(R.string.menu_item_more))
+//            .setIcon(R.drawable.ic_action_overflow).setVisible(true)
+//            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
 
@@ -140,7 +179,7 @@ public class MainActivity extends FragmentActivity {
 
         switch (item.getItemId()) {
 
-            case R.id.action_contact:
+            case R.id.config_more:
                 QuickContactFragment dialog = new QuickContactFragment();
                 dialog.show(getSupportFragmentManager(), "QuickContactFragment");
                 return true;

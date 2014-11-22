@@ -4,10 +4,15 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:windowBackground">@color/background_window</item>
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
 
     <style name="ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:icon">@drawable/ic_launcher_actionbar</item>
-        <item name="android:background">#FF666666</item>
+        <item name="android:icon">@drawable/cp_logo</item>
+        <item name="android:background">#FF5161BC</item>
+        <item name="android:height">60dp</item>
+    </style>
+    <style name="OverFlow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_action_overflow</item>
     </style>
 </resources>

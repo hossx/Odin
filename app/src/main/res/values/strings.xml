@@ -12,6 +12,7 @@
     <string name="activity_fullscreen">全屏</string>
 
     <!-- text name in setting page -->
+    <string name="menu_item_more">更多</string>
     <string name="setting">设置</string>
     <string name="my_setting">我的设置</string>
     <string name="account_manage">账号管理</string>
