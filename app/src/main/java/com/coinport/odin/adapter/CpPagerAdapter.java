@@ -16,7 +16,13 @@ import android.widget.TextView;
 import com.astuetz.PagerSlidingTabStrip;
 import com.coinport.odin.R;
 import com.coinport.odin.activity.MainActivity;
-import com.coinport.odin.fragment.SuperAwesomeCardFragment;
+import com.coinport.odin.fragment.DepositWithdrawalFragment;
+import com.coinport.odin.fragment.MarketFragment;
+import com.coinport.odin.fragment.TradeFragment;
+import com.coinport.odin.fragment.UserFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hoss on 14-11-21.
@@ -27,12 +33,13 @@ public class CpPagerAdapter extends FragmentPagerAdapter implements PagerSliding
     private LayoutInflater inflater;
 
     private View[] tabs;
+    private List<Fragment> fragments = new ArrayList();
 
     public CpPagerAdapter(FragmentManager fm, MainActivity context) {
         super(fm);
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        initTabs();
+        initUI();
     }
 
     @Override
@@ -42,7 +49,7 @@ public class CpPagerAdapter extends FragmentPagerAdapter implements PagerSliding
 
     @Override
     public Fragment getItem(int position) {
-        return SuperAwesomeCardFragment.newInstance(position);
+        return fragments.get(position);
     }
 
     @Override
@@ -50,7 +57,7 @@ public class CpPagerAdapter extends FragmentPagerAdapter implements PagerSliding
         return tabs[position];
     }
 
-    private void initTabs() {
+    private void initUI() {
         Display display = context.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -71,6 +78,10 @@ public class CpPagerAdapter extends FragmentPagerAdapter implements PagerSliding
         initTab(userTab, "\ue624", context.getString(R.string.tab_user));
 
         tabs = new View[] {marketTab, tradeTab, depositWithdrawTab, userTab};
+        fragments.add(new MarketFragment());
+        fragments.add(new TradeFragment());
+        fragments.add(new DepositWithdrawalFragment());
+        fragments.add(new UserFragment());
     }
 
     private void initTab(View tab, String icon, String title) {
