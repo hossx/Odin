@@ -27,6 +27,7 @@ import com.coinport.odin.adapter.CpPagerAdapter;
 import com.coinport.odin.fragment.QuickContactFragment;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class MainActivity extends FragmentActivity {
 
@@ -183,10 +184,33 @@ public class MainActivity extends FragmentActivity {
                 QuickContactFragment dialog = new QuickContactFragment();
                 dialog.show(getSupportFragmentManager(), "QuickContactFragment");
                 return true;
+            case R.id.action_exit:
+                finish();
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        if(featureId == Window.FEATURE_ACTION_BAR && menu != null){
+            if(menu.getClass().getSimpleName().equals("MenuBuilder")){
+                try{
+                    Method m = menu.getClass().getDeclaredMethod(
+                            "setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                }
+                catch(NoSuchMethodException e){
+                    System.out.println(e);
+                }
+                catch(Exception e){
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return super.onMenuOpened(featureId, menu);
     }
 
     private void changeColor(int newColor) {
