@@ -7,6 +7,7 @@
     <string name="action_exit">退出</string>
     <string name="action_about">关于</string>
     <string name="action_help">帮助</string>
+    <string name="action_new_version">新版本</string>
 
     <string name="tab_market">行情</string>
     <string name="tab_trade">交易</string>

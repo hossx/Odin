@@ -6,6 +6,11 @@
         android:showAsAction="never"
         android:title="@string/action_help"/>
     <item
+        android:id="@+id/action_new_version"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="never"
+        android:title="@string/action_new_version"/>
+    <item
         android:id="@+id/config_about"
         android:icon="@drawable/ic_action_about"
         android:showAsAction="never"
