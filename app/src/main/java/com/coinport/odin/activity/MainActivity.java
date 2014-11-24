@@ -1,6 +1,7 @@
 package com.coinport.odin.activity;
 
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -24,13 +25,17 @@ import android.widget.TextView;
 import com.astuetz.PagerSlidingTabStrip;
 import com.coinport.odin.R;
 import com.coinport.odin.adapter.CpPagerAdapter;
+import com.coinport.odin.fragment.MarketFragment;
 import com.coinport.odin.fragment.QuickContactFragment;
+import com.coinport.odin.obj.TickerItem;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class MainActivity extends FragmentActivity {
 
+    private ProgressDialog pDialog;
     private final Handler handler = new Handler();
 
     private PagerSlidingTabStrip tabs;
@@ -49,6 +54,7 @@ public class MainActivity extends FragmentActivity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
 
+        pDialog = new ProgressDialog(this);
         baseCurrencySelector = (LinearLayout) getLayoutInflater().inflate(R.layout.base_currency_selector, null);
 //        final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources()
 //                .getDisplayMetrics());
@@ -68,17 +74,17 @@ public class MainActivity extends FragmentActivity {
         cnyTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("cny clicked");
                 cnyTV.setTextColor(Color.WHITE);
                 btcTV.setTextColor(Color.GRAY);
+                ((MarketFragment) adapter.getFragment(R.id.market_fragment)).getDataWithBaseCurrency("CNY");
             }
         });
         btcTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("btc clicked");
                 btcTV.setTextColor(Color.WHITE);
                 cnyTV.setTextColor(Color.GRAY);
+                ((MarketFragment) adapter.getFragment(R.id.market_fragment)).getDataWithBaseCurrency("BTC");
             }
         });
 
@@ -213,6 +219,9 @@ public class MainActivity extends FragmentActivity {
         return super.onMenuOpened(featureId, menu);
     }
 
+    public ProgressDialog getpDialog() {
+        return pDialog;
+    }
     private void changeColor(int newColor) {
 
         tabs.setIndicatorColor(newColor);

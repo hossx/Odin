@@ -22,7 +22,9 @@ import com.coinport.odin.fragment.TradeFragment;
 import com.coinport.odin.fragment.UserFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hoss on 14-11-21.
@@ -34,6 +36,7 @@ public class CpPagerAdapter extends FragmentPagerAdapter implements PagerSliding
 
     private View[] tabs;
     private List<Fragment> fragments = new ArrayList();
+    private Map<Integer, Fragment> fragmentMap = new HashMap<Integer, Fragment>();
 
     public CpPagerAdapter(FragmentManager fm, MainActivity context) {
         super(fm);
@@ -57,6 +60,14 @@ public class CpPagerAdapter extends FragmentPagerAdapter implements PagerSliding
         return tabs[position];
     }
 
+    public Fragment getFragment(int fragmentId) {
+        if (fragmentMap.containsKey(fragmentId)) {
+            return fragmentMap.get(fragmentId);
+        } else {
+            return null;
+        }
+    }
+
     private void initUI() {
         Display display = context.getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -78,10 +89,22 @@ public class CpPagerAdapter extends FragmentPagerAdapter implements PagerSliding
         initTab(userTab, "\ue624", context.getString(R.string.tab_user));
 
         tabs = new View[] {marketTab, tradeTab, depositWithdrawTab, userTab};
-        fragments.add(new MarketFragment());
+
+        Fragment marketFragment = new MarketFragment();
+        fragments.add(marketFragment);
+        fragmentMap.put(R.id.market_fragment, marketFragment);
+
+        Fragment tradeFragment = new TradeFragment();
         fragments.add(new TradeFragment());
-        fragments.add(new DepositWithdrawalFragment());
-        fragments.add(new UserFragment());
+        fragmentMap.put(R.id.trade_fragment, tradeFragment);
+
+        Fragment depositWithdrawalFragment = new DepositWithdrawalFragment();
+        fragments.add(depositWithdrawalFragment);
+        fragmentMap.put(R.id.deposit_withdrawal_fragment, depositWithdrawalFragment);
+
+        Fragment userFragment = new UserFragment();
+        fragments.add(userFragment);
+        fragmentMap.put(R.id.user_fragment, userFragment);
     }
 
     private void initTab(View tab, String icon, String title) {

@@ -27,4 +27,7 @@
     <string name="version_detect">检测更新</string>
     <string name="about">关于</string>
 
+    <string name="market_refresh_time">上次更新时间：</string>
+    <string name="volume_label">成交量</string>
+    <string name="amplitude_label">涨跌幅</string>
 </resources>
