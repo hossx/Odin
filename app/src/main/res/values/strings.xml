@@ -8,7 +8,6 @@
     <string name="action_about">关于</string>
     <string name="action_help">帮助</string>
     <string name="action_new_version">新版本</string>
-
     <string name="tab_market">行情</string>
     <string name="tab_trade">交易</string>
     <string name="tab_deposit_withdrawal">冲提</string>
@@ -26,8 +25,10 @@
     <string name="feed_back">意见反馈</string>
     <string name="version_detect">检测更新</string>
     <string name="about">关于</string>
-
     <string name="market_refresh_time">上次更新时间：</string>
     <string name="volume_label">成交量</string>
     <string name="amplitude_label">涨跌幅</string>
+    <string name="title_activity_trade">交易</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>

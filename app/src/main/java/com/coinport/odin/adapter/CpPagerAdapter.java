@@ -72,23 +72,24 @@ public class CpPagerAdapter extends FragmentPagerAdapter implements PagerSliding
         Display display = context.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int tabWidth = size.x / 4;
+        int tabWidth = size.x / 3;
 
         View marketTab = inflater.inflate(R.layout.tab_item, null);
         marketTab.setMinimumWidth(tabWidth);
-        View tradeTab = inflater.inflate(R.layout.tab_item, null);
-        tradeTab.setMinimumWidth(tabWidth);
+//        View tradeTab = inflater.inflate(R.layout.tab_item, null);
+//        tradeTab.setMinimumWidth(tabWidth);
         View depositWithdrawTab = inflater.inflate(R.layout.tab_item, null);
         depositWithdrawTab.setMinimumWidth(tabWidth);
         View userTab = inflater.inflate(R.layout.tab_item, null);
         userTab.setMinimumWidth(tabWidth);
 
         initTab(marketTab, "\ue612", context.getString(R.string.tab_market));
-        initTab(tradeTab, "\ue603", context.getString(R.string.tab_trade));
+//        initTab(tradeTab, "\ue603", context.getString(R.string.tab_trade));
         initTab(depositWithdrawTab, "\ue605", context.getString(R.string.tab_deposit_withdrawal));
         initTab(userTab, "\ue624", context.getString(R.string.tab_user));
 
-        tabs = new View[] {marketTab, tradeTab, depositWithdrawTab, userTab};
+//        tabs = new View[] {marketTab, tradeTab, depositWithdrawTab, userTab};
+        tabs = new View[] {marketTab, depositWithdrawTab, userTab};
 
         Fragment marketFragment = new MarketFragment();
         fragments.add(marketFragment);

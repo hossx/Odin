@@ -1,6 +1,7 @@
 package com.coinport.odin.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.coinport.odin.R;
+import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.obj.TickerItem;
 
 import org.w3c.dom.Text;
@@ -27,6 +29,7 @@ public class TickerViewAdapter extends BaseAdapter {
     private ArrayList<TickerItem> tickerItems;
     private HashMap<String, String> iconFont = new HashMap<String, String>();
     private Typeface iconTF;
+    private String baseCurrency;
 
     public TickerViewAdapter(Context context) {
         this.context = context;
@@ -45,8 +48,9 @@ public class TickerViewAdapter extends BaseAdapter {
         iconFont.put("DOGE", "\ue631");
     }
 
-    public TickerViewAdapter setTickerItems(ArrayList<TickerItem> tickerItems) {
+    public TickerViewAdapter setTickerItems(ArrayList<TickerItem> tickerItems, String baseCurrency) {
         this.tickerItems = tickerItems;
+        this.baseCurrency = baseCurrency;
         return this;
     }
 
@@ -98,6 +102,15 @@ public class TickerViewAdapter extends BaseAdapter {
             price.setTextColor(Color.RED);
             amplitude.setTextColor(Color.RED);
         }
+//        convertView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent toTrade = new Intent();
+//                toTrade.setClass(context, TradeActivity.class);
+//                context.startActivity(toTrade);
+////                System.out.println("in currency: " + ((TextView) v.findViewById(R.id.currency_name)).getText() + " out currency: " + baseCurrency);
+//            }
+//        });
 
         return convertView;
     }
