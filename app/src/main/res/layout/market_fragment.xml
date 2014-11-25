@@ -15,17 +15,27 @@
         android:layout_height="match_parent"
         >
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/market_refresh_time"
-            android:textColor="#DDFFFFFF"
             android:background="@drawable/textview_underline"
             android:paddingLeft="4dip"
             android:paddingRight="4dip"
             android:paddingTop="4dip"
             android:paddingBottom="4dip"
-            />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/market_refresh_time"
+                android:textColor="#DDFFFFFF"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/updateTime"
+                android:textColor="#DDFFFFFF"/>
+        </LinearLayout>
         <!--<TextView-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="4dip"-->

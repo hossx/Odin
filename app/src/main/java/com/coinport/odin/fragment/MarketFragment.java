@@ -4,10 +4,12 @@ import android.app.ProgressDialog;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.coinport.odin.R;
 import com.coinport.odin.activity.MainActivity;
@@ -21,6 +23,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by hoss on 14-11-23.
@@ -31,9 +35,14 @@ public class MarketFragment extends Fragment {
     private ListView tickerListView;
     private TickerViewAdapter tva;
     private String baseCurrency = "CNY";
+    private TextView updateTimeRef;
 
     private final Handler handler = new Handler();
+    private Timer timer = new Timer();
+    private TimerTask fetchTickerTask = null;
     ArrayList<TickerItem> tickerItems = new ArrayList<TickerItem>();
+
+    Time now = new Time();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,8 +51,14 @@ public class MarketFragment extends Fragment {
         tickerListView.setVerticalScrollBarEnabled(false);
         tva = new TickerViewAdapter(this.getActivity());
         tickerListView.setAdapter(tva);
-        getDataWithBaseCurrency(baseCurrency);
+        fetchDataWithBaseCurrency(baseCurrency);
         return marketView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        updateTimeRef = (TextView) getActivity().findViewById(R.id.updateTime);
     }
 
     public TickerViewAdapter getAdapter() {
@@ -55,18 +70,33 @@ public class MarketFragment extends Fragment {
         return this;
     }
 
-    public void getDataWithBaseCurrency(String baseCurrency) {
+    public void fetchDataWithBaseCurrency(String baseCurrency) {
         this.baseCurrency = baseCurrency;
+        timer.cancel();
+        if (fetchTickerTask != null)
+            fetchTickerTask.cancel();
+        fetchTickerTask = new FetchTickerTask();
+        timer = new Timer();
         tva.setTickerItems(null).notifyDataSetChanged();
+        timer.schedule(fetchTickerTask, 0, 5000);
 //        dialogRef = ((MainActivity) getActivity()).getpDialog();
 //        dialogRef.setTitle("提示");
 //        dialogRef.setMessage("正在下载，请稍后...");
 //        dialogRef.setCancelable(false);
-        new Thread(new FetchTickerTask()).start();
+//        new Thread(new FetchTickerTask()).start();
 //        dialogRef.show();
     }
 
-    public class FetchTickerTask implements Runnable {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (timer != null)
+            timer.cancel();
+        if (fetchTickerTask != null)
+            fetchTickerTask.cancel();
+    }
+
+    public class FetchTickerTask extends TimerTask {
         @Override
         public void run() {
             tickerItems.clear();
@@ -96,6 +126,8 @@ public class MarketFragment extends Fragment {
                 @Override
                 public void run() {
                     tva.setTickerItems(tickerItems);
+                    now.setToNow();
+                    updateTimeRef.setText(now.format("%Y-%m-%d %k:%M:%S"));
                     tva.notifyDataSetChanged();
 //                    dialogRef.dismiss();
                 }

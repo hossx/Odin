@@ -76,7 +76,7 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View v) {
                 cnyTV.setTextColor(Color.WHITE);
                 btcTV.setTextColor(Color.GRAY);
-                ((MarketFragment) adapter.getFragment(R.id.market_fragment)).getDataWithBaseCurrency("CNY");
+                ((MarketFragment) adapter.getFragment(R.id.market_fragment)).fetchDataWithBaseCurrency("CNY");
             }
         });
         btcTV.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +84,7 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View v) {
                 btcTV.setTextColor(Color.WHITE);
                 cnyTV.setTextColor(Color.GRAY);
-                ((MarketFragment) adapter.getFragment(R.id.market_fragment)).getDataWithBaseCurrency("BTC");
+                ((MarketFragment) adapter.getFragment(R.id.market_fragment)).fetchDataWithBaseCurrency("BTC");
             }
         });
 
