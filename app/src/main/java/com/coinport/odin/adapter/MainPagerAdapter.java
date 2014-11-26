@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.Display;
@@ -29,16 +30,16 @@ import java.util.Map;
 /**
  * Created by hoss on 14-11-21.
  */
-public class CpPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.ViewTabProvider {
+public class MainPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.ViewTabProvider {
 
-    private MainActivity context;
+    private FragmentActivity context;
     private LayoutInflater inflater;
 
     private View[] tabs;
     private List<Fragment> fragments = new ArrayList();
     private Map<Integer, Fragment> fragmentMap = new HashMap<Integer, Fragment>();
 
-    public CpPagerAdapter(FragmentManager fm, MainActivity context) {
+    public MainPagerAdapter(FragmentManager fm, FragmentActivity context) {
         super(fm);
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -95,9 +96,9 @@ public class CpPagerAdapter extends FragmentPagerAdapter implements PagerSliding
         fragments.add(marketFragment);
         fragmentMap.put(R.id.market_fragment, marketFragment);
 
-        Fragment tradeFragment = new TradeFragment();
-        fragments.add(new TradeFragment());
-        fragmentMap.put(R.id.trade_fragment, tradeFragment);
+//        Fragment tradeFragment = new TradeFragment();
+//        fragments.add(new TradeFragment());
+//        fragmentMap.put(R.id.trade_fragment, tradeFragment);
 
         Fragment depositWithdrawalFragment = new DepositWithdrawalFragment();
         fragments.add(depositWithdrawalFragment);

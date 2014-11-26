@@ -24,14 +24,12 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.coinport.odin.R;
-import com.coinport.odin.adapter.CpPagerAdapter;
+import com.coinport.odin.adapter.MainPagerAdapter;
 import com.coinport.odin.fragment.MarketFragment;
 import com.coinport.odin.fragment.QuickContactFragment;
-import com.coinport.odin.obj.TickerItem;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 public class MainActivity extends FragmentActivity {
 
@@ -40,7 +38,7 @@ public class MainActivity extends FragmentActivity {
 
     private PagerSlidingTabStrip tabs;
     private ViewPager pager;
-    private CpPagerAdapter adapter;
+    private MainPagerAdapter adapter;
 
     private Drawable oldBackground = null;
     private int currentColor = 0xFF5161BC;
@@ -99,7 +97,7 @@ public class MainActivity extends FragmentActivity {
 
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         pager = (ViewPager) findViewById(R.id.pager);
-        adapter = new CpPagerAdapter(getSupportFragmentManager(), this);
+        adapter = new MainPagerAdapter(getSupportFragmentManager(), this);
 
         pager.setAdapter(adapter);
 
@@ -110,7 +108,6 @@ public class MainActivity extends FragmentActivity {
         tabs.setViewPager(pager);
 
 //        changeColor(currentColor);
-        tabs.setIndicatorColor(currentColor);
         tabs.setIndicatorHeight(8);
         tabs.setBackgroundColor(currentColor);
         tabs.setTextColor(Color.WHITE);

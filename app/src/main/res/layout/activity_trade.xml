@@ -6,18 +6,21 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
-        android:layout_marginTop="8dip"
-        android:layout_marginBottom="8dip"
-        android:background="@drawable/background_card">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/trade_page_text"
-            android:text="@string/hello_world"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:background="@drawable/background_tabs" />
+
+        <android.support.v4.view.SlowViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tabs"
+            tools:context=".TradeActivity" />
+
     </LinearLayout>
 
 </RelativeLayout>

@@ -10,4 +10,8 @@
     <item name="trade_fragment" type="id"/>
     <item name="deposit_withdrawal_fragment" type="id"/>
     <item name="user_fragment" type="id"/>
+    <item name="trade_buy_fragment" type="id"/>
+    <item name="trade_sell_fragment" type="id"/>
+    <item name="trade_order_fragment" type="id"/>
+    <item name="trade_tx_fragment" type="id"/>
 </resources>

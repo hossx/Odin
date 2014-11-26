@@ -1,16 +1,23 @@
 package com.coinport.odin.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
-import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.coinport.odin.R;
+import com.coinport.odin.adapter.TradePagerAdapter;
 
-public class TradeActivity extends Activity {
+public class TradeActivity extends FragmentActivity {
+    private String inCurrency, outCurrency;
+    private PagerSlidingTabStrip tabs;
+    private ViewPager pager;
+    private TradePagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,10 +25,23 @@ public class TradeActivity extends Activity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_trade);
         Intent intent = this.getIntent();
-        String inCurrency = intent.getStringExtra("inCurrency");
-        String outCurrency = intent.getStringExtra("outCurrency");
-        TextView tv = (TextView) findViewById(R.id.trade_page_text);
-        tv.setText("inCurrency: " + inCurrency + " outCurrency: " + outCurrency);
+        inCurrency = intent.getStringExtra("inCurrency");
+        outCurrency = intent.getStringExtra("outCurrency");
+//        TextView tv = (TextView) findViewById(R.id.trade_page_text);
+//        tv.setText("inCurrency: " + inCurrency + " outCurrency: " + outCurrency);
+
+        tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        pager = (ViewPager) findViewById(R.id.pager);
+        adapter = new TradePagerAdapter(getSupportFragmentManager(), this);
+
+        pager.setAdapter(adapter);
+
+        final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
+                .getDisplayMetrics());
+        pager.setPageMargin(pageMargin);
+
+        tabs.setViewPager(pager);
+        tabs.setIndicatorHeight(8);
     }
 
 
