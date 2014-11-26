@@ -1,6 +1,5 @@
 package com.coinport.odin.fragment;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,12 +12,12 @@ import com.coinport.odin.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TradeBuyFragment.OnFragmentInteractionListener} interface
+ * {@link TradeBuySellFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TradeBuyFragment#newInstance} factory method to
+ * Use the {@link TradeBuySellFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TradeBuyFragment extends Fragment {
+public class TradeBuySellFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -39,8 +38,8 @@ public class TradeBuyFragment extends Fragment {
      * @return A new instance of fragment TradeBuyFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TradeBuyFragment newInstance(String param1, String param2) {
-        TradeBuyFragment fragment = new TradeBuyFragment();
+    public static TradeBuySellFragment newInstance(String param1, String param2) {
+        TradeBuySellFragment fragment = new TradeBuySellFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -48,7 +47,7 @@ public class TradeBuyFragment extends Fragment {
         return fragment;
     }
 
-    public TradeBuyFragment() {
+    public TradeBuySellFragment() {
         // Required empty public constructor
     }
 
@@ -65,7 +64,7 @@ public class TradeBuyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.trade_buy_fragment, container, false);
+        return inflater.inflate(R.layout.trade_buy_sell_fragment, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

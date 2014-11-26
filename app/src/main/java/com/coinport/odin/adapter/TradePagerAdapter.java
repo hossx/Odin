@@ -12,9 +12,8 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.coinport.odin.R;
-import com.coinport.odin.fragment.TradeBuyFragment;
+import com.coinport.odin.fragment.TradeBuySellFragment;
 import com.coinport.odin.fragment.TradeOrderFragment;
-import com.coinport.odin.fragment.TradeSellFragment;
 import com.coinport.odin.fragment.TradeTxFragment;
 
 import java.util.ArrayList;
@@ -64,25 +63,20 @@ public class TradePagerAdapter extends FragmentPagerAdapter implements PagerSlid
         Display display = context.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int tabWidth = size.x / 4;
+        int tabWidth = size.x / 3;
 
         TextView buy = new TextView(context);
-        initTab(buy, context.getString(R.string.trade_tab_buy), tabWidth);
-        TextView sell = new TextView(context);
-        initTab(sell, context.getString(R.string.trade_tab_sell), tabWidth);
+        initTab(buy, context.getString(R.string.trade_tab_buy_sell), tabWidth);
         TextView order = new TextView(context);
         initTab(order, context.getString(R.string.trade_tab_order), tabWidth);
         TextView tx = new TextView(context);
         initTab(tx, context.getString(R.string.trade_tab_tx), tabWidth);
 
-        tabs = new View[] {buy, sell, order, tx};
+        tabs = new View[] {buy, order, tx};
 
-        Fragment buyFragment = new TradeBuyFragment();
-        fragments.add(buyFragment);
-        fragmentMap.put(R.id.trade_buy_fragment, buyFragment);
-        Fragment sellFragment = new TradeSellFragment();
-        fragments.add(sellFragment);
-        fragmentMap.put(R.id.trade_sell_fragment, sellFragment);
+        Fragment buySellFragment = new TradeBuySellFragment();
+        fragments.add(buySellFragment);
+        fragmentMap.put(R.id.trade_buy_fragment, buySellFragment);
         Fragment orderFragment = new TradeOrderFragment();
         fragments.add(orderFragment);
         fragmentMap.put(R.id.trade_order_fragment, orderFragment);

@@ -30,8 +30,7 @@
     <string name="amplitude_label">涨跌幅</string>
     <string name="title_activity_trade">交易</string>
     <string name="hello_world">Hello world!</string>
-    <string name="trade_tab_buy">买入</string>
-    <string name="trade_tab_sell"> 卖出 </string>
+    <string name="trade_tab_buy_sell">买卖</string>
     <string name="trade_tab_order">挂单</string>
     <string name="trade_tab_tx">历史</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
