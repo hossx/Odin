@@ -108,14 +108,14 @@ public class MarketFragment extends Fragment {
 
     @Override
     public void onStop() {
-        super.onDestroy();
+        super.onStop();
         if (timer != null)
             timer.cancel();
         if (fetchTickerTask != null)
             fetchTickerTask.cancel();
     }
 
-    public class FetchTickerTask extends TimerTask {
+    private class FetchTickerTask extends TimerTask {
         @Override
         public void run() {
             tickerItems.clear();

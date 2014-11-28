@@ -19,7 +19,6 @@ import com.coinport.odin.R;
 import com.coinport.odin.activity.MainActivity;
 import com.coinport.odin.fragment.DepositWithdrawalFragment;
 import com.coinport.odin.fragment.MarketFragment;
-import com.coinport.odin.fragment.TradeFragment;
 import com.coinport.odin.fragment.UserFragment;
 
 import java.util.ArrayList;

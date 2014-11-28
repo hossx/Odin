@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.coinport.odin.R;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.obj.TickerItem;
+import com.coinport.odin.util.Constants;
 
 import org.w3c.dom.Text;
 
@@ -23,7 +24,6 @@ import java.util.HashMap;
  * Created by hoss on 14-11-24.
  */
 public class TickerViewAdapter extends BaseAdapter {
-    final int CP_GREEN = Color.rgb(10, 185, 43);
     private LayoutInflater inflater;
     private Context context = null;
     private ArrayList<TickerItem> tickerItems;
@@ -96,8 +96,8 @@ public class TickerViewAdapter extends BaseAdapter {
         amplitude.setText(String.format("%1$.2f", ti.getAmplitude() * 100) + "%");
         unit.setText(ti.getOutCurrency());
         if (ti.getAmplitude() >= 0) {
-            price.setTextColor(CP_GREEN);
-            amplitude.setTextColor(CP_GREEN);
+            price.setTextColor(Constants.CP_GREEN);
+            amplitude.setTextColor(Constants.CP_GREEN);
         } else {
             price.setTextColor(Color.RED);
             amplitude.setTextColor(Color.RED);

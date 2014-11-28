@@ -14,7 +14,8 @@ import com.coinport.odin.R;
 import com.coinport.odin.adapter.TradePagerAdapter;
 
 public class TradeActivity extends FragmentActivity {
-    private String inCurrency, outCurrency;
+    private String inCurrency;
+    private String outCurrency;
     private PagerSlidingTabStrip tabs;
     private ViewPager pager;
     private TradePagerAdapter adapter;
@@ -66,4 +67,13 @@ public class TradeActivity extends FragmentActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public String getInCurrency() {
+        return inCurrency;
+    }
+
+    public String getOutCurrency() {
+        return outCurrency;
+    }
+
 }

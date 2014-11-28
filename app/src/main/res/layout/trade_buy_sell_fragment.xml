@@ -1,8 +1,8 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.coinport.odin.fragment.TradeBuySellFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context="com.coinport.odin.fragment.TradeBuySellFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -15,11 +15,87 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="buy"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="40dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dip"
+                    android:text="#"/>
+                <TextView
+                    android:layout_width="120dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/depth_price"
+                    android:paddingLeft="10dip"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/depth_amount"
+                    android:paddingLeft="10dip"/>
+            </LinearLayout>
+            <ListView
+                android:id="@+id/sell_depth"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dip"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/last_price"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
+                android:text="2335.12332111"/>
+            <ListView
+                android:id="@+id/buy_depth"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dip"
+            android:paddingLeft="8dip">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="buy"/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:ems="10"
+                    android:id="@+id/editText"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sell"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>
