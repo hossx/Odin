@@ -23,7 +23,8 @@
         <activity
             android:name="com.coinport.odin.activity.TradeActivity"
             android:label="@string/title_activity_trade"
-            android:parentActivityName="com.coinport.odin.activity.MainActivity" >
+            android:parentActivityName="com.coinport.odin.activity.MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.coinport.odin.activity.MainActivity" />
