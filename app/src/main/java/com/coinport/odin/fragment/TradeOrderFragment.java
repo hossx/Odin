@@ -7,8 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.coinport.odin.R;
+import com.coinport.odin.layout.RefreshableView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +22,11 @@ import com.coinport.odin.R;
  * create an instance of this fragment.
  */
 public class TradeOrderFragment extends Fragment {
+    RefreshableView refreshableView;
+    ListView listView;
+    ArrayAdapter<String> adapter;
+    String[] items = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L" };
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -64,8 +72,24 @@ public class TradeOrderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.trade_order_fragment, container, false);
+        View view = inflater.inflate(R.layout.trade_order_fragment, container, false);
+
+        refreshableView = (RefreshableView) view.findViewById(R.id.refreshable_view);
+        listView = (ListView) view.findViewById(R.id.list_view);
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+        listView.setAdapter(adapter);
+        refreshableView.setOnRefreshListener(new RefreshableView.PullToRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                refreshableView.finishRefreshing();
+            }
+        }, 0);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

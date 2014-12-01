@@ -215,7 +215,6 @@
                             android:layout_width="fill_parent"
                             android:layout_height="40dip"
                             android:text="@string/trade_buy"
-                            android:layout_gravity="bottom"
                             android:background="@drawable/trade_buy_button"/>
                     </LinearLayout>
                     <LinearLayout
