@@ -1,5 +1,6 @@
 package com.coinport.odin.activity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -28,6 +29,8 @@ public class TradeActivity extends FragmentActivity {
         Intent intent = this.getIntent();
         inCurrency = intent.getStringExtra("inCurrency");
         outCurrency = intent.getStringExtra("outCurrency");
+        ActionBar bar = getActionBar();
+        bar.setTitle(inCurrency + "-" + outCurrency);
 //        TextView tv = (TextView) findViewById(R.id.trade_page_text);
 //        tv.setText("inCurrency: " + inCurrency + " outCurrency: " + outCurrency);
 
