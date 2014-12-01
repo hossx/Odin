@@ -37,5 +37,14 @@
     <string name="depth_amount">数量</string>
     <string name="depth_index_buy">买</string>
     <string name="depth_index_sell">卖</string>
+    <string name="trade_valid">可用</string>
+    <string name="trade_frozen">冻结</string>
+
+    <string name="trade_buy">买入</string>
+    <string name="trade_sell">卖出</string>
+    <string name="trade_buy_price">买价</string>
+    <string name="trade_sell_price">卖价</string>
+    <string name="trade_quantity">数量</string>
+    <string name="trade_amount">金额</string>
 
 </resources>

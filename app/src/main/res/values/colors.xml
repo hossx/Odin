@@ -2,4 +2,6 @@
 <resources>
     <color name="background_window">#FFE5E5E5</color>
     <color name="text_submenu">#00000000</color>
+    <color name="green">#ff0ab92b</color>
+    <color name="red">#ffff0000</color>
 </resources>

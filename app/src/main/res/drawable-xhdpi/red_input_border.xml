@@ -15,7 +15,7 @@
     <!-- 设置边框的宽度和颜色 -->
     <stroke
         android:width="1px"
-        android:color="#ffaaaaaa"/>
+        android:color="#ffff0000"/>
 
     <!-- 设置背景颜色渐变 从 红色  -> 绿色 -> 蓝色, 渐变的类型为sweep渐变 -->
     <!--<gradient-->

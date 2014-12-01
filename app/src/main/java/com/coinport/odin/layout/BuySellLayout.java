@@ -1,4 +1,4 @@
-package com.coinport.odin;
+package com.coinport.odin.layout;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -24,6 +24,7 @@ public class BuySellLayout extends LinearLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-//        this.setY(-200);
+//        System.out.println("kkkkkkkkkkkkkkkkkk");
+//        this.setY(-450);
     }
 }
