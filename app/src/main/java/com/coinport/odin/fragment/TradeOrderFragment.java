@@ -2,6 +2,7 @@ package com.coinport.odin.fragment;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.ListView;
 
 import com.coinport.odin.R;
 import com.coinport.odin.layout.RefreshableView;
+import com.coinport.odin.library.ptr.PullToRefreshBase;
+import com.coinport.odin.library.ptr.PullToRefreshListView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,7 +25,7 @@ import com.coinport.odin.layout.RefreshableView;
  * create an instance of this fragment.
  */
 public class TradeOrderFragment extends Fragment {
-    RefreshableView refreshableView;
+    PullToRefreshListView refreshableView;
     ListView listView;
     ArrayAdapter<String> adapter;
     String[] items = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L" };
@@ -70,26 +73,51 @@ public class TradeOrderFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.trade_order_fragment, container, false);
 
-        refreshableView = (RefreshableView) view.findViewById(R.id.refreshable_view);
-        listView = (ListView) view.findViewById(R.id.list_view);
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
-        listView.setAdapter(adapter);
-        refreshableView.setOnRefreshListener(new RefreshableView.PullToRefreshListener() {
+        refreshableView = (PullToRefreshListView) view.findViewById(R.id.refreshable_view);
+        refreshableView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
-            public void onRefresh() {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                refreshableView.finishRefreshing();
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                // Do work to refresh the list here.
+                new GetDataTask().execute();
             }
-        }, 0);
+        });
+//        listView = (ListView) view.findViewById(R.id.list_view);
+//        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+//        listView.setAdapter(adapter);
+//        refreshableView.setOnRefreshListener(new RefreshableView.PullToRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                refreshableView.finishRefreshing();
+//            }
+//        }, 0);
         return view;
+    }
+
+    private class GetDataTask extends AsyncTask<Void, Void, String[]> {
+        @Override
+        protected String[] doInBackground(Void... params) {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return new String[0];
+        }
+
+        @Override
+        protected void onPostExecute(String[] result) {
+            // Call onRefreshComplete when the list has been refreshed.
+            refreshableView.onRefreshComplete();
+            super.onPostExecute(result);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

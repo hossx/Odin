@@ -5,7 +5,7 @@
               tools:context="com.coinport.odin.fragment.TradeOrderFragment"
               android:orientation="vertical">
 
-    <com.coinport.odin.layout.RefreshableView
+    <com.coinport.odin.library.ptr.PullToRefreshListView
         android:layout_marginTop="8dip"
         android:layout_marginBottom="8dip"
         android:layout_marginLeft="8dip"
@@ -14,10 +14,5 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/refreshable_view">
-        <ListView
-            android:id="@+id/list_view"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-        </ListView>
-    </com.coinport.odin.layout.RefreshableView>
+    </com.coinport.odin.library.ptr.PullToRefreshListView>
 </LinearLayout>
