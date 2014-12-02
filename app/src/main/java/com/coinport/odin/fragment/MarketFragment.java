@@ -1,6 +1,5 @@
 package com.coinport.odin.fragment;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -14,9 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.coinport.odin.R;
-import com.coinport.odin.activity.MainActivity;
 import com.coinport.odin.activity.TradeActivity;
-import com.coinport.odin.adapter.TickerViewAdapter;
+import com.coinport.odin.adapter.TickerAdapter;
 import com.coinport.odin.obj.TickerItem;
 
 import org.json.JSONArray;
@@ -36,7 +34,7 @@ public class MarketFragment extends Fragment {
 //    private ProgressDialog dialogRef;
     private JSONArray jsonList;
     private ListView tickerListView;
-    private TickerViewAdapter tva;
+    private TickerAdapter tva;
     private String baseCurrency = "CNY";
     private TextView updateTimeRef;
 
@@ -52,7 +50,7 @@ public class MarketFragment extends Fragment {
         View marketView = inflater.inflate(R.layout.market_fragment, container, false);
         tickerListView = (ListView) marketView.findViewById(R.id.MarketView);
         tickerListView.setVerticalScrollBarEnabled(false);
-        tva = new TickerViewAdapter(this.getActivity());
+        tva = new TickerAdapter(this.getActivity());
         tickerListView.setAdapter(tva);
         tickerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -74,7 +72,7 @@ public class MarketFragment extends Fragment {
         updateTimeRef = (TextView) getActivity().findViewById(R.id.updateTime);
     }
 
-    public TickerViewAdapter getAdapter() {
+    public TickerAdapter getAdapter() {
         return tva;
     }
 

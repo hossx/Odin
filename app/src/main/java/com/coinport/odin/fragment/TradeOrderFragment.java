@@ -14,9 +14,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.coinport.odin.R;
+import com.coinport.odin.activity.TradeActivity;
+import com.coinport.odin.adapter.OrderAdapter;
 import com.coinport.odin.layout.RefreshableView;
 import com.coinport.odin.library.ptr.PullToRefreshBase;
 import com.coinport.odin.library.ptr.PullToRefreshListView;
+import com.coinport.odin.obj.OrderItem;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,10 +41,10 @@ public class TradeOrderFragment extends Fragment {
     private PullToRefreshListView refreshableView;
     private PullToRefreshBase<ListView> headerRefreshView;
     private PullToRefreshBase<ListView> footerRefreshView;
+    private String inCurrency, outCurrency;
 
-    private ListView listView;
-    private ArrayAdapter<String> adapter;
-    private String[] items = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L" };
+    private OrderAdapter orderAdapter;
+    private ArrayList<OrderItem> orderItems = new ArrayList<OrderItem>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,6 +87,8 @@ public class TradeOrderFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        inCurrency = ((TradeActivity)getActivity()).getInCurrency();
+        outCurrency = ((TradeActivity)getActivity()).getOutCurrency();
     }
 
     @Override
@@ -88,49 +101,38 @@ public class TradeOrderFragment extends Fragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 self.headerRefreshView = refreshView;
-                new GetDataTask("header").execute();
+                new GetOrderTask("header").execute();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 self.footerRefreshView = refreshView;
-                new GetDataTask("footer").execute();
+                new GetOrderTask("footer").execute();
             }
         });
-//        listView = (ListView) view.findViewById(R.id.list_view);
-//        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
-//        listView.setAdapter(adapter);
-//        refreshableView.setOnRefreshListener(new RefreshableView.PullToRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                try {
-//                    Thread.sleep(3000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                refreshableView.finishRefreshing();
-//            }
-//        }, 0);
+        orderAdapter = new OrderAdapter(getActivity());
+        refreshableView.getRefreshableView().setAdapter(orderAdapter);
         return view;
     }
 
-    private class GetDataTask extends AsyncTask<Void, Void, String[]> {
+    private class GetOrderTask extends AsyncTask<Void, Void, Void> {
         private String direction;
-        public GetDataTask(String direction) {
+        public GetOrderTask(String direction) {
             this.direction = direction;
         }
         @Override
-        protected String[] doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return new String[0];
+            return null;
         }
 
         @Override
-        protected void onPostExecute(String[] result) {
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
             // Call onRefreshComplete when the list has been refreshed.
             now.setToNow();
             if (direction == "header") {
@@ -141,7 +143,6 @@ public class TradeOrderFragment extends Fragment {
                 footerRefreshView.getLoadingLayoutProxy(false, true).setLastUpdatedLabel(label);
             }
             refreshableView.onRefreshComplete();
-            super.onPostExecute(result);
         }
     }
 
@@ -152,6 +153,44 @@ public class TradeOrderFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        new InitOrderTask().execute();
+    }
+
+    private class InitOrderTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                InputStream is = getActivity().getAssets().open("orders_mock.json");
+                int size = is.available();
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
+                String bufferString = new String(buffer);
+                JSONObject orderResult = new JSONObject(bufferString);
+                JSONArray orderJsonList = orderResult.getJSONObject("data").getJSONArray("items");
+                orderItems.clear();
+                for (int i = 0; i < orderJsonList.length(); ++i) {
+                    orderItems.add(OrderItem.OrderItemBuilder.generateFromJson(orderJsonList.getJSONObject(i)));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            orderAdapter.setOrderItems(orderItems);
+            orderAdapter.notifyDataSetChanged();
+        }
+    }
 //    @Override
 //    public void onAttach(Activity activity) {
 //        super.onAttach(activity);

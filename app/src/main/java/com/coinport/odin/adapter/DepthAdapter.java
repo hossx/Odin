@@ -24,11 +24,14 @@ import java.util.HashMap;
 public class DepthAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context context = null;
-    private ArrayList<DepthItem> depthItems;
+    private ArrayList<DepthItem> depthItems = null;
     private int width;
 
     public DepthAdapter setDepthItems(ArrayList<DepthItem> depthItems) {
-        this.depthItems = depthItems;
+        if (depthItems == null)
+            this.depthItems = null;
+        else
+            this.depthItems = (ArrayList<DepthItem>) depthItems.clone();
         return this;
     }
 

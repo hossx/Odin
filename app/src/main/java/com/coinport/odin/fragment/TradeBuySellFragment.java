@@ -12,9 +12,7 @@ import android.widget.ListView;
 import com.coinport.odin.R;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.DepthAdapter;
-import com.coinport.odin.adapter.TickerViewAdapter;
 import com.coinport.odin.obj.DepthItem;
-import com.coinport.odin.obj.TickerItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +33,6 @@ import java.util.TimerTask;
  * create an instance of this fragment.
  */
 public class TradeBuySellFragment extends Fragment {
-    private JSONObject depthResult;
     private ListView buyListView;
     private ListView sellListView;
     private DepthAdapter buyAdapter;
@@ -188,7 +185,7 @@ public class TradeBuySellFragment extends Fragment {
                 is.read(buffer);
                 is.close();
                 String bufferString = new String(buffer);
-                depthResult = new JSONObject(bufferString);
+                JSONObject depthResult = new JSONObject(bufferString);
 
                 JSONArray buyJsonList = depthResult.getJSONObject("data").getJSONArray("b");
                 for (int i = 0; i < buyJsonList.length(); ++i) {

@@ -7,6 +7,7 @@
               android:paddingRight="4dip">
 
     <TextView
+        android:id="@+id/order_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2014-12-01 00:15:09"/>
@@ -20,11 +21,13 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/order_operation"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/trade_sell"/>
             <TextView
+                android:id="@+id/order_status"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -37,10 +40,11 @@
             android:orientation="horizontal"
             android:gravity="right">
             <Button
+                android:id="@+id/order_cancel_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="撤单"
-                android:background="@color/cp_blue"
+                android:background="@drawable/trade_sell_button"
                 android:singleLine="false"/>
         </LinearLayout>
     </LinearLayout>
@@ -59,6 +63,7 @@
                     android:layout_height="wrap_content"
                     android:text="委托价格"/>
                 <TextView
+                    android:id="@+id/order_submit_price"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="right"
@@ -75,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:text="委托数量"/>
                 <TextView
+                    android:id="@+id/order_submit_quantity"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="right"
@@ -93,6 +99,7 @@
                     android:layout_height="wrap_content"
                     android:text="成交均价"/>
                 <TextView
+                    android:id="@+id/order_actual_price"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="right"
@@ -109,6 +116,7 @@
                     android:layout_height="wrap_content"
                     android:text="成交数量"/>
                 <TextView
+                    android:id="@+id/order_actual_quantity"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="right"

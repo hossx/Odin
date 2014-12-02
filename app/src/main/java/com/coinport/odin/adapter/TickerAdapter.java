@@ -1,7 +1,6 @@
 package com.coinport.odin.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -11,11 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.coinport.odin.R;
-import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.obj.TickerItem;
 import com.coinport.odin.util.Constants;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +19,7 @@ import java.util.HashMap;
 /**
  * Created by hoss on 14-11-24.
  */
-public class TickerViewAdapter extends BaseAdapter {
+public class TickerAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context context = null;
     private ArrayList<TickerItem> tickerItems;
@@ -31,7 +27,7 @@ public class TickerViewAdapter extends BaseAdapter {
     private Typeface iconTF;
     private String baseCurrency;
 
-    public TickerViewAdapter(Context context) {
+    public TickerAdapter(Context context) {
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         iconTF = Typeface.createFromAsset(context.getAssets(), "coinport.ttf");
@@ -48,8 +44,11 @@ public class TickerViewAdapter extends BaseAdapter {
         iconFont.put("DOGE", "\ue631");
     }
 
-    public TickerViewAdapter setTickerItems(ArrayList<TickerItem> tickerItems, String baseCurrency) {
-        this.tickerItems = tickerItems;
+    public TickerAdapter setTickerItems(ArrayList<TickerItem> tickerItems, String baseCurrency) {
+        if (tickerItems == null)
+            this.tickerItems = null;
+        else
+            this.tickerItems = (ArrayList<TickerItem>) tickerItems.clone();
         this.baseCurrency = baseCurrency;
         return this;
     }

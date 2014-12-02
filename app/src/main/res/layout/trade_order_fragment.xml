@@ -15,6 +15,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/refreshable_view"
+        android:dividerHeight="4dip"
         ptr:ptrAnimationStyle="flip"
         ptr:ptrMode="both">
     </com.coinport.odin.library.ptr.PullToRefreshListView>
