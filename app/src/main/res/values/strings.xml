@@ -59,4 +59,18 @@
     <string name="last_loaded_at">上次加载于: %1$s</string>
     <string name="updated_just_now">刚刚更新</string>
     <string name="time_error">时间有问题</string>
+    
+    <string-array name="currency_array">
+        <item> CNY </item>
+        <item> BTC </item>
+        <item> LTC </item>
+        <item> DOGE </item>
+        <item> BC </item>
+        <item> DRK </item>
+        <item> VRC </item>
+        <item> ZET </item>
+        <item> BTSX </item>
+        <item> NXT </item>
+        <item> XRP </item>
+    </string-array>
 </resources>

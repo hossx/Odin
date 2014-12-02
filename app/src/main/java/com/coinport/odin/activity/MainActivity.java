@@ -19,7 +19,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.coinport.odin.library.psts.PagerSlidingTabStrip;
@@ -45,6 +47,7 @@ public class MainActivity extends FragmentActivity {
     private Menu menu = null;
     private LinearLayout baseCurrencySelector = null;
     private TextView textView = null;
+    private Spinner currencySelector = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,11 @@ public class MainActivity extends FragmentActivity {
 
         textView = new TextView(this);
         textView.setText("ok");
+        currencySelector = new Spinner(this);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.currency_array,
+                android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        currencySelector.setAdapter(spinnerAdapter);
 //        final ActionBar actionBar = getActionBar();
 //        actionBar.setCustomView(baseCurrencySelector);
 
@@ -123,8 +131,8 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
-                    MenuItem tmp = menu.findItem(R.id.market_selector);
-                    if (tmp != null) tmp.setVisible(false);
+                    MenuItem cs = menu.findItem(R.id.currency_selector);
+                    if (cs != null) cs.setVisible(false);
                     MenuItem mi = menu.findItem(R.id.base_currency_selector);
                     if (mi != null) mi.setVisible(true);
 ////                    menu.add(Menu.NONE, R.id.action_contact, Menu.NONE, "contact").setIcon(R.drawable.ic_action_user).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -144,8 +152,8 @@ public class MainActivity extends FragmentActivity {
 //                        menu.add(Menu.NONE, R.id.action_contact, Menu.NONE, "contact").setActionView(btcActionView).setIcon(R.drawable.ic_action_user).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 //                    }
                 } else if (position == 1) {
-                    MenuItem tmp = menu.findItem(R.id.market_selector);
-                    if (tmp != null) tmp.setVisible(true);
+                    MenuItem cs = menu.findItem(R.id.currency_selector);
+                    if (cs != null) cs.setVisible(true);
                     MenuItem mi = menu.findItem(R.id.base_currency_selector);
                     if (mi != null) mi.setVisible(false);
 
@@ -153,6 +161,11 @@ public class MainActivity extends FragmentActivity {
 //
 //                    MenuItem mi = menu.findItem(R.id.action_contact);
 //                    if (mi != null) mi.setVisible(false);
+                } else if (position == 2) {
+                    MenuItem cs = menu.findItem(R.id.currency_selector);
+                    if (cs != null) cs.setVisible(false);
+                    MenuItem mi = menu.findItem(R.id.base_currency_selector);
+                    if (mi != null) mi.setVisible(false);
                 }
             }
 
@@ -170,8 +183,8 @@ public class MainActivity extends FragmentActivity {
         this.menu = menu;
         this.menu.add(Menu.NONE, R.id.base_currency_selector, Menu.NONE, "bcs").setActionView(baseCurrencySelector)
             .setVisible(true).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        this.menu.add(Menu.NONE, R.id.market_selector, Menu.NONE, "bcs").setActionView(textView).setVisible(false)
-            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        this.menu.add(Menu.NONE, R.id.currency_selector, Menu.NONE, "bcs").setActionView(currencySelector)
+            .setVisible(false).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 //        this.menu.add(Menu.NONE, R.id.config_more, Menu.NONE, getString(R.string.menu_item_more))
 //            .setIcon(R.drawable.ic_action_overflow).setVisible(true)
 //            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);

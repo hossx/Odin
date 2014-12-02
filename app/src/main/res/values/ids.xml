@@ -6,6 +6,7 @@
     <item name="base_currency_selector" type="id"/>
     <item name="config_more" type="id"/>
     <item name="market_selector" type="id"/>
+    <item name="currency_selector" type="id"/>
     <item name="market_fragment" type="id"/>
     <item name="trade_fragment" type="id"/>
     <item name="deposit_withdrawal_fragment" type="id"/>
