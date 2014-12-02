@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.DateUtils;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +27,13 @@ import com.coinport.odin.library.ptr.PullToRefreshListView;
  * create an instance of this fragment.
  */
 public class TradeOrderFragment extends Fragment {
-    PullToRefreshListView refreshableView;
-    ListView listView;
-    ArrayAdapter<String> adapter;
-    String[] items = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L" };
+    private PullToRefreshListView refreshableView;
+    private PullToRefreshBase<ListView> headerRefreshView;
+    private PullToRefreshBase<ListView> footerRefreshView;
+
+    private ListView listView;
+    private ArrayAdapter<String> adapter;
+    private String[] items = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L" };
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,6 +46,7 @@ public class TradeOrderFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private Time now = new Time();
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -76,12 +82,19 @@ public class TradeOrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.trade_order_fragment, container, false);
 
+        final TradeOrderFragment self = this;
         refreshableView = (PullToRefreshListView) view.findViewById(R.id.refreshable_view);
-        refreshableView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+        refreshableView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                // Do work to refresh the list here.
-                new GetDataTask().execute();
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                self.headerRefreshView = refreshView;
+                new GetDataTask("header").execute();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                self.footerRefreshView = refreshView;
+                new GetDataTask("footer").execute();
             }
         });
 //        listView = (ListView) view.findViewById(R.id.list_view);
@@ -102,6 +115,10 @@ public class TradeOrderFragment extends Fragment {
     }
 
     private class GetDataTask extends AsyncTask<Void, Void, String[]> {
+        private String direction;
+        public GetDataTask(String direction) {
+            this.direction = direction;
+        }
         @Override
         protected String[] doInBackground(Void... params) {
             try {
@@ -115,6 +132,14 @@ public class TradeOrderFragment extends Fragment {
         @Override
         protected void onPostExecute(String[] result) {
             // Call onRefreshComplete when the list has been refreshed.
+            now.setToNow();
+            if (direction == "header") {
+                String label = String.format(getString(R.string.last_updated_at), now.format("%Y-%m-%d %k:%M:%S"));
+                headerRefreshView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel(label);
+            } else {
+                String label = String.format(getString(R.string.last_loaded_at), now.format("%Y-%m-%d %k:%M:%S"));
+                footerRefreshView.getLoadingLayoutProxy(false, true).setLastUpdatedLabel(label);
+            }
             refreshableView.onRefreshComplete();
             super.onPostExecute(result);
         }

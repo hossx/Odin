@@ -52,6 +52,8 @@
     <string name="refreshing">正在刷新…</string>
     <string name="not_updated_yet">暂未更新过</string>
     <string name="updated_at">上次更新于%1$s前</string>
+    <string name="last_updated_at">上次更新于: %1$s</string>
+    <string name="last_loaded_at">上次加载于: %1$s</string>
     <string name="updated_just_now">刚刚更新</string>
     <string name="time_error">时间有问题</string>
 </resources>

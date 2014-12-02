@@ -43,9 +43,9 @@ public class MarketFragment extends Fragment {
     private final Handler handler = new Handler();
     private Timer timer = new Timer();
     private TimerTask fetchTickerTask = null;
-    ArrayList<TickerItem> tickerItems = new ArrayList<TickerItem>();
+    private ArrayList<TickerItem> tickerItems = new ArrayList<TickerItem>();
 
-    Time now = new Time();
+    private Time now = new Time();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
