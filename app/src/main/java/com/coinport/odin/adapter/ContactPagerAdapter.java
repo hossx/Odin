@@ -1,6 +1,5 @@
 package com.coinport.odin.adapter;
 
-import android.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -8,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.astuetz.PagerSlidingTabStrip;
+import com.coinport.odin.library.psts.PagerSlidingTabStrip;
 import com.coinport.odin.R;
 import com.coinport.odin.fragment.QuickContactFragment;
 

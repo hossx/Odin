@@ -2,7 +2,8 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context="com.coinport.odin.fragment.TradeOrderFragment">
+              tools:context="com.coinport.odin.fragment.TradeOrderFragment"
+              android:orientation="vertical">
 
     <com.coinport.odin.layout.RefreshableView
         android:layout_marginTop="8dip"
@@ -19,19 +20,4 @@
             android:layout_height="fill_parent">
         </ListView>
     </com.coinport.odin.layout.RefreshableView>
-    <!--<LinearLayout-->
-        <!--android:layout_marginTop="8dip"-->
-        <!--android:layout_marginBottom="8dip"-->
-        <!--android:layout_marginLeft="8dip"-->
-        <!--android:layout_marginRight="8dip"-->
-        <!--android:background="@drawable/background_card"-->
-        <!--android:orientation="vertical"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-        <!--<ListView-->
-            <!--android:id="@+id/list_view"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="fill_parent">-->
-        <!--</ListView>-->
-    <!--</LinearLayout>-->
 </LinearLayout>

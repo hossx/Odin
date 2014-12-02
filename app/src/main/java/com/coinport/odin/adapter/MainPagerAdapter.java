@@ -14,9 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.astuetz.PagerSlidingTabStrip;
+import com.coinport.odin.library.psts.PagerSlidingTabStrip;
 import com.coinport.odin.R;
-import com.coinport.odin.activity.MainActivity;
 import com.coinport.odin.fragment.DepositWithdrawalFragment;
 import com.coinport.odin.fragment.MarketFragment;
 import com.coinport.odin.fragment.UserFragment;

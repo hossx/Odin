@@ -18,7 +18,7 @@
             android:layout_below="@+id/tabs"
             tools:context=".MainActivity" />
 
-        <com.astuetz.PagerSlidingTabStrip
+        <com.coinport.odin.library.psts.PagerSlidingTabStrip
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="68dip"

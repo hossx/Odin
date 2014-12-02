@@ -10,7 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.astuetz.PagerSlidingTabStrip;
+import com.coinport.odin.library.psts.PagerSlidingTabStrip;
 import com.coinport.odin.R;
 import com.coinport.odin.fragment.TradeBuySellFragment;
 import com.coinport.odin.fragment.TradeOrderFragment;

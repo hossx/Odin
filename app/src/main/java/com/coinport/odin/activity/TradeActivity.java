@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 
-import com.astuetz.PagerSlidingTabStrip;
+import com.coinport.odin.library.psts.PagerSlidingTabStrip;
 import com.coinport.odin.R;
 import com.coinport.odin.adapter.TradePagerAdapter;
 
