@@ -44,11 +44,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="撤单"
-                android:background="@drawable/trade_sell_button"
+                android:textColor="@color/cp_blue"
+                android:background="@drawable/cancel_order_button"
                 android:singleLine="false"/>
         </LinearLayout>
     </LinearLayout>
     <TableLayout
+        android:id="@+id/order_table"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dip">

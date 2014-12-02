@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.coinport.odin.R;
@@ -73,20 +74,22 @@ public class OrderAdapter extends BaseAdapter {
         TextView operation = (TextView) convertView.findViewById(R.id.order_operation);
         TextView status = (TextView) convertView.findViewById(R.id.order_status);
         Button cancel = (Button) convertView.findViewById(R.id.order_cancel_button);
-
         TextView sPrice = (TextView) convertView.findViewById(R.id.order_submit_price);
         TextView sQuantity = (TextView) convertView.findViewById(R.id.order_submit_quantity);
         TextView price = (TextView) convertView.findViewById(R.id.order_actual_price);
         TextView quantity = (TextView) convertView.findViewById(R.id.order_actual_quantity);
+        TableLayout tl = (TableLayout) convertView.findViewById(R.id.order_table);
 
         timeFormat.set(oi.getSubmitTime());
         time.setText(timeFormat.format("%Y-%m-%d %k:%M:%S"));
         if (oi.getOperation().equals("Buy")) {
             operation.setText(context.getString(R.string.trade_buy));
             operation.setTextColor(Constants.CP_GREEN);
+//            tl.setBackgroundResource(R.drawable.green_input_border);
         } else {
             operation.setText(context.getString(R.string.trade_sell));
             operation.setTextColor(Constants.CP_RED);
+//            tl.setBackgroundResource(R.drawable.red_input_border);
         }
 
         status.setText(context.getString(Constants.ORDER_STATUS_MAP.get(oi.getStatus())));

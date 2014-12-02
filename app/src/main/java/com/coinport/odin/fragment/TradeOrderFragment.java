@@ -38,12 +38,12 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class TradeOrderFragment extends Fragment {
-    private PullToRefreshListView refreshableView;
-    private PullToRefreshBase<ListView> headerRefreshView;
-    private PullToRefreshBase<ListView> footerRefreshView;
+    protected PullToRefreshListView refreshableView;
+    protected PullToRefreshBase<ListView> headerRefreshView;
+    protected PullToRefreshBase<ListView> footerRefreshView;
     private String inCurrency, outCurrency;
 
-    private OrderAdapter orderAdapter;
+    protected OrderAdapter orderAdapter;
     private ArrayList<OrderItem> orderItems = new ArrayList<OrderItem>();
 
     // TODO: Rename parameter arguments, choose names that match
@@ -115,7 +115,7 @@ public class TradeOrderFragment extends Fragment {
         return view;
     }
 
-    private class GetOrderTask extends AsyncTask<Void, Void, Void> {
+    protected class GetOrderTask extends AsyncTask<Void, Void, Void> {
         private String direction;
         public GetOrderTask(String direction) {
             this.direction = direction;

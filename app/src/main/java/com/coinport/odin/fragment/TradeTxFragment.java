@@ -7,8 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.coinport.odin.R;
+import com.coinport.odin.adapter.OrderAdapter;
+import com.coinport.odin.library.ptr.PullToRefreshBase;
+import com.coinport.odin.library.ptr.PullToRefreshListView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +22,7 @@ import com.coinport.odin.R;
  * Use the {@link TradeTxFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TradeTxFragment extends Fragment {
+public class TradeTxFragment extends TradeOrderFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,7 +69,27 @@ public class TradeTxFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.trade_tx_fragment, container, false);
+        View view = inflater.inflate(R.layout.trade_tx_fragment, container, false);
+
+        final TradeOrderFragment self = this;
+        refreshableView = (PullToRefreshListView) view.findViewById(R.id.refreshable_view);
+        refreshableView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                self.headerRefreshView = refreshView;
+                new GetOrderTask("header").execute();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                self.footerRefreshView = refreshView;
+                new GetOrderTask("footer").execute();
+            }
+        });
+        orderAdapter = new OrderAdapter(getActivity());
+        refreshableView.getRefreshableView().setAdapter(orderAdapter);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
