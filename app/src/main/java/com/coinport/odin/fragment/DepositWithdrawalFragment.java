@@ -34,7 +34,7 @@ public class DepositWithdrawalFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                android.app.Fragment fragment = FragmentFactory.getInstanceByIndex(checkedId);
+                android.app.Fragment fragment = FragmentFactory.getInstanceByIndex(checkedId, currency);
                 transaction.replace(R.id.content, fragment);
                 transaction.commit();
             }
