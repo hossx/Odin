@@ -12,12 +12,20 @@
         android:background="@drawable/background_card"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
         <TextView
             android:id="@+id/test_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="withdrawal"/>
+
+        <com.coinport.odin.library.ptr.PullToRefreshListView
+            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/refreshable_view"
+            android:dividerHeight="4dip"
+            ptr:ptrAnimationStyle="flip">
+        </com.coinport.odin.library.ptr.PullToRefreshListView>
     </LinearLayout>
 </LinearLayout>
