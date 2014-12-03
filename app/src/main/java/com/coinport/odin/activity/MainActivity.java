@@ -14,16 +14,19 @@ import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.coinport.odin.fragment.DepositWithdrawalFragment;
 import com.coinport.odin.library.psts.PagerSlidingTabStrip;
 import com.coinport.odin.R;
 import com.coinport.odin.adapter.MainPagerAdapter;
@@ -46,8 +49,8 @@ public class MainActivity extends FragmentActivity {
     private int currentColor = 0xFF5161BC;
     private Menu menu = null;
     private LinearLayout baseCurrencySelector = null;
+    private LinearLayout currencySelector = null;
     private TextView textView = null;
-    private Spinner currencySelector = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,11 +94,28 @@ public class MainActivity extends FragmentActivity {
 
         textView = new TextView(this);
         textView.setText("ok");
-        currencySelector = new Spinner(this);
+        currencySelector = (LinearLayout) getLayoutInflater().inflate(R.layout.currency_selector, null);
+        Spinner currencySpinner = (Spinner) currencySelector.findViewById(R.id.currency_spinner);
+        // TODO(c): 币种信息从服务端动态加载
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.currency_array,
-                android.R.layout.simple_spinner_item);
+            R.layout.spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        currencySelector.setAdapter(spinnerAdapter);
+        currencySpinner.setAdapter(spinnerAdapter);
+        currencySpinner.setSelection(0);
+        currencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                TextView tv = (TextView) view;
+//                tv.setTextColor(Color.WHITE);
+
+                String currency = parent.getItemAtPosition(position).toString();
+                ((DepositWithdrawalFragment) adapter.getFragment(R.id.deposit_withdrawal_fragment)).setCurrency(currency);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 //        final ActionBar actionBar = getActionBar();
 //        actionBar.setCustomView(baseCurrencySelector);
 
