@@ -5,4 +5,8 @@
     <color name="green">#ff0ab92b</color>
     <color name="red">#ffff0000</color>
     <color name="cp_blue">#ff5161bc</color>
+    <color name="transparent">#0000</color>
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+    <color name="weibo_listtab_off">#8d8d8d</color>
 </resources>

@@ -5,19 +5,32 @@
               android:layout_height="match_parent" >
 
     <LinearLayout
-        android:layout_marginTop="8dip"
-        android:layout_marginBottom="8dip"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
-        android:background="@drawable/background_card"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-        <TextView
-            android:id="@+id/test_tv"
-            android:layout_width="wrap_content"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/rg_tab"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="deposit withdrawal fragment"/>
+            android:layout_gravity="bottom"
+            android:gravity="center">
+            <RadioButton
+                android:id="@+id/radio_deposit"
+                style="@style/weibo_tab"
+                android:text="充值" />
+            <RadioButton
+                android:id="@+id/radio_withdrawal"
+                style="@style/weibo_tab"
+                android:text="提现" />
+        </RadioGroup>
+
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
     </LinearLayout>
 </LinearLayout>
