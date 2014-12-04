@@ -42,6 +42,10 @@ public class WithdrawalFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.withdrawal_fragment, container, false);
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+        ListView lv = (ListView) view.findViewById(R.id.withdrawal_history);
+        lv.setFocusable(false);
+        lv.setAdapter(adapter);
         updateWithdrawalInfo();
         return view;
     }
@@ -53,9 +57,5 @@ public class WithdrawalFragment extends Fragment {
     }
 
     private void updateWithdrawalInfo() {
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
-        ListView lv = (ListView) view.findViewById(R.id.withdrawal_history);
-        lv.setFocusable(false);
-        lv.setAdapter(adapter);
     }
 }

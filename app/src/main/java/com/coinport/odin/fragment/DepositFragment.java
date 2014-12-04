@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,6 +32,8 @@ public class DepositFragment extends Fragment {
     private View view = null;
     private ImageView qrView;
     private String currency;
+    private LinearLayout depositCnyInfo;
+    private LinearLayout depositInfo;
 
     private static ArrayList<String> items;
     private ArrayAdapter<String> adapter;
@@ -62,6 +65,8 @@ public class DepositFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.deposit_fragment, container, false);
+        depositInfo = (LinearLayout) view.findViewById(R.id.deposit_info);
+        depositCnyInfo = (LinearLayout) view.findViewById(R.id.deposit_cny_info);
         updateDepositInfo();
         return view;
     }
@@ -73,6 +78,23 @@ public class DepositFragment extends Fragment {
     }
 
     private void updateDepositInfo() {
+        if (currency.equals("CNY")) {
+            updateDepositCnyInfo();
+        } else if (currency.equals("BTSX")) {
+            updateDepositBtsxInfo();
+        } else if (currency.equals("NXT")) {
+            updateDepositNxtInfo();
+        } else if (currency.equals("XRP")) {
+            updateDepositXrpInfo();
+        } else {
+            updateDepositBtcInfo();
+        }
+    }
+
+    private void updateDepositBtcInfo() {
+        depositInfo.setVisibility(View.VISIBLE);
+        depositCnyInfo.setVisibility(View.GONE);
+
         TextView tv = (TextView) view.findViewById(R.id.deposit_header);
         tv.setText(String.format(getActivity().getString(R.string.deposit_info), currency));
 
@@ -84,6 +106,7 @@ public class DepositFragment extends Fragment {
             if (testIntent.resolveActivity(pm) != null) {
                 link.setText(Html.fromHtml("<a href=\"bitcoin:1C1ML3Jt1zNdLQ3e7KKZ6Ar8BMH2gYgQHC\">" +
                         getString(R.string.deposit_link) + "</a>"));
+                // mqqwpa://im/chat?chat_type=wpa&uin=501863587
                 link.setMovementMethod(LinkMovementMethod.getInstance());
                 link.setVisibility(View.VISIBLE);
             } else {
@@ -105,5 +128,25 @@ public class DepositFragment extends Fragment {
         ListView lv = (ListView) view.findViewById(R.id.deposit_history);
         lv.setFocusable(false);
         lv.setAdapter(adapter);
+    }
+
+    private void updateDepositCnyInfo() {
+        depositInfo.setVisibility(View.GONE);
+        depositCnyInfo.setVisibility(View.VISIBLE);
+    }
+
+    private void updateDepositBtsxInfo() {
+        depositInfo.setVisibility(View.VISIBLE);
+        depositCnyInfo.setVisibility(View.GONE);
+    }
+
+    private void updateDepositNxtInfo() {
+        depositInfo.setVisibility(View.VISIBLE);
+        depositCnyInfo.setVisibility(View.GONE);
+    }
+
+    private void updateDepositXrpInfo() {
+        depositInfo.setVisibility(View.VISIBLE);
+        depositCnyInfo.setVisibility(View.GONE);
     }
 }
