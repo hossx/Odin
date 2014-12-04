@@ -3,29 +3,41 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-
-    <LinearLayout
+    <com.coinport.odin.library.ptr.PullToRefreshScrollView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:scrollbars="none"
         android:layout_marginTop="8dip"
         android:layout_marginBottom="8dip"
         android:layout_marginLeft="8dip"
         android:layout_marginRight="8dip"
         android:background="@drawable/background_card"
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/test_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="withdrawal"/>
-
-        <com.coinport.odin.library.ptr.PullToRefreshListView
-            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/refreshable_view"
+        android:dividerHeight="4dip"
+        ptr:ptrAnimationStyle="flip">
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/refreshable_view"
-            android:dividerHeight="4dip"
-            ptr:ptrAnimationStyle="flip">
-        </com.coinport.odin.library.ptr.PullToRefreshListView>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_marginTop="4dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="description"/>
+            </LinearLayout>
+            <com.coinport.odin.layout.NestedListView
+                android:focusable="false"
+                android:id="@+id/withdrawal_history"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+            </com.coinport.odin.layout.NestedListView>
+        </LinearLayout>
+    </com.coinport.odin.library.ptr.PullToRefreshScrollView>
 </LinearLayout>

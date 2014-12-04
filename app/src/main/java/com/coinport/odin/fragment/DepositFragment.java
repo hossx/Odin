@@ -11,16 +11,16 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.coinport.odin.R;
 import com.coinport.odin.util.EncodingHandler;
 import com.google.zxing.WriterException;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +31,21 @@ public class DepositFragment extends Fragment {
     private View view = null;
     private ImageView qrView;
     private String currency;
+
+    private static ArrayList<String> items;
+    private ArrayAdapter<String> adapter;
+
+    static {
+        items = new ArrayList<String>();
+        items.add("A");
+        items.add("B");
+        items.add("C");
+        items.add("D");
+        items.add("E");
+        items.add("F");
+        items.add("G");
+        items.add("H");
+    }
 
     private static Map<String, String> uriHeader = new HashMap<String, String>();
 
@@ -82,14 +97,13 @@ public class DepositFragment extends Fragment {
         try {
             Bitmap qrCodeBitmap = EncodingHandler.createQRCode("188puwQGf5e66wTHCpFaKmLY2JXcdTkHgg", 350);
             qrView.setImageBitmap(qrCodeBitmap);
-//            File file = new File("/data/data/com.coinport.odin/qrcode.png");
-//            file.createNewFile();
-//            FileOutputStream fOut = new FileOutputStream(file);
-//            qrCodeBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-//            fOut.flush();
-//            fOut.close();
         } catch (WriterException e) {
             e.printStackTrace();
         }
+
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+        ListView lv = (ListView) view.findViewById(R.id.deposit_history);
+        lv.setFocusable(false);
+        lv.setAdapter(adapter);
     }
 }

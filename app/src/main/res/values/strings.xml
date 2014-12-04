@@ -79,5 +79,7 @@
     <string name="deposit_alias_name">或%1$s</string>
     <string name="deposit_nxt_pubkey">Public Key: %1$s</string>
     <string name="deposit_memo">填写memo：%1$s</string>
+    <string name="deposit_history_description">最近10笔充值记录:</string>
+    <string name="withdrawal_history_description">最近10笔提现记录:</string>
 
 </resources>

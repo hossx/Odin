@@ -3,20 +3,44 @@ package com.coinport.odin.util;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 public final class Util {
 
-  public static enum ScreenDirection {
-    NORMAL, INVERT, LEFT_UP, RIGHT_UP
-  }
+    public static enum ScreenDirection {
+        NORMAL, INVERT, LEFT_UP, RIGHT_UP
+    }
 
-  private static BitmapFactory.Options mBitmapOptions = new BitmapFactory.Options();
+    /**** Method for Setting the Height of the ListView dynamically.
+     **** Hack to fix the issue of not showing all the items of the ListView
+     **** when placed inside a ScrollView  ****/
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
 
-  static {
-    mBitmapOptions.inSampleSize = 2;
-  }
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, AbsListView.LayoutParams.WRAP_CONTENT));
 
-  private static String getApplicationRoot() {
-    return Environment.getExternalStorageDirectory() + "/coinport/";
-  }
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+    private static String getApplicationRoot() {
+        return Environment.getExternalStorageDirectory() + "/coinport/";
+    }
 }
