@@ -23,4 +23,8 @@ public class WithdrawalFragment extends Fragment {
         View view = inflater.inflate(R.layout.withdrawal_fragment, container, false);
         return view;
     }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 }

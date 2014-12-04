@@ -74,5 +74,10 @@
     <string name="updated_just_now">刚刚更新</string>
     <string name="time_error">时间有问题</string>
 
-    <string name="deposit_info">请将%1$s汇入如下地址</string>
+    <string name="deposit_info">请将%1$s汇入以下地址</string>
+    <string name="deposit_link">点击充值(需要安装手机钱包)</string>
+    <string name="deposit_alias_name">或%1$s</string>
+    <string name="deposit_nxt_pubkey">Public Key: %1$s</string>
+    <string name="deposit_memo">填写memo：%1$s</string>
+
 </resources>
