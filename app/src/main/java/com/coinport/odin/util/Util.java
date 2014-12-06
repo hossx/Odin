@@ -10,17 +10,42 @@ import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.coinport.odin.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class Util {
 
     public static enum ScreenDirection {
         NORMAL, INVERT, LEFT_UP, RIGHT_UP
+    }
+
+    public static Map<Integer, Integer> transferStatus = new HashMap<>();
+    static {
+        transferStatus.put(0, R.string.transfer_pending);
+        transferStatus.put(1, R.string.transfer_processing);
+        transferStatus.put(2, R.string.transfer_processed);
+        transferStatus.put(3, R.string.transfer_processed);
+        transferStatus.put(4, R.string.transfer_succeed);
+        transferStatus.put(5, R.string.transfer_failed);
+        transferStatus.put(6, R.string.transfer_succeed);
+        transferStatus.put(7, R.string.transfer_succeed);
+        transferStatus.put(8, R.string.transfer_cancelled);
+        transferStatus.put(9, R.string.transfer_rejected);
+        transferStatus.put(10, R.string.transfer_failed);
+        transferStatus.put(11, R.string.transfer_processing);
+        transferStatus.put(12, R.string.transfer_failed);
+        transferStatus.put(13, R.string.transfer_failed);
+        transferStatus.put(14, R.string.transfer_failed);
+        transferStatus.put(15, R.string.transfer_failed);
+        transferStatus.put(16, R.string.transfer_failed);
     }
 
     /**** Method for Setting the Height of the ListView dynamically.

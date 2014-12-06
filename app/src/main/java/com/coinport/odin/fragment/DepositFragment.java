@@ -1,5 +1,6 @@
 package com.coinport.odin.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,7 +13,6 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -27,7 +27,6 @@ import com.google.zxing.WriterException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -37,7 +36,7 @@ import java.util.Map;
 /**
  * Created by hoss on 14-12-3.
  */
-public class DepositFragment extends Fragment {
+public class DepositFragment extends DWFragmentCommon {
     private View view = null;
     private String currency;
     private LinearLayout depositCnyInfo;
@@ -47,7 +46,6 @@ public class DepositFragment extends Fragment {
     private static final String QQ_URI_HEADER = "mqqwpa:";
     private static Map<String, String> uriHeader = new HashMap<String, String>();
 
-    private static Map<Integer, Integer> transferStatus = new HashMap<>();
 
     private TextView address;
     private TextView alias;
@@ -60,24 +58,6 @@ public class DepositFragment extends Fragment {
         uriHeader.put("BTC", "bitcoin:");
         uriHeader.put("LTC", "litecoin:");
         uriHeader.put("DOGE", "dogecoin:");
-
-        transferStatus.put(0, R.string.deposit_pending);
-        transferStatus.put(1, R.string.deposit_processing);
-        transferStatus.put(2, R.string.deposit_processed);
-        transferStatus.put(3, R.string.deposit_processed);
-        transferStatus.put(4, R.string.deposit_succeed);
-        transferStatus.put(5, R.string.deposit_failed);
-        transferStatus.put(6, R.string.deposit_succeed);
-        transferStatus.put(7, R.string.deposit_succeed);
-        transferStatus.put(8, R.string.deposit_cancelled);
-        transferStatus.put(9, R.string.deposit_rejected);
-        transferStatus.put(10, R.string.deposit_failed);
-        transferStatus.put(11, R.string.deposit_processing);
-        transferStatus.put(12, R.string.deposit_failed);
-        transferStatus.put(13, R.string.deposit_failed);
-        transferStatus.put(14, R.string.deposit_failed);
-        transferStatus.put(15, R.string.deposit_failed);
-        transferStatus.put(16, R.string.deposit_failed);
     }
 
     public DepositFragment(String currency) {
@@ -97,6 +77,7 @@ public class DepositFragment extends Fragment {
         return view;
     }
 
+    @Override
     public void setCurrency(String currency) {
         this.currency = currency;
         if (view != null)
@@ -283,7 +264,7 @@ public class DepositFragment extends Fragment {
                     timeFormat.set(jsonObj.getLong("updated"));
                     fields.put("deposit_time", timeFormat.format("%Y-%m-%d %k:%M:%S"));
                     fields.put("deposit_amount", jsonObj.getJSONObject("amount").getString("display"));
-                    fields.put("deposit_status", getString(transferStatus.get(jsonObj.getInt("status"))));
+                    fields.put("deposit_status", getString(Util.transferStatus.get(jsonObj.getInt("status"))));
                     dhList.add(fields);
 
                 } catch (JSONException e) {
