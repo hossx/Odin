@@ -1,5 +1,6 @@
 package com.coinport.odin.util;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -8,6 +9,12 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public final class Util {
 
@@ -38,6 +45,30 @@ public final class Util {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+    public static JSONArray getJsonArrayFromFile(Context context, String filename) {
+        InputStream is = null;
+        JSONArray jsonList = null;
+        try {
+            is = context.getAssets().open(filename);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            String bufferString = new String(buffer);
+            jsonList = new JSONArray(bufferString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } finally {
+            if (is != null) try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonList;
     }
 
     private static String getApplicationRoot() {

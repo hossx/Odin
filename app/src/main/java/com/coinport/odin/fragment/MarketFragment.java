@@ -16,6 +16,7 @@ import com.coinport.odin.R;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.TickerAdapter;
 import com.coinport.odin.obj.TickerItem;
+import com.coinport.odin.util.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -120,22 +121,15 @@ public class MarketFragment extends Fragment {
             try {
                 String file;
                 if (baseCurrency == "CNY")
-                    file = "cny_mock_markets.json";
+                    file = "cny_markets_mock.json";
                 else
-                    file = "btc_mock_markets.json";
-                InputStream is = getActivity().getAssets().open(file);
-                int size = is.available();
-                byte[] buffer = new byte[size];
-                is.read(buffer);
-                is.close();
-                String bufferString = new String(buffer);
-                jsonList = new JSONArray(bufferString);
-                for (int i = 0; i < jsonList.length(); ++i) {
-                    JSONObject jsonObj = jsonList.getJSONObject(i);
-                    tickerItems.add(TickerItem.TickerItemBuilder.generateFromJson(jsonObj));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+                    file = "btc_markets_mock.json";
+                jsonList = Util.getJsonArrayFromFile(getActivity(), file);
+                if (jsonList != null)
+                    for (int i = 0; i < jsonList.length(); ++i) {
+                        JSONObject jsonObj = jsonList.getJSONObject(i);
+                        tickerItems.add(TickerItem.TickerItemBuilder.generateFromJson(jsonObj));
+                    }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

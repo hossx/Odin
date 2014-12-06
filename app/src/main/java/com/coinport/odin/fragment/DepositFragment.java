@@ -15,11 +15,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.coinport.odin.R;
 import com.coinport.odin.util.EncodingHandler;
+import com.coinport.odin.util.Util;
 import com.google.zxing.WriterException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +56,7 @@ public class DepositFragment extends Fragment {
         items.add("H");
     }
 
+    private static final String QQ_URI_HEADER = "mqqwpa:x";
     private static Map<String, String> uriHeader = new HashMap<String, String>();
 
     static {
@@ -133,6 +140,50 @@ public class DepositFragment extends Fragment {
     private void updateDepositCnyInfo() {
         depositInfo.setVisibility(View.GONE);
         depositCnyInfo.setVisibility(View.VISIBLE);
+        PackageManager pm = getActivity().getPackageManager();
+        Intent testIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(QQ_URI_HEADER));
+        final boolean supportsQQ = testIntent.resolveActivity(pm) != null;
+
+        ListView lv = (ListView) view.findViewById(R.id.agent_cards);
+        lv.setFocusable(false);
+        ArrayList<HashMap<String, String>> acList = new ArrayList<HashMap<String, String>>();
+        JSONArray jsonArray = Util.getJsonArrayFromFile(getActivity(), "agent_cards.json");
+        if (jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); ++i) {
+                HashMap<String, String> fields = new HashMap<String, String>();
+                try {
+                    JSONObject jsonObj = jsonArray.getJSONObject(i);
+                    fields.put("agent_card_nick_name", jsonObj.getString("nn"));
+                    fields.put("agent_card_name", jsonObj.getString("n"));
+                    fields.put("agent_card_bank", jsonObj.getString("b"));
+                    fields.put("agent_card_account", jsonObj.getString("a"));
+                    fields.put("agent_card_qq", jsonObj.getString("q"));
+                    acList.add(fields);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        SimpleAdapter sa = new SimpleAdapter(getActivity(), acList, R.layout.agent_card, new String[]{
+            "agent_card_nick_name", "agent_card_name", "agent_card_bank", "agent_card_account", "agent_card_qq"},
+            new int[]{R.id.agent_card_nick_name, R.id.agent_card_name, R.id.agent_card_bank, R.id.agent_card_account,
+                R.id.agent_card_qq}) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                if (supportsQQ) {
+                    TextView qqTv = (TextView) view.findViewById(R.id.agent_card_qq);
+                    qqTv.setText(Html.fromHtml("<a href=\"mqqwpa://im/chat?chat_type=wpa&uin=" + qqTv.getText() + "\">"
+                        + qqTv.getText() + "</a>"));
+                    qqTv.setMovementMethod(LinkMovementMethod.getInstance());
+                    qqTv.setBackgroundResource(R.drawable.cancel_order_button);
+                }
+                return view;
+            }
+        };
+
+        lv.setAdapter(sa);
     }
 
     private void updateDepositBtsxInfo() {

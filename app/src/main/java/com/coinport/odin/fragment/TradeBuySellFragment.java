@@ -178,7 +178,7 @@ public class TradeBuySellFragment extends Fragment {
             sellItems.clear();
             try {
                 String file;
-                file = "btc_cny_depth.json";
+                file = "btc_cny_depth_mock.json";
                 InputStream is = getActivity().getAssets().open(file);
                 int size = is.available();
                 byte[] buffer = new byte[size];
