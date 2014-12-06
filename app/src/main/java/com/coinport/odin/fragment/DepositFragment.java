@@ -27,8 +27,10 @@ import com.google.zxing.WriterException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,21 +39,27 @@ import java.util.Map;
  */
 public class DepositFragment extends Fragment {
     private View view = null;
-    private ImageView qrView;
     private String currency;
     private LinearLayout depositCnyInfo;
     private LinearLayout depositInfo;
     private Time timeFormat = new Time();
 
-    private static final String QQ_URI_HEADER = "mqqwpa:x";
+    private static final String QQ_URI_HEADER = "mqqwpa:";
     private static Map<String, String> uriHeader = new HashMap<String, String>();
 
     private static Map<Integer, Integer> transferStatus = new HashMap<>();
 
+    private TextView address;
+    private TextView alias;
+    private TextView memo;
+    private TextView nxtPubkey;
+    private ImageView qrView;
+    private TextView link;
+
     static {
-        uriHeader.put("BTC", "bitcoin:x");
-        uriHeader.put("LTC", "litecoin:x");
-        uriHeader.put("DOGE", "dogecoin:x");
+        uriHeader.put("BTC", "bitcoin:");
+        uriHeader.put("LTC", "litecoin:");
+        uriHeader.put("DOGE", "dogecoin:");
 
         transferStatus.put(0, R.string.deposit_pending);
         transferStatus.put(1, R.string.deposit_processing);
@@ -81,6 +89,10 @@ public class DepositFragment extends Fragment {
         view = inflater.inflate(R.layout.deposit_fragment, container, false);
         depositInfo = (LinearLayout) view.findViewById(R.id.deposit_info);
         depositCnyInfo = (LinearLayout) view.findViewById(R.id.deposit_cny_info);
+        address = (TextView) view.findViewById(R.id.crypto_currency_address);
+        alias = (TextView) view.findViewById(R.id.deposit_alias);
+        memo = (TextView) view.findViewById(R.id.deposit_memo);
+        nxtPubkey = (TextView) view.findViewById(R.id.deposit_nxt_pubkey);
         updateDepositInfo();
         return view;
     }
@@ -105,22 +117,15 @@ public class DepositFragment extends Fragment {
         }
     }
 
-    private void updateDepositBtcInfo() {
-        depositInfo.setVisibility(View.VISIBLE);
-        depositCnyInfo.setVisibility(View.GONE);
-
-        TextView tv = (TextView) view.findViewById(R.id.deposit_header);
-        tv.setText(String.format(getActivity().getString(R.string.deposit_info), currency));
-
-        TextView link = (TextView) view.findViewById(R.id.open_bitcoin_link);
+    private void renderLinkQrcode(String address) {
+        link = (TextView) view.findViewById(R.id.open_bitcoin_link);
         if (uriHeader.containsKey(currency)) {
             String baseUri = uriHeader.get(currency);
             PackageManager pm = getActivity().getPackageManager();
             Intent testIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUri));
             if (testIntent.resolveActivity(pm) != null) {
-                link.setText(Html.fromHtml("<a href=\"bitcoin:1C1ML3Jt1zNdLQ3e7KKZ6Ar8BMH2gYgQHC\">" +
+                link.setText(Html.fromHtml("<a href=\"" + baseUri + address + "\">" +
                         getString(R.string.deposit_link) + "</a>"));
-                // mqqwpa://im/chat?chat_type=wpa&uin=501863587
                 link.setMovementMethod(LinkMovementMethod.getInstance());
                 link.setVisibility(View.VISIBLE);
             } else {
@@ -132,11 +137,40 @@ public class DepositFragment extends Fragment {
 
         qrView = (ImageView) view.findViewById(R.id.qr_image);
         try {
-            Bitmap qrCodeBitmap = EncodingHandler.createQRCode("188puwQGf5e66wTHCpFaKmLY2JXcdTkHgg", 350);
+            Bitmap qrCodeBitmap = EncodingHandler.createQRCode(address, 350);
             qrView.setImageBitmap(qrCodeBitmap);
         } catch (WriterException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setItemsVisibility(EnumSet<OptItem> opts) {
+        alias.setVisibility(View.GONE);
+        memo.setVisibility(View.GONE);
+        nxtPubkey.setVisibility(View.GONE);
+        if (qrView != null) qrView.setVisibility(View.GONE);
+        if (link != null) link.setVisibility(View.GONE);
+        if (opts.contains(OptItem.ALIAS))
+            alias.setVisibility(View.VISIBLE);
+        if (opts.contains(OptItem.MEMO))
+            memo.setVisibility(View.VISIBLE);
+        if (opts.contains(OptItem.NXT_PUBKEY))
+            nxtPubkey.setVisibility(View.VISIBLE);
+        if (opts.contains(OptItem.QR_CODE))
+            if (qrView != null) qrView.setVisibility(View.VISIBLE);
+        if (opts.contains(OptItem.LINK))
+            if (link != null) link.setVisibility(View.VISIBLE);
+    }
+
+    private void updateDepositBtcInfo() {
+        depositInfo.setVisibility(View.VISIBLE);
+        depositCnyInfo.setVisibility(View.GONE);
+        setItemsVisibility(EnumSet.of(OptItem.QR_CODE, OptItem.LINK));
+
+        TextView tv = (TextView) view.findViewById(R.id.deposit_header);
+        tv.setText(String.format(getString(R.string.deposit_info), currency));
+
+        renderLinkQrcode("1JkZQBK1S1NqEYuDjAFu9E5285Dt59gVaY");
 
         updateDepositHistory();
     }
@@ -194,21 +228,44 @@ public class DepositFragment extends Fragment {
     private void updateDepositBtsxInfo() {
         depositInfo.setVisibility(View.VISIBLE);
         depositCnyInfo.setVisibility(View.GONE);
+        setItemsVisibility(EnumSet.of(OptItem.ALIAS, OptItem.MEMO, OptItem.QR_CODE, OptItem.LINK));
 
+        TextView tv = (TextView) view.findViewById(R.id.deposit_header);
+        tv.setText(String.format(getString(R.string.deposit_info), currency));
+
+        address.setText(getString(R.string.btsx_address));
+        alias.setText(String.format(getString(R.string.deposit_alias_name), getString(R.string.btsx_alias)));
+        memo.setText(String.format(getString(R.string.deposit_memo), "1000000013"));
+        renderLinkQrcode(getString(R.string.btsx_address));
         updateDepositHistory();
     }
 
     private void updateDepositNxtInfo() {
         depositInfo.setVisibility(View.VISIBLE);
         depositCnyInfo.setVisibility(View.GONE);
+        setItemsVisibility(EnumSet.of(OptItem.ALIAS, OptItem.NXT_PUBKEY, OptItem.QR_CODE, OptItem.LINK));
 
+        TextView tv = (TextView) view.findViewById(R.id.deposit_header);
+        tv.setText(String.format(getString(R.string.deposit_info), currency));
+
+        address.setText(getString(R.string.nxt_address));
+        alias.setText(String.format(getString(R.string.deposit_alias_name), getString(R.string.nxt_alias)));
+        nxtPubkey.setText(String.format(getString(R.string.deposit_nxt_pubkey), getString(R.string.nxt_pubkey)));
+        renderLinkQrcode(getString(R.string.nxt_address));
         updateDepositHistory();
     }
 
     private void updateDepositXrpInfo() {
         depositInfo.setVisibility(View.VISIBLE);
         depositCnyInfo.setVisibility(View.GONE);
+        setItemsVisibility(EnumSet.of(OptItem.MEMO, OptItem.QR_CODE, OptItem.LINK));
 
+        TextView tv = (TextView) view.findViewById(R.id.deposit_header);
+        tv.setText(String.format(getString(R.string.deposit_info), currency));
+
+        address.setText(getString(R.string.xrp_address));
+        memo.setText(String.format(getString(R.string.deposit_tag), "1000000013"));
+        renderLinkQrcode(getString(R.string.xrp_address));
         updateDepositHistory();
     }
 
@@ -238,5 +295,8 @@ public class DepositFragment extends Fragment {
             "deposit_time", "deposit_amount", "deposit_status"}, new int[] {R.id.deposit_time, R.id.deposit_amount,
             R.id.deposit_status});
         lv.setAdapter(adapter);
+    }
+    private enum OptItem {
+        ALIAS, MEMO, NXT_PUBKEY, QR_CODE, LINK
     }
 }
