@@ -53,7 +53,6 @@
     <string name="depth_index_sell">卖</string>
     <string name="trade_valid">可用</string>
     <string name="trade_frozen">冻结</string>
-
     <string name="trade_buy">买入</string>
     <string name="trade_sell">卖出</string>
     <string name="trade_buy_price">买价</string>
@@ -63,7 +62,6 @@
     <string name="order_status_done">完全成交</string>
     <string name="order_status_pending">挂单中</string>
     <string name="order_status_canceled">已撤单</string>
-
     <string name="pull_to_refresh">下拉可以刷新</string>
     <string name="release_to_refresh">释放立即刷新</string>
     <string name="refreshing">正在刷新…</string>
@@ -73,7 +71,6 @@
     <string name="last_loaded_at">上次加载于: %1$s</string>
     <string name="updated_just_now">刚刚更新</string>
     <string name="time_error">时间有问题</string>
-
     <string name="deposit_info">请将%1$s汇入以下地址</string>
     <string name="deposit_link">点击充值(需要安装手机钱包)</string>
     <string name="deposit_alias_name">或 %1$s</string>
@@ -103,5 +100,15 @@
     <string name="xrp_address">r9AzyYGGQAvgefdgeu3eDHaVdxLdpAvchE</string>
 
     <string name="withdrawal_history_description">最近10笔提现记录:</string>
+    <string name="withdrawal_select_bank_card">选择银行卡</string>
+    <string name="withdrawal_address">提现地址</string>
+    <string name="withdrawal_amount">提现数量</string>
+    <string name="withdrawal_memo">Memo</string>
+    <string name="withdrawal_nxt_pubkey">Public Key</string>
+    <string name="withdrawal_nxt_pubkey_description">没有可不填，地址首次使用请填写</string>
+    <string name="withdrawal_email_code">Email验证码</string>
+    <string name="withdrawal_send_email_code">获取邮件验证码</string>
+
+    <string name="title_activity_user_verify">UserVerifyActivity</string>
 
 </resources>

@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.coinport.odin.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,10 +23,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.coinport.odin.activity.TradeActivity"
+            android:name=".activity.TradeActivity"
             android:label="@string/title_activity_trade"
-            android:parentActivityName="com.coinport.odin.activity.MainActivity"
-            android:windowSoftInputMode="adjustResize">
+            android:parentActivityName=".activity.MainActivity"
+            android:windowSoftInputMode="adjustResize" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.coinport.odin.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.UserVerifyActivity"
+            android:label="@string/title_activity_user_verify"
+            android:parentActivityName=".activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.coinport.odin.activity.MainActivity" />
