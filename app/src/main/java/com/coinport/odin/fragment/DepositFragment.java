@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.format.Time;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,29 +41,35 @@ public class DepositFragment extends Fragment {
     private String currency;
     private LinearLayout depositCnyInfo;
     private LinearLayout depositInfo;
-
-    private static ArrayList<String> items;
-    private ArrayAdapter<String> adapter;
-
-    static {
-        items = new ArrayList<String>();
-        items.add("A");
-        items.add("B");
-        items.add("C");
-        items.add("D");
-        items.add("E");
-        items.add("F");
-        items.add("G");
-        items.add("H");
-    }
+    private Time timeFormat = new Time();
 
     private static final String QQ_URI_HEADER = "mqqwpa:x";
     private static Map<String, String> uriHeader = new HashMap<String, String>();
+
+    private static Map<Integer, Integer> transferStatus = new HashMap<>();
 
     static {
         uriHeader.put("BTC", "bitcoin:x");
         uriHeader.put("LTC", "litecoin:x");
         uriHeader.put("DOGE", "dogecoin:x");
+
+        transferStatus.put(0, R.string.deposit_pending);
+        transferStatus.put(1, R.string.deposit_processing);
+        transferStatus.put(2, R.string.deposit_processed);
+        transferStatus.put(3, R.string.deposit_processed);
+        transferStatus.put(4, R.string.deposit_succeed);
+        transferStatus.put(5, R.string.deposit_failed);
+        transferStatus.put(6, R.string.deposit_succeed);
+        transferStatus.put(7, R.string.deposit_succeed);
+        transferStatus.put(8, R.string.deposit_cancelled);
+        transferStatus.put(9, R.string.deposit_rejected);
+        transferStatus.put(10, R.string.deposit_failed);
+        transferStatus.put(11, R.string.deposit_processing);
+        transferStatus.put(12, R.string.deposit_failed);
+        transferStatus.put(13, R.string.deposit_failed);
+        transferStatus.put(14, R.string.deposit_failed);
+        transferStatus.put(15, R.string.deposit_failed);
+        transferStatus.put(16, R.string.deposit_failed);
     }
 
     public DepositFragment(String currency) {
@@ -131,10 +138,7 @@ public class DepositFragment extends Fragment {
             e.printStackTrace();
         }
 
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
-        ListView lv = (ListView) view.findViewById(R.id.deposit_history);
-        lv.setFocusable(false);
-        lv.setAdapter(adapter);
+        updateDepositHistory();
     }
 
     private void updateDepositCnyInfo() {
@@ -182,22 +186,57 @@ public class DepositFragment extends Fragment {
                 return view;
             }
         };
-
         lv.setAdapter(sa);
+
+        updateDepositHistory();
     }
 
     private void updateDepositBtsxInfo() {
         depositInfo.setVisibility(View.VISIBLE);
         depositCnyInfo.setVisibility(View.GONE);
+
+        updateDepositHistory();
     }
 
     private void updateDepositNxtInfo() {
         depositInfo.setVisibility(View.VISIBLE);
         depositCnyInfo.setVisibility(View.GONE);
+
+        updateDepositHistory();
     }
 
     private void updateDepositXrpInfo() {
         depositInfo.setVisibility(View.VISIBLE);
         depositCnyInfo.setVisibility(View.GONE);
+
+        updateDepositHistory();
+    }
+
+    private void updateDepositHistory() {
+        ListView lv = (ListView) view.findViewById(R.id.deposit_history);
+        lv.setFocusable(false);
+
+        ArrayList<HashMap<String, String>> dhList = new ArrayList<HashMap<String, String>>();
+        JSONArray jsonArray = Util.getJsonArrayFromFile(getActivity(), "deposit_history_mock.json");
+        if (jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); ++i) {
+                HashMap<String, String> fields = new HashMap<String, String>();
+                try {
+                    JSONObject jsonObj = jsonArray.getJSONObject(i);
+                    timeFormat.set(jsonObj.getLong("updated"));
+                    fields.put("deposit_time", timeFormat.format("%Y-%m-%d %k:%M:%S"));
+                    fields.put("deposit_amount", jsonObj.getJSONObject("amount").getString("display"));
+                    fields.put("deposit_status", getString(transferStatus.get(jsonObj.getInt("status"))));
+                    dhList.add(fields);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        SimpleAdapter adapter = new SimpleAdapter(getActivity(), dhList, R.layout.transfer_item, new String[]{
+            "deposit_time", "deposit_amount", "deposit_status"}, new int[] {R.id.deposit_time, R.id.deposit_amount,
+            R.id.deposit_status});
+        lv.setAdapter(adapter);
     }
 }

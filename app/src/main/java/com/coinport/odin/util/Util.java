@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,16 +48,16 @@ public final class Util {
         listView.requestLayout();
     }
 
-    public static JSONArray getJsonArrayFromFile(Context context, String filename) {
+    public static JSONObject getJsonObjectFromFile(Context context, String filename) {
         InputStream is = null;
-        JSONArray jsonList = null;
+        JSONObject json = null;
         try {
             is = context.getAssets().open(filename);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
             String bufferString = new String(buffer);
-            jsonList = new JSONArray(bufferString);
+            json = new JSONObject(bufferString);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -68,7 +69,17 @@ public final class Util {
                 e.printStackTrace();
             }
         }
-        return jsonList;
+        return json;
+    }
+
+    public static JSONArray getJsonArrayFromFile(Context context, String filename) {
+        JSONArray ja = null;
+        try {
+            ja = getJsonObjectFromFile(context, filename).getJSONObject("data").getJSONArray("items");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return ja;
     }
 
     private static String getApplicationRoot() {

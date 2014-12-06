@@ -36,6 +36,7 @@
                     android:layout_marginLeft="4dip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="10dip"
                     android:text="@string/deposit_cny_info"/>
                 <TextView
                     android:layout_marginTop="4dip"
