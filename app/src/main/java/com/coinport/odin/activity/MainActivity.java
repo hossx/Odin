@@ -216,7 +216,7 @@ public class MainActivity extends FragmentActivity {
 
         switch (item.getItemId()) {
 
-            case R.id.config_more:
+            case R.id.action_help:
                 QuickContactFragment dialog = new QuickContactFragment();
                 dialog.show(getSupportFragmentManager(), "QuickContactFragment");
                 return true;

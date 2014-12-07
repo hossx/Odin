@@ -101,13 +101,21 @@
 
     <string name="withdrawal_history_description">最近10笔提现记录:</string>
     <string name="withdrawal_select_bank_card">选择银行卡</string>
+    <string name="withdrawal_add_bank_card">添加</string>
     <string name="withdrawal_address">提现地址</string>
     <string name="withdrawal_amount">提现数量</string>
     <string name="withdrawal_memo">Memo</string>
     <string name="withdrawal_nxt_pubkey">Public Key</string>
     <string name="withdrawal_nxt_pubkey_description">没有可不填，地址首次使用请填写</string>
     <string name="withdrawal_email_code">Email验证码</string>
-    <string name="withdrawal_send_email_code">获取邮件验证码</string>
+    <string name="withdrawal_send_email_code">获取</string>
+    <string name="withdrawal_abc_title">添加银行卡</string>
+    <string name="withdrawal_abc_description">（银行卡的开户名必须和实名认证的真实姓名一致）</string>
+    <string name="withdrawal_abc_name">开户名</string>
+    <string name="withdrawal_abc_account">卡号</string>
+    <string name="withdrawal_abc_bank">开户银行</string>
+    <string name="withdrawal_abc_branch_bank">开户支行</string>
+    <string name="withdrawal_abc_email_code">Email验证码</string>
 
     <string name="title_activity_user_verify">UserVerifyActivity</string>
 

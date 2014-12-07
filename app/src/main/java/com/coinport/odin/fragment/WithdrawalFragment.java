@@ -1,11 +1,14 @@
 package com.coinport.odin.fragment;
 
+import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -33,19 +36,6 @@ public class WithdrawalFragment extends DWFragmentCommon {
 
     private Time timeFormat = new Time();
 
-    private static ArrayList<String> items;
-
-    static {
-        items = new ArrayList<>();
-        items.add("A");
-        items.add("B");
-        items.add("C");
-        items.add("D");
-        items.add("E");
-        items.add("F");
-        items.add("G");
-        items.add("H");
-    }
     public WithdrawalFragment(String currency) {
         this.currency = currency;
     }
@@ -59,10 +49,6 @@ public class WithdrawalFragment extends DWFragmentCommon {
         memoLabel = (TextView) view.findViewById(R.id.withdrawal_memo_label);
         nxtPubkeyDesc = (TextView) view.findViewById(R.id.withdrawal_nxt_pubkey_description);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, items);
-        ListView lv = (ListView) view.findViewById(R.id.withdrawal_history);
-        lv.setFocusable(false);
-        lv.setAdapter(adapter);
         updateWithdrawalInfo();
         return view;
     }
@@ -79,6 +65,16 @@ public class WithdrawalFragment extends DWFragmentCommon {
             case "CNY":
                 setItemsVisibility(EnumSet.of(OptItem.BANK));
 
+                Button addBankCard = (Button) view.findViewById(R.id.withdrawal_add_bank_card);
+
+                final FragmentActivity fa = (FragmentActivity) this.getActivity();
+                addBankCard.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AddBankCardFragment dialog = new AddBankCardFragment();
+                        dialog.show(fa.getSupportFragmentManager(), "AddBankCardFragment");
+                    }
+                });
                 break;
             case "BTSX":
                 setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO));

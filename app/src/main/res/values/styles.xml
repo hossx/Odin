@@ -41,4 +41,7 @@
         <item name="android:textColor">@color/weibolist_bottombar_textcolor_selector</item>
         <item name="android:button">@null</item>
     </style>
+    <style name="DialogTheme">
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 </resources>
