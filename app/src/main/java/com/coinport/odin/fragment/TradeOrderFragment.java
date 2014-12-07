@@ -1,22 +1,17 @@
 package com.coinport.odin.fragment;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.coinport.odin.R;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.OrderAdapter;
-import com.coinport.odin.layout.RefreshableView;
 import com.coinport.odin.library.ptr.PullToRefreshBase;
 import com.coinport.odin.library.ptr.PullToRefreshListView;
 import com.coinport.odin.obj.OrderItem;
@@ -135,7 +130,7 @@ public class TradeOrderFragment extends Fragment {
             super.onPostExecute(aVoid);
             // Call onRefreshComplete when the list has been refreshed.
             now.setToNow();
-            if (direction == "header") {
+            if (direction.equals("header")) {
                 String label = String.format(getString(R.string.last_updated_at), now.format("%Y-%m-%d %k:%M:%S"));
                 headerRefreshView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel(label);
             } else {
@@ -143,13 +138,6 @@ public class TradeOrderFragment extends Fragment {
                 footerRefreshView.getLoadingLayoutProxy(false, true).setLastUpdatedLabel(label);
             }
             refreshableView.onRefreshComplete();
-        }
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
         }
     }
 
@@ -176,9 +164,7 @@ public class TradeOrderFragment extends Fragment {
                 for (int i = 0; i < orderJsonList.length(); ++i) {
                     orderItems.add(OrderItem.OrderItemBuilder.generateFromJson(orderJsonList.getJSONObject(i)));
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
             return null;
@@ -219,8 +205,6 @@ public class TradeOrderFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
     }
 
 }

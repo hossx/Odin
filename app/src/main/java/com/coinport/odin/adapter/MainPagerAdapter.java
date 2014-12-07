@@ -25,17 +25,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by hoss on 14-11-21.
- */
 public class MainPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.ViewTabProvider {
 
     private FragmentActivity context;
     private LayoutInflater inflater;
 
     private View[] tabs;
-    private List<Fragment> fragments = new ArrayList();
-    private Map<Integer, Fragment> fragmentMap = new HashMap<Integer, Fragment>();
+    private List<Fragment> fragments = new ArrayList<>();
+    private Map<Integer, Fragment> fragmentMap = new HashMap<>();
 
     public MainPagerAdapter(FragmentManager fm, FragmentActivity context) {
         super(fm);

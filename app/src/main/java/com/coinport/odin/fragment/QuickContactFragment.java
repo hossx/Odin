@@ -18,16 +18,7 @@ import com.coinport.odin.adapter.ContactPagerAdapter;
 
 public class QuickContactFragment extends DialogFragment {
 
-	private PagerSlidingTabStrip tabs;
-	private ViewPager pager;
-	private ContactPagerAdapter adapter;
-
-	public static QuickContactFragment newInstance() {
-		QuickContactFragment f = new QuickContactFragment();
-		return f;
-	}
-
-	@Override
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		if (getDialog() != null) {
@@ -37,9 +28,9 @@ public class QuickContactFragment extends DialogFragment {
 
 		View root = inflater.inflate(R.layout.fragment_quick_contact, container, false);
 
-		tabs = (PagerSlidingTabStrip) root.findViewById(R.id.tabs);
-		pager = (ViewPager) root.findViewById(R.id.pager);
-		adapter = new ContactPagerAdapter(this);
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) root.findViewById(R.id.tabs);
+        ViewPager pager = (ViewPager) root.findViewById(R.id.pager);
+        ContactPagerAdapter adapter = new ContactPagerAdapter(this);
 
 		pager.setAdapter(adapter);
 
@@ -56,7 +47,7 @@ public class QuickContactFragment extends DialogFragment {
 		// change dialog width
 		if (getDialog() != null) {
 
-			int fullWidth = getDialog().getWindow().getAttributes().width;
+			int fullWidth;
 
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
 				Display display = getActivity().getWindowManager().getDefaultDisplay();

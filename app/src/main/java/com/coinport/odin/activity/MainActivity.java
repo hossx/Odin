@@ -27,11 +27,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.coinport.odin.fragment.DepositWithdrawalFragment;
+import com.coinport.odin.fragment.QuickContactFragment;
 import com.coinport.odin.library.psts.PagerSlidingTabStrip;
 import com.coinport.odin.R;
 import com.coinport.odin.adapter.MainPagerAdapter;
 import com.coinport.odin.fragment.MarketFragment;
-import com.coinport.odin.fragment.QuickContactFragment;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

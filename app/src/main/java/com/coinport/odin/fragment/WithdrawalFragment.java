@@ -1,7 +1,5 @@
 package com.coinport.odin.fragment;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +14,6 @@ import com.coinport.odin.R;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
-/**
- * Created by hoss on 14-12-3.
- */
 public class WithdrawalFragment extends DWFragmentCommon {
     private String currency;
     private View view;
@@ -29,10 +24,9 @@ public class WithdrawalFragment extends DWFragmentCommon {
     private TextView nxtPubkeyDesc;
 
     private static ArrayList<String> items;
-    private ArrayAdapter<String> adapter;
 
     static {
-        items = new ArrayList<String>();
+        items = new ArrayList<>();
         items.add("A");
         items.add("B");
         items.add("C");
@@ -55,7 +49,7 @@ public class WithdrawalFragment extends DWFragmentCommon {
         memoLabel = (TextView) view.findViewById(R.id.withdrawal_memo_label);
         nxtPubkeyDesc = (TextView) view.findViewById(R.id.withdrawal_nxt_pubkey_description);
 
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, items);
         ListView lv = (ListView) view.findViewById(R.id.withdrawal_history);
         lv.setFocusable(false);
         lv.setAdapter(adapter);
@@ -71,20 +65,25 @@ public class WithdrawalFragment extends DWFragmentCommon {
     }
 
     private void updateWithdrawalInfo() {
-        if (currency.equals("CNY")) {
-            setItemsVisibility(EnumSet.of(OptItem.BANK));
+        switch (currency) {
+            case "CNY":
+                setItemsVisibility(EnumSet.of(OptItem.BANK));
 
-        } else if (currency.equals("BTSX")) {
-            setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO));
-            memoLabel.setText(getString(R.string.withdrawal_memo));
+                break;
+            case "BTSX":
+                setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO));
+                memoLabel.setText(getString(R.string.withdrawal_memo));
 
-        } else if (currency.equals("NXT")) {
-            setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO, OptItem.PUBKEY_DESCRIPTION));
-            memoLabel.setText(getString(R.string.withdrawal_nxt_pubkey));
+                break;
+            case "NXT":
+                setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO, OptItem.PUBKEY_DESCRIPTION));
+                memoLabel.setText(getString(R.string.withdrawal_nxt_pubkey));
 
-        } else {
-            setItemsVisibility(EnumSet.of(OptItem.ADDRESS));
+                break;
+            default:
+                setItemsVisibility(EnumSet.of(OptItem.ADDRESS));
 
+                break;
         }
     }
 

@@ -1,7 +1,5 @@
 package com.coinport.odin.fragment;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -33,9 +31,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by hoss on 14-12-3.
- */
 public class DepositFragment extends DWFragmentCommon {
     private View view = null;
     private String currency;
@@ -44,7 +39,7 @@ public class DepositFragment extends DWFragmentCommon {
     private Time timeFormat = new Time();
 
     private static final String QQ_URI_HEADER = "mqqwpa:";
-    private static Map<String, String> uriHeader = new HashMap<String, String>();
+    private static Map<String, String> uriHeader = new HashMap<>();
 
 
     private TextView address;
@@ -85,16 +80,22 @@ public class DepositFragment extends DWFragmentCommon {
     }
 
     private void updateDepositInfo() {
-        if (currency.equals("CNY")) {
-            updateDepositCnyInfo();
-        } else if (currency.equals("BTSX")) {
-            updateDepositBtsxInfo();
-        } else if (currency.equals("NXT")) {
-            updateDepositNxtInfo();
-        } else if (currency.equals("XRP")) {
-            updateDepositXrpInfo();
-        } else {
-            updateDepositBtcInfo();
+        switch (currency) {
+            case "CNY":
+                updateDepositCnyInfo();
+                break;
+            case "BTSX":
+                updateDepositBtsxInfo();
+                break;
+            case "NXT":
+                updateDepositNxtInfo();
+                break;
+            case "XRP":
+                updateDepositXrpInfo();
+                break;
+            default:
+                updateDepositBtcInfo();
+                break;
         }
     }
 
@@ -165,11 +166,11 @@ public class DepositFragment extends DWFragmentCommon {
 
         ListView lv = (ListView) view.findViewById(R.id.agent_cards);
         lv.setFocusable(false);
-        ArrayList<HashMap<String, String>> acList = new ArrayList<HashMap<String, String>>();
+        ArrayList<HashMap<String, String>> acList = new ArrayList<>();
         JSONArray jsonArray = Util.getJsonArrayFromFile(getActivity(), "agent_cards.json");
         if (jsonArray != null) {
             for (int i = 0; i < jsonArray.length(); ++i) {
-                HashMap<String, String> fields = new HashMap<String, String>();
+                HashMap<String, String> fields = new HashMap<>();
                 try {
                     JSONObject jsonObj = jsonArray.getJSONObject(i);
                     fields.put("agent_card_nick_name", jsonObj.getString("nn"));
@@ -254,11 +255,11 @@ public class DepositFragment extends DWFragmentCommon {
         ListView lv = (ListView) view.findViewById(R.id.deposit_history);
         lv.setFocusable(false);
 
-        ArrayList<HashMap<String, String>> dhList = new ArrayList<HashMap<String, String>>();
+        ArrayList<HashMap<String, String>> dhList = new ArrayList<>();
         JSONArray jsonArray = Util.getJsonArrayFromFile(getActivity(), "deposit_history_mock.json");
         if (jsonArray != null) {
             for (int i = 0; i < jsonArray.length(); ++i) {
-                HashMap<String, String> fields = new HashMap<String, String>();
+                HashMap<String, String> fields = new HashMap<>();
                 try {
                     JSONObject jsonObj = jsonArray.getJSONObject(i);
                     timeFormat.set(jsonObj.getLong("updated"));

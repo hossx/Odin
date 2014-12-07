@@ -21,14 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by hoss on 14-11-26.
- */
 public class TradePagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.ViewTabProvider {
     private FragmentActivity context;
     private View[] tabs;
-    private List<Fragment> fragments = new ArrayList();
-    private Map<Integer, Fragment> fragmentMap = new HashMap<Integer, Fragment>();
+    private List<Fragment> fragments = new ArrayList<>();
+    private Map<Integer, Fragment> fragmentMap = new HashMap<>();
 
     public TradePagerAdapter(FragmentManager fm, FragmentActivity context) {
         super(fm);

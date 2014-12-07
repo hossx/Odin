@@ -7,20 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.coinport.odin.R;
 import com.coinport.odin.obj.OrderItem;
 import com.coinport.odin.util.Constants;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-/**
- * Created by hoss on 14-12-2.
- */
 public class OrderAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context context = null;
@@ -28,15 +22,11 @@ public class OrderAdapter extends BaseAdapter {
 
     private ArrayList<OrderItem> orderItems = null;
 
-    public ArrayList<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
     public OrderAdapter setOrderItems(ArrayList<OrderItem> orderItems) {
         if (orderItems == null)
             this.orderItems = null;
         else
-            this.orderItems = (ArrayList<OrderItem>) orderItems.clone();
+            this.orderItems = new ArrayList<>(orderItems);
         return this;
     }
 
@@ -78,7 +68,7 @@ public class OrderAdapter extends BaseAdapter {
         TextView sQuantity = (TextView) convertView.findViewById(R.id.order_submit_quantity);
         TextView price = (TextView) convertView.findViewById(R.id.order_actual_price);
         TextView quantity = (TextView) convertView.findViewById(R.id.order_actual_quantity);
-        TableLayout tl = (TableLayout) convertView.findViewById(R.id.order_table);
+//        TableLayout tl = (TableLayout) convertView.findViewById(R.id.order_table);
 
         timeFormat.set(oi.getSubmitTime());
         time.setText(timeFormat.format("%Y-%m-%d %k:%M:%S"));

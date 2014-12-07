@@ -1,8 +1,6 @@
 package com.coinport.odin.adapter;
 
 import android.content.Context;
-import android.graphics.Point;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,25 +11,18 @@ import com.coinport.odin.R;
 import com.coinport.odin.obj.DepthItem;
 import com.coinport.odin.util.Constants;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
-/**
- * Created by hoss on 14-11-27.
- */
 public class DepthAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context context = null;
     private ArrayList<DepthItem> depthItems = null;
-    private int width;
 
     public DepthAdapter setDepthItems(ArrayList<DepthItem> depthItems) {
         if (depthItems == null)
             this.depthItems = null;
         else
-            this.depthItems = (ArrayList<DepthItem>) depthItems.clone();
+            this.depthItems = new ArrayList<>(depthItems);
         return this;
     }
 
@@ -62,7 +53,7 @@ public class DepthAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.depth_item, null);
-            width = convertView.getWidth();
+//            int width = convertView.getWidth();
         }
         DepthItem di = depthItems.get(position);
         TextView index = (TextView) convertView.findViewById(R.id.depth_index);

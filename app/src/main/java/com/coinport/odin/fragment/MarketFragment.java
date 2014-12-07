@@ -22,19 +22,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by hoss on 14-11-23.
- */
 public class MarketFragment extends Fragment {
-//    private ProgressDialog dialogRef;
-    private JSONArray jsonList;
-    private ListView tickerListView;
     private TickerAdapter tva;
     private String baseCurrency = "CNY";
     private TextView updateTimeRef;
@@ -42,14 +34,14 @@ public class MarketFragment extends Fragment {
     private final Handler handler = new Handler();
     private Timer timer = new Timer();
     private TimerTask fetchTickerTask = null;
-    private ArrayList<TickerItem> tickerItems = new ArrayList<TickerItem>();
+    private ArrayList<TickerItem> tickerItems = new ArrayList<>();
 
     private Time now = new Time();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View marketView = inflater.inflate(R.layout.market_fragment, container, false);
-        tickerListView = (ListView) marketView.findViewById(R.id.MarketView);
+        ListView tickerListView = (ListView) marketView.findViewById(R.id.MarketView);
         tickerListView.setVerticalScrollBarEnabled(false);
         tva = new TickerAdapter(this.getActivity());
         tickerListView.setAdapter(tva);
@@ -75,11 +67,6 @@ public class MarketFragment extends Fragment {
 
     public TickerAdapter getAdapter() {
         return tva;
-    }
-
-    public MarketFragment setBaseCurrency(String baseCurrency) {
-        this.baseCurrency = baseCurrency;
-        return this;
     }
 
     public void fetchDataWithBaseCurrency(String baseCurrency) {
@@ -120,11 +107,11 @@ public class MarketFragment extends Fragment {
             tickerItems.clear();
             try {
                 String file;
-                if (baseCurrency == "CNY")
+                if (baseCurrency.equals("CNY"))
                     file = "cny_markets_mock.json";
                 else
                     file = "btc_markets_mock.json";
-                jsonList = Util.getJsonArrayFromFile(getActivity(), file);
+                JSONArray jsonList = Util.getJsonArrayFromFile(getActivity(), file);
                 if (jsonList != null)
                     for (int i = 0; i < jsonList.length(); ++i) {
                         JSONObject jsonObj = jsonList.getJSONObject(i);

@@ -11,9 +11,6 @@ import com.coinport.odin.library.psts.PagerSlidingTabStrip;
 import com.coinport.odin.R;
 import com.coinport.odin.fragment.QuickContactFragment;
 
-/**
- * Created by hoss on 14-11-21.
- */
 public class ContactPagerAdapter extends PagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
     private QuickContactFragment context;
 
@@ -56,7 +53,7 @@ public class ContactPagerAdapter extends PagerAdapter implements PagerSlidingTab
 
     @Override
     public boolean isViewFromObject(View v, Object o) {
-        return v == ((View) o);
+        return v == o;
     }
 
 }

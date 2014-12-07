@@ -30,7 +30,8 @@ public class TradeActivity extends FragmentActivity {
         inCurrency = intent.getStringExtra("inCurrency");
         outCurrency = intent.getStringExtra("outCurrency");
         ActionBar bar = getActionBar();
-        bar.setTitle(inCurrency + "-" + outCurrency);
+        if (bar != null)
+            bar.setTitle(inCurrency + "-" + outCurrency);
 //        TextView tv = (TextView) findViewById(R.id.trade_page_text);
 //        tv.setText("inCurrency: " + inCurrency + " outCurrency: " + outCurrency);
 
@@ -61,7 +62,7 @@ public class TradeActivity extends FragmentActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+//        int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_settings) {

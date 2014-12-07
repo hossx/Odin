@@ -16,39 +16,36 @@ import com.coinport.odin.util.Constants;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by hoss on 14-11-24.
- */
 public class TickerAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context context = null;
     private ArrayList<TickerItem> tickerItems;
-    private HashMap<String, String> iconFont = new HashMap<String, String>();
-    private Typeface iconTF;
+//    private HashMap<String, String> iconFont = new HashMap<String, String>();
+//    private Typeface iconTF;
     private String baseCurrency;
 
     public TickerAdapter(Context context) {
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        iconTF = Typeface.createFromAsset(context.getAssets(), "coinport.ttf");
-        iconFont.put("CNY", "\ue633");
-        iconFont.put("BTC", "\ue62a");
-        iconFont.put("LTC", "\ue632");
-        iconFont.put("DRK", "\ue629");
-        iconFont.put("BTSX", "\ue62b");
-        iconFont.put("XRP", "\ue62c");
-        iconFont.put("NXT", "\ue62d");
-        iconFont.put("ZET", "\ue62e");
-        iconFont.put("VRC", "\ue62f");
-        iconFont.put("BC", "\ue630");
-        iconFont.put("DOGE", "\ue631");
+//        iconTF = Typeface.createFromAsset(context.getAssets(), "coinport.ttf");
+//        iconFont.put("CNY", "\ue633");
+//        iconFont.put("BTC", "\ue62a");
+//        iconFont.put("LTC", "\ue632");
+//        iconFont.put("DRK", "\ue629");
+//        iconFont.put("BTSX", "\ue62b");
+//        iconFont.put("XRP", "\ue62c");
+//        iconFont.put("NXT", "\ue62d");
+//        iconFont.put("ZET", "\ue62e");
+//        iconFont.put("VRC", "\ue62f");
+//        iconFont.put("BC", "\ue630");
+//        iconFont.put("DOGE", "\ue631");
     }
 
     public TickerAdapter setTickerItems(ArrayList<TickerItem> tickerItems, String baseCurrency) {
         if (tickerItems == null)
             this.tickerItems = null;
         else
-            this.tickerItems = (ArrayList<TickerItem>) tickerItems.clone();
+            this.tickerItems = new ArrayList<>(tickerItems);
         this.baseCurrency = baseCurrency;
         return this;
     }

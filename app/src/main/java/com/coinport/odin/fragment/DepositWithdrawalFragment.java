@@ -12,23 +12,16 @@ import android.widget.RadioGroup;
 
 import com.coinport.odin.R;
 
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * Created by hoss on 14-11-23.
- */
 public class DepositWithdrawalFragment extends Fragment {
     private String currency = "CNY";
     private FragmentManager fragmentManager;
-    private RadioGroup subTabs;
     private DWFragmentCommon currentFragment = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.deposit_withdrawal_fragment, container, false);
         fragmentManager = getActivity().getFragmentManager();
-        subTabs = (RadioGroup) view.findViewById(R.id.rg_tab);
+        RadioGroup subTabs = (RadioGroup) view.findViewById(R.id.rg_tab);
         subTabs.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

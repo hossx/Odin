@@ -1,6 +1,5 @@
 package com.coinport.odin.fragment;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -92,14 +91,7 @@ public class TradeTxFragment extends TradeOrderFragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-//    @Override
+    //    @Override
 //    public void onAttach(Activity activity) {
 //        super.onAttach(activity);
 //        try {
