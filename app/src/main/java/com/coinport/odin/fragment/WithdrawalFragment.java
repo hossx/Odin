@@ -1,18 +1,26 @@
 package com.coinport.odin.fragment;
 
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.coinport.odin.R;
+import com.coinport.odin.util.Util;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashMap;
 
 public class WithdrawalFragment extends DWFragmentCommon {
     private String currency;
@@ -22,6 +30,8 @@ public class WithdrawalFragment extends DWFragmentCommon {
     private LinearLayout memo;
     private TextView memoLabel;
     private TextView nxtPubkeyDesc;
+
+    private Time timeFormat = new Time();
 
     private static ArrayList<String> items;
 
@@ -85,6 +95,7 @@ public class WithdrawalFragment extends DWFragmentCommon {
 
                 break;
         }
+        updateWithdrawalHistory();
     }
 
     private void setItemsVisibility(EnumSet<OptItem> opts) {
@@ -102,6 +113,33 @@ public class WithdrawalFragment extends DWFragmentCommon {
             nxtPubkeyDesc.setVisibility(View.VISIBLE);
     }
 
+    private void updateWithdrawalHistory() {
+        ListView lv = (ListView) view.findViewById(R.id.withdrawal_history);
+        lv.setFocusable(false);
+
+        ArrayList<HashMap<String, String>> dhList = new ArrayList<>();
+        JSONArray jsonArray = Util.getJsonArrayFromFile(getActivity(), "deposit_history_mock.json");
+        if (jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); ++i) {
+                HashMap<String, String> fields = new HashMap<>();
+                try {
+                    JSONObject jsonObj = jsonArray.getJSONObject(i);
+                    timeFormat.set(jsonObj.getLong("updated"));
+                    fields.put("transfer_time", timeFormat.format("%Y-%m-%d %k:%M:%S"));
+                    fields.put("transfer_amount", jsonObj.getJSONObject("amount").getString("display"));
+                    fields.put("transfer_status", getString(Util.transferStatus.get(jsonObj.getInt("status"))));
+                    dhList.add(fields);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        SimpleAdapter adapter = new SimpleAdapter(getActivity(), dhList, R.layout.transfer_item, new String[]{
+            "transfer_time", "transfer_amount", "transfer_status"}, new int[] {R.id.transfer_time, R.id.transfer_amount,
+            R.id.transfer_status});
+        lv.setAdapter(adapter);
+    }
     private enum OptItem {
         BANK, ADDRESS, MEMO, PUBKEY_DESCRIPTION
     }

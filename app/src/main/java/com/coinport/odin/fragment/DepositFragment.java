@@ -263,9 +263,9 @@ public class DepositFragment extends DWFragmentCommon {
                 try {
                     JSONObject jsonObj = jsonArray.getJSONObject(i);
                     timeFormat.set(jsonObj.getLong("updated"));
-                    fields.put("deposit_time", timeFormat.format("%Y-%m-%d %k:%M:%S"));
-                    fields.put("deposit_amount", jsonObj.getJSONObject("amount").getString("display"));
-                    fields.put("deposit_status", getString(Util.transferStatus.get(jsonObj.getInt("status"))));
+                    fields.put("transfer_time", timeFormat.format("%Y-%m-%d %k:%M:%S"));
+                    fields.put("transfer_amount", jsonObj.getJSONObject("amount").getString("display"));
+                    fields.put("transfer_status", getString(Util.transferStatus.get(jsonObj.getInt("status"))));
                     dhList.add(fields);
 
                 } catch (JSONException e) {
@@ -274,8 +274,8 @@ public class DepositFragment extends DWFragmentCommon {
             }
         }
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), dhList, R.layout.transfer_item, new String[]{
-            "deposit_time", "deposit_amount", "deposit_status"}, new int[] {R.id.deposit_time, R.id.deposit_amount,
-            R.id.deposit_status});
+            "transfer_time", "transfer_amount", "transfer_status"}, new int[] {R.id.transfer_time, R.id.transfer_amount,
+            R.id.transfer_status});
         lv.setAdapter(adapter);
     }
     private enum OptItem {
