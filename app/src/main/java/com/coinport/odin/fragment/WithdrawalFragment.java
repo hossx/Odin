@@ -135,8 +135,10 @@ public class WithdrawalFragment extends DWFragmentCommon {
         }
         TextView description = (TextView) view.findViewById(R.id.withdrawal_description);
         description.setText(String.format(withdrawalDescription, "100" + " " + currency, "1" + " " + currency));
+        TextView withdrawalSumLabel = (TextView) view.findViewById(R.id.withdrawal_sum_label);
+        withdrawalSumLabel.setText(String.format(getString(R.string.withdrawal_sum_label), currency));
         TextView withdrawalSum = (TextView) view.findViewById(R.id.withdrawal_sum);
-        withdrawalSum.setText(String.format(getString(R.string.withdrawal_sum), currency, "12312312"));
+        withdrawalSum.setText("31323.234123");
         updateWithdrawalHistory();
     }
 

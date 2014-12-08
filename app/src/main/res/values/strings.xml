@@ -123,7 +123,7 @@
     <string name="withdrawal_description_btc">最小提现不能小于 %1$s ，无最大数量限制。 我们会从提现数目中扣除 %2$s 作为手续费。提现请求会在24小时内处理完成。我们的工作时间是香港时间12:00-24:00，周末无休。如有其他问题，请联系客服人员。</string>
     <string name="withdrawal_description_btsx">最小提现不能小于 %1$s ，无最大数量限制。 我们会从提现数目中扣除 %2$s 作为手续费。提现请求会在24小时内处理完成。我们的工作时间是香港时间12:00-24:00，周末无休。如有其他问题，请联系客服人员。(BTSX目前只支持使用已注册的帐号提币，比如coinport-deposit)</string>
 
-    <string name="withdrawal_sum">可提现%1$s: %2$s</string>
+    <string name="withdrawal_sum_label">可提现%1$s</string>
 
     <string name="withdrawal_history_description">最近10笔提现记录:</string>
     <string name="withdrawal_select_bank_card">选择银行卡</string>
