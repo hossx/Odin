@@ -14,7 +14,6 @@ import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -98,7 +97,7 @@ public class MainActivity extends FragmentActivity {
         Spinner currencySpinner = (Spinner) currencySelector.findViewById(R.id.currency_spinner);
         // TODO(c): 币种信息从服务端动态加载
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.currency_array,
-            R.layout.spinner_item);
+            R.layout.white_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         currencySpinner.setAdapter(spinnerAdapter);
         currencySpinner.setSelection(0);

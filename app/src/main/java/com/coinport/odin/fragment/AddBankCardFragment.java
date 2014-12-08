@@ -11,8 +11,8 @@ import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.coinport.odin.R;
@@ -25,6 +25,12 @@ public class AddBankCardFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         final View v = inflater.inflate(R.layout.add_bank_card_fragment, null);
+        Spinner bank = (Spinner) v.findViewById(R.id.withdrawal_abc_bank);
+
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.bank_array,
+                R.layout.black_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        bank.setAdapter(spinnerAdapter);
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity()).setTitle(
             R.string.withdrawal_abc_title).setView(v);
         if (positiveListener != null)
