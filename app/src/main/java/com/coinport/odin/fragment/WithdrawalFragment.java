@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -91,7 +92,7 @@ public class WithdrawalFragment extends DWFragmentCommon {
                     }
                 });
                 BankCardSpinner bcSpinner = (BankCardSpinner) view.findViewById(R.id.bank_card_spinner);
-                ArrayList<String> list = new ArrayList<>();
+                final ArrayList<String> list = new ArrayList<>();
                 list.add("a");
                 list.add("b");
                 list.add("c");
@@ -100,6 +101,17 @@ public class WithdrawalFragment extends DWFragmentCommon {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                     android.R.layout.simple_spinner_item, list);
                 bcSpinner.setAdapter(adapter);
+                bcSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Log.d("hoss", list.get(position));
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
                 break;
             case "BTSX":
                 setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO));
