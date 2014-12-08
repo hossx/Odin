@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:padding="0.0dip"
+	android:orientation="vertical"
+    android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+    android:padding="0.0dip"
 	android:background="@android:color/background_light">
 	<ListView android:id="@+id/bank_card_spinner_list"
-		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		android:layout_weight="1" android:cacheColorHint="@null"
+		android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+		android:layout_weight="1"
+        android:cacheColorHint="@null"
 		android:scrollbars="none"  
 		android:divider="@android:drawable/divider_horizontal_bright"/><!--listview 的线为灰色 -->
 </LinearLayout>
