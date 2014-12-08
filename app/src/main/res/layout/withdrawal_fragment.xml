@@ -42,7 +42,8 @@
                         android:layout_width="80dip"
                         android:layout_height="wrap_content"
                         android:text="@string/withdrawal_select_bank_card"/>
-                    <Spinner
+                    <com.coinport.odin.layout.BankCardSpinner
+                        android:id="@+id/bank_card_spinner"
                         android:layout_width="150dip"
                         android:layout_height="wrap_content"/>
                     <Button

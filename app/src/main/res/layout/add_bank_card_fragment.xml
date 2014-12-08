@@ -24,52 +24,149 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="90dip"
                 android:layout_height="wrap_content"
-                android:text="*"
-                android:textColor="@color/red"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/withdrawal_abc_name"/>
+                android:gravity="right">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:textColor="@color/red"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/withdrawal_abc_name"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
             <EditText
+                android:id="@+id/withdrawal_abc_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dip"
+                android:layout_marginLeft="10dip"
                 android:imeOptions="actionDone"
                 android:inputType="text" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="90dip"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:textColor="@color/red"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/withdrawal_abc_account"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/withdrawal_abc_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:imeOptions="actionDone"
+                android:inputType="text" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="90dip"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:textColor="@color/red"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/withdrawal_abc_bank"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+            <Spinner
+                android:id="@+id/withdrawal_abc_bank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="90dip"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/withdrawal_abc_branch_bank"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+            <EditText
+                android:id="@+id/withdrawal_abc_branch_bank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:imeOptions="actionDone"
+                android:inputType="text" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="90dip"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:textColor="@color/red"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/withdrawal_abc_email_code"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/withdrawal_abc_email_code"
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:imeOptions="actionDone"
+                android:inputType="text" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/withdrawal_send_email_code"/>
         </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content" >-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/id_label_your_name"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="32dp"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:text="Your name:" />-->
-
-    <!--<EditText-->
-        <!--android:id="@+id/id_txt_your_name"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_toRightOf="@id/id_label_your_name"-->
-        <!--android:imeOptions="actionDone"-->
-        <!--android:inputType="text" />-->
-
-    <!--<Button-->
-        <!--android:id="@+id/id_sure_edit_name"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_below="@id/id_txt_your_name"-->
-        <!--android:text="ok" />-->
-
-<!--</RelativeLayout>-->

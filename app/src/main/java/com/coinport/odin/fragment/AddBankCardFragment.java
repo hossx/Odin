@@ -1,5 +1,8 @@
 package com.coinport.odin.fragment;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,25 +13,42 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.coinport.odin.R;
 
 public class AddBankCardFragment extends DialogFragment {
+    private OnClickListener positiveListener = null;
+    private OnClickListener negativeListener = null;
 
     @Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        final View v = inflater.inflate(R.layout.add_bank_card_fragment, null);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity()).setTitle(
+            R.string.withdrawal_abc_title).setView(v);
+        if (positiveListener != null)
+            dialogBuilder.setPositiveButton(R.string.withdrawal_abc_ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    TextView name = (TextView) v.findViewById(R.id.withdrawal_abc_name);
+                    Bundle args = new Bundle();
+                    args.putString(getString(R.string.withdrawal_abc_name), name.getText().toString());
 
-		if (getDialog() != null) {
-//			getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-            getDialog().setTitle(R.string.withdrawal_abc_title);
-//			getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-		}
-
-//        setStyle(android.R.style.Animation_Dialog, R.style.DialogTheme);
-		View root = inflater.inflate(R.layout.add_bank_card_fragment, container, false);
-
-		return root;
-	}
+                    positiveListener.onClick(args);
+                }
+            });
+        if (negativeListener != null)
+            dialogBuilder.setNegativeButton(R.string.withdrawal_abc_cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    negativeListener.onClick(new Bundle());
+                }
+            });
+        Dialog dialog = dialogBuilder.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        return dialog;
+    }
 
     @Override
     public void onStart() {
@@ -58,4 +78,17 @@ public class AddBankCardFragment extends DialogFragment {
 		}
     }
 
+    public AddBankCardFragment setPositiveButton(OnClickListener listener) {
+        this.positiveListener = listener;
+        return this;
+    }
+
+    public AddBankCardFragment setNegativeButton(OnClickListener listener) {
+        this.negativeListener = listener;
+        return this;
+    }
+
+    interface OnClickListener {
+        public void onClick(Bundle args);
+    }
 }

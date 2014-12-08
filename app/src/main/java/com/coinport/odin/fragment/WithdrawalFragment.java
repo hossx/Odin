@@ -1,9 +1,11 @@
 package com.coinport.odin.fragment;
 
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.coinport.odin.R;
+import com.coinport.odin.layout.BankCardSpinner;
 import com.coinport.odin.util.Util;
 
 import org.json.JSONArray;
@@ -72,9 +75,31 @@ public class WithdrawalFragment extends DWFragmentCommon {
                     @Override
                     public void onClick(View v) {
                         AddBankCardFragment dialog = new AddBankCardFragment();
+                        dialog.setPositiveButton(new AddBankCardFragment.OnClickListener() {
+                            @Override
+                            public void onClick(Bundle args) {
+                                Log.d(this.toString(), args.getString(getString(R.string.withdrawal_abc_name)));
+                            }
+                        });
+                        dialog.setNegativeButton(new AddBankCardFragment.OnClickListener() {
+                            @Override
+                            public void onClick(Bundle args) {
+                                // do nothing
+                            }
+                        });
                         dialog.show(fa.getSupportFragmentManager(), "AddBankCardFragment");
                     }
                 });
+                BankCardSpinner bcSpinner = (BankCardSpinner) view.findViewById(R.id.bank_card_spinner);
+                ArrayList<String> list = new ArrayList<>();
+                list.add("a");
+                list.add("b");
+                list.add("c");
+                list.add("d");
+                bcSpinner.setList(list);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                    android.R.layout.simple_spinner_item, list);
+                bcSpinner.setAdapter(adapter);
                 break;
             case "BTSX":
                 setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO));

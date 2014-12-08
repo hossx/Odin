@@ -116,6 +116,8 @@
     <string name="withdrawal_abc_bank">开户银行</string>
     <string name="withdrawal_abc_branch_bank">开户支行</string>
     <string name="withdrawal_abc_email_code">Email验证码</string>
+    <string name="withdrawal_abc_ok">确定</string>
+    <string name="withdrawal_abc_cancel">取消</string>
 
     <string name="title_activity_user_verify">UserVerifyActivity</string>
 
