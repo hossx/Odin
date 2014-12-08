@@ -63,16 +63,6 @@
                             android:text="@string/account_manage"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
-
-                        <!--
-                            <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
-                            android:layout_gravity="right"
-                            android:gravity="center_vertical"
-                            android:paddingRight="20.0dip"
-                             />
-                        -->
                     </TableRow>
 
                     <TableRow
@@ -93,16 +83,6 @@
                             android:text="@string/my_favor"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
-
-                        <!--
-                            <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
-                            android:layout_gravity="right"
-                            android:gravity="center_vertical"
-                            android:paddingRight="20.0dip"
-                             />
-                        -->
                     </TableRow>
 
                     <TableRow
@@ -124,15 +104,6 @@
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
 
-                        <!--
-                            <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
-                            android:layout_gravity="right"
-                            android:gravity="center_vertical"
-                            android:paddingRight="20.0dip"
-                             />
-                        -->
                     </TableRow>
                 </TableLayout>
             </LinearLayout>
@@ -179,15 +150,6 @@
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
 
-                        <!--
-                            <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
-                            android:layout_gravity="right"
-                            android:gravity="center_vertical"
-                            android:paddingRight="20.0dip"
-                             />
-                        -->
                     </TableRow>
 
                     <TableRow
@@ -209,15 +171,6 @@
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
 
-                        <!--
-                             <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
-                            android:layout_gravity="right"
-                            android:gravity="center_vertical"
-                            android:paddingRight="20.0dip"
-                             />
-                        -->
                     </TableRow>
 
                     <TableRow
@@ -239,15 +192,6 @@
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
 
-                        <!--
-                             <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
-                            android:layout_gravity="right"
-                            android:gravity="center_vertical"
-                            android:paddingRight="20.0dip"
-                             />
-                        -->
                     </TableRow>
 
                     <TableRow
@@ -268,16 +212,6 @@
                             android:text="@string/about"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
-
-                        <!--
-                            <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
-                            android:layout_gravity="right"
-                            android:gravity="center_vertical"
-                            android:paddingRight="20.0dip"
-                             />
-                        -->
                     </TableRow>
                 </TableLayout>
             </LinearLayout>

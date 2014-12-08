@@ -65,8 +65,10 @@ public class WithdrawalFragment extends DWFragmentCommon {
     }
 
     private void updateWithdrawalInfo() {
+        String withdrawalDescription = null;
         switch (currency) {
             case "CNY":
+                withdrawalDescription = getString(R.string.withdrawal_description_cny);
                 setItemsVisibility(EnumSet.of(OptItem.BANK));
 
                 Button addBankCard = (Button) view.findViewById(R.id.withdrawal_add_bank_card);
@@ -114,20 +116,27 @@ public class WithdrawalFragment extends DWFragmentCommon {
                 });
                 break;
             case "BTSX":
+                withdrawalDescription = getString(R.string.withdrawal_description_btsx);
                 setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO));
                 memoLabel.setText(getString(R.string.withdrawal_memo));
 
                 break;
             case "NXT":
+                withdrawalDescription = getString(R.string.withdrawal_description_btc);
                 setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO, OptItem.PUBKEY_DESCRIPTION));
                 memoLabel.setText(getString(R.string.withdrawal_nxt_pubkey));
 
                 break;
             default:
+                withdrawalDescription = getString(R.string.withdrawal_description_btc);
                 setItemsVisibility(EnumSet.of(OptItem.ADDRESS));
 
                 break;
         }
+        TextView description = (TextView) view.findViewById(R.id.withdrawal_description);
+        description.setText(String.format(withdrawalDescription, "100" + " " + currency, "1" + " " + currency));
+        TextView withdrawalSum = (TextView) view.findViewById(R.id.withdrawal_sum);
+        withdrawalSum.setText(String.format(getString(R.string.withdrawal_sum), currency, "12312312"));
         updateWithdrawalHistory();
     }
 

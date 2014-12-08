@@ -29,9 +29,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/withdrawal_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="description"/>
+                    android:padding="4dip"
+                    android:background="@drawable/red_input_border"/>
+                <TextView
+                    android:id="@+id/withdrawal_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dip"
+                    android:layout_marginBottom="4dip"
+                    android:text="@string/withdrawal_sum"/>
                 <LinearLayout
                     android:id="@+id/withdrawal_bank_card_selector"
                     android:layout_width="fill_parent"
