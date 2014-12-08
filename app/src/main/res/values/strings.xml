@@ -46,6 +46,7 @@
     <string name="tab_deposit_withdrawal">冲提</string>
     <string name="tab_user">用户</string>
     <string name="activity_fullscreen">全屏</string>
+    <string name="exit_hint">再按一次退出程序</string>
 
     <!-- text name in setting page -->
     <string name="menu_item_more">更多</string>
