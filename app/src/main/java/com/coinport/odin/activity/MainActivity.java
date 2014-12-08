@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.coinport.odin.fragment.DepositWithdrawalFragment;
 import com.coinport.odin.fragment.QuickContactFragment;
@@ -51,6 +53,7 @@ public class MainActivity extends FragmentActivity {
     private LinearLayout currencySelector = null;
     private TextView textView = null;
 
+    private long exitTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -221,6 +224,7 @@ public class MainActivity extends FragmentActivity {
                 return true;
             case R.id.action_exit:
                 finish();
+                System.exit(0);
 
         }
 
@@ -251,6 +255,24 @@ public class MainActivity extends FragmentActivity {
     public ProgressDialog getpDialog() {
         return pDialog;
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN)
+        {
+            if((System.currentTimeMillis() - exitTime) > 2000) { //System.currentTimeMillis()无论何时调用，肯定大于2000
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     private void changeColor(int newColor) {
 
         tabs.setIndicatorColor(newColor);
