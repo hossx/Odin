@@ -41,7 +41,17 @@ public class AddBankCardFragment extends DialogFragment {
                     Bundle args = new Bundle();
                     args.putString(getString(R.string.withdrawal_abc_name), name.getText().toString());
 
-                    positiveListener.onClick(args);
+                    final Bundle fargs = args;
+                    new AlertDialog.Builder(getActivity()).setMessage("BUTTON_POSITIVE")
+                            .setTitle("Alert Postive ")
+                            .setCancelable(true)
+                            .setNeutralButton(android.R.string.ok,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton){
+                                            positiveListener.onClick(fargs);
+                                        }
+                                    })
+                            .show();
                 }
             });
         if (negativeListener != null)
