@@ -1,0 +1,134 @@
+{
+    success: true,
+    code: 0,
+    message: "",
+    data: {
+        uid: "1000000013",
+        accounts: {
+            DOGE: {
+                currency: "DOGE",
+                available: {
+                    currency: "DOGE",
+                    value_int: 400000000000,
+                    value: 4000,
+                    display: "4000.0000",
+                    display_short: "4000.00"
+                },
+                locked: {
+                    currency: "DOGE",
+                    value_int: 0,
+                    value: 0,
+                    display: "0.0000",
+                    display_short: "0.00"
+                },
+                pendingWithdrawal: {
+                    currency: "DOGE",
+                    value_int: 0,
+                    value: 0,
+                    display: "0.0000",
+                    display_short: "0.00"
+                },
+                total: {
+                    currency: "DOGE",
+                    value_int: 400000000000,
+                    value: 4000,
+                    display: "4000.0000",
+                    display_short: "4000.00"
+                }
+            },
+            CNY: {
+                currency: "CNY",
+                available: {
+                    currency: "CNY",
+                    value_int: 0,
+                    value: 0,
+                    display: "0.0000",
+                    display_short: "0.00"
+                },
+                locked: {
+                    currency: "CNY",
+                    value_int: 1154264233,
+                    value: 11542.64233,
+                    display: "11542.6423",
+                    display_short: "11542.64"
+                },
+                pendingWithdrawal: {
+                    currency: "CNY",
+                    value_int: 0,
+                    value: 0,
+                    display: "0.0000",
+                    display_short: "0.00"
+                },
+                total: {
+                    currency: "CNY",
+                    value_int: 1154264233,
+                    value: 11542.64233,
+                    display: "11542.6423",
+                    display_short: "11542.64"
+                }
+            },
+            BC: {
+                currency: "BC",
+                available: {
+                    currency: "BC",
+                    value_int: 500000000,
+                    value: 5,
+                    display: "5.000",
+                    display_short: "5.00"
+                },
+                locked: {
+                    currency: "BC",
+                    value_int: 0,
+                    value: 0,
+                    display: "0.000",
+                    display_short: "0.00"
+                },
+                pendingWithdrawal: {
+                    currency: "BC",
+                    value_int: 0,
+                    value: 0,
+                    display: "0.000",
+                    display_short: "0.00"
+                },
+                total: {
+                    currency: "BC",
+                    value_int: 500000000,
+                    value: 5,
+                    display: "5.000",
+                    display_short: "5.00"
+                }
+            },
+            XRP: {
+                currency: "XRP",
+                available: {
+                    currency: "XRP",
+                    value_int: 241031779,
+                    value: 241.031779,
+                    display: "241.031779",
+                    display_short: "241.03"
+                },
+                locked: {
+                    currency: "XRP",
+                    value_int: 180852100116,
+                    value: 180852.100116,
+                    display: "180852.100116",
+                    display_short: "180852.10"
+                },
+                pendingWithdrawal: {
+                    currency: "XRP",
+                    value_int: 0,
+                    value: 0,
+                    display: "0.000000",
+                    display_short: "0.00"
+                },
+                total: {
+                    currency: "XRP",
+                    value_int: 181093131895,
+                    value: 181093.131895,
+                    display: "181093.131895",
+                    display_short: "181093.13"
+                }
+            }
+        }
+    }
+}
