@@ -14,7 +14,6 @@
         <item> NXT </item>
         <item> XRP </item>
     </string-array>
-
     <string-array name="bank_array">
         <item>建设银行</item>
         <item>工商银行</item>
@@ -36,7 +35,7 @@
 
     <string name="app_name">币丰港</string>
     <string name="action_settings">设置</string>
-    <string name="action_contact">联系</string>
+    <string name="action_contact">联系我们</string>
     <string name="action_exit">退出</string>
     <string name="action_about">关于</string>
     <string name="action_help">帮助</string>
@@ -47,6 +46,7 @@
     <string name="tab_user">用户</string>
     <string name="activity_fullscreen">全屏</string>
     <string name="exit_hint">再按一次退出程序</string>
+    <string name="hello">你好</string>
 
     <!-- text name in setting page -->
     <string name="menu_item_more">更多</string>
@@ -118,13 +118,10 @@
     <string name="nxt_alias">NXT-FXTE-Q835-9Z5U-H5U8J</string>
     <string name="nxt_pubkey">330a962b2a247fda9a62f10a701222842e057d833fe363b91ab459fc6257ce21</string>
     <string name="xrp_address">r9AzyYGGQAvgefdgeu3eDHaVdxLdpAvchE</string>
-
     <string name="withdrawal_description_cny">最小提现不能小于 %1$s ，无最大数量限制。 我们会从提现数目中扣除 %2$s 作为手续费。提现请求会在24小时内处理完成。我们的工作时间是香港时间12:00-24:00，周末无休。如有其他问题，请联系客服人员。 (暂不支持信用卡提现)</string>
     <string name="withdrawal_description_btc">最小提现不能小于 %1$s ，无最大数量限制。 我们会从提现数目中扣除 %2$s 作为手续费。提现请求会在24小时内处理完成。我们的工作时间是香港时间12:00-24:00，周末无休。如有其他问题，请联系客服人员。</string>
     <string name="withdrawal_description_btsx">最小提现不能小于 %1$s ，无最大数量限制。 我们会从提现数目中扣除 %2$s 作为手续费。提现请求会在24小时内处理完成。我们的工作时间是香港时间12:00-24:00，周末无休。如有其他问题，请联系客服人员。(BTSX目前只支持使用已注册的帐号提币，比如coinport-deposit)</string>
-
     <string name="withdrawal_sum_label">可提现%1$s</string>
-
     <string name="withdrawal_history_description">最近10笔提现记录:</string>
     <string name="withdrawal_select_bank_card">选择银行卡</string>
     <string name="withdrawal_add_bank_card">添加</string>
@@ -145,7 +142,22 @@
     <string name="withdrawal_abc_ok">确定</string>
     <string name="withdrawal_abc_cancel">取消</string>
     <string name="withdrawal_abc_delete">删除</string>
-
-    <string name="title_activity_user_verify">UserVerifyActivity</string>
+    <string name="user_info">账户信息</string>
+    <string name="user_asset">账户资产</string>
+    <string name="user_secure">账户安全</string>
+    <string name="user_info_id">编号</string>
+    <string name="user_info_name">用户名</string>
+    <string name="user_info_phone">手机</string>
+    <string name="user_secure_verify">实名认证</string>
+    <string name="user_secure_change_pw">修改密码</string>
+    <string name="user_secure_reset_pw">重置密码</string>
+    <string name="user_secure_bind_phone">绑定手机</string>
+    <string name="user_secure_has_bind_phone">已绑定</string>
+    <string name="user_secure_has_verified">已认证</string>
+    <string name="title_activity_user_verify">实名认证</string>
+    <string name="title_activity_bind_phone">绑定手机</string>
+    <string name="title_activity_change_pw">修改密码</string>
+    <string name="title_activity_reset_pw">重置密码</string>
+    <string name="title_activity_asset">账户资产</string>
 
 </resources>

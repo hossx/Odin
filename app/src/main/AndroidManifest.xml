@@ -39,6 +39,38 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.coinport.odin.activity.MainActivity" />
         </activity>
+        <activity
+            android:name=".activity.BindPhoneActivity"
+            android:label="@string/title_activity_bind_phone"
+            android:parentActivityName=".activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.coinport.odin.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.ChangePwActivity"
+            android:label="@string/title_activity_change_pw"
+            android:parentActivityName=".activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.coinport.odin.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.ResetPwActivity"
+            android:label="@string/title_activity_reset_pw"
+            android:parentActivityName=".activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.coinport.odin.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.AssetActivity"
+            android:label="@string/title_activity_asset"
+            android:parentActivityName=".activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.coinport.odin.activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

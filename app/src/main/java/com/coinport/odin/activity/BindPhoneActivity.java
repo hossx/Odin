@@ -8,20 +8,20 @@ import android.view.Window;
 
 import com.coinport.odin.R;
 
-public class UserVerifyActivity extends Activity {
+public class BindPhoneActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        setContentView(R.layout.activity_user_verify);
+        setContentView(R.layout.activity_bind_phone);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_user_verify, menu);
+        getMenuInflater().inflate(R.menu.menu_bind_phone, menu);
         return true;
     }
 

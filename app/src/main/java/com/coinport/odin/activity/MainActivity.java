@@ -196,7 +196,6 @@ public class MainActivity extends FragmentActivity {
 
             }
         });
-//        pager.setCurrentItem(3);
     }
 
     @Override
@@ -210,6 +209,7 @@ public class MainActivity extends FragmentActivity {
 //        this.menu.add(Menu.NONE, R.id.config_more, Menu.NONE, getString(R.string.menu_item_more))
 //            .setIcon(R.drawable.ic_action_overflow).setVisible(true)
 //            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//        pager.setCurrentItem(3);
         return true;
     }
 
@@ -218,14 +218,10 @@ public class MainActivity extends FragmentActivity {
 
         switch (item.getItemId()) {
 
-            case R.id.action_help:
+            case R.id.action_contact:
                 QuickContactFragment dialog = new QuickContactFragment();
                 dialog.show(getSupportFragmentManager(), "QuickContactFragment");
                 return true;
-            case R.id.action_exit:
-                finish();
-                System.exit(0);
-
         }
 
         return super.onOptionsItemSelected(item);

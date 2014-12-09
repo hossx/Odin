@@ -6,7 +6,6 @@
 
 
     <ScrollView
-        xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:scrollbars="none"
         android:layout_marginTop="8dip"
         android:layout_marginBottom="8dip"
@@ -22,6 +21,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dip">
+                <TextView
+                    android:layout_width="40dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello"/>
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -29,7 +41,7 @@
                 android:layout_marginTop="10.0dip"
                 android:gravity="center_vertical"
                 android:paddingLeft="4.0dip"
-                android:text="@string/my_setting"
+                android:text="@string/user_info"
                 android:textColor="#ff888888"
                 android:textSize="16.0sp" />
 
@@ -54,13 +66,25 @@
                         android:paddingTop="16.0dip" >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="fill_parent"
+                            android:layout_weight="1"
                             android:drawablePadding="10.0dip"
                             android:gravity="center_vertical"
                             android:includeFontPadding="false"
                             android:paddingLeft="17.0dip"
-                            android:text="@string/account_manage"
+                            android:text="@string/user_info_id"
+                            android:textColor="#ff333333"
+                            android:textSize="16.0sp" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="3"
+                            android:drawablePadding="10.0dip"
+                            android:gravity="right"
+                            android:includeFontPadding="false"
+                            android:paddingRight="17.0dip"
+                            android:text="1000000013"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
                     </TableRow>
@@ -74,13 +98,25 @@
                         android:paddingTop="16.0dip" >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="fill_parent"
+                            android:layout_weight="1"
                             android:drawablePadding="10.0dip"
                             android:gravity="center_vertical"
                             android:includeFontPadding="false"
                             android:paddingLeft="17.0dip"
-                            android:text="@string/my_favor"
+                            android:text="@string/user_info_name"
+                            android:textColor="#ff333333"
+                            android:textSize="16.0sp" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="3"
+                            android:drawablePadding="10.0dip"
+                            android:gravity="right"
+                            android:includeFontPadding="false"
+                            android:paddingRight="17.0dip"
+                            android:text="m_chao_1984@163.com"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
                     </TableRow>
@@ -94,18 +130,61 @@
                         android:paddingTop="16.0dip" >
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="fill_parent"
+                            android:layout_weight="1"
                             android:drawablePadding="10.0dip"
                             android:gravity="center_vertical"
                             android:includeFontPadding="false"
                             android:paddingLeft="17.0dip"
-                            android:text="@string/browsing_record"
+                            android:text="@string/user_info_phone"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
-
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="3"
+                            android:drawablePadding="10.0dip"
+                            android:gravity="right"
+                            android:includeFontPadding="false"
+                            android:paddingRight="17.0dip"
+                            android:text="13111342356"
+                            android:textColor="#ff333333"
+                            android:textSize="16.0sp" />
                     </TableRow>
                 </TableLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/user_asset"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:background="@drawable/cancel_order_button">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="10.0dip"
+                    android:layout_marginTop="10.0dip"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="4.0dip"
+                    android:text="@string/user_asset"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0sp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_action_expand"/>
+                </LinearLayout>
             </LinearLayout>
 
             <TextView
@@ -115,7 +194,7 @@
                 android:layout_marginTop="10.0dip"
                 android:gravity="center_vertical"
                 android:paddingLeft="4.0dip"
-                android:text="@string/client"
+                android:text="@string/user_secure"
                 android:textColor="#ff888888"
                 android:textSize="16.0sp" />
 
@@ -124,7 +203,6 @@
                 android:layout_height="wrap_content" >
 
                 <TableLayout
-                    android:id="@+id/MorePageTableLayout_Client"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="1.0dip"
@@ -132,87 +210,145 @@
                     android:stretchColumns="0" >
 
                     <TableRow
-                        android:id="@+id/more_page_row4"
+                        android:id="@+id/user_verify"
                         android:layout_width="fill_parent"
+                        android:clickable="true"
+                        android:background="@drawable/cancel_order_button"
                         android:layout_marginLeft="2.0dip"
                         android:layout_marginRight="2.0dip"
                         android:paddingBottom="16.0dip"
                         android:paddingTop="16.0dip" >
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:drawablePadding="10.0dip"
                             android:gravity="center_vertical"
                             android:includeFontPadding="false"
                             android:paddingLeft="17.0dip"
-                            android:text="@string/setting"
+                            android:text="@string/user_secure_verify"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
 
-                    </TableRow>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right">
+                            <ImageView
+                                android:id="@+id/user_secure_verify_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_action_expand"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/user_secure_has_verified"
+                                android:visibility="gone"/>
+                        </LinearLayout>
 
+                    </TableRow>
                     <TableRow
-                        android:id="@+id/more_page_row5"
+                        android:id="@+id/change_pw"
                         android:layout_width="fill_parent"
+                        android:clickable="true"
+                        android:background="@drawable/cancel_order_button"
                         android:layout_marginLeft="2.0dip"
                         android:layout_marginRight="2.0dip"
                         android:paddingBottom="16.0dip"
                         android:paddingTop="16.0dip" >
-
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:drawablePadding="10.0dip"
                             android:gravity="center_vertical"
                             android:includeFontPadding="false"
                             android:paddingLeft="17.0dip"
-                            android:text="@string/feed_back"
+                            android:text="@string/user_secure_change_pw"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
-
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_action_expand"/>
+                        </LinearLayout>
                     </TableRow>
-
                     <TableRow
-                        android:id="@+id/more_page_row6"
+                        android:id="@+id/reset_pw"
                         android:layout_width="fill_parent"
+                        android:clickable="true"
+                        android:background="@drawable/cancel_order_button"
                         android:layout_marginLeft="2.0dip"
                         android:layout_marginRight="2.0dip"
                         android:paddingBottom="16.0dip"
                         android:paddingTop="16.0dip" >
-
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:drawablePadding="10.0dip"
                             android:gravity="center_vertical"
                             android:includeFontPadding="false"
                             android:paddingLeft="17.0dip"
-                            android:text="@string/version_detect"
+                            android:text="@string/user_secure_reset_pw"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
-
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_action_expand"/>
+                        </LinearLayout>
                     </TableRow>
-
                     <TableRow
-                        android:id="@+id/more_page_row7"
+                        android:id="@+id/bind_phone"
                         android:layout_width="fill_parent"
+                        android:clickable="true"
+                        android:background="@drawable/cancel_order_button"
                         android:layout_marginLeft="2.0dip"
                         android:layout_marginRight="2.0dip"
                         android:paddingBottom="16.0dip"
                         android:paddingTop="16.0dip" >
-
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:drawablePadding="10.0dip"
                             android:gravity="center_vertical"
                             android:includeFontPadding="false"
                             android:paddingLeft="17.0dip"
-                            android:text="@string/about"
+                            android:text="@string/user_secure_bind_phone"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right">
+                            <ImageView
+                                android:id="@+id/user_secure_bind_phone_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_action_expand"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/user_secure_has_bind_phone"
+                                android:visibility="gone"/>
+                        </LinearLayout>
                     </TableRow>
+
                 </TableLayout>
             </LinearLayout>
         </LinearLayout>
