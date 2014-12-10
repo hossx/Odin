@@ -1,31 +1,27 @@
 package com.coinport.odin.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 import com.coinport.odin.R;
 
-public class SplashActivity extends Activity {
+public class RegisterActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                goHome();
-            }
-        }, 3000);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        setContentView(R.layout.activity_register);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_splash, menu);
+        getMenuInflater().inflate(R.menu.menu_register, menu);
         return true;
     }
 
@@ -42,11 +38,5 @@ public class SplashActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void goHome() {
-        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-        SplashActivity.this.startActivity(intent);
-        SplashActivity.this.finish();
     }
 }

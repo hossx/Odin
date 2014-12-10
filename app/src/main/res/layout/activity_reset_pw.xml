@@ -10,4 +10,12 @@
               android:background="@drawable/background_card"
               android:orientation="vertical"
               tools:context="com.coinport.odin.activity.ResetPwActivity">
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/rpw_input_email"/>
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rpw_send_email"/>
 </LinearLayout>
