@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DepositFragment extends DWFragmentCommon {
+    private static final String CURRENCY = "currency";
     private View view = null;
     private String currency;
     private LinearLayout depositCnyInfo;
@@ -55,12 +56,22 @@ public class DepositFragment extends DWFragmentCommon {
         uriHeader.put("DOGE", "dogecoin:");
     }
 
-    public DepositFragment(String currency) {
-        this.currency = currency;
+    public DepositFragment() {}
+
+    public static DepositFragment newInstance(String currency) {
+        DepositFragment fragment = new DepositFragment();
+        Bundle args = new Bundle();
+        args.putString(CURRENCY, currency);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            currency = getArguments().getString(CURRENCY);
+        }
+
         view = inflater.inflate(R.layout.deposit_fragment, container, false);
         depositInfo = (LinearLayout) view.findViewById(R.id.deposit_info);
         depositCnyInfo = (LinearLayout) view.findViewById(R.id.deposit_cny_info);

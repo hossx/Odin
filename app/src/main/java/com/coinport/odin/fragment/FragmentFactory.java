@@ -9,10 +9,10 @@ public class FragmentFactory {
         Fragment fragment = null;
         switch (index) {
             case R.id.radio_deposit:
-                fragment = new DepositFragment(currency);
+                fragment = DepositFragment.newInstance(currency);
                 break;
             case R.id.radio_withdrawal:
-                fragment = new WithdrawalFragment(currency);
+                fragment = WithdrawalFragment.newInstance(currency);
                 break;
         }
         return fragment;

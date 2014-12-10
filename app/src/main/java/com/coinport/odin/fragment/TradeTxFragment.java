@@ -70,7 +70,7 @@ public class TradeTxFragment extends TradeOrderFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.trade_tx_fragment, container, false);
 
-        final TradeOrderFragment self = this;
+        final TradeTxFragment self = this;
         refreshableView = (PullToRefreshListView) view.findViewById(R.id.refreshable_view);
         refreshableView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override

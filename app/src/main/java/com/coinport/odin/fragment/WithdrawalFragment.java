@@ -30,6 +30,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 
 public class WithdrawalFragment extends DWFragmentCommon {
+    private static final String CURRENCY = "currency";
     private String currency;
     private View view;
     private LinearLayout bankSelector;
@@ -40,12 +41,20 @@ public class WithdrawalFragment extends DWFragmentCommon {
 
     private Time timeFormat = new Time();
 
-    public WithdrawalFragment(String currency) {
-        this.currency = currency;
+    public static WithdrawalFragment newInstance(String currency) {
+        WithdrawalFragment fragment = new WithdrawalFragment();
+        Bundle args = new Bundle();
+        args.putString(CURRENCY, currency);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            currency = getArguments().getString(CURRENCY);
+        }
+
         view = inflater.inflate(R.layout.withdrawal_fragment, container, false);
         bankSelector = (LinearLayout) view.findViewById(R.id.withdrawal_bank_card_selector);
         address = (LinearLayout) view.findViewById(R.id.withdrawal_address);
