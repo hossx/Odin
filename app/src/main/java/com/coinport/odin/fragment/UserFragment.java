@@ -51,15 +51,6 @@ public class UserFragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
-        TableRow resetPw = (TableRow) view.findViewById(R.id.reset_pw);
-        resetPw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), ResetPwActivity.class);
-                getActivity().startActivity(intent);
-            }
-        });
         TableRow bindPhone = (TableRow) view.findViewById(R.id.bind_phone);
         bindPhone.setOnClickListener(new View.OnClickListener() {
             @Override

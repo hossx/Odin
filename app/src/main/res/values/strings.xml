@@ -47,6 +47,8 @@
     <string name="activity_fullscreen">全屏</string>
     <string name="exit_hint">再按一次退出程序</string>
     <string name="hello">你好</string>
+    <string name="button_ok">确定</string>
+    <string name="button_cancel">取消</string>
 
     <!-- text name in setting page -->
     <string name="menu_item_more">更多</string>
@@ -167,5 +169,19 @@
     <string name="asset_valid">可用金额</string>
     <string name="asset_pending">冻结金额</string>
     <string name="asset_all">总计金额</string>
+
+    <string name="bind_phone_country">国家</string>
+    <string name="bind_phone_num">手机号码</string>
+    <string name="bind_phone_verify_code">短信验证码</string>
+
+    <string name="verify_name">真实姓名</string>
+    <string name="verify_type">证件类型</string>
+    <string name="verify_id">证件号码</string>
+    <string name="verify_name_description">实名认证一旦提交通过后不可更改，并且提现时会检查姓名是否和银行卡户主名一致，因此请确认姓名的正确。</string>
+
+    <string name="cpw_current">当前密码</string>
+    <string name="cpw_new">新密码</string>
+    <string name="cpw_new_confirm">确认新密码</string>
+
 
 </resources>
