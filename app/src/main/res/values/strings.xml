@@ -185,7 +185,7 @@
     <string name="register_pw">密码</string>
     <string name="register_pw_confirm">确认密码</string>
     <string name="register_claim">我已阅读并同意：</string>
-    <string name="register_rule">服务条款</string>
+    <string name="register_terms">服务条款</string>
     <string name="login_input_email">请输入注册邮箱</string>
     <string name="login_input_pw">请输入密码</string>
     <string name="login">登陆</string>

@@ -87,9 +87,10 @@
             android:text="@string/register_claim"
             android:textSize="12sp" />
         <TextView
+            android:id="@+id/register_terms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/register_rule"/>
+            android:text="@string/register_terms"/>
     </LinearLayout>
 
     <LinearLayout
