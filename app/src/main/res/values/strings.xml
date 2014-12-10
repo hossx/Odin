@@ -161,7 +161,6 @@
     <string name="title_activity_change_pw">修改密码</string>
     <string name="title_activity_reset_pw">重置密码</string>
     <string name="title_activity_asset">账户资产</string>
-
     <string name="asset_sum">总资产</string>
     <string name="asset_sum_cny">%1$s CNY</string>
     <string name="asset_sum_btc">%1$s BTC</string>
@@ -169,19 +168,16 @@
     <string name="asset_valid">可用金额</string>
     <string name="asset_pending">冻结金额</string>
     <string name="asset_all">总计金额</string>
-
     <string name="bind_phone_country">国家</string>
     <string name="bind_phone_num">手机号码</string>
     <string name="bind_phone_verify_code">短信验证码</string>
-
     <string name="verify_name">真实姓名</string>
     <string name="verify_type">证件类型</string>
     <string name="verify_id">证件号码</string>
     <string name="verify_name_description">实名认证一旦提交通过后不可更改，并且提现时会检查姓名是否和银行卡户主名一致，因此请确认姓名的正确。</string>
-
     <string name="cpw_current">当前密码</string>
     <string name="cpw_new">新密码</string>
     <string name="cpw_new_confirm">确认新密码</string>
-
+    <string name="title_activity_splash">SplashActivity</string>
 
 </resources>

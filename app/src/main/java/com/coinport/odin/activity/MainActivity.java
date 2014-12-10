@@ -209,7 +209,7 @@ public class MainActivity extends FragmentActivity {
 //        this.menu.add(Menu.NONE, R.id.config_more, Menu.NONE, getString(R.string.menu_item_more))
 //            .setIcon(R.drawable.ic_action_overflow).setVisible(true)
 //            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        pager.setCurrentItem(3);
+//        pager.setCurrentItem(3);
         return true;
     }
 
