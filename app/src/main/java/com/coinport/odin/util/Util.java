@@ -3,12 +3,14 @@ package com.coinport.odin.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.coinport.odin.R;
 
@@ -22,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class Util {
+    public static HashMap<String, String> iconFont = new HashMap<>();
 
     public static enum ScreenDirection {
         NORMAL, INVERT, LEFT_UP, RIGHT_UP
@@ -46,6 +49,18 @@ public final class Util {
         transferStatus.put(14, R.string.transfer_failed);
         transferStatus.put(15, R.string.transfer_failed);
         transferStatus.put(16, R.string.transfer_failed);
+
+        iconFont.put("CNY", "\ue633");
+        iconFont.put("BTC", "\ue62a");
+        iconFont.put("LTC", "\ue632");
+        iconFont.put("DRK", "\ue629");
+        iconFont.put("BTSX", "\ue62b");
+        iconFont.put("XRP", "\ue62c");
+        iconFont.put("NXT", "\ue62d");
+        iconFont.put("ZET", "\ue62e");
+        iconFont.put("VRC", "\ue62f");
+        iconFont.put("BC", "\ue630");
+        iconFont.put("DOGE", "\ue631");
     }
 
     /**** Method for Setting the Height of the ListView dynamically.

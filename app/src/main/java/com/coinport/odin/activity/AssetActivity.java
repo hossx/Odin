@@ -1,9 +1,13 @@
 package com.coinport.odin.activity;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -24,11 +28,14 @@ import java.util.Iterator;
 
 public class AssetActivity extends Activity {
 
+    private Typeface iconTF;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_asset);
+
+        iconTF = Typeface.createFromAsset(getAssets(), "coinport.ttf");
 
         TextView sumCny = (TextView) findViewById(R.id.asset_sum_cny);
         TextView sumBtc = (TextView) findViewById(R.id.asset_sum_btc);
@@ -55,7 +62,19 @@ public class AssetActivity extends Activity {
             e.printStackTrace();
         }
         SimpleAdapter adapter = new SimpleAdapter(this, aiList, R.layout.asset_item, new String[]{
-            "currency", "valid", "pending"}, new int[] {R.id.asset_currency, R.id.asset_valid, R.id.asset_pending});
+            "currency", "valid", "pending"}, new int[] {R.id.asset_currency, R.id.asset_valid, R.id.asset_pending}) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                String currency = ((TextView) view.findViewById(R.id.asset_currency)).getText().toString();
+                TextView icon = (TextView) view.findViewById(R.id.currency_icon);
+                icon.setTypeface(iconTF);
+                icon.setTextColor(Color.BLACK);
+                icon.setText(Util.iconFont.get(currency));
+                icon.setTextSize(20);
+                return view;
+            }
+        };
         lv.setAdapter(adapter);
     }
 
