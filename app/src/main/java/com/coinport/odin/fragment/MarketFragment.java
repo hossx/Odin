@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,10 @@ import com.coinport.odin.R;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.TickerAdapter;
 import com.coinport.odin.obj.TickerItem;
+import com.coinport.odin.util.NetworkRequest;
 import com.coinport.odin.util.Util;
 
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +30,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MarketFragment extends Fragment {
+    private final String baseUrl = "https://exchange.coinport.com/api/m/ticker/";
     private TickerAdapter tva;
     private String baseCurrency = "CNY";
     private TextView updateTimeRef;
@@ -77,7 +81,7 @@ public class MarketFragment extends Fragment {
             fetchTickerTask.cancel();
         fetchTickerTask = new FetchTickerTask();
         timer = new Timer();
-        tva.setTickerItems(null, baseCurrency).notifyDataSetChanged();
+//        tva.setTickerItems(null, baseCurrency).notifyDataSetChanged();
         timer.schedule(fetchTickerTask, 0, 5000);
 //        dialogRef = ((MainActivity) getActivity()).getpDialog();
 //        dialogRef.setTitle("提示");
@@ -107,18 +111,37 @@ public class MarketFragment extends Fragment {
         public void run() {
             tickerItems.clear();
             try {
-                String file;
-                if (baseCurrency.equals("CNY"))
-                    file = "cny_markets_mock.json";
-                else
-                    file = "btc_markets_mock.json";
-                JSONArray jsonList = Util.getJsonArrayFromFile(getActivity(), file);
-                if (jsonList != null)
-                    for (int i = 0; i < jsonList.length(); ++i) {
-                        JSONObject jsonObj = jsonList.getJSONObject(i);
-                        tickerItems.add(TickerItem.TickerItemBuilder.generateFromJson(jsonObj));
+                String url = baseUrl + baseCurrency.toLowerCase();
+                NetworkRequest get = new NetworkRequest();
+                get.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(5000);
+                get.setOnHttpRequestListener(new NetworkRequest.OnHttpRequestListener() {
+                    @Override
+                    public void onRequest(NetworkRequest request) throws Exception {
+
                     }
+
+                    @Override
+                    public String onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                        String result =  request.getInputStream();
+                        JSONArray jsonList = Util.getJsonArrayByPath(new JSONObject(result), "data");
+                        if (jsonList != null)
+                            for (int i = 0; i < jsonList.length(); ++i) {
+                                JSONObject jsonObj = jsonList.getJSONObject(i);
+                                tickerItems.add(TickerItem.TickerItemBuilder.generateFromJson(jsonObj));
+                            }
+                        return result;
+                    }
+
+                    @Override
+                    public String onFailed(int statusCode, NetworkRequest request) throws Exception {
+                        return "GET 请求失败：statusCode "+ statusCode;
+                    }
+                });
+
+                get.get(url);
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             handler.post(new Runnable() {

@@ -18,7 +18,7 @@ public class TickerItem {
         public static TickerItem generateFromJson(JSONObject json) {
             TickerItem item = new TickerItem();
             try {
-                item.setInCurrency(json.getString("i")).setOutCurrency(json.getString("c"))
+                item.setInCurrency(json.getString("c")).setOutCurrency(json.getString("i"))
                         .setPrice(json.getString("p")).setVolume(json.getString("v"))
                         .setAmplitude(json.getDouble("g")).setTrend(json.getString("t"));
                 return item;
