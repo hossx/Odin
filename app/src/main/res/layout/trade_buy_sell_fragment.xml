@@ -61,7 +61,7 @@
                         android:id="@+id/last_price"
                         android:layout_gravity="center_horizontal"
                         android:textSize="20dp"
-                        android:text="2335.12332111"/>
+                        android:text=""/>
                     <ListView
                         android:id="@+id/buy_depth"
                         android:layout_width="match_parent"

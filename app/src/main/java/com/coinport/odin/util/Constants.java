@@ -12,6 +12,10 @@ public class Constants {
     public static final int CP_GREEN = Color.rgb(10, 185, 43);
     public static final int CP_RED = Color.RED;
     public static final Map<Integer, Integer> ORDER_STATUS_MAP;
+    public static final String tickerUrl = "https://exchange.coinport.com/api/m/ticker/";
+    public static final String depthUrl = "https://exchange.coinport.com/api/m/%1$s-%2$s/depth";
+    public static final String txUrl = "https://exchange.coinport.com/api/%1$s-%2$s/transaction?limit=1&skip=0";
+
     static {
         Map<Integer, Integer> tMap = new HashMap<>();
         tMap.put(0, R.string.order_status_pending);

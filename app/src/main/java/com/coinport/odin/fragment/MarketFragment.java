@@ -17,6 +17,7 @@ import com.coinport.odin.R;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.TickerAdapter;
 import com.coinport.odin.obj.TickerItem;
+import com.coinport.odin.util.Constants;
 import com.coinport.odin.util.NetworkRequest;
 import com.coinport.odin.util.Util;
 
@@ -30,7 +31,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MarketFragment extends Fragment {
-    private final String baseUrl = "https://exchange.coinport.com/api/m/ticker/";
     private TickerAdapter tva;
     private String baseCurrency = "CNY";
     private TextView updateTimeRef;
@@ -111,7 +111,7 @@ public class MarketFragment extends Fragment {
         public void run() {
             tickerItems.clear();
             try {
-                String url = baseUrl + baseCurrency.toLowerCase();
+                String url = Constants.tickerUrl + baseCurrency.toLowerCase();
                 NetworkRequest get = new NetworkRequest();
                 get.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(5000);
                 get.setOnHttpRequestListener(new NetworkRequest.OnHttpRequestListener() {

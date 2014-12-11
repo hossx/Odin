@@ -7,18 +7,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.coinport.odin.R;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.DepthAdapter;
 import com.coinport.odin.obj.DepthItem;
+import com.coinport.odin.util.Constants;
+import com.coinport.odin.util.NetworkRequest;
+import com.coinport.odin.util.Util;
 
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,6 +38,8 @@ public class TradeBuySellFragment extends Fragment {
     ArrayList<DepthItem> buyItems = new ArrayList<>();
     ArrayList<DepthItem> sellItems = new ArrayList<>();
     private final Handler depthHandler = new Handler();
+    private TextView lastPriceView;
+    private String lastPrice;
 
     public TradeBuySellFragment() {
         // Required empty public constructor
@@ -69,6 +75,7 @@ public class TradeBuySellFragment extends Fragment {
         buyListView.setAdapter(buyAdapter);
         sellAdapter = new DepthAdapter(getActivity());
         sellListView.setAdapter(sellAdapter);
+        lastPriceView = (TextView) buySellView.findViewById(R.id.last_price);
         return buySellView;
     }
 
@@ -92,30 +99,67 @@ public class TradeBuySellFragment extends Fragment {
 
         @Override
         public void run() {
-            buyItems.clear();
-            sellItems.clear();
             try {
-                String file;
-                file = "btc_cny_depth_mock.json";
-                InputStream is = getActivity().getAssets().open(file);
-                int size = is.available();
-                byte[] buffer = new byte[size];
-                is.read(buffer);
-                is.close();
-                String bufferString = new String(buffer);
-                JSONObject depthResult = new JSONObject(bufferString);
+                String url = String.format(Constants.depthUrl, inCurrency.toLowerCase(), outCurrency.toLowerCase());
+                NetworkRequest get = new NetworkRequest();
+                get.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(5000).setOnHttpRequestListener(
+                        new NetworkRequest.OnHttpRequestListener() {
+                    @Override
+                    public void onRequest(NetworkRequest request) throws Exception {
 
-                JSONArray buyJsonList = depthResult.getJSONObject("data").getJSONArray("b");
-                for (int i = 0; i < buyJsonList.length(); ++i) {
-                    JSONObject jsonObj = buyJsonList.getJSONObject(i);
-                    buyItems.add(DepthItem.DepthItemBuilder.generateFromJson(jsonObj, true));
-                }
-                JSONArray sellJsonList = depthResult.getJSONObject("data").getJSONArray("a");
-                for (int i = 0; i < sellJsonList.length(); ++i) {
-                    JSONObject jsonObj = sellJsonList.getJSONObject(i);
-                    sellItems.add(0, DepthItem.DepthItemBuilder.generateFromJson(jsonObj, false));
-                }
+                    }
+
+                    @Override
+                    public String onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                        String result =  request.getInputStream();
+                        JSONObject depthResult = new JSONObject(result);
+                        JSONArray buyJsonList = Util.getJsonArrayByPath(depthResult, "data.b");
+                        buyItems.clear();
+                        for (int i = 0; i < buyJsonList.length(); ++i) {
+                            JSONObject jsonObj = buyJsonList.getJSONObject(i);
+                            buyItems.add(DepthItem.DepthItemBuilder.generateFromJson(jsonObj, true));
+                        }
+                        JSONArray sellJsonList = Util.getJsonArrayByPath(depthResult, "data.a");
+                        sellItems.clear();
+                        for (int i = 0; i < sellJsonList.length(); ++i) {
+                            JSONObject jsonObj = sellJsonList.getJSONObject(i);
+                            sellItems.add(0, DepthItem.DepthItemBuilder.generateFromJson(jsonObj, false));
+                        }
+                        return result;
+                    }
+
+                    @Override
+                    public String onFailed(int statusCode, NetworkRequest request) throws Exception {
+                        return "GET 请求失败：statusCode "+ statusCode;
+                    }
+                }).get(url);
+
+                url = String.format(Constants.txUrl, inCurrency.toLowerCase(), outCurrency.toLowerCase());
+                NetworkRequest getTx = new NetworkRequest();
+                getTx.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(5000).setOnHttpRequestListener(
+                        new NetworkRequest.OnHttpRequestListener() {
+                            @Override
+                            public void onRequest(NetworkRequest request) throws Exception {
+
+                            }
+
+                            @Override
+                            public String onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                                String result =  request.getInputStream();
+                                JSONObject txResult = new JSONObject(result);
+                                lastPrice = Util.getJsonObjectByPath(Util.getJsonArrayByPath(txResult, "data.items")
+                                    .getJSONObject(0), "price").getString("display");
+                                return result;
+                            }
+
+                            @Override
+                            public String onFailed(int statusCode, NetworkRequest request) throws Exception {
+                                return "GET 请求失败：statusCode "+ statusCode;
+                            }
+                        }).get(url);
             } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             depthHandler.post(new Runnable() {
@@ -125,6 +169,7 @@ public class TradeBuySellFragment extends Fragment {
                     sellAdapter.setDepthItems(sellItems);
                     buyAdapter.notifyDataSetChanged();
                     sellAdapter.notifyDataSetChanged();
+                    lastPriceView.setText(lastPrice);
                 }
             });
         }
