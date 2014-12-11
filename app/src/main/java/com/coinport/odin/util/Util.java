@@ -1,18 +1,15 @@
 package com.coinport.odin.util;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.coinport.odin.R;
+import com.google.zxing.common.StringUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -112,14 +110,43 @@ public final class Util {
         return json;
     }
 
-    public static JSONArray getJsonArrayFromFile(Context context, String filename) {
-        JSONArray ja = null;
+    public static JSONObject getJsonObjectByPath(JSONObject obj, String pathStr) {
+        JSONObject result = null;
+        JSONObject newObj = obj;
+        String[] paths = pathStr.split("//.");
         try {
-            ja = getJsonObjectFromFile(context, filename).getJSONObject("data").getJSONArray("items");
+            for (int i = 0; i < paths.length; ++i) {
+                result = newObj.getJSONObject(paths[i]);
+                newObj = result;
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return ja;
+        return result;
+    }
+
+    public static JSONArray getJsonArrayByPath(JSONObject obj, String pathStr) {
+        JSONArray result = null;
+        JSONObject tmpObj = null;
+        String name = null;
+        int baseEnd = pathStr.lastIndexOf(".");
+        if (baseEnd == -1) {
+            tmpObj = obj;
+            name = pathStr;
+        } else {
+            tmpObj = getJsonObjectByPath(obj, pathStr.substring(0, baseEnd));
+            name = pathStr.substring(baseEnd + 1, pathStr.length());
+        }
+        try {
+            result =  tmpObj.getJSONArray(name);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static JSONArray getJsonArrayFromFile(Context context, String filename) {
+        return getJsonArrayByPath(getJsonObjectFromFile(context, filename), "data.items");
     }
 
     private static String getApplicationRoot() {

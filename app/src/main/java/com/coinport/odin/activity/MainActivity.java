@@ -54,6 +54,7 @@ public class MainActivity extends FragmentActivity {
     private TextView textView = null;
 
     private long exitTime = 0;
+    private int currentPagePosition = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,43 +153,9 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 0) {
-                    MenuItem cs = menu.findItem(R.id.currency_selector);
-                    if (cs != null) cs.setVisible(false);
-                    MenuItem mi = menu.findItem(R.id.base_currency_selector);
-                    if (mi != null) mi.setVisible(true);
-////                    menu.add(Menu.NONE, R.id.action_contact, Menu.NONE, "contact").setIcon(R.drawable.ic_action_user).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-//                    MenuItem mi = menu.findItem(R.id.action_contact);
-//                    if (mi != null)
-//                        mi.setVisible(true);
-//                    else {
-//                        TextView btcActionView = new TextView(self);
-//                        btcActionView.setId(R.id.btc_view);
-//                        btcActionView.setPadding(4, 0, 4, 0);
-//                        Typeface tf = Typeface.createFromAsset(self.getAssets(), "coinport.ttf");
-//                        btcActionView.setTypeface(tf);
-//                        btcActionView.setTextColor(Color.WHITE);
-//                        btcActionView.setTextSize(25);
-//                        btcActionView.setText("\ue62a");
-//                        btcActionView.setBackgroundColor(Color.BLUE);
-//                        menu.add(Menu.NONE, R.id.action_contact, Menu.NONE, "contact").setActionView(btcActionView).setIcon(R.drawable.ic_action_user).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-//                    }
-                } else if (position == 1) {
-                    MenuItem cs = menu.findItem(R.id.currency_selector);
-                    if (cs != null) cs.setVisible(true);
-                    MenuItem mi = menu.findItem(R.id.base_currency_selector);
-                    if (mi != null) mi.setVisible(false);
-
-//                    actionBar.setDisplayShowCustomEnabled(true);
-//
-//                    MenuItem mi = menu.findItem(R.id.action_contact);
-//                    if (mi != null) mi.setVisible(false);
-                } else if (position == 2) {
-                    MenuItem cs = menu.findItem(R.id.currency_selector);
-                    if (cs != null) cs.setVisible(false);
-                    MenuItem mi = menu.findItem(R.id.base_currency_selector);
-                    if (mi != null) mi.setVisible(false);
-                }
+                currentPagePosition = position;
+                if (menu != null)
+                    changeActionBar(currentPagePosition);
             }
 
             @Override
@@ -209,6 +176,7 @@ public class MainActivity extends FragmentActivity {
 //        this.menu.add(Menu.NONE, R.id.config_more, Menu.NONE, getString(R.string.menu_item_more))
 //            .setIcon(R.drawable.ic_action_overflow).setVisible(true)
 //            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        changeActionBar(currentPagePosition);
 //        pager.setCurrentItem(3);
         return true;
     }
@@ -363,4 +331,43 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    private void changeActionBar(int position) {
+        if (position == 0) {
+            MenuItem cs = menu.findItem(R.id.currency_selector);
+            if (cs != null) cs.setVisible(false);
+            MenuItem mi = menu.findItem(R.id.base_currency_selector);
+            if (mi != null) mi.setVisible(true);
+////                    menu.add(Menu.NONE, R.id.action_contact, Menu.NONE, "contact").setIcon(R.drawable.ic_action_user).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//                    MenuItem mi = menu.findItem(R.id.action_contact);
+//                    if (mi != null)
+//                        mi.setVisible(true);
+//                    else {
+//                        TextView btcActionView = new TextView(self);
+//                        btcActionView.setId(R.id.btc_view);
+//                        btcActionView.setPadding(4, 0, 4, 0);
+//                        Typeface tf = Typeface.createFromAsset(self.getAssets(), "coinport.ttf");
+//                        btcActionView.setTypeface(tf);
+//                        btcActionView.setTextColor(Color.WHITE);
+//                        btcActionView.setTextSize(25);
+//                        btcActionView.setText("\ue62a");
+//                        btcActionView.setBackgroundColor(Color.BLUE);
+//                        menu.add(Menu.NONE, R.id.action_contact, Menu.NONE, "contact").setActionView(btcActionView).setIcon(R.drawable.ic_action_user).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//                    }
+        } else if (position == 1) {
+            MenuItem cs = menu.findItem(R.id.currency_selector);
+            if (cs != null) cs.setVisible(true);
+            MenuItem mi = menu.findItem(R.id.base_currency_selector);
+            if (mi != null) mi.setVisible(false);
+
+//                    actionBar.setDisplayShowCustomEnabled(true);
+//
+//                    MenuItem mi = menu.findItem(R.id.action_contact);
+//                    if (mi != null) mi.setVisible(false);
+        } else if (position == 2) {
+            MenuItem cs = menu.findItem(R.id.currency_selector);
+            if (cs != null) cs.setVisible(false);
+            MenuItem mi = menu.findItem(R.id.base_currency_selector);
+            if (mi != null) mi.setVisible(false);
+        }
+    }
 }
