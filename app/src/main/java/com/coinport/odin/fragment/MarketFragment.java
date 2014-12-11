@@ -60,7 +60,7 @@ public class MarketFragment extends Fragment {
                 getActivity().startActivity(toTrade);
             }
         });
-        fetchDataWithBaseCurrency(baseCurrency);
+//        fetchDataWithBaseCurrency(baseCurrency);
         return marketView;
     }
 
@@ -94,16 +94,16 @@ public class MarketFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-//        fetchDataWithBaseCurrency(baseCurrency);
+        fetchDataWithBaseCurrency(baseCurrency);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-//        if (timer != null)
-//            timer.cancel();
-//        if (fetchTickerTask != null)
-//            fetchTickerTask.cancel();
+        if (timer != null)
+            timer.cancel();
+        if (fetchTickerTask != null)
+            fetchTickerTask.cancel();
     }
 
     private class FetchTickerTask extends TimerTask {
