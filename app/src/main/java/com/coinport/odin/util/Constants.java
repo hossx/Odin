@@ -16,6 +16,7 @@ public class Constants {
     public static final String depthUrl = "https://exchange.coinport.com/api/m/%1$s-%2$s/depth";
     public static final String txUrl = "https://exchange.coinport.com/api/%1$s-%2$s/transaction";
     public static final String loginUrl = "http://192.168.0.2:9000/account/login";
+    public static final String profileUrl = "http://192.168.0.2:9000/account#/accountprofiles";
 
     static {
         Map<Integer, Integer> tMap = new HashMap<>();

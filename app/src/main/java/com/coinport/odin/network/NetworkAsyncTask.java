@@ -20,6 +20,26 @@ public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, Strin
     private OnHttpResponseListener onFailedListener = null;
     private OnPostRenderListener renderListener = null;
 
+    public NetworkAsyncTask setPrepareRequestListener(OnHttpPrepareRequestListener prepareRequestListener) {
+        this.prepareRequestListener = prepareRequestListener;
+        return this;
+    }
+
+    public NetworkAsyncTask setOnSucceedListener(OnHttpResponseListener onSucceedListener) {
+        this.onSucceedListener = onSucceedListener;
+        return this;
+    }
+
+    public NetworkAsyncTask setOnFailedListener(OnHttpResponseListener onFailedListener) {
+        this.onFailedListener = onFailedListener;
+        return this;
+    }
+
+    public NetworkAsyncTask setRenderListener(OnPostRenderListener renderListener) {
+        this.renderListener = renderListener;
+        return this;
+    }
+
     public NetworkAsyncTask(String url, HttpMethod method) {
         this.url = url;
         this.method = method;

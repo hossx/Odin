@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.coinport.odin.R;
+import com.coinport.odin.network.NetworkAsyncTask;
 import com.coinport.odin.util.Constants;
 import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.util.Util;
@@ -63,6 +64,17 @@ public class LoginActivity extends Activity implements OnClickListener {
             case R.id.btn_login_regist:
 //                intent = new Intent(LoginActivity.this, RegisterActivity.class);
 //                startActivity(intent);
+                NetworkAsyncTask task = new NetworkAsyncTask(Constants.profileUrl, Constants.HttpMethod.GET)
+                    .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                        @Override
+                        public void onRender(String s) {
+                            if (s == null)
+                                Log.d("login activity:", "error");
+                            else
+                                Log.d("login activity:", s);
+                        }
+                });
+                task.execute();
                 break;
             case R.id.btn_login:
                 String username = ((EditText) (self.findViewById(R.id.user_name))).getText().toString();
@@ -70,7 +82,18 @@ public class LoginActivity extends Activity implements OnClickListener {
                 Map<String, String> params = new HashMap<>();
                 params.put("username", username);
                 params.put("password", Util.sha256base64(pw));
-                new LoginTask().execute(params);
+                task = new NetworkAsyncTask(Constants.loginUrl, Constants.HttpMethod.POST).setRenderListener(
+                        new NetworkAsyncTask.OnPostRenderListener() {
+                            @Override
+                            public void onRender(String s) {
+                                if (s == null)
+                                    Log.d("login activity:", "error");
+                                else
+                                    Log.d("login activity:", s);
+                            }
+                        });
+                task.execute(params);
+//                new LoginTask().execute(params);
 //                intent = new Intent(LoginActivity.this, MainActivity.class);
 //                startActivity(intent);
 //                finish();
@@ -103,46 +126,4 @@ public class LoginActivity extends Activity implements OnClickListener {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-    private class LoginTask extends AsyncTask<Map<String, String>, Void, String> {
-
-        @Override
-        protected String doInBackground(final Map<String, String>... params) {
-            final Map<String, String> p = params[0];
-            NetworkRequest post = new NetworkRequest();
-            try {
-                return post.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(10000).setOnHttpRequestListener(
-                        new NetworkRequest.OnHttpRequestListener() {
-                            @Override
-                            public void onRequest(NetworkRequest request) throws Exception {
-                                request.addRequestParameters(p);
-                            }
-
-                            @Override
-                            public String onSucceed(int statusCode, NetworkRequest request) throws Exception {
-                                request.getHttpResponse().getHeaders("Cookie");
-                                return request.getInputStream();
-                            }
-
-                            @Override
-                            public String onFailed(int statusCode, NetworkRequest request) throws Exception {
-                                System.out.println(statusCode);
-                                return null;
-                            }
-                        }
-                ).post(Constants.loginUrl);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            if (s == null)
-                Log.d("login activity:", "error");
-            else
-                Log.d("login activity:", s);
-        }
-    }
 }
