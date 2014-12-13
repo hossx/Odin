@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.AbstractHttpClient;
@@ -187,7 +188,13 @@ public final class NetworkRequest {
         HttpConnectionParams.setSoTimeout(this.httpParameters, this.soTimeout);
         // 开启一个客户端 HTTP 请求
         this.httpClient = new DefaultHttpClient(this.httpParameters);
-        this.httpClient.setCookieStore(new CustomCookieStore());
+        CustomCookieStore ccs = new CustomCookieStore();
+        this.httpClient.setCookieStore(ccs);
+        Cookie cookie = ccs.getCookie("XSRF-TOKEN");
+        if (cookie != null) {
+            String token = cookie.getValue();
+            httpRequest.setHeader("X-XSRF-TOKEN", token);
+        }
         // 启动 HTTP POST 请求执行前的事件监听回调操作(如: 自定义提交的数据字段或上传的文件等)
         this.getOnHttpRequestListener().onRequest(this);
 

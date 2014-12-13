@@ -4,6 +4,7 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class CustomCookieStore extends BasicCookieStore {
@@ -11,7 +12,7 @@ public class CustomCookieStore extends BasicCookieStore {
         super();
         try {
             List<Cookie> cookies = CookieDBManager.getInstance().getAllCookies();
-            CookieDBManager.getInstance().clear();
+//            CookieDBManager.getInstance().clear();
             Cookie[] cookiesArr = new Cookie[cookies.size()];
             for (int i = cookies.size() - 1; i >= 0; i--) {
                 cookiesArr[i] = cookies.get(i);
@@ -70,5 +71,16 @@ public class CustomCookieStore extends BasicCookieStore {
     @Override
     public String toString() {
         return super.toString();
+    }
+
+    public Cookie getCookie(String name) {
+        Iterator it = getCookies().iterator();
+        while (it.hasNext()) {
+            Cookie cookie = (Cookie) it.next();
+            if (cookie.getName().equals(name)) {
+                return cookie;
+            }
+        }
+        return null;
     }
 }

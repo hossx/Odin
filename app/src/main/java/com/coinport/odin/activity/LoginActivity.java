@@ -64,7 +64,12 @@ public class LoginActivity extends Activity implements OnClickListener {
             case R.id.btn_login_regist:
 //                intent = new Intent(LoginActivity.this, RegisterActivity.class);
 //                startActivity(intent);
-                NetworkAsyncTask task = new NetworkAsyncTask(Constants.profileUrl, Constants.HttpMethod.GET)
+                Map<String, String> params = new HashMap<>();
+                params.put("type", "bid");
+                params.put("price", "200");
+                params.put("amount", "3");
+                String url = String.format(Constants.bidUrl, "BTC", "CNY");
+                NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.POST)
                     .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                         @Override
                         public void onRender(String s) {
@@ -74,12 +79,12 @@ public class LoginActivity extends Activity implements OnClickListener {
                                 Log.d("login activity:", s);
                         }
                 });
-                task.execute();
+                task.execute(params);
                 break;
             case R.id.btn_login:
                 String username = ((EditText) (self.findViewById(R.id.user_name))).getText().toString();
                 String pw = ((EditText) (self.findViewById(R.id.password))).getText().toString();
-                Map<String, String> params = new HashMap<>();
+                params = new HashMap<>();
                 params.put("username", username);
                 params.put("password", Util.sha256base64(pw));
                 task = new NetworkAsyncTask(Constants.loginUrl, Constants.HttpMethod.POST).setRenderListener(
