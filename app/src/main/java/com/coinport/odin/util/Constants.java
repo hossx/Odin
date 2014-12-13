@@ -14,7 +14,8 @@ public class Constants {
     public static final Map<Integer, Integer> ORDER_STATUS_MAP;
     public static final String tickerUrl = "https://exchange.coinport.com/api/m/ticker/";
     public static final String depthUrl = "https://exchange.coinport.com/api/m/%1$s-%2$s/depth";
-    public static final String txUrl = "https://exchange.coinport.com/api/%1$s-%2$s/transaction?limit=1&skip=0";
+    public static final String txUrl = "https://exchange.coinport.com/api/%1$s-%2$s/transaction";
+    public static final String loginUrl = "http://192.168.0.2:9000/account/login";
 
     static {
         Map<Integer, Integer> tMap = new HashMap<>();
@@ -25,5 +26,9 @@ public class Constants {
         tMap.put(4, R.string.order_status_canceled);
         tMap.put(5, R.string.order_status_canceled);
         ORDER_STATUS_MAP = Collections.unmodifiableMap(tMap);
+    }
+
+    public enum HttpMethod {
+        GET, POST
     }
 }

@@ -1,15 +1,21 @@
-package com.coinport.odin.util;
+package com.coinport.odin.network;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.utils.URIUtils;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -17,7 +23,12 @@ import org.apache.http.protocol.HTTP;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public final class NetworkRequest {
     public final String HTTP_GET = "GET";
@@ -29,11 +40,12 @@ public final class NetworkRequest {
     protected int soTimeout = 10000;
     protected int statusCode = -1;
     protected String charset = HTTP.UTF_8;
-    protected HttpRequestBase httpRequest= null;
-    protected HttpParams httpParameters= null;
-    protected HttpResponse httpResponse= null;
-    protected HttpClient httpClient= null;
-    protected MultipartEntityBuilder multipartEntityBuilder= null;
+    protected HttpRequestBase httpRequest = null;
+    protected HttpParams httpParameters = null;
+    protected List<NameValuePair> requestParams = new ArrayList<>();
+    protected HttpResponse httpResponse = null;
+    protected AbstractHttpClient httpClient = null;
+    protected MultipartEntityBuilder multipartEntityBuilder = null;
     protected OnHttpRequestListener onHttpRequestListener = null;
 
     public NetworkRequest(){}
@@ -144,6 +156,13 @@ public final class NetworkRequest {
         this.getHttpPost().setEntity(httpEntity);
     }
 
+    public void addRequestParameters(Map<String, String> params) {
+        Set<String> keySet = params.keySet();
+        for(String key : keySet) {
+            requestParams.add(new BasicNameValuePair(key, params.get(key)));
+        }
+    }
+
     public String post(String url) throws Exception
     {
         this.requsetType = HTTP_POST;
@@ -168,8 +187,24 @@ public final class NetworkRequest {
         HttpConnectionParams.setSoTimeout(this.httpParameters, this.soTimeout);
         // 开启一个客户端 HTTP 请求
         this.httpClient = new DefaultHttpClient(this.httpParameters);
+        this.httpClient.setCookieStore(new CustomCookieStore());
         // 启动 HTTP POST 请求执行前的事件监听回调操作(如: 自定义提交的数据字段或上传的文件等)
         this.getOnHttpRequestListener().onRequest(this);
+
+        if (!requestParams.isEmpty()) {
+            if (isPost()) {
+                ((HttpPost) httpRequest).setEntity(new UrlEncodedFormEntity(requestParams));
+            } else {
+                URI oldUri = httpRequest.getURI();
+                String query = "";
+                if (oldUri.getQuery() != null && !oldUri.getQuery().equals(""))
+                    query += oldUri.getQuery() + "&";
+                query += URLEncodedUtils.format(requestParams, "UTF-8");
+                URI newUri = URIUtils.createURI(oldUri.getScheme(), oldUri.getHost(), oldUri.getPort(),
+                    oldUri.getPath(), query, null);
+                this.httpRequest.setURI(newUri);
+            }
+        }
         // 发送 HTTP 请求并获取服务端响应状态
         this.httpResponse = this.httpClient.execute(this.httpRequest);
         // 获取请求返回的状态码

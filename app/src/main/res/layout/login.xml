@@ -30,12 +30,12 @@
             android:orientation="horizontal" >
 
             <EditText
-                android:id="@+id/et_qqNum"
+                android:id="@+id/user_name"
                 android:layout_width="220dp"
                 android:layout_height="40dp"
                 android:background="#00ffffff"
                 android:hint="@string/login_input_email"
-                android:inputType="number"
+                android:inputType="textEmailAddress"
                 android:paddingLeft="10dp" />
 
             <!--<Button-->
@@ -55,7 +55,7 @@
             android:background="@drawable/divider_horizontal_line" />
 
         <EditText
-            android:id="@+id/et_qqPwd"
+            android:id="@+id/password"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:background="#00ffffff"

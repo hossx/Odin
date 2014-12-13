@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.TickerAdapter;
 import com.coinport.odin.obj.TickerItem;
 import com.coinport.odin.util.Constants;
-import com.coinport.odin.util.NetworkRequest;
+import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.util.Util;
 
 import org.apache.http.protocol.HTTP;

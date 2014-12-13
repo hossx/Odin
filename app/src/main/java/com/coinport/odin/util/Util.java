@@ -2,6 +2,7 @@ package com.coinport.odin.util;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -9,7 +10,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.coinport.odin.R;
-import com.google.zxing.common.StringUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +17,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -149,7 +151,37 @@ public final class Util {
         return getJsonArrayByPath(getJsonObjectFromFile(context, filename), "data.items");
     }
 
+    public static String sha256base64(String raw) {
+        String result = "";
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+            md.update(raw.getBytes());
+            result = base64(md.digest());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     private static String getApplicationRoot() {
         return Environment.getExternalStorageDirectory() + "/coinport/";
+    }
+
+    private static String base64(byte[] bytes) {
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private static String bytes2Hex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        String tmp = null;
+        for (int i = 0; i < bytes.length; i++) {
+            tmp = (Integer.toHexString(bytes[i] & 0xFF));
+            if (tmp.length() == 1) {
+                sb.append("0");
+            }
+            sb.append(tmp);
+        }
+        return sb.toString();
     }
 }

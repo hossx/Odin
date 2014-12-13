@@ -14,7 +14,7 @@ import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.DepthAdapter;
 import com.coinport.odin.obj.DepthItem;
 import com.coinport.odin.util.Constants;
-import com.coinport.odin.util.NetworkRequest;
+import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.util.Util;
 
 import org.apache.http.protocol.HTTP;
@@ -24,6 +24,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -140,7 +142,10 @@ public class TradeBuySellFragment extends Fragment {
                         new NetworkRequest.OnHttpRequestListener() {
                             @Override
                             public void onRequest(NetworkRequest request) throws Exception {
-
+                                Map<String, String> params = new HashMap<>();
+                                params.put("limit", "1");
+                                params.put("skip", "0");
+                                request.addRequestParameters(params);
                             }
 
                             @Override
