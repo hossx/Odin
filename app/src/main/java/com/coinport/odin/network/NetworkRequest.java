@@ -21,8 +21,10 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.charset.Charset;
@@ -125,7 +127,7 @@ public final class NetworkRequest {
         return this.statusCode;
     }
 
-    public String get(String url) throws Exception
+    public HttpResponse get(String url) throws Exception
     {
         this.requsetType = HTTP_GET;
         // 设置当前请求的链接
@@ -164,7 +166,7 @@ public final class NetworkRequest {
         }
     }
 
-    public String post(String url) throws Exception
+    public HttpResponse post(String url) throws Exception
     {
         this.requsetType = HTTP_POST;
         // 设置当前请求的链接
@@ -218,10 +220,9 @@ public final class NetworkRequest {
         this.statusCode = this.httpResponse.getStatusLine().getStatusCode();
     }
 
-    public String getInputStream() throws Exception
-    {
+    static public String getInputStream(HttpResponse response) throws IOException {
         // 接收远程输入流
-        InputStream inStream = this.httpResponse.getEntity().getContent();
+        InputStream inStream = response.getEntity().getContent();
         // 分段读取输入流数据
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] buf = new byte[1024];
@@ -232,7 +233,12 @@ public final class NetworkRequest {
         // 数据接收完毕退出
         inStream.close();
         // 将数据转换为字符串保存
-        return new String(baos.toByteArray(), this.charset);
+        return new String(baos.toByteArray(), EntityUtils.getContentCharSet(response.getEntity()));
+    }
+
+    public String getInputStream() throws Exception
+    {
+        return getInputStream(this.httpResponse);
     }
 
     protected void shutdownHttpClient()
@@ -242,20 +248,20 @@ public final class NetworkRequest {
         }
     }
 
-    protected String checkStatus() throws Exception
+    protected HttpResponse checkStatus() throws Exception
     {
         OnHttpRequestListener listener = this.getOnHttpRequestListener();
-        String content;
+        HttpResponse response;
         if (this.statusCode == HttpStatus.SC_OK) {
             // 请求成功, 回调监听事件
-            content = listener.onSucceed(this.statusCode, this);
+            response = listener.onSucceed(this.statusCode, this);
         } else {
             // 请求失败或其他, 回调监听事件
-            content = listener.onFailed(this.statusCode, this);
+            response = listener.onFailed(this.statusCode, this);
         }
         // 关闭连接管理器释放资源
         this.shutdownHttpClient();
-        return content;
+        return response;
     }
 
     public interface OnHttpRequestListener
@@ -268,12 +274,12 @@ public final class NetworkRequest {
         /**
          * 当 HTTP 请求响应成功时的回调方法
          */
-        public String onSucceed(int statusCode, NetworkRequest request) throws Exception;
+        public HttpResponse onSucceed(int statusCode, NetworkRequest request) throws Exception;
 
         /**
          * 当 HTTP 请求响应失败时的回调方法
          */
-        public String onFailed(int statusCode, NetworkRequest request) throws Exception;
+        public HttpResponse onFailed(int statusCode, NetworkRequest request) throws Exception;
     }
 
     public NetworkRequest setOnHttpRequestListener(OnHttpRequestListener listener)

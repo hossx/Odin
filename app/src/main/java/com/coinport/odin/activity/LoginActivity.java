@@ -20,8 +20,10 @@ import com.coinport.odin.util.Constants;
 import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.util.Util;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HTTP;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,11 +74,15 @@ public class LoginActivity extends Activity implements OnClickListener {
                 NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.POST)
                     .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                         @Override
-                        public void onRender(String s) {
+                        public void onRender(HttpResponse s) {
                             if (s == null)
                                 Log.d("login activity:", "error");
                             else
-                                Log.d("login activity:", s);
+                                try {
+                                    Log.d("login activity:", NetworkRequest.getInputStream(s));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                         }
                 });
                 task.execute(params);
@@ -90,11 +96,15 @@ public class LoginActivity extends Activity implements OnClickListener {
                 task = new NetworkAsyncTask(Constants.loginUrl, Constants.HttpMethod.POST).setRenderListener(
                         new NetworkAsyncTask.OnPostRenderListener() {
                             @Override
-                            public void onRender(String s) {
+                            public void onRender(HttpResponse s) {
                                 if (s == null)
                                     Log.d("login activity:", "error");
                                 else
-                                    Log.d("login activity:", s);
+                                    try {
+                                        Log.d("login activity:", NetworkRequest.getInputStream(s));
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                             }
                         });
                 task.execute(params);

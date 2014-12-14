@@ -17,6 +17,7 @@ import com.coinport.odin.util.Constants;
 import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.util.Util;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -112,9 +113,9 @@ public class TradeBuySellFragment extends Fragment {
                     }
 
                     @Override
-                    public String onSucceed(int statusCode, NetworkRequest request) throws Exception {
-                        String result =  request.getInputStream();
-                        JSONObject depthResult = new JSONObject(result);
+                    public HttpResponse onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                        HttpResponse result =  request.getHttpResponse();
+                        JSONObject depthResult = new JSONObject(NetworkRequest.getInputStream(result));
                         JSONArray buyJsonList = Util.getJsonArrayByPath(depthResult, "data.b");
                         buyItems.clear();
                         for (int i = 0; i < buyJsonList.length(); ++i) {
@@ -131,8 +132,9 @@ public class TradeBuySellFragment extends Fragment {
                     }
 
                     @Override
-                    public String onFailed(int statusCode, NetworkRequest request) throws Exception {
-                        return "GET 请求失败：statusCode "+ statusCode;
+                    public HttpResponse onFailed(int statusCode, NetworkRequest request) throws Exception {
+                        return request.getHttpResponse();
+//                        return "GET 请求失败：statusCode "+ statusCode;
                     }
                 }).get(url);
 
@@ -149,17 +151,18 @@ public class TradeBuySellFragment extends Fragment {
                             }
 
                             @Override
-                            public String onSucceed(int statusCode, NetworkRequest request) throws Exception {
-                                String result =  request.getInputStream();
-                                JSONObject txResult = new JSONObject(result);
+                            public HttpResponse onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                                HttpResponse result =  request.getHttpResponse();
+                                JSONObject txResult = new JSONObject(NetworkRequest.getInputStream(result));
                                 lastPrice = Util.getJsonObjectByPath(Util.getJsonArrayByPath(txResult, "data.items")
                                     .getJSONObject(0), "price").getString("display");
                                 return result;
                             }
 
                             @Override
-                            public String onFailed(int statusCode, NetworkRequest request) throws Exception {
-                                return "GET 请求失败：statusCode "+ statusCode;
+                            public HttpResponse onFailed(int statusCode, NetworkRequest request) throws Exception {
+                                return request.getHttpResponse();
+//                                return "GET 请求失败：statusCode "+ statusCode;
                             }
                         }).get(url);
             } catch (IOException | JSONException e) {

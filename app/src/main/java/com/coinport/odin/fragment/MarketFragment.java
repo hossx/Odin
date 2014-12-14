@@ -20,6 +20,7 @@ import com.coinport.odin.util.Constants;
 import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.util.Util;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -120,9 +121,9 @@ public class MarketFragment extends Fragment {
                     }
 
                     @Override
-                    public String onSucceed(int statusCode, NetworkRequest request) throws Exception {
-                        String result =  request.getInputStream();
-                        JSONArray jsonList = Util.getJsonArrayByPath(new JSONObject(result), "data");
+                    public HttpResponse onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                        HttpResponse result =  request.getHttpResponse();
+                        JSONArray jsonList = Util.getJsonArrayByPath(new JSONObject(NetworkRequest.getInputStream(result)), "data");
                         if (jsonList != null)
                             for (int i = 0; i < jsonList.length(); ++i) {
                                 JSONObject jsonObj = jsonList.getJSONObject(i);
@@ -132,8 +133,9 @@ public class MarketFragment extends Fragment {
                     }
 
                     @Override
-                    public String onFailed(int statusCode, NetworkRequest request) throws Exception {
-                        return "GET 请求失败：statusCode "+ statusCode;
+                    public HttpResponse onFailed(int statusCode, NetworkRequest request) throws Exception {
+                        return request.getHttpResponse();
+//                        return "GET 请求失败：statusCode "+ statusCode;
                     }
                 });
 

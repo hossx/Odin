@@ -4,14 +4,12 @@ import android.os.AsyncTask;
 
 import com.coinport.odin.util.Constants.HttpMethod;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HTTP;
 
 import java.util.Map;
 
-/**
- * Created by hoss on 14-12-13.
- */
-public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, String> {
+public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, HttpResponse> {
     private String url;
     private HttpMethod method;
 
@@ -46,7 +44,7 @@ public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, Strin
     }
 
     @Override
-    protected String doInBackground(final Map<String, String>... params) {
+    protected HttpResponse doInBackground(final Map<String, String>... params) {
         NetworkRequest request = new NetworkRequest();
         request.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(10000).setOnHttpRequestListener(
             new NetworkRequest.OnHttpRequestListener() {
@@ -59,23 +57,23 @@ public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, Strin
                 }
 
                 @Override
-                public String onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                public HttpResponse onSucceed(int statusCode, NetworkRequest request) throws Exception {
                     if (onSucceedListener != null)
                         return onSucceedListener.onResponse(statusCode, request);
                     else
-                        return request.getInputStream();
+                        return request.getHttpResponse();
                 }
 
                 @Override
-                public String onFailed(int statusCode, NetworkRequest request) throws Exception {
+                public HttpResponse onFailed(int statusCode, NetworkRequest request) throws Exception {
                     if (onFailedListener != null)
                         return onFailedListener.onResponse(statusCode, request);
                     else
-                        return null;
+                        return request.getHttpResponse();
                 }
             });
 
-        String result = null;
+        HttpResponse result = null;
         try {
             switch (method) {
                 case GET:
@@ -92,7 +90,7 @@ public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, Strin
     }
 
     @Override
-    protected void onPostExecute(String s) {
+    protected void onPostExecute(HttpResponse s) {
         if (renderListener != null)
             renderListener.onRender(s);
         else
@@ -104,10 +102,10 @@ public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, Strin
     }
 
     public interface OnHttpResponseListener {
-        public String  onResponse(int statusCode, NetworkRequest request);
+        public HttpResponse onResponse(int statusCode, NetworkRequest request);
     }
 
     public interface OnPostRenderListener {
-        public void onRender(String s);
+        public void onRender(HttpResponse s);
     }
 }
