@@ -3,11 +3,16 @@ package com.coinport.odin.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.coinport.odin.App;
 import com.coinport.odin.R;
@@ -35,7 +40,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TradeBuySellFragment extends Fragment {
+public class TradeBuySellFragment extends Fragment implements View.OnClickListener {
     private ListView buyListView;
     private DepthAdapter buyAdapter;
     private DepthAdapter sellAdapter;
@@ -48,6 +53,13 @@ public class TradeBuySellFragment extends Fragment {
     private final Handler depthHandler = new Handler();
     private TextView lastPriceView;
     private String lastPrice;
+
+    EditText buyPrice;
+    EditText buyQuantity;
+    EditText buyAmount;
+    EditText sellPrice;
+    EditText sellQuantity;
+    EditText sellAmount;
 
     private View buySellView = null;
     public TradeBuySellFragment() {
@@ -80,11 +92,24 @@ public class TradeBuySellFragment extends Fragment {
         buySellView = inflater.inflate(R.layout.trade_buy_sell_fragment, container, false);
         buyListView = (ListView) buySellView.findViewById(R.id.buy_depth);
         ListView sellListView = (ListView) buySellView.findViewById(R.id.sell_depth);
-        buyAdapter = new DepthAdapter(getActivity());
+        buyAdapter = new DepthAdapter(getActivity(), buySellView);
         buyListView.setAdapter(buyAdapter);
-        sellAdapter = new DepthAdapter(getActivity());
+        sellAdapter = new DepthAdapter(getActivity(), buySellView);
         sellListView.setAdapter(sellAdapter);
         lastPriceView = (TextView) buySellView.findViewById(R.id.last_price);
+        lastPriceView.setOnClickListener(this);
+        Button buyBtn = (Button) buySellView.findViewById(R.id.buy);
+        buyBtn.setOnClickListener(this);
+        Button sellBtn = (Button) buySellView.findViewById(R.id.sell);
+        sellBtn.setOnClickListener(this);
+
+        buyPrice = (EditText) buySellView.findViewById(R.id.buy_price_edit);
+        buyQuantity = (EditText) buySellView.findViewById(R.id.buy_quantity_edit);
+        buyAmount = (EditText) buySellView.findViewById(R.id.buy_amount_edit);
+        sellPrice = (EditText) buySellView.findViewById(R.id.sell_price_edit);
+        sellQuantity = (EditText) buySellView.findViewById(R.id.sell_quantity_edit);
+        sellAmount = (EditText) buySellView.findViewById(R.id.sell_amount_edit);
+
         return buySellView;
     }
 
@@ -156,6 +181,24 @@ public class TradeBuySellFragment extends Fragment {
                 }
             });
         task.execute();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buy:
+                Double buyPriceV = Double.parseDouble(buyPrice.getText().toString());
+                Double buyQuantityV = Double.parseDouble(buyQuantity.getText().toString());
+                Double buyAmountV = Double.parseDouble(buyAmount.getText().toString());
+//                Toast.makeText(getActivity(), getString(R.string.exit_hint), Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.sell:
+                break;
+            case R.id.last_price:
+                buyPrice.setText(lastPrice);
+                sellPrice.setText(lastPrice);
+                break;
+        }
     }
 
     private class FetchDepthTask extends TimerTask {

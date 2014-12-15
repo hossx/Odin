@@ -194,6 +194,9 @@
     <string name="login_register">注册</string>
     <string name="login_fail">用户名或密码输入有误</string>
 
+    <string name="submit_lack_amount">余额不足</string>
+    <string name="submit_too_small">下单额度需大于1元或0.001BTC</string>
+
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_register">用户注册</string>
     <string name="title_activity_login">LoginActivity</string>

@@ -1,11 +1,8 @@
 package com.coinport.odin.activity;
 
-import android.accounts.Account;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,17 +16,14 @@ import com.coinport.odin.App;
 import com.coinport.odin.R;
 import com.coinport.odin.network.CustomCookieStore;
 import com.coinport.odin.network.NetworkAsyncTask;
+import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.network.OnApiResponseListener;
 import com.coinport.odin.obj.AccountInfo;
 import com.coinport.odin.util.Constants;
-import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.util.Util;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.cookie.Cookie;
-import org.apache.http.protocol.HTTP;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
