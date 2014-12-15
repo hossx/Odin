@@ -159,7 +159,8 @@
                                     android:background="@null"
                                     android:inputType="numberDecimal"
                                     android:ems="10"
-                                    android:id="@+id/buy_price_edit"/>
+                                    android:id="@+id/buy_price_edit"
+                                    android:text="0"/>
                             </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
@@ -186,7 +187,8 @@
                                 android:background="@null"
                                 android:inputType="numberDecimal"
                                 android:ems="10"
-                                android:id="@+id/buy_quantity_edit"/>
+                                android:id="@+id/buy_quantity_edit"
+                                android:text="0"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="fill_parent"
@@ -212,7 +214,8 @@
                                 android:background="@null"
                                 android:inputType="numberDecimal"
                                 android:ems="10"
-                                android:id="@+id/buy_amount_edit"/>
+                                android:id="@+id/buy_amount_edit"
+                                android:text="0"/>
                         </LinearLayout>
                         <Button
                             android:id="@+id/buy"
@@ -298,7 +301,8 @@
                                 android:background="@null"
                                 android:inputType="numberDecimal"
                                 android:ems="10"
-                                android:id="@+id/sell_price_edit"/>
+                                android:id="@+id/sell_price_edit"
+                                android:text="0"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="fill_parent"
@@ -324,7 +328,8 @@
                                 android:background="@null"
                                 android:inputType="numberDecimal"
                                 android:ems="10"
-                                android:id="@+id/sell_quantity_edit"/>
+                                android:id="@+id/sell_quantity_edit"
+                                android:text="0"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="fill_parent"
@@ -350,7 +355,8 @@
                                 android:background="@null"
                                 android:inputType="numberDecimal"
                                 android:ems="10"
-                                android:id="@+id/sell_amount_edit"/>
+                                android:id="@+id/sell_amount_edit"
+                                android:text="0"/>
                         </LinearLayout>
                         <Button
                             android:id="@+id/sell"
