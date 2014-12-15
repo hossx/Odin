@@ -9,7 +9,7 @@ import org.apache.http.protocol.HTTP;
 
 import java.util.Map;
 
-public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, HttpResponse> {
+public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, NetworkRequest> {
     private String url;
     private HttpMethod method;
 
@@ -44,7 +44,7 @@ public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, HttpR
     }
 
     @Override
-    protected HttpResponse doInBackground(final Map<String, String>... params) {
+    protected NetworkRequest doInBackground(final Map<String, String>... params) {
         NetworkRequest request = new NetworkRequest();
         request.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(10000).setOnHttpRequestListener(
             new NetworkRequest.OnHttpRequestListener() {
@@ -57,40 +57,39 @@ public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, HttpR
                 }
 
                 @Override
-                public HttpResponse onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                public NetworkRequest onSucceed(int statusCode, NetworkRequest request) throws Exception {
                     if (onSucceedListener != null)
                         return onSucceedListener.onResponse(statusCode, request);
                     else
-                        return request.getHttpResponse();
+                        return request;
                 }
 
                 @Override
-                public HttpResponse onFailed(int statusCode, NetworkRequest request) throws Exception {
+                public NetworkRequest onFailed(int statusCode, NetworkRequest request) throws Exception {
                     if (onFailedListener != null)
                         return onFailedListener.onResponse(statusCode, request);
                     else
-                        return request.getHttpResponse();
+                        return request;
                 }
             });
 
-        HttpResponse result = null;
         try {
             switch (method) {
                 case GET:
-                    result = request.get(url);
+                    request.get(url);
                     break;
                 case POST:
-                    result = request.post(url);
+                    request.post(url);
                     break;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return request;
     }
 
     @Override
-    protected void onPostExecute(HttpResponse s) {
+    protected void onPostExecute(NetworkRequest s) {
         if (renderListener != null)
             renderListener.onRender(s);
         else
@@ -102,10 +101,10 @@ public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, HttpR
     }
 
     public interface OnHttpResponseListener {
-        public HttpResponse onResponse(int statusCode, NetworkRequest request);
+        public NetworkRequest onResponse(int statusCode, NetworkRequest request);
     }
 
     public interface OnPostRenderListener {
-        public void onRender(HttpResponse s);
+        public void onRender(NetworkRequest s);
     }
 }

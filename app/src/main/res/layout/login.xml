@@ -64,11 +64,22 @@
             android:paddingLeft="10dp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/login_fail_message"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linearLayout01"
+        android:textColor="@color/red"
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp"
+        android:text="@string/login_fail"
+        android:visibility="gone"/>
+
     <Button
         android:id="@+id/btn_login"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/linearLayout01"
+        android:layout_below="@id/login_fail_message"
         android:layout_marginLeft="42dp"
         android:layout_marginRight="42dp"
         android:layout_marginTop="10dp"

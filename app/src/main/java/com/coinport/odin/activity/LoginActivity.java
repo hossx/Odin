@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.coinport.odin.R;
 import com.coinport.odin.network.NetworkAsyncTask;
+import com.coinport.odin.network.OnApiResponseListener;
 import com.coinport.odin.util.Constants;
 import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.util.Util;
@@ -64,54 +65,54 @@ public class LoginActivity extends Activity implements OnClickListener {
         final Activity self = this;
         switch (v.getId()) {
             case R.id.btn_login_regist:
-//                intent = new Intent(LoginActivity.this, RegisterActivity.class);
-//                startActivity(intent);
-                Map<String, String> params = new HashMap<>();
-                params.put("type", "bid");
-                params.put("price", "200");
-                params.put("amount", "3");
-                String url = String.format(Constants.bidUrl, "BTC", "CNY");
-                NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.POST)
-                    .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
-                        @Override
-                        public void onRender(HttpResponse s) {
-                            if (s == null)
-                                Log.d("login activity:", "error");
-                            else
-                                try {
-                                    Log.d("login activity:", NetworkRequest.getInputStream(s));
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                        }
-                });
-                task.execute(params);
+                intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+//                Map<String, String> params = new HashMap<>();
+//                params.put("type", "bid");
+//                params.put("price", "200");
+//                params.put("amount", "3");
+//                String url = String.format(Constants.bidUrl, "BTC", "CNY");
+//                NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.POST)
+//                    .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+//                        @Override
+//                        public void onRender(HttpResponse s) {
+//                            if (s == null)
+//                                Log.d("login activity:", "error");
+//                            else
+//                                try {
+//                                    Log.d("login activity:", NetworkRequest.getInputStream(s));
+//                                } catch (IOException e) {
+//                                    e.printStackTrace();
+//                                }
+//                        }
+//                });
+//                task.execute(params);
                 break;
             case R.id.btn_login:
                 String username = ((EditText) (self.findViewById(R.id.user_name))).getText().toString();
                 String pw = ((EditText) (self.findViewById(R.id.password))).getText().toString();
+                Map<String, String> params = new HashMap<>();
                 params = new HashMap<>();
                 params.put("username", username);
                 params.put("password", Util.sha256base64(pw));
-                task = new NetworkAsyncTask(Constants.loginUrl, Constants.HttpMethod.POST).setRenderListener(
-                        new NetworkAsyncTask.OnPostRenderListener() {
-                            @Override
-                            public void onRender(HttpResponse s) {
-                                if (s == null)
-                                    Log.d("login activity:", "error");
-                                else
-                                    try {
-                                        Log.d("login activity:", NetworkRequest.getInputStream(s));
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
+                NetworkAsyncTask task = new NetworkAsyncTask(Constants.loginUrl, Constants.HttpMethod.POST)
+                    .setOnSucceedListener(new OnApiResponseListener())
+                    .setOnFailedListener(new OnApiResponseListener())
+                    .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                        @Override
+                        public void onRender(NetworkRequest s) {
+                            TextView tv = (TextView) LoginActivity.this.findViewById(R.id.login_fail_message);
+                            if (s.getApiStatus() != null && s.getApiStatus() == NetworkRequest.ApiStatus.SUCCEED) {
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                tv.setVisibility(View.GONE);
+                                finish();
+                            } else {
+                                tv.setVisibility(View.VISIBLE);
                             }
-                        });
+                        }
+                    });
                 task.execute(params);
-//                new LoginTask().execute(params);
-//                intent = new Intent(LoginActivity.this, MainActivity.class);
-//                startActivity(intent);
-//                finish();
                 break;
             case R.id.forgot_pw:
                 intent = new Intent(LoginActivity.this, ResetPwActivity.class);

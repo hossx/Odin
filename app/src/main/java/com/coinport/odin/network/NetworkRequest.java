@@ -22,6 +22,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -50,6 +51,10 @@ public final class NetworkRequest {
     protected AbstractHttpClient httpClient = null;
     protected MultipartEntityBuilder multipartEntityBuilder = null;
     protected OnHttpRequestListener onHttpRequestListener = null;
+
+    private ApiStatus apiStatus = null;
+    private JSONObject apiResult = null;
+    private String apiMessage = null;
 
     public NetworkRequest(){}
 
@@ -127,7 +132,7 @@ public final class NetworkRequest {
         return this.statusCode;
     }
 
-    public HttpResponse get(String url) throws Exception
+    public NetworkRequest get(String url) throws Exception
     {
         this.requsetType = HTTP_GET;
         // 设置当前请求的链接
@@ -166,7 +171,7 @@ public final class NetworkRequest {
         }
     }
 
-    public HttpResponse post(String url) throws Exception
+    public NetworkRequest post(String url) throws Exception
     {
         this.requsetType = HTTP_POST;
         // 设置当前请求的链接
@@ -233,7 +238,11 @@ public final class NetworkRequest {
         // 数据接收完毕退出
         inStream.close();
         // 将数据转换为字符串保存
-        return new String(baos.toByteArray(), EntityUtils.getContentCharSet(response.getEntity()));
+        String respCharset = EntityUtils.getContentCharSet(response.getEntity());
+        if (respCharset != null)
+            return new String(baos.toByteArray(), respCharset);
+        else
+            return "";
     }
 
     public String getInputStream() throws Exception
@@ -248,10 +257,10 @@ public final class NetworkRequest {
         }
     }
 
-    protected HttpResponse checkStatus() throws Exception
+    protected NetworkRequest checkStatus() throws Exception
     {
         OnHttpRequestListener listener = this.getOnHttpRequestListener();
-        HttpResponse response;
+        NetworkRequest response;
         if (this.statusCode == HttpStatus.SC_OK) {
             // 请求成功, 回调监听事件
             response = listener.onSucceed(this.statusCode, this);
@@ -274,12 +283,12 @@ public final class NetworkRequest {
         /**
          * 当 HTTP 请求响应成功时的回调方法
          */
-        public HttpResponse onSucceed(int statusCode, NetworkRequest request) throws Exception;
+        public NetworkRequest onSucceed(int statusCode, NetworkRequest request) throws Exception;
 
         /**
          * 当 HTTP 请求响应失败时的回调方法
          */
-        public HttpResponse onFailed(int statusCode, NetworkRequest request) throws Exception;
+        public NetworkRequest onFailed(int statusCode, NetworkRequest request) throws Exception;
     }
 
     public NetworkRequest setOnHttpRequestListener(OnHttpRequestListener listener)
@@ -292,4 +301,36 @@ public final class NetworkRequest {
     {
         return this.onHttpRequestListener;
     }
+
+    public enum ApiStatus {
+        SUCCEED, UNAUTH, INTERNAL_ERROR, NETWORK_ERROR, BAD_FORMAT
+    }
+
+    public String getApiMessage() {
+        return apiMessage;
+    }
+
+    public NetworkRequest setApiMessage(String apiMessage) {
+        this.apiMessage = apiMessage;
+        return this;
+    }
+
+    public JSONObject getApiResult() {
+        return apiResult;
+    }
+
+    public NetworkRequest setApiResult(JSONObject apiResult) {
+        this.apiResult = apiResult;
+        return this;
+    }
+
+    public ApiStatus getApiStatus() {
+        return apiStatus;
+    }
+
+    public NetworkRequest setApiStatus(ApiStatus status) {
+        this.apiStatus = status;
+        return this;
+    }
+
 }

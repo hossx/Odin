@@ -113,9 +113,8 @@ public class TradeBuySellFragment extends Fragment {
                     }
 
                     @Override
-                    public HttpResponse onSucceed(int statusCode, NetworkRequest request) throws Exception {
-                        HttpResponse result =  request.getHttpResponse();
-                        JSONObject depthResult = new JSONObject(NetworkRequest.getInputStream(result));
+                    public NetworkRequest onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                        JSONObject depthResult = new JSONObject(request.getInputStream());
                         JSONArray buyJsonList = Util.getJsonArrayByPath(depthResult, "data.b");
                         buyItems.clear();
                         for (int i = 0; i < buyJsonList.length(); ++i) {
@@ -128,12 +127,12 @@ public class TradeBuySellFragment extends Fragment {
                             JSONObject jsonObj = sellJsonList.getJSONObject(i);
                             sellItems.add(0, DepthItem.DepthItemBuilder.generateFromJson(jsonObj, false));
                         }
-                        return result;
+                        return request;
                     }
 
                     @Override
-                    public HttpResponse onFailed(int statusCode, NetworkRequest request) throws Exception {
-                        return request.getHttpResponse();
+                    public NetworkRequest onFailed(int statusCode, NetworkRequest request) throws Exception {
+                        return request;
 //                        return "GET 请求失败：statusCode "+ statusCode;
                     }
                 }).get(url);
@@ -151,17 +150,16 @@ public class TradeBuySellFragment extends Fragment {
                             }
 
                             @Override
-                            public HttpResponse onSucceed(int statusCode, NetworkRequest request) throws Exception {
-                                HttpResponse result =  request.getHttpResponse();
-                                JSONObject txResult = new JSONObject(NetworkRequest.getInputStream(result));
+                            public NetworkRequest onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                                JSONObject txResult = new JSONObject(request.getInputStream());
                                 lastPrice = Util.getJsonObjectByPath(Util.getJsonArrayByPath(txResult, "data.items")
                                     .getJSONObject(0), "price").getString("display");
-                                return result;
+                                return request;
                             }
 
                             @Override
-                            public HttpResponse onFailed(int statusCode, NetworkRequest request) throws Exception {
-                                return request.getHttpResponse();
+                            public NetworkRequest onFailed(int statusCode, NetworkRequest request) throws Exception {
+                                return request;
 //                                return "GET 请求失败：statusCode "+ statusCode;
                             }
                         }).get(url);

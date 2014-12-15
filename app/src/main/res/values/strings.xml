@@ -192,6 +192,7 @@
     <string name="login_remember_pw">记住密码</string>
     <string name="login_forgot_pw">忘记密码</string>
     <string name="login_register">注册</string>
+    <string name="login_fail">用户名或密码输入有误</string>
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_register">用户注册</string>

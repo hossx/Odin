@@ -121,20 +121,19 @@ public class MarketFragment extends Fragment {
                     }
 
                     @Override
-                    public HttpResponse onSucceed(int statusCode, NetworkRequest request) throws Exception {
-                        HttpResponse result =  request.getHttpResponse();
-                        JSONArray jsonList = Util.getJsonArrayByPath(new JSONObject(NetworkRequest.getInputStream(result)), "data");
+                    public NetworkRequest onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                        JSONArray jsonList = Util.getJsonArrayByPath(new JSONObject(request.getInputStream()), "data");
                         if (jsonList != null)
                             for (int i = 0; i < jsonList.length(); ++i) {
                                 JSONObject jsonObj = jsonList.getJSONObject(i);
                                 tickerItems.add(TickerItem.TickerItemBuilder.generateFromJson(jsonObj));
                             }
-                        return result;
+                        return request;
                     }
 
                     @Override
-                    public HttpResponse onFailed(int statusCode, NetworkRequest request) throws Exception {
-                        return request.getHttpResponse();
+                    public NetworkRequest onFailed(int statusCode, NetworkRequest request) throws Exception {
+                        return request;
 //                        return "GET 请求失败：statusCode "+ statusCode;
                     }
                 });
