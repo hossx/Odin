@@ -98,6 +98,7 @@
                                 android:text="@string/trade_valid"
                                 android:textSize="10dp"/>
                             <TextView
+                                android:id="@+id/out_valid_amount"
                                 android:layout_width="0dp"
                                 android:layout_weight="2"
                                 android:layout_height="wrap_content"
@@ -119,6 +120,7 @@
                                 android:text="@string/trade_frozen"
                                 android:textSize="10dp"/>
                             <TextView
+                                android:id="@+id/out_frozen_amount"
                                 android:layout_width="0dp"
                                 android:layout_weight="2"
                                 android:layout_height="wrap_content"
@@ -241,6 +243,7 @@
                                 android:text="@string/trade_valid"
                                 android:textSize="10dp"/>
                             <TextView
+                                android:id="@+id/in_valid_amount"
                                 android:layout_width="0dp"
                                 android:layout_weight="2"
                                 android:layout_height="wrap_content"
@@ -262,6 +265,7 @@
                                 android:text="@string/trade_frozen"
                                 android:textSize="10dp"/>
                             <TextView
+                                android:id="@+id/in_frozen_amount"
                                 android:layout_width="0dp"
                                 android:layout_weight="2"
                                 android:layout_height="wrap_content"

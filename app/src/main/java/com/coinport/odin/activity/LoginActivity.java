@@ -1,5 +1,6 @@
 package com.coinport.odin.activity;
 
+import android.accounts.Account;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,14 +15,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.coinport.odin.App;
 import com.coinport.odin.R;
+import com.coinport.odin.network.CustomCookieStore;
 import com.coinport.odin.network.NetworkAsyncTask;
 import com.coinport.odin.network.OnApiResponseListener;
+import com.coinport.odin.obj.AccountInfo;
 import com.coinport.odin.util.Constants;
 import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.util.Util;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.protocol.HTTP;
 
 import java.io.IOException;
@@ -95,7 +100,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                 params = new HashMap<>();
                 params.put("username", username);
                 params.put("password", Util.sha256base64(pw));
-                NetworkAsyncTask task = new NetworkAsyncTask(Constants.loginUrl, Constants.HttpMethod.POST)
+                NetworkAsyncTask task = new NetworkAsyncTask(Constants.LOGIN_URL, Constants.HttpMethod.POST)
                     .setOnSucceedListener(new OnApiResponseListener())
                     .setOnFailedListener(new OnApiResponseListener())
                     .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
@@ -103,6 +108,11 @@ public class LoginActivity extends Activity implements OnClickListener {
                         public void onRender(NetworkRequest s) {
                             TextView tv = (TextView) LoginActivity.this.findViewById(R.id.login_fail_message);
                             if (s.getApiStatus() != null && s.getApiStatus() == NetworkRequest.ApiStatus.SUCCEED) {
+                                Cookie session = ((CustomCookieStore) s.getHttpClient().getCookieStore()).getCookie(
+                                    "PLAY_SESSION");
+                                if (session != null) {
+                                    App.setAccount(new AccountInfo(session.getValue()));
+                                }
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 tv.setVisibility(View.GONE);

@@ -12,12 +12,16 @@ public class Constants {
     public static final int CP_GREEN = Color.rgb(10, 185, 43);
     public static final int CP_RED = Color.RED;
     public static final Map<Integer, Integer> ORDER_STATUS_MAP;
-    public static final String tickerUrl = "https://exchange.coinport.com/api/m/ticker/";
-    public static final String depthUrl = "https://exchange.coinport.com/api/m/%1$s-%2$s/depth";
-    public static final String txUrl = "https://exchange.coinport.com/api/%1$s-%2$s/transaction";
-    public static final String loginUrl = "http://10.0.2.2:9000/account/login";
-    public static final String profileUrl = "http://10.0.2.2:9000/account#/accountprofiles";
-    public static final String bidUrl = "http://10.0.2.2:9000/trade/%1$s-%2$s/bid";
+    public static final String DOMAIN_PORT = "10.0.2.2:9000";
+    public static final String PROTOCOL = "http://";
+
+    public static final String TICKER_URL = PROTOCOL + DOMAIN_PORT + "/api/m/ticker/";
+    public static final String DEPTH_URL = PROTOCOL + DOMAIN_PORT + "/api/m/%1$s-%2$s/depth";
+    public static final String TX_URL = PROTOCOL + DOMAIN_PORT + "/api/%1$s-%2$s/transaction";
+    public static final String LOGIN_URL = PROTOCOL + DOMAIN_PORT + "/account/login";
+    public static final String PROFILE_URL = PROTOCOL + DOMAIN_PORT + "/account#/accountprofiles";
+    public static final String BID_URL = PROTOCOL + DOMAIN_PORT + "/trade/%1$s-%2$s/bid";
+    public static final String ASSET_URL = PROTOCOL + DOMAIN_PORT + "/api/account/%1$s";
 
     static {
         Map<Integer, Integer> tMap = new HashMap<>();

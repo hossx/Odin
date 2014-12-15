@@ -111,7 +111,7 @@ public class MarketFragment extends Fragment {
         public void run() {
             tickerItems.clear();
             try {
-                String url = Constants.tickerUrl + baseCurrency.toLowerCase();
+                String url = Constants.TICKER_URL + baseCurrency.toLowerCase();
                 NetworkRequest get = new NetworkRequest();
                 get.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(5000);
                 get.setOnHttpRequestListener(new NetworkRequest.OnHttpRequestListener() {

@@ -72,26 +72,7 @@ public class CookieDBManager {
         Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            String name = cursor.getString(cursor.getColumnIndex(Column.NAME));
-            String value = cursor
-                    .getString(cursor.getColumnIndex(Column.VALUE));
-
-            BasicClientCookie cookie = new BasicClientCookie(name, value);
-
-            cookie.setComment(cursor.getString(cursor
-                    .getColumnIndex(Column.COMMENT)));
-            cookie.setDomain(cursor.getString(cursor
-                    .getColumnIndex(Column.DOMAIN)));
-            long expireTime = cursor.getLong(cursor
-                    .getColumnIndex(Column.EXPIRY_DATE));
-            if (expireTime != 0) {
-                cookie.setExpiryDate(new Date(expireTime));
-            }
-            cookie.setPath(cursor.getString(cursor.getColumnIndex(Column.PATH)));
-            cookie.setSecure(cursor.getInt(cursor.getColumnIndex(Column.SECURE)) == 1);
-            cookie.setVersion(cursor.getInt(cursor
-                    .getColumnIndex(Column.VERSION)));
-
+            Cookie cookie = generateCookieFromDbCursor(cursor);
             cookies.add(cookie);
         }
 
@@ -100,11 +81,22 @@ public class CookieDBManager {
         return cookies;
     }
 
+    public Cookie getCookie(String n) {
+        Cursor cursor = db.query(TABLE_NAME, null, Column.NAME + "=?", new String[] {n}, null, null, null, null);
+        Cookie cookie = null;
+
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            cookie = generateCookieFromDbCursor(cursor);
+        }
+
+        return cookie;
+    }
+
     public void saveCookie(Cookie cookie) {
         if (cookie == null) {
             return;
         }
-        db.delete(TABLE_NAME, Column.NAME + " = ? ", new String[] { cookie.getName() });
+        db.delete(TABLE_NAME, Column.NAME + " = ? ", new String[]{cookie.getName()});
         ContentValues values = new ContentValues();
         values.put(Column.VALUE, cookie.getValue());
         values.put(Column.NAME, cookie.getName());
@@ -155,4 +147,21 @@ public class CookieDBManager {
         public static final String SECURE = "SECURE";
         public static final String VERSION = "VERSION";
     }
+
+    private Cookie generateCookieFromDbCursor(Cursor cursor) {
+        String name = cursor.getString(cursor.getColumnIndex(Column.NAME));
+        String value = cursor.getString(cursor.getColumnIndex(Column.VALUE));
+        BasicClientCookie cookie = new BasicClientCookie(name, value);
+        cookie.setComment(cursor.getString(cursor.getColumnIndex(Column.COMMENT)));
+        cookie.setDomain(cursor.getString(cursor.getColumnIndex(Column.DOMAIN)));
+        long expireTime = cursor.getLong(cursor.getColumnIndex(Column.EXPIRY_DATE));
+        if (expireTime != 0) {
+            cookie.setExpiryDate(new Date(expireTime));
+        }
+        cookie.setPath(cursor.getString(cursor.getColumnIndex(Column.PATH)));
+        cookie.setSecure(cursor.getInt(cursor.getColumnIndex(Column.SECURE)) == 1);
+        cookie.setVersion(cursor.getInt(cursor.getColumnIndex(Column.VERSION)));
+        return cookie;
+    }
+
 }

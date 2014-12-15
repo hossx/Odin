@@ -113,9 +113,11 @@ public final class Util {
     }
 
     public static JSONObject getJsonObjectByPath(JSONObject obj, String pathStr) {
+        if (obj == null)
+            return null;
         JSONObject result = null;
         JSONObject newObj = obj;
-        String[] paths = pathStr.split("//.");
+        String[] paths = pathStr.split("\\.");
         try {
             for (int i = 0; i < paths.length; ++i) {
                 result = newObj.getJSONObject(paths[i]);
@@ -128,6 +130,8 @@ public final class Util {
     }
 
     public static JSONArray getJsonArrayByPath(JSONObject obj, String pathStr) {
+        if (obj == null)
+            return null;
         JSONArray result = null;
         JSONObject tmpObj = null;
         String name = null;

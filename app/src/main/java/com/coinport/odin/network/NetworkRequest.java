@@ -106,7 +106,7 @@ public final class NetworkRequest {
         return this.httpResponse;
     }
 
-    public HttpClient getHttpClient()
+    public AbstractHttpClient getHttpClient()
     {
         return this.httpClient;
     }
