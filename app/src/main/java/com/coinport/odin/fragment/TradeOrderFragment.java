@@ -129,7 +129,11 @@ public class TradeOrderFragment extends Fragment {
         fetchOrder(true, "");
     }
 
-    private void fetchOrder(final boolean isRefresh, final String direction) {
+    protected String getStatus() {
+        return "1";
+    }
+
+    protected void fetchOrder(final boolean isRefresh, final String direction) {
         if (isRefresh) {
             page = 1;
             loadAll = false;
@@ -144,7 +148,7 @@ public class TradeOrderFragment extends Fragment {
         Map<String, String> params = new HashMap<>();
         params.put("limit", String.valueOf(LIMIT));
         params.put("page", String.valueOf(page));
-        params.put("status", "1");
+        params.put("status", getStatus());
         NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.GET)
                 .setOnSucceedListener(new OnApiResponseListener())
                 .setOnFailedListener(new OnApiResponseListener())

@@ -65,8 +65,7 @@ public class TradeTxFragment extends TradeOrderFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.trade_tx_fragment, container, false);
 
@@ -76,11 +75,13 @@ public class TradeTxFragment extends TradeOrderFragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 self.headerRefreshView = refreshView;
+                fetchOrder(true, "header");
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 self.footerRefreshView = refreshView;
+                fetchOrder(false, "footer");
             }
         });
         orderAdapter = new OrderAdapter(getActivity());
@@ -121,4 +122,8 @@ public class TradeTxFragment extends TradeOrderFragment {
         public void onFragmentInteraction(Uri uri);
     }
 
+    @Override
+    protected String getStatus() {
+        return "3";
+    }
 }
