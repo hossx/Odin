@@ -87,10 +87,11 @@ public class LoginActivity extends Activity implements OnClickListener {
                                 if (session != null) {
                                     App.setAccount(new AccountInfo(session.getValue()));
                                 }
-                                // TODO(c): check MainActivity is exists
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                tv.setVisibility(View.GONE);
+                                if (!App.isMainActivityCreated()) {
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    tv.setVisibility(View.GONE);
+                                }
                                 finish();
                             } else {
                                 tv.setVisibility(View.VISIBLE);

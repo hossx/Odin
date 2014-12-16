@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.coinport.odin.App;
 import com.coinport.odin.fragment.DepositWithdrawalFragment;
 import com.coinport.odin.fragment.QuickContactFragment;
 import com.coinport.odin.library.psts.PagerSlidingTabStrip;
@@ -60,6 +61,8 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
+
+        App.setMainActivityCreated(true);
 
         pDialog = new ProgressDialog(this);
         baseCurrencySelector = (LinearLayout) getLayoutInflater().inflate(R.layout.base_currency_selector, null);
