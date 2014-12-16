@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.coinport.odin.App;
 import com.coinport.odin.R;
@@ -111,11 +110,77 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
         outValidView.setOnClickListener(this);
 
         buyPrice = (EditText) buySellView.findViewById(R.id.buy_price_edit);
+        buyPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {  }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                buyInputGroupChanged(s, R.id.buy_price_edit);
+            }
+        });
         buyQuantity = (EditText) buySellView.findViewById(R.id.buy_quantity_edit);
+        buyQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {  }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                buyInputGroupChanged(s, R.id.buy_quantity_edit);
+            }
+        });
         buyAmount = (EditText) buySellView.findViewById(R.id.buy_amount_edit);
+        buyAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {  }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                buyInputGroupChanged(s, R.id.buy_amount_edit);
+            }
+        });
         sellPrice = (EditText) buySellView.findViewById(R.id.sell_price_edit);
+        sellPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {  }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                sellInputGroupChanged(s, R.id.sell_price_edit);
+            }
+        });
         sellQuantity = (EditText) buySellView.findViewById(R.id.sell_quantity_edit);
+        sellQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {  }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                sellInputGroupChanged(s, R.id.sell_quantity_edit);
+            }
+        });
         sellAmount = (EditText) buySellView.findViewById(R.id.sell_amount_edit);
+        sellAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {  }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                sellInputGroupChanged(s, R.id.sell_amount_edit);
+            }
+        });
 
         return buySellView;
     }
@@ -159,7 +224,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                             inValid = inCurrencyObj.getJSONObject("available").getString("display");
                             inPendingV = inCurrencyObj.getJSONObject("locked").getDouble("value") +
                                 inCurrencyObj.getJSONObject("pendingWithdrawal").getDouble("value");
-                            inPending = (new BigDecimal(inPendingV).setScale(4, RoundingMode.CEILING)).toPlainString();
+                            inPending = displayDouble(inPendingV);
                         } else {
                             inValid = "0";
                             inPending = "0";
@@ -168,8 +233,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                             outValid = outCurrencyObj.getJSONObject("available").getString("display");
                             outPendingV = outCurrencyObj.getJSONObject("locked").getDouble("value") +
                                 outCurrencyObj.getJSONObject("pendingWithdrawal").getDouble("value");
-                            outPending = (new BigDecimal(outPendingV).setScale(4, RoundingMode.CEILING))
-                                .toPlainString();
+                            outPending = displayDouble(outPendingV);
                         } else {
                             outValid = "0";
                             outPending = "0";
@@ -293,5 +357,61 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                 }
             });
         }
+    }
+
+    private void inputGroupChanged(Editable s, int id, int priceId, int quantityId, int amountId,
+        TextView priceView, TextView quantityView, TextView amountView) {
+        if (s.toString().equals(""))
+            return;
+        String priceStr = priceView.getText().toString();
+        String quantityStr = quantityView.getText().toString();
+        String amountStr = amountView.getText().toString();
+        double price, quantity, amount;
+        String tmpStr;
+        if (id == priceId) {
+            if (quantityStr.equals("")) {
+                return;
+            }
+            price = Double.valueOf(s.toString());
+            quantity = Double.valueOf(quantityStr);
+            amount = price * quantity;
+            tmpStr = displayDouble(amount);
+            if (!amountStr.equals(tmpStr))
+                amountView.setText(tmpStr);
+        } else if (id == quantityId) {
+            if (priceStr.equals("")) {
+                return;
+            }
+            price = Double.valueOf(priceStr);
+            quantity = Double.valueOf(s.toString());
+            amount = price * quantity;
+            tmpStr = displayDouble(amount);
+            if (!amountStr.equals(tmpStr))
+                amountView.setText(tmpStr);
+        } else if (id == amountId) {
+            if (priceStr.equals(""))
+                return;
+            price = Double.valueOf(priceStr);
+            if (price < 0.000000001)
+                return;
+            amount = Double.valueOf(s.toString());
+            quantity = amount / price;
+            tmpStr = displayDouble(quantity);
+            if (!quantityStr.equals(tmpStr))
+                quantityView.setText(tmpStr);
+        }
+    }
+
+    private void buyInputGroupChanged(Editable s, int id) {
+        inputGroupChanged(
+            s, id, R.id.buy_price_edit, R.id.buy_quantity_edit, R.id.buy_amount_edit, buyPrice, buyQuantity, buyAmount);
+    }
+
+    private void sellInputGroupChanged(Editable s, int id) {
+        inputGroupChanged(s, id, R.id.sell_price_edit, R.id.sell_quantity_edit, R.id.sell_amount_edit, sellPrice,
+            sellQuantity, sellAmount);
+    }
+    private String displayDouble(double v) {
+        return (new BigDecimal(v).setScale(4, RoundingMode.CEILING)).toPlainString();
     }
 }
