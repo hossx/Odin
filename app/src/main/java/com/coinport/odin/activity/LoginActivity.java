@@ -103,7 +103,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                             TextView tv = (TextView) LoginActivity.this.findViewById(R.id.login_fail_message);
                             if (s.getApiStatus() != null && s.getApiStatus() == NetworkRequest.ApiStatus.SUCCEED) {
                                 Cookie session = ((CustomCookieStore) s.getHttpClient().getCookieStore()).getCookie(
-                                    "PLAY_SESSION");
+                                    Constants.PLAY_SESSION);
                                 if (session != null) {
                                     App.setAccount(new AccountInfo(session.getValue()));
                                 }

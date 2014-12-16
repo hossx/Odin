@@ -7,7 +7,13 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.coinport.odin.App;
 import com.coinport.odin.R;
+import com.coinport.odin.network.CookieDBManager;
+import com.coinport.odin.obj.AccountInfo;
+import com.coinport.odin.util.Constants;
+
+import org.apache.http.cookie.Cookie;
 
 public class SplashActivity extends Activity {
 
@@ -45,7 +51,14 @@ public class SplashActivity extends Activity {
     }
 
     private void goHome() {
-        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+        Intent intent;
+        Cookie session = CookieDBManager.getInstance().getCookie(Constants.PLAY_SESSION);
+        if (session != null) {
+            App.setAccount(new AccountInfo(session.getValue()));
+            intent = new Intent(SplashActivity.this, MainActivity.class);
+        } else {
+            intent = new Intent(SplashActivity.this, LoginActivity.class);
+        }
         SplashActivity.this.startActivity(intent);
         SplashActivity.this.finish();
     }

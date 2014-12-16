@@ -23,6 +23,7 @@ public class Constants {
     public static final String BID_URL = PROTOCOL + DOMAIN_PORT + "/trade/%1$s-%2$s/bid";
     public static final String ASSET_URL = PROTOCOL + DOMAIN_PORT + "/api/account/%1$s";
 
+    public static final String PLAY_SESSION = "PLAY_SESSION";
     static {
         Map<Integer, Integer> tMap = new HashMap<>();
         tMap.put(0, R.string.order_status_pending);
