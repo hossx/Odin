@@ -54,6 +54,9 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
     private TextView lastPriceView;
     private String lastPrice;
 
+    private TextView inValidView;
+    private TextView outValidView;
+
     EditText buyPrice;
     EditText buyQuantity;
     EditText buyAmount;
@@ -102,6 +105,10 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
         buyBtn.setOnClickListener(this);
         Button sellBtn = (Button) buySellView.findViewById(R.id.sell);
         sellBtn.setOnClickListener(this);
+        inValidView = (TextView) buySellView.findViewById(R.id.in_valid_amount);
+        inValidView.setOnClickListener(this);
+        outValidView = (TextView) buySellView.findViewById(R.id.out_valid_amount);
+        outValidView.setOnClickListener(this);
 
         buyPrice = (EditText) buySellView.findViewById(R.id.buy_price_edit);
         buyQuantity = (EditText) buySellView.findViewById(R.id.buy_quantity_edit);
@@ -167,11 +174,9 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                             outValid = "0";
                             outPending = "0";
                         }
-                        TextView inValidView = (TextView)buySellView.findViewById(R.id.in_valid_amount);
                         inValidView.setText(inValid);
                         TextView inFrozenView = (TextView) buySellView.findViewById(R.id.in_frozen_amount);
                         inFrozenView.setText(inPending);
-                        TextView outValidView = (TextView)buySellView.findViewById(R.id.out_valid_amount);
                         outValidView.setText(outValid);
                         TextView outFrozenView = (TextView) buySellView.findViewById(R.id.out_frozen_amount);
                         outFrozenView.setText(outPending);
@@ -197,6 +202,12 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
             case R.id.last_price:
                 buyPrice.setText(lastPrice);
                 sellPrice.setText(lastPrice);
+                break;
+            case R.id.in_valid_amount:
+                sellQuantity.setText(inValidView.getText());
+                break;
+            case R.id.out_valid_amount:
+                buyAmount.setText(outValidView.getText());
                 break;
         }
     }
