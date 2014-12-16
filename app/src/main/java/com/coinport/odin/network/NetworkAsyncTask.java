@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 
 import com.coinport.odin.util.Constants.HttpMethod;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HTTP;
 
 import java.util.Map;
@@ -12,6 +11,7 @@ import java.util.Map;
 public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, NetworkRequest> {
     private String url;
     private HttpMethod method;
+    private long delay = 0;
 
     private OnHttpPrepareRequestListener prepareRequestListener = null;
     private OnHttpResponseListener onSucceedListener = null;
@@ -43,8 +43,21 @@ public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, Netwo
         this.method = method;
     }
 
+    public NetworkAsyncTask(String url, HttpMethod method, long delay) {
+        this.url = url;
+        this.method = method;
+        this.delay = delay;
+    }
+
+    @SafeVarargs
     @Override
-    protected NetworkRequest doInBackground(final Map<String, String>... params) {
+    protected final NetworkRequest doInBackground(final Map<String, String>... params) {
+        if (delay != 0)
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         NetworkRequest request = new NetworkRequest();
         request.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(10000).setOnHttpRequestListener(
             new NetworkRequest.OnHttpRequestListener() {

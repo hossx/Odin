@@ -196,6 +196,11 @@
 
     <string name="submit_lack_amount">余额不足</string>
     <string name="submit_too_small">下单额度需大于1元或0.001BTC</string>
+    <string name="submit_non_zero">价格，数量，金额不能为零</string>
+    <string name="submit_alert_buy_title">买入挂单</string>
+    <string name="submit_alert_sell_title">卖出挂单</string>
+    <string name="submit_alert_message">价格:\t%1$f\n数量:\t%2$f\n金额:\t%3$f</string>
+    <string name="submit_failed">下单失败，请检查网络是否正常</string>
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_register">用户注册</string>

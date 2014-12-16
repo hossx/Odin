@@ -87,7 +87,7 @@ public class DepthAdapter extends BaseAdapter {
                         quantity += depthItems.get(i).getAmount();
                     }
                     sellQuantity.setText(Double.toString(quantity));
-                    sellAmount.setText(Double.toString(di.getPrice() * di.getAmount()));
+                    sellAmount.setText(Double.toString(di.getPrice() * quantity));
                 }
             });
         } else {
@@ -104,7 +104,7 @@ public class DepthAdapter extends BaseAdapter {
                         quantity += depthItems.get(i).getAmount();
                     }
                     buyQuantity.setText(Double.toString(quantity));
-                    buyAmount.setText(Double.toString(di.getPrice() * di.getAmount()));
+                    buyAmount.setText(Double.toString(di.getPrice() * quantity));
                 }
             });
         }

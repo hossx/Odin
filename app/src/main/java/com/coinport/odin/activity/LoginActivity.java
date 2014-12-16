@@ -66,26 +66,6 @@ public class LoginActivity extends Activity implements OnClickListener {
             case R.id.btn_login_regist:
                 intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
-//                Map<String, String> params = new HashMap<>();
-//                params.put("type", "bid");
-//                params.put("price", "200");
-//                params.put("amount", "3");
-//                String url = String.format(Constants.bidUrl, "BTC", "CNY");
-//                NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.POST)
-//                    .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
-//                        @Override
-//                        public void onRender(HttpResponse s) {
-//                            if (s == null)
-//                                Log.d("login activity:", "error");
-//                            else
-//                                try {
-//                                    Log.d("login activity:", NetworkRequest.getInputStream(s));
-//                                } catch (IOException e) {
-//                                    e.printStackTrace();
-//                                }
-//                        }
-//                });
-//                task.execute(params);
                 break;
             case R.id.btn_login:
                 String username = ((EditText) (self.findViewById(R.id.user_name))).getText().toString();

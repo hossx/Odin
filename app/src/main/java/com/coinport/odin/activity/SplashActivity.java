@@ -53,7 +53,7 @@ public class SplashActivity extends Activity {
     private void goHome() {
         Intent intent;
         Cookie session = CookieDBManager.getInstance().getCookie(Constants.PLAY_SESSION);
-        if (session != null) {
+        if (session != null && !session.getValue().equals("")) {
             App.setAccount(new AccountInfo(session.getValue()));
             intent = new Intent(SplashActivity.this, MainActivity.class);
         } else {

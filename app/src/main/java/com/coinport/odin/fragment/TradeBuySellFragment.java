@@ -1,5 +1,8 @@
 package com.coinport.odin.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -12,9 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.coinport.odin.App;
 import com.coinport.odin.R;
+import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.DepthAdapter;
 import com.coinport.odin.network.NetworkAsyncTask;
@@ -30,7 +35,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -40,7 +44,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TradeBuySellFragment extends Fragment implements View.OnClickListener {
-    private ListView buyListView;
     private DepthAdapter buyAdapter;
     private DepthAdapter sellAdapter;
     private String inCurrency, outCurrency;
@@ -62,6 +65,8 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
     EditText sellPrice;
     EditText sellQuantity;
     EditText sellAmount;
+
+    Map<Integer, TextWatcher> watchers = new HashMap<>();
 
     private View buySellView = null;
     public TradeBuySellFragment() {
@@ -92,7 +97,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         buySellView = inflater.inflate(R.layout.trade_buy_sell_fragment, container, false);
-        buyListView = (ListView) buySellView.findViewById(R.id.buy_depth);
+        ListView buyListView = (ListView) buySellView.findViewById(R.id.buy_depth);
         ListView sellListView = (ListView) buySellView.findViewById(R.id.sell_depth);
         buyAdapter = new DepthAdapter(getActivity(), buySellView);
         buyListView.setAdapter(buyAdapter);
@@ -109,32 +114,36 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
         outValidView = (TextView) buySellView.findViewById(R.id.out_valid_amount);
         outValidView.setOnClickListener(this);
 
-        buyPrice = (EditText) buySellView.findViewById(R.id.buy_price_edit);
-        buyPrice.addTextChangedListener(new TextWatcher() {
+        watchers.clear();
+        watchers.put(R.id.buy_price_edit, new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {  }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
                 buyInputGroupChanged(s, R.id.buy_price_edit);
             }
         });
-        buyQuantity = (EditText) buySellView.findViewById(R.id.buy_quantity_edit);
-        buyQuantity.addTextChangedListener(new TextWatcher() {
+        watchers.put(R.id.buy_quantity_edit, new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {  }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
                 buyInputGroupChanged(s, R.id.buy_quantity_edit);
             }
         });
-        buyAmount = (EditText) buySellView.findViewById(R.id.buy_amount_edit);
-        buyAmount.addTextChangedListener(new TextWatcher() {
+        watchers.put(R.id.buy_amount_edit, new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
             @Override
@@ -145,8 +154,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                 buyInputGroupChanged(s, R.id.buy_amount_edit);
             }
         });
-        sellPrice = (EditText) buySellView.findViewById(R.id.sell_price_edit);
-        sellPrice.addTextChangedListener(new TextWatcher() {
+        watchers.put(R.id.sell_price_edit, new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
             @Override
@@ -157,8 +165,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                 sellInputGroupChanged(s, R.id.sell_price_edit);
             }
         });
-        sellQuantity = (EditText) buySellView.findViewById(R.id.sell_quantity_edit);
-        sellQuantity.addTextChangedListener(new TextWatcher() {
+        watchers.put(R.id.sell_quantity_edit, new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
             @Override
@@ -169,8 +176,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                 sellInputGroupChanged(s, R.id.sell_quantity_edit);
             }
         });
-        sellAmount = (EditText) buySellView.findViewById(R.id.sell_amount_edit);
-        sellAmount.addTextChangedListener(new TextWatcher() {
+        watchers.put(R.id.sell_amount_edit, new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
             @Override
@@ -181,87 +187,67 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                 sellInputGroupChanged(s, R.id.sell_amount_edit);
             }
         });
+        buyPrice = (EditText) buySellView.findViewById(R.id.buy_price_edit);
+        buyPrice.addTextChangedListener(watchers.get(R.id.buy_price_edit));
+        buyQuantity = (EditText) buySellView.findViewById(R.id.buy_quantity_edit);
+        buyQuantity.addTextChangedListener(watchers.get(R.id.buy_quantity_edit));
+        buyAmount = (EditText) buySellView.findViewById(R.id.buy_amount_edit);
+        buyAmount.addTextChangedListener(watchers.get(R.id.buy_amount_edit));
+        sellPrice = (EditText) buySellView.findViewById(R.id.sell_price_edit);
+        sellPrice.addTextChangedListener(watchers.get(R.id.sell_price_edit));
+        sellQuantity = (EditText) buySellView.findViewById(R.id.sell_quantity_edit);
+        sellQuantity.addTextChangedListener(watchers.get(R.id.sell_quantity_edit));
+        sellAmount = (EditText) buySellView.findViewById(R.id.sell_amount_edit);
+        sellAmount.addTextChangedListener(watchers.get(R.id.sell_amount_edit));
 
         return buySellView;
     }
 
-    private void startFetchData() {
-        timer.cancel();
-        if (fetchDepthTask != null)
-            fetchDepthTask.cancel();
-        fetchDepthTask = new FetchDepthTask();
-        timer = new Timer();
-        timer.schedule(fetchDepthTask, 0, 5000);
-        fetchAsset();
-    }
-
-    private void stopFetchData() {
-        if (timer != null)
-            timer.cancel();
-        if (fetchDepthTask != null)
-            fetchDepthTask.cancel();
-    }
-
-    private void fetchAsset() {
-        AccountInfo ai = App.getAccount();
-        String url = String.format(Constants.ASSET_URL, ai.uid);
-        NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.GET)
-            .setOnSucceedListener(new OnApiResponseListener())
-            .setOnFailedListener(new OnApiResponseListener())
-            .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
-                @Override
-                public void onRender(NetworkRequest s) {
-                    JSONObject inCurrencyObj = Util.getJsonObjectByPath(s.getApiResult(),
-                        "data.accounts." + inCurrency);
-                    JSONObject outCurrencyObj = Util.getJsonObjectByPath(s.getApiResult(),
-                            "data.accounts." + outCurrency);
-                    if (buySellView == null)
-                        return;
-                    try {
-                        String inValid, outValid, inPending, outPending;
-                        double inPendingV, outPendingV;
-                        if (inCurrencyObj != null) {
-                            inValid = inCurrencyObj.getJSONObject("available").getString("display");
-                            inPendingV = inCurrencyObj.getJSONObject("locked").getDouble("value") +
-                                inCurrencyObj.getJSONObject("pendingWithdrawal").getDouble("value");
-                            inPending = displayDouble(inPendingV);
-                        } else {
-                            inValid = "0";
-                            inPending = "0";
-                        }
-                        if (outCurrencyObj != null) {
-                            outValid = outCurrencyObj.getJSONObject("available").getString("display");
-                            outPendingV = outCurrencyObj.getJSONObject("locked").getDouble("value") +
-                                outCurrencyObj.getJSONObject("pendingWithdrawal").getDouble("value");
-                            outPending = displayDouble(outPendingV);
-                        } else {
-                            outValid = "0";
-                            outPending = "0";
-                        }
-                        inValidView.setText(inValid);
-                        TextView inFrozenView = (TextView) buySellView.findViewById(R.id.in_frozen_amount);
-                        inFrozenView.setText(inPending);
-                        outValidView.setText(outValid);
-                        TextView outFrozenView = (TextView) buySellView.findViewById(R.id.out_frozen_amount);
-                        outFrozenView.setText(outPending);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        task.execute();
-    }
-
     @Override
     public void onClick(View v) {
+        double price, quantity, amount;
         switch (v.getId()) {
             case R.id.buy:
-                Double buyPriceV = Double.parseDouble(buyPrice.getText().toString());
-                Double buyQuantityV = Double.parseDouble(buyQuantity.getText().toString());
-                Double buyAmountV = Double.parseDouble(buyAmount.getText().toString());
-//                Toast.makeText(getActivity(), getString(R.string.exit_hint), Toast.LENGTH_SHORT).show();
+                String buyPriceStr = buyPrice.getText().toString();
+                String buyQuantityStr = buyQuantity.getText().toString();
+                String buyAmountStr = buyAmount.getText().toString();
+                if (!nonZero(buyPriceStr) || !nonZero(buyQuantityStr) || !nonZero(buyAmountStr)) {
+                    Toast.makeText(getActivity(), getString(R.string.submit_non_zero), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                price = Double.valueOf(buyPriceStr);
+                quantity = Double.valueOf(buyQuantityStr);
+                amount = Double.valueOf(buyAmountStr);
+                if (amount > Double.valueOf(outValidView.getText().toString())) {
+                    Toast.makeText(getActivity(), getString(R.string.submit_lack_amount), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if ((outCurrency.equals("CNY") && amount < 1) || (outCurrency.equals("BTC") && amount < 0.0001)) {
+                    Toast.makeText(getActivity(), getString(R.string.submit_too_small), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                submitOrder(price, quantity, amount, true);
                 break;
             case R.id.sell:
+                String sellPriceStr = sellPrice.getText().toString();
+                String sellQuantityStr = sellQuantity.getText().toString();
+                String sellAmountStr = sellAmount.getText().toString();
+                if (!nonZero(sellPriceStr) || !nonZero(sellQuantityStr) || !nonZero(sellAmountStr)) {
+                    Toast.makeText(getActivity(), getString(R.string.submit_non_zero), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                price = Double.valueOf(sellPriceStr);
+                quantity = Double.valueOf(sellQuantityStr);
+                amount = Double.valueOf(sellAmountStr);
+                if (quantity > Double.valueOf(inValidView.getText().toString())) {
+                    Toast.makeText(getActivity(), getString(R.string.submit_lack_amount), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if ((inCurrency.equals("CNY") && amount < 1) || (inCurrency.equals("BTC") && amount < 0.0001)) {
+                    Toast.makeText(getActivity(), getString(R.string.submit_too_small), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                submitOrder(price, quantity, amount, false);
                 break;
             case R.id.last_price:
                 buyPrice.setText(lastPrice);
@@ -274,6 +260,62 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                 buyAmount.setText(outValidView.getText());
                 break;
         }
+    }
+
+    private void submitOrder(final double price, final double quantity, final double amount, final boolean isBuy) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        if (isBuy)
+            builder.setTitle(R.string.submit_alert_buy_title);
+        else
+            builder.setTitle(R.string.submit_alert_sell_title);
+        builder.setMessage(String.format(getString(R.string.submit_alert_message), price, quantity, amount));
+        builder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String url;
+                String type;
+                if (isBuy) {
+                    url = String.format(Constants.BID_URL, inCurrency, outCurrency);
+                    type = "bid";
+                } else {
+                    url = String.format(Constants.ASK_URL, inCurrency, outCurrency);
+                    type = "ask";
+                }
+                Map<String, String> params = new HashMap<>();
+                params.put("type", type);
+                params.put("price", displayDouble(price, 8));
+                params.put("amount", displayDouble(quantity, 8));
+                params.put("total", displayDouble(amount, 8));
+                NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.POST)
+                    .setOnSucceedListener(new OnApiResponseListener())
+                    .setOnFailedListener(new OnApiResponseListener())
+                    .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                        @Override
+                        public void onRender(NetworkRequest s) {
+                            if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
+                                if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
+                                    Intent intent = new Intent(TradeBuySellFragment.this.getActivity(),
+                                            LoginActivity.class);
+                                    TradeBuySellFragment.this.getActivity().startActivity(intent);
+                                } else {
+                                    Toast.makeText(getActivity(), getString(R.string.submit_failed),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                fetchAsset(4000);
+                            }
+                        }
+                    });
+                task.execute(params);
+            }
+        });
+        builder.setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
     private class FetchDepthTask extends TimerTask {
@@ -341,8 +383,6 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
 //                                return "GET 请求失败：statusCode "+ statusCode;
                             }
                         }).get(url);
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -367,6 +407,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
         String quantityStr = quantityView.getText().toString();
         String amountStr = amountView.getText().toString();
         double price, quantity, amount;
+        TextWatcher tw;
         String tmpStr;
         if (id == priceId) {
             if (quantityStr.equals("")) {
@@ -375,9 +416,13 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
             price = Double.valueOf(s.toString());
             quantity = Double.valueOf(quantityStr);
             amount = price * quantity;
-            tmpStr = displayDouble(amount);
-            if (!amountStr.equals(tmpStr))
+            tmpStr = displayDouble(amount, 4);
+            if (!amountStr.equals(tmpStr)) {
+                tw = watchers.get(amountId);
+                amountView.removeTextChangedListener(tw);
                 amountView.setText(tmpStr);
+                amountView.addTextChangedListener(tw);
+            }
         } else if (id == quantityId) {
             if (priceStr.equals("")) {
                 return;
@@ -385,9 +430,13 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
             price = Double.valueOf(priceStr);
             quantity = Double.valueOf(s.toString());
             amount = price * quantity;
-            tmpStr = displayDouble(amount);
-            if (!amountStr.equals(tmpStr))
+            tmpStr = displayDouble(amount, 4);
+            if (!amountStr.equals(tmpStr)) {
+                tw = watchers.get(amountId);
+                amountView.removeTextChangedListener(tw);
                 amountView.setText(tmpStr);
+                amountView.addTextChangedListener(tw);
+            }
         } else if (id == amountId) {
             if (priceStr.equals(""))
                 return;
@@ -396,9 +445,13 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                 return;
             amount = Double.valueOf(s.toString());
             quantity = amount / price;
-            tmpStr = displayDouble(quantity);
-            if (!quantityStr.equals(tmpStr))
+            tmpStr = displayDouble(quantity, 4);
+            if (!quantityStr.equals(tmpStr)) {
+                tw = watchers.get(quantityId);
+                quantityView.removeTextChangedListener(tw);
                 quantityView.setText(tmpStr);
+                quantityView.addTextChangedListener(tw);
+            }
         }
     }
 
@@ -411,7 +464,79 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
         inputGroupChanged(s, id, R.id.sell_price_edit, R.id.sell_quantity_edit, R.id.sell_amount_edit, sellPrice,
             sellQuantity, sellAmount);
     }
-    private String displayDouble(double v) {
-        return (new BigDecimal(v).setScale(4, RoundingMode.CEILING)).toPlainString();
+
+    private String displayDouble(double v, int precision) {
+        return (new BigDecimal(v).setScale(precision, RoundingMode.HALF_EVEN)).toPlainString();
+    }
+
+    private void startFetchData() {
+        timer.cancel();
+        if (fetchDepthTask != null)
+            fetchDepthTask.cancel();
+        fetchDepthTask = new FetchDepthTask();
+        timer = new Timer();
+        timer.schedule(fetchDepthTask, 0, 5000);
+        fetchAsset(0);
+    }
+
+    private void stopFetchData() {
+        if (timer != null)
+            timer.cancel();
+        if (fetchDepthTask != null)
+            fetchDepthTask.cancel();
+    }
+
+    private void fetchAsset(long delay) {
+        AccountInfo ai = App.getAccount();
+        String url = String.format(Constants.ASSET_URL, ai.uid);
+        NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.GET, delay)
+                .setOnSucceedListener(new OnApiResponseListener())
+                .setOnFailedListener(new OnApiResponseListener())
+                .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                    @Override
+                    public void onRender(NetworkRequest s) {
+                        JSONObject inCurrencyObj = Util.getJsonObjectByPath(s.getApiResult(),
+                                "data.accounts." + inCurrency);
+                        JSONObject outCurrencyObj = Util.getJsonObjectByPath(s.getApiResult(),
+                                "data.accounts." + outCurrency);
+                        if (buySellView == null)
+                            return;
+                        try {
+                            String inValid, outValid, inPending, outPending;
+                            double inPendingV, outPendingV;
+                            if (inCurrencyObj != null) {
+                                inValid = inCurrencyObj.getJSONObject("available").getString("display");
+                                inPendingV = inCurrencyObj.getJSONObject("locked").getDouble("value") +
+                                        inCurrencyObj.getJSONObject("pendingWithdrawal").getDouble("value");
+                                inPending = displayDouble(inPendingV, 4);
+                            } else {
+                                inValid = "0";
+                                inPending = "0";
+                            }
+                            if (outCurrencyObj != null) {
+                                outValid = outCurrencyObj.getJSONObject("available").getString("display");
+                                outPendingV = outCurrencyObj.getJSONObject("locked").getDouble("value") +
+                                        outCurrencyObj.getJSONObject("pendingWithdrawal").getDouble("value");
+                                outPending = displayDouble(outPendingV, 4);
+                            } else {
+                                outValid = "0";
+                                outPending = "0";
+                            }
+                            inValidView.setText(inValid);
+                            TextView inFrozenView = (TextView) buySellView.findViewById(R.id.in_frozen_amount);
+                            inFrozenView.setText(inPending);
+                            outValidView.setText(outValid);
+                            TextView outFrozenView = (TextView) buySellView.findViewById(R.id.out_frozen_amount);
+                            outFrozenView.setText(outPending);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        task.execute();
+    }
+
+    private boolean nonZero(String numStr) {
+        return !(numStr == null || numStr.equals("")) && Double.valueOf(numStr) > 0.000000001;
     }
 }

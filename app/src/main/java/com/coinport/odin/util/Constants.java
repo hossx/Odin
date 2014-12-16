@@ -19,8 +19,9 @@ public class Constants {
     public static final String DEPTH_URL = PROTOCOL + DOMAIN_PORT + "/api/m/%1$s-%2$s/depth";
     public static final String TX_URL = PROTOCOL + DOMAIN_PORT + "/api/%1$s-%2$s/transaction";
     public static final String LOGIN_URL = PROTOCOL + DOMAIN_PORT + "/account/login";
-    public static final String PROFILE_URL = PROTOCOL + DOMAIN_PORT + "/account#/accountprofiles";
+//    public static final String PROFILE_URL = PROTOCOL + DOMAIN_PORT + "/account#/accountprofiles";
     public static final String BID_URL = PROTOCOL + DOMAIN_PORT + "/trade/%1$s-%2$s/bid";
+    public static final String ASK_URL = PROTOCOL + DOMAIN_PORT + "/trade/%1$s-%2$s/ask";
     public static final String ASSET_URL = PROTOCOL + DOMAIN_PORT + "/api/account/%1$s";
 
     public static final String PLAY_SESSION = "PLAY_SESSION";
