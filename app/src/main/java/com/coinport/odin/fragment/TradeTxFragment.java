@@ -76,13 +76,11 @@ public class TradeTxFragment extends TradeOrderFragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 self.headerRefreshView = refreshView;
-                new GetOrderTask("header").execute();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 self.footerRefreshView = refreshView;
-                new GetOrderTask("footer").execute();
             }
         });
         orderAdapter = new OrderAdapter(getActivity());

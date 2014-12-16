@@ -495,6 +495,8 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                 .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                     @Override
                     public void onRender(NetworkRequest s) {
+                        if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED)
+                            return;
                         JSONObject inCurrencyObj = Util.getJsonObjectByPath(s.getApiResult(),
                                 "data.accounts." + inCurrency);
                         JSONObject outCurrencyObj = Util.getJsonObjectByPath(s.getApiResult(),

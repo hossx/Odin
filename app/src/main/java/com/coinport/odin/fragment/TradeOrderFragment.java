@@ -9,12 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.coinport.odin.App;
 import com.coinport.odin.R;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.OrderAdapter;
 import com.coinport.odin.library.ptr.PullToRefreshBase;
 import com.coinport.odin.library.ptr.PullToRefreshListView;
+import com.coinport.odin.network.NetworkAsyncTask;
+import com.coinport.odin.network.NetworkRequest;
+import com.coinport.odin.network.OnApiResponseListener;
+import com.coinport.odin.obj.AccountInfo;
 import com.coinport.odin.obj.OrderItem;
+import com.coinport.odin.util.Constants;
+import com.coinport.odin.util.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +30,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +62,10 @@ public class TradeOrderFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private Time now = new Time();
+
+    private final int LIMIT = 10;
+    private int page = 1;
+    private boolean loadAll = false;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -96,13 +109,13 @@ public class TradeOrderFragment extends Fragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 self.headerRefreshView = refreshView;
-                new GetOrderTask("header").execute();
+                fetchOrder(true, "header");
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 self.footerRefreshView = refreshView;
-                new GetOrderTask("footer").execute();
+                fetchOrder(false, "footer");
             }
         });
         orderAdapter = new OrderAdapter(getActivity());
@@ -110,73 +123,71 @@ public class TradeOrderFragment extends Fragment {
         return view;
     }
 
-    protected class GetOrderTask extends AsyncTask<Void, Void, Void> {
-        private String direction;
-        public GetOrderTask(String direction) {
-            this.direction = direction;
-        }
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            // Call onRefreshComplete when the list has been refreshed.
-            now.setToNow();
-            if (direction.equals("header")) {
-                String label = String.format(getString(R.string.last_updated_at), now.format("%Y-%m-%d %k:%M:%S"));
-                headerRefreshView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel(label);
-            } else {
-                String label = String.format(getString(R.string.last_loaded_at), now.format("%Y-%m-%d %k:%M:%S"));
-                footerRefreshView.getLoadingLayoutProxy(false, true).setLastUpdatedLabel(label);
-            }
-            refreshableView.onRefreshComplete();
-        }
-    }
-
     @Override
     public void onStart() {
         super.onStart();
-        new InitOrderTask().execute();
+        fetchOrder(true, "");
     }
 
-    private class InitOrderTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                InputStream is = getActivity().getAssets().open("orders_mock.json");
-                int size = is.available();
-                byte[] buffer = new byte[size];
-                is.read(buffer);
-                is.close();
-                String bufferString = new String(buffer);
-                JSONObject orderResult = new JSONObject(bufferString);
-                JSONArray orderJsonList = orderResult.getJSONObject("data").getJSONArray("items");
-                orderItems.clear();
-                for (int i = 0; i < orderJsonList.length(); ++i) {
-                    orderItems.add(OrderItem.OrderItemBuilder.generateFromJson(orderJsonList.getJSONObject(i)));
-                }
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
+    private void fetchOrder(final boolean isRefresh, final String direction) {
+        if (isRefresh) {
+            page = 1;
+            loadAll = false;
         }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            orderAdapter.setOrderItems(orderItems);
-            orderAdapter.notifyDataSetChanged();
-        }
+//        else if (loadAll) {
+//            if (!direction.equals(""))
+//                refreshableView.onRefreshComplete();
+//            return;
+//        }
+        AccountInfo ai = App.getAccount();
+        String url = String.format(Constants.ORDER_URL, ai.uid, inCurrency, outCurrency);
+        Map<String, String> params = new HashMap<>();
+        params.put("limit", String.valueOf(LIMIT));
+        params.put("page", String.valueOf(page));
+        params.put("status", "1");
+        NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.GET)
+                .setOnSucceedListener(new OnApiResponseListener())
+                .setOnFailedListener(new OnApiResponseListener())
+                .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                    @Override
+                    public void onRender(NetworkRequest s) {
+                        if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED || loadAll) {
+                            refreshableView.onRefreshComplete();
+                            return;
+                        }
+                        JSONArray orderJsonList = Util.getJsonArrayByPath(s.getApiResult(), "data.items");
+                        if (isRefresh)
+                            orderItems.clear();
+                        try {
+                            for (int i = 0; i < orderJsonList.length(); ++i) {
+                                orderItems.add(OrderItem.OrderItemBuilder.generateFromJson(
+                                    orderJsonList.getJSONObject(i)));
+                            }
+                            if (orderJsonList.length() < LIMIT)
+                                loadAll = true;
+                            else
+                                page += 1;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        orderAdapter.setOrderItems(orderItems);
+                        orderAdapter.notifyDataSetChanged();
+                        if (!direction.equals("")) {
+                            now.setToNow();
+                            if (direction.equals("header")) {
+                                String label = String.format(getString(R.string.last_updated_at), now.format("%Y-%m-%d %k:%M:%S"));
+                                headerRefreshView.getLoadingLayoutProxy(true, false).setLastUpdatedLabel(label);
+                            } else {
+                                String label = String.format(getString(R.string.last_loaded_at), now.format("%Y-%m-%d %k:%M:%S"));
+                                footerRefreshView.getLoadingLayoutProxy(false, true).setLastUpdatedLabel(label);
+                            }
+                            refreshableView.onRefreshComplete();
+                        }
+                    }
+                });
+        task.execute(params);
     }
+
 //    @Override
 //    public void onAttach(Activity activity) {
 //        super.onAttach(activity);
