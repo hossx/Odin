@@ -201,6 +201,7 @@
     <string name="submit_alert_sell_title">卖出挂单</string>
     <string name="submit_alert_message">价格:\t%1$f\n数量:\t%2$f\n金额:\t%3$f</string>
     <string name="submit_failed">下单失败，请检查网络是否正常</string>
+    <string name="cancel_failed">撤单失败，请检查网络是否正常</string>
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_register">用户注册</string>

@@ -24,6 +24,7 @@ public class Constants {
     public static final String ASK_URL = PROTOCOL + DOMAIN_PORT + "/trade/%1$s-%2$s/ask";
     public static final String ASSET_URL = PROTOCOL + DOMAIN_PORT + "/api/account/%1$s";
     public static final String ORDER_URL = PROTOCOL + DOMAIN_PORT + "/api/user/%1$s/order/%2$s-%3$s";
+    public static final String CANCEL_ORDER_URL = PROTOCOL + DOMAIN_PORT + "/trade/%1$s-%2$s/order/cancel/%3$s";
 
     public static final String PLAY_SESSION = "PLAY_SESSION";
     static {

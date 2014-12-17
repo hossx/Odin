@@ -45,7 +45,7 @@ public class TradeOrderFragment extends Fragment {
     protected PullToRefreshListView refreshableView;
     protected PullToRefreshBase<ListView> headerRefreshView;
     protected PullToRefreshBase<ListView> footerRefreshView;
-    private String inCurrency, outCurrency;
+    protected String inCurrency, outCurrency;
 
     protected OrderAdapter orderAdapter;
     private ArrayList<OrderItem> orderItems = new ArrayList<OrderItem>();
@@ -109,16 +109,22 @@ public class TradeOrderFragment extends Fragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 self.headerRefreshView = refreshView;
-                fetchOrder(true, "header");
+                fetchOrder(true, "header", 0);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 self.footerRefreshView = refreshView;
-                fetchOrder(false, "footer");
+                fetchOrder(false, "footer", 0);
             }
         });
-        orderAdapter = new OrderAdapter(getActivity());
+        orderAdapter = new OrderAdapter(getActivity(), inCurrency, outCurrency);
+        orderAdapter.setCancelledHandler(new OrderAdapter.OnOrderCancelled() {
+            @Override
+            public void onCancelled() {
+                fetchOrder(true, "", 4000);
+            }
+        });
         refreshableView.getRefreshableView().setAdapter(orderAdapter);
         return view;
     }
@@ -126,14 +132,14 @@ public class TradeOrderFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        fetchOrder(true, "");
+        fetchOrder(true, "", 0);
     }
 
     protected String getStatus() {
         return "1";
     }
 
-    protected void fetchOrder(final boolean isRefresh, final String direction) {
+    protected void fetchOrder(final boolean isRefresh, final String direction, long delay) {
         if (isRefresh) {
             page = 1;
             loadAll = false;
@@ -149,7 +155,7 @@ public class TradeOrderFragment extends Fragment {
         params.put("limit", String.valueOf(LIMIT));
         params.put("page", String.valueOf(page));
         params.put("status", getStatus());
-        NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.GET)
+        NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.GET, delay)
                 .setOnSucceedListener(new OnApiResponseListener())
                 .setOnFailedListener(new OnApiResponseListener())
                 .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
