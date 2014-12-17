@@ -298,7 +298,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                                             LoginActivity.class);
                                     TradeBuySellFragment.this.getActivity().startActivity(intent);
                                 } else {
-                                    Toast.makeText(getActivity(), getString(R.string.submit_failed),
+                                    Toast.makeText(getActivity(), getString(R.string.request_failed),
                                             Toast.LENGTH_SHORT).show();
                                 }
                             } else {

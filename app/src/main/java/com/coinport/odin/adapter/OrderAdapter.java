@@ -119,7 +119,7 @@ public class OrderAdapter extends BaseAdapter {
                                             Intent intent = new Intent(context, LoginActivity.class);
                                             context.startActivity(intent);
                                         } else {
-                                            Toast.makeText(context, context.getString(R.string.cancel_failed),
+                                            Toast.makeText(context, context.getString(R.string.request_failed),
                                                     Toast.LENGTH_SHORT).show();
                                         }
                                     } else {

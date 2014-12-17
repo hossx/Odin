@@ -16,8 +16,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.coinport.odin.App;
 import com.coinport.odin.R;
+import com.coinport.odin.activity.LoginActivity;
+import com.coinport.odin.library.ptr.PullToRefreshScrollView;
+import com.coinport.odin.network.NetworkAsyncTask;
+import com.coinport.odin.network.NetworkRequest;
+import com.coinport.odin.network.OnApiResponseListener;
+import com.coinport.odin.util.Constants;
 import com.coinport.odin.util.EncodingHandler;
 import com.coinport.odin.util.Util;
 import com.google.zxing.WriterException;
@@ -25,6 +33,7 @@ import com.google.zxing.WriterException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -49,6 +58,10 @@ public class DepositFragment extends DWFragmentCommon {
     private TextView nxtPubkey;
     private ImageView qrView;
     private TextView link;
+    ArrayList<HashMap<String, String>> historyList = new ArrayList<>();
+    SimpleAdapter historyAdapter;
+
+    private PullToRefreshScrollView refreshScrollView;
 
     static {
         uriHeader.put("BTC", "bitcoin:");
@@ -76,9 +89,19 @@ public class DepositFragment extends DWFragmentCommon {
         depositInfo = (LinearLayout) view.findViewById(R.id.deposit_info);
         depositCnyInfo = (LinearLayout) view.findViewById(R.id.deposit_cny_info);
         address = (TextView) view.findViewById(R.id.crypto_currency_address);
+        qrView = (ImageView) view.findViewById(R.id.qr_image);
         alias = (TextView) view.findViewById(R.id.deposit_alias);
         memo = (TextView) view.findViewById(R.id.deposit_memo);
         nxtPubkey = (TextView) view.findViewById(R.id.deposit_nxt_pubkey);
+        ListView history = (ListView) view.findViewById(R.id.deposit_history);
+        history.setFocusable(false);
+        historyAdapter = new SimpleAdapter(getActivity(), historyList, R.layout.transfer_item, new String[]{
+            "transfer_time", "transfer_amount", "transfer_status"}, new int[] {R.id.transfer_time, R.id.transfer_amount,
+            R.id.transfer_status});
+        history.setAdapter(historyAdapter);
+
+        refreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.refreshable_view);
+
         updateDepositInfo();
         return view;
     }
@@ -128,10 +151,10 @@ public class DepositFragment extends DWFragmentCommon {
             link.setVisibility(View.GONE);
         }
 
-        qrView = (ImageView) view.findViewById(R.id.qr_image);
         try {
             Bitmap qrCodeBitmap = EncodingHandler.createQRCode(address, 350);
             qrView.setImageBitmap(qrCodeBitmap);
+            qrView.setVisibility(View.VISIBLE);
         } catch (WriterException e) {
             e.printStackTrace();
         }
@@ -155,15 +178,60 @@ public class DepositFragment extends DWFragmentCommon {
             if (link != null) link.setVisibility(View.VISIBLE);
     }
 
+    private void updateAddress(final NetworkAsyncTask.OnPostRenderListener listener) {
+        address.setVisibility(View.VISIBLE);
+        qrView.setVisibility(View.VISIBLE);
+        String url = String.format(Constants.DEPOSIT_ADDRESS_URL, currency, App.getAccount().uid);
+        NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.GET)
+                .setOnSucceedListener(new OnApiResponseListener())
+                .setOnFailedListener(new OnApiResponseListener())
+                .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+
+                    @Override
+                    public void onRender(NetworkRequest s) {
+                        if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
+                            address.setVisibility(View.GONE);
+                            qrView.setVisibility(View.GONE);
+                            if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
+                                Intent intent = new Intent(DepositFragment.this.getActivity(), LoginActivity.class);
+                                DepositFragment.this.getActivity().startActivity(intent);
+                            } else {
+                                Toast.makeText(getActivity(), getString(R.string.request_failed),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            listener.onRender(s);
+                        }
+                    }
+                });
+        task.execute();
+    }
+
     private void updateDepositBtcInfo() {
         depositInfo.setVisibility(View.VISIBLE);
         depositCnyInfo.setVisibility(View.GONE);
         setItemsVisibility(EnumSet.of(OptItem.QR_CODE, OptItem.LINK));
 
-        TextView tv = (TextView) view.findViewById(R.id.deposit_header);
-        tv.setText(String.format(getString(R.string.deposit_info), currency));
-
-        renderLinkQrcode("1JkZQBK1S1NqEYuDjAFu9E5285Dt59gVaY");
+        updateAddress(new NetworkAsyncTask.OnPostRenderListener() {
+            @Override
+            public void onRender(NetworkRequest s) {
+                TextView tv = (TextView) view.findViewById(R.id.deposit_header);
+                tv.setText(String.format(getString(R.string.deposit_info), currency));
+                JSONObject obj = Util.getJsonObjectByPath(s.getApiResult(), "data");
+                try {
+                    if (obj != null && !obj.getString(currency).equals("")) {
+                        String addressStr = obj.getString(currency);
+                        address.setText(addressStr);
+                        renderLinkQrcode(addressStr);
+                    } else {
+                        address.setVisibility(View.GONE);
+                        qrView.setVisibility(View.GONE);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         updateDepositHistory();
     }
@@ -227,8 +295,9 @@ public class DepositFragment extends DWFragmentCommon {
         tv.setText(String.format(getString(R.string.deposit_info), currency));
 
         address.setText(getString(R.string.btsx_address));
+        address.setVisibility(View.VISIBLE);
         alias.setText(String.format(getString(R.string.deposit_alias_name), getString(R.string.btsx_alias)));
-        memo.setText(String.format(getString(R.string.deposit_memo), "1000000013"));
+        memo.setText(String.format(getString(R.string.deposit_memo), App.getAccount().uid));
         renderLinkQrcode(getString(R.string.btsx_address));
         updateDepositHistory();
     }
@@ -238,13 +307,39 @@ public class DepositFragment extends DWFragmentCommon {
         depositCnyInfo.setVisibility(View.GONE);
         setItemsVisibility(EnumSet.of(OptItem.ALIAS, OptItem.NXT_PUBKEY, OptItem.QR_CODE, OptItem.LINK));
 
-        TextView tv = (TextView) view.findViewById(R.id.deposit_header);
-        tv.setText(String.format(getString(R.string.deposit_info), currency));
+        alias.setVisibility(View.GONE);
+        nxtPubkey.setVisibility(View.GONE);
+        updateAddress(new NetworkAsyncTask.OnPostRenderListener() {
+            @Override
+            public void onRender(NetworkRequest s) {
+                TextView tv = (TextView) view.findViewById(R.id.deposit_header);
+                tv.setText(String.format(getString(R.string.deposit_info), currency));
+                JSONObject obj = Util.getJsonObjectByPath(s.getApiResult(), "data");
+                try {
+                    if (obj != null && !obj.getString(currency).equals("")) {
+                        String addressStr = obj.getString(currency);
+                        String[] segments = addressStr.split("//");
+                        if (segments.length < 3) {
+                            address.setVisibility(View.GONE);
+                            qrView.setVisibility(View.GONE);
+                            return;
+                        }
+                        address.setText(segments[0]);
+                        alias.setText(String.format(getString(R.string.deposit_alias_name), segments[1]));
+                        alias.setVisibility(View.VISIBLE);
+                        nxtPubkey.setText(String.format(getString(R.string.deposit_nxt_pubkey), segments[2]));
+                        nxtPubkey.setVisibility(View.VISIBLE);
+                        renderLinkQrcode(segments[0]);
+                    } else {
+                        address.setVisibility(View.GONE);
+                        qrView.setVisibility(View.GONE);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-        address.setText(getString(R.string.nxt_address));
-        alias.setText(String.format(getString(R.string.deposit_alias_name), getString(R.string.nxt_alias)));
-        nxtPubkey.setText(String.format(getString(R.string.deposit_nxt_pubkey), getString(R.string.nxt_pubkey)));
-        renderLinkQrcode(getString(R.string.nxt_address));
         updateDepositHistory();
     }
 
@@ -257,37 +352,58 @@ public class DepositFragment extends DWFragmentCommon {
         tv.setText(String.format(getString(R.string.deposit_info), currency));
 
         address.setText(getString(R.string.xrp_address));
-        memo.setText(String.format(getString(R.string.deposit_tag), "1000000013"));
+        address.setVisibility(View.VISIBLE);
+        qrView = (ImageView) view.findViewById(R.id.qr_image);
+        memo.setText(String.format(getString(R.string.deposit_tag), App.getAccount().uid));
         renderLinkQrcode(getString(R.string.xrp_address));
         updateDepositHistory();
     }
 
     private void updateDepositHistory() {
-        ListView lv = (ListView) view.findViewById(R.id.deposit_history);
-        lv.setFocusable(false);
+        String url = String.format(Constants.TRANSFER_URL, currency, App.getAccount().uid);
+        Map<String, String> params = new HashMap<>();
+        params.put("limit", "10");
+        params.put("page", "1");
+        params.put("type", "0");
+        NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.GET)
+            .setOnSucceedListener(new OnApiResponseListener())
+            .setOnFailedListener(new OnApiResponseListener())
+                .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                    @Override
+                    public void onRender(NetworkRequest s) {
+                        if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
+                            if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
+                                Intent intent = new Intent(DepositFragment.this.getActivity(), LoginActivity.class);
+                                DepositFragment.this.getActivity().startActivity(intent);
+                            } else {
+                                Toast.makeText(getActivity(), getString(R.string.request_failed),
+                                    Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            historyList.clear();
+                            JSONArray jsonArray = Util.getJsonArrayByPath(s.getApiResult(), "data.items");
+                            if (jsonArray != null) {
+                                for (int i = 0; i < jsonArray.length(); ++i) {
+                                    HashMap<String, String> fields = new HashMap<>();
+                                    try {
+                                        JSONObject jsonObj = jsonArray.getJSONObject(i);
+                                        timeFormat.set(jsonObj.getLong("updated"));
+                                        fields.put("transfer_time", timeFormat.format("%Y-%m-%d %k:%M:%S"));
+                                        fields.put("transfer_amount", jsonObj.getJSONObject("amount").getString("display"));
+                                        fields.put("transfer_status", getString(Util.transferStatus.get(jsonObj.getInt("status"))));
+                                        historyList.add(fields);
 
-        ArrayList<HashMap<String, String>> dhList = new ArrayList<>();
-        JSONArray jsonArray = Util.getJsonArrayFromFile(getActivity(), "deposit_history_mock.json");
-        if (jsonArray != null) {
-            for (int i = 0; i < jsonArray.length(); ++i) {
-                HashMap<String, String> fields = new HashMap<>();
-                try {
-                    JSONObject jsonObj = jsonArray.getJSONObject(i);
-                    timeFormat.set(jsonObj.getLong("updated"));
-                    fields.put("transfer_time", timeFormat.format("%Y-%m-%d %k:%M:%S"));
-                    fields.put("transfer_amount", jsonObj.getJSONObject("amount").getString("display"));
-                    fields.put("transfer_status", getString(Util.transferStatus.get(jsonObj.getInt("status"))));
-                    dhList.add(fields);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(), dhList, R.layout.transfer_item, new String[]{
-            "transfer_time", "transfer_amount", "transfer_status"}, new int[] {R.id.transfer_time, R.id.transfer_amount,
-            R.id.transfer_status});
-        lv.setAdapter(adapter);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            historyAdapter.notifyDataSetChanged();
+                        }
+                        refreshScrollView.onRefreshComplete();
+                    }
+                });
+        task.execute(params);
     }
     private enum OptItem {
         ALIAS, MEMO, NXT_PUBKEY, QR_CODE, LINK
