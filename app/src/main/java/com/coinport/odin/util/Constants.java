@@ -25,21 +25,28 @@ public class Constants {
     public static final String ASSET_URL = PROTOCOL + DOMAIN_PORT + "/api/account/%1$s";
     public static final String ORDER_URL = PROTOCOL + DOMAIN_PORT + "/api/user/%1$s/order/%2$s-%3$s";
     public static final String CANCEL_ORDER_URL = PROTOCOL + DOMAIN_PORT + "/trade/%1$s-%2$s/order/cancel/%3$s";
-//    public static final String TRANSFER_URL = PROTOCOL + DOMAIN_PORT + "/api/%1$s/transfer/%2$s";
-    public static final String TRANSFER_URL = "https://exchange.coinport.com/api/%1$s/transfer/%2$s";
+    public static final String TRANSFER_URL = PROTOCOL + DOMAIN_PORT + "/api/%1$s/transfer/%2$s";
+//    public static final String TRANSFER_URL = "https://exchange.coinport.com/api/%1$s/transfer/%2$s";
     public static final String DEPOSIT_ADDRESS_URL = PROTOCOL + DOMAIN_PORT + "/depoaddr/%1$s/%2$s";
 //    public static final String DEPOSIT_ADDRESS_URL = "https://exchange.coinport.com/depoaddr/%1$s/%2$s";
+    public static final String FEE_URL = PROTOCOL + DOMAIN_PORT + "/api/m/fee";
+    public static final String EMAIL_CODE_URL = PROTOCOL + DOMAIN_PORT + "/emailverification";
+    public static final String WITHDRAWAL_URL = PROTOCOL + DOMAIN_PORT + "/account/withdrawal";
+    public static final String USER_VERIFY_URL = PROTOCOL + DOMAIN_PORT + "/account/realnameverify";
+    public static final String BANK_CARD_URL = PROTOCOL + DOMAIN_PORT + "/account/querybankcards";
+    public static final String ADD_BANK_CARD_URL = PROTOCOL + DOMAIN_PORT + "/account/addbankcard";
+    public static final String RM_BANK_CARD_URL = PROTOCOL + DOMAIN_PORT + "/account/deletebankcard";
 
     public static final String PLAY_SESSION = "PLAY_SESSION";
     static {
-        Map<Integer, Integer> tMap = new HashMap<>();
-        tMap.put(0, R.string.order_status_pending);
-        tMap.put(1, R.string.order_status_pending);
-        tMap.put(2, R.string.order_status_done);
-        tMap.put(3, R.string.order_status_canceled);
-        tMap.put(4, R.string.order_status_canceled);
-        tMap.put(5, R.string.order_status_canceled);
-        ORDER_STATUS_MAP = Collections.unmodifiableMap(tMap);
+        Map<Integer, Integer> osMap = new HashMap<>();
+        osMap.put(0, R.string.order_status_pending);
+        osMap.put(1, R.string.order_status_pending);
+        osMap.put(2, R.string.order_status_done);
+        osMap.put(3, R.string.order_status_canceled);
+        osMap.put(4, R.string.order_status_canceled);
+        osMap.put(5, R.string.order_status_canceled);
+        ORDER_STATUS_MAP = Collections.unmodifiableMap(osMap);
     }
 
     public enum HttpMethod {

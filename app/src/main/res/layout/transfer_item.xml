@@ -12,7 +12,7 @@
         android:orientation="horizontal">
         <TextView
             android:id="@+id/transfer_time"
-            android:layout_width="150dip"
+            android:layout_width="140dip"
             android:layout_height="wrap_content"
             android:text="2014-12-06 7:02:42"/>
         <LinearLayout
@@ -23,13 +23,14 @@
                 android:id="@+id/transfer_amount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="9"
+                android:textStyle="bold"
                 android:text="3000"/>
             <TextView
                 android:id="@+id/transfer_status"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="6"
                 android:gravity="right"
                 android:text="成功"/>
         </LinearLayout>

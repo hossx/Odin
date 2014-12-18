@@ -1,11 +1,13 @@
 package com.coinport.odin.util;
 
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -18,6 +20,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -167,6 +171,28 @@ public final class Util {
         }
         return result;
     }
+
+    public static String displayDouble(double v, int precision) {
+        return (new BigDecimal(v).setScale(precision, RoundingMode.HALF_EVEN)).toPlainString();
+    }
+
+    public static void countdownButton(final Button b) {
+        b.setEnabled(false);
+        new CountDownTimer(120000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                b.setText(String.valueOf(millisUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                b.setEnabled(true);
+                b.setText(R.string.withdrawal_send_email_code);
+            }
+        }.start();
+    }
+
 
     private static String getApplicationRoot() {
         return Environment.getExternalStorageDirectory() + "/coinport/";

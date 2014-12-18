@@ -9,14 +9,26 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.coinport.odin.R;
+import com.coinport.odin.network.NetworkAsyncTask;
+import com.coinport.odin.network.NetworkRequest;
+import com.coinport.odin.network.OnApiResponseListener;
 import com.coinport.odin.obj.ViewHolder;
+import com.coinport.odin.util.Constants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BankCardAdapter extends BaseAdapter {
 	private Context context;
 	private ArrayList<String> list;
-	public BankCardAdapter(Context context, ArrayList<String> list){
+    private View.OnClickListener clickListener = null;
+
+    public void setClickListener(View.OnClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
+    public BankCardAdapter(Context context, ArrayList<String> list){
 		this.context = context;
 		this.list = list;
 	}
@@ -39,7 +51,7 @@ public class BankCardAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int arg0, View arg1, ViewGroup arg2) {
+	public View getView(final int arg0, View arg1, ViewGroup arg2) {
         ViewHolder viewHolder = null;
         if (arg1 == null && list.size() != 0) {
             viewHolder = new ViewHolder();
@@ -55,8 +67,27 @@ public class BankCardAdapter extends BaseAdapter {
         final String str = viewHolder.textView.getText().toString();
         viewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Log.d("bank card selector", str);
+            public void onClick(final View v) {
+                String[] segments = str.split("\\|");
+                if (segments.length < 2) {
+                    return;
+                }
+                Map<String, String> params = new HashMap<>();
+                params.put("cardNumber", segments[1]);
+                NetworkAsyncTask task = new NetworkAsyncTask(Constants.RM_BANK_CARD_URL, Constants.HttpMethod.POST)
+                        .setOnSucceedListener(new OnApiResponseListener())
+                        .setOnFailedListener(new OnApiResponseListener())
+                        .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                            @Override
+                            public void onRender(NetworkRequest s) {
+                                if (s.getApiStatus() == NetworkRequest.ApiStatus.SUCCEED) {
+                                    list.remove(arg0);
+                                    if (clickListener != null)
+                                        clickListener.onClick(v);
+                                }
+                            }
+                        });
+                task.execute(params);
             }
         });
         return arg1;

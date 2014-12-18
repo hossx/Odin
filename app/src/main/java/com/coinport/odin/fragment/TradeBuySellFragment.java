@@ -283,9 +283,9 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                 }
                 Map<String, String> params = new HashMap<>();
                 params.put("type", type);
-                params.put("price", displayDouble(price, 8));
-                params.put("amount", displayDouble(quantity, 8));
-                params.put("total", displayDouble(amount, 8));
+                params.put("price", Util.displayDouble(price, 8));
+                params.put("amount", Util.displayDouble(quantity, 8));
+                params.put("total", Util.displayDouble(amount, 8));
                 NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.POST)
                     .setOnSucceedListener(new OnApiResponseListener())
                     .setOnFailedListener(new OnApiResponseListener())
@@ -416,7 +416,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
             price = Double.valueOf(s.toString());
             quantity = Double.valueOf(quantityStr);
             amount = price * quantity;
-            tmpStr = displayDouble(amount, 4);
+            tmpStr = Util.displayDouble(amount, 4);
             if (!amountStr.equals(tmpStr)) {
                 tw = watchers.get(amountId);
                 amountView.removeTextChangedListener(tw);
@@ -430,7 +430,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
             price = Double.valueOf(priceStr);
             quantity = Double.valueOf(s.toString());
             amount = price * quantity;
-            tmpStr = displayDouble(amount, 4);
+            tmpStr = Util.displayDouble(amount, 4);
             if (!amountStr.equals(tmpStr)) {
                 tw = watchers.get(amountId);
                 amountView.removeTextChangedListener(tw);
@@ -445,7 +445,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                 return;
             amount = Double.valueOf(s.toString());
             quantity = amount / price;
-            tmpStr = displayDouble(quantity, 4);
+            tmpStr = Util.displayDouble(quantity, 4);
             if (!quantityStr.equals(tmpStr)) {
                 tw = watchers.get(quantityId);
                 quantityView.removeTextChangedListener(tw);
@@ -463,10 +463,6 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
     private void sellInputGroupChanged(Editable s, int id) {
         inputGroupChanged(s, id, R.id.sell_price_edit, R.id.sell_quantity_edit, R.id.sell_amount_edit, sellPrice,
             sellQuantity, sellAmount);
-    }
-
-    private String displayDouble(double v, int precision) {
-        return (new BigDecimal(v).setScale(precision, RoundingMode.HALF_EVEN)).toPlainString();
     }
 
     private void startFetchData() {
@@ -510,7 +506,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                                 inValid = inCurrencyObj.getJSONObject("available").getString("display");
                                 inPendingV = inCurrencyObj.getJSONObject("locked").getDouble("value") +
                                         inCurrencyObj.getJSONObject("pendingWithdrawal").getDouble("value");
-                                inPending = displayDouble(inPendingV, 4);
+                                inPending = Util.displayDouble(inPendingV, 4);
                             } else {
                                 inValid = "0";
                                 inPending = "0";
@@ -519,7 +515,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                                 outValid = outCurrencyObj.getJSONObject("available").getString("display");
                                 outPendingV = outCurrencyObj.getJSONObject("locked").getDouble("value") +
                                         outCurrencyObj.getJSONObject("pendingWithdrawal").getDouble("value");
-                                outPending = displayDouble(outPendingV, 4);
+                                outPending = Util.displayDouble(outPendingV, 4);
                             } else {
                                 outValid = "0";
                                 outPending = "0";

@@ -25,6 +25,7 @@
             android:gravity="right"
             android:text="@string/verify_name"/>
         <EditText
+            android:id="@+id/real_name"
             android:layout_marginLeft="4dip"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
@@ -52,8 +53,29 @@
             android:layout_height="wrap_content"
             android:paddingRight="4dip"
             android:gravity="right"
+            android:text="@string/verify_region"/>
+        <Spinner
+            android:id="@+id/region_selector"
+            android:layout_marginLeft="4dip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="4dip"
+        android:paddingRight="4dip"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="80dip"
+            android:layout_height="wrap_content"
+            android:paddingRight="4dip"
+            android:gravity="right"
             android:text="@string/verify_type"/>
         <Spinner
+            android:id="@+id/type_selector"
             android:layout_marginLeft="4dip"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
@@ -73,6 +95,7 @@
             android:gravity="right"
             android:text="@string/verify_id"/>
         <EditText
+            android:id="@+id/id"
             android:layout_marginLeft="4dip"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
@@ -86,11 +109,13 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btn_ok"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/button_ok"/>
         <Button
+            android:id="@+id/btn_cancel"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"

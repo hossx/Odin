@@ -207,7 +207,7 @@ public final class NetworkRequest {
 
         if (!requestParams.isEmpty()) {
             if (isPost()) {
-                ((HttpPost) httpRequest).setEntity(new UrlEncodedFormEntity(requestParams));
+                ((HttpPost) httpRequest).setEntity(new UrlEncodedFormEntity(requestParams, "UTF-8"));
             } else {
                 URI oldUri = httpRequest.getURI();
                 String query = "";

@@ -24,6 +24,12 @@ public class BankCardSpinner extends Spinner implements AdapterView.OnItemClickL
     private ArrayList<String> list;
     public static String text;
 
+    private OnClickListener clickListener = null;
+
+    public void setClickListener(OnClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
     public BankCardSpinner(Context context) {
         super(context);
     }
@@ -56,6 +62,13 @@ public class BankCardSpinner extends Spinner implements AdapterView.OnItemClickL
         final View view = inflater.inflate(R.layout.bank_card_spinner, null);
         final ListView listview = (ListView) view.findViewById(R.id.bank_card_spinner_list);
         BankCardAdapter adapters = new BankCardAdapter(context, getList());
+        adapters.setClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                clickListener.onClick(v);
+            }
+        });
         listview.setAdapter(adapters);
         listview.setOnItemClickListener(this);
         dialog = new BankCardSelectDialog(context, R.style.dialog);//创建Dialog并设置样式主题

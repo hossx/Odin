@@ -2,6 +2,7 @@ package com.coinport.odin.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.Time;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -20,11 +22,13 @@ import android.widget.Toast;
 import com.coinport.odin.App;
 import com.coinport.odin.R;
 import com.coinport.odin.activity.LoginActivity;
+import com.coinport.odin.activity.UserVerifyActivity;
 import com.coinport.odin.layout.BankCardSpinner;
 import com.coinport.odin.library.ptr.PullToRefreshScrollView;
 import com.coinport.odin.network.NetworkAsyncTask;
 import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.network.OnApiResponseListener;
+import com.coinport.odin.obj.AccountInfo;
 import com.coinport.odin.util.Constants;
 import com.coinport.odin.util.Util;
 
@@ -32,12 +36,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class WithdrawalFragment extends DWFragmentCommon {
+public class WithdrawalFragment extends DWFragmentCommon implements View.OnClickListener {
     private static final String CURRENCY = "currency";
     private String currency;
     private View view;
@@ -52,6 +58,14 @@ public class WithdrawalFragment extends DWFragmentCommon {
     private ArrayList<HashMap<String, String>> historyList = new ArrayList<>();
     private SimpleAdapter historyAdapter;
     private PullToRefreshScrollView refreshScrollView;
+
+    private String limit = "", fee = "";
+    private double asset = 0.0;
+    private String withdrawalEmailUUID = "";
+
+    private ArrayList<String> cardList = new ArrayList<>();
+    private ArrayAdapter<String> cardAdapter;
+    private BankCardSpinner bcSpinner;
 
     public static WithdrawalFragment newInstance(String currency) {
         WithdrawalFragment fragment = new WithdrawalFragment();
@@ -82,8 +96,33 @@ public class WithdrawalFragment extends DWFragmentCommon {
         history.setAdapter(historyAdapter);
         refreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.refreshable_view);
 
-        updateWithdrawalInfo();
+        Button getWithdrawalEmailCode = (Button) view.findViewById(R.id.get_withdrawal_email_code);
+        getWithdrawalEmailCode.setOnClickListener(this);
+        Button withdrawalBtn = (Button) view.findViewById(R.id.withdrawal_action);
+        withdrawalBtn.setOnClickListener(this);
+
+        bcSpinner = (BankCardSpinner) view.findViewById(R.id.bank_card_spinner);
+        bcSpinner.setList(cardList);
+        cardAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, cardList);
+        bcSpinner.setAdapter(cardAdapter);
+        bcSpinner.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cardList.isEmpty()) {
+                    cardList.add(getString(R.string.add_bc_condition));
+                    bcSpinner.setEnabled(false);
+                }
+                cardAdapter.notifyDataSetChanged();
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWithdrawalInfo();
     }
 
     @Override
@@ -94,81 +133,156 @@ public class WithdrawalFragment extends DWFragmentCommon {
     }
 
     private void updateWithdrawalInfo() {
-        String withdrawalDescription;
-        switch (currency) {
-            case "CNY":
-                withdrawalDescription = getString(R.string.withdrawal_description_cny);
-                setItemsVisibility(EnumSet.of(OptItem.BANK));
+        fetchFeeRule();
+        fetchAsset(0);
+        updateWithdrawalHistory(0);
+    }
 
-                Button addBankCard = (Button) view.findViewById(R.id.withdrawal_add_bank_card);
-
-                final FragmentActivity fa = (FragmentActivity) this.getActivity();
-                addBankCard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AddBankCardFragment dialog = new AddBankCardFragment();
-                        dialog.setPositiveButton(new AddBankCardFragment.OnClickListener() {
-                            @Override
-                            public void onClick(Bundle args) {
-                                Log.d(this.toString(), args.getString(getString(R.string.withdrawal_abc_name)));
-                            }
-                        });
-                        dialog.setNegativeButton(new AddBankCardFragment.OnClickListener() {
-                            @Override
-                            public void onClick(Bundle args) {
-                                // do nothing
-                            }
-                        });
-                        dialog.show(fa.getSupportFragmentManager(), "AddBankCardFragment");
-                    }
-                });
-                BankCardSpinner bcSpinner = (BankCardSpinner) view.findViewById(R.id.bank_card_spinner);
-                final ArrayList<String> list = new ArrayList<>();
-                list.add("a");
-                list.add("b");
-                list.add("c");
-                list.add("d");
-                bcSpinner.setList(list);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                    android.R.layout.simple_spinner_item, list);
-                bcSpinner.setAdapter(adapter);
-                bcSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Log.d("hoss", list.get(position));
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-                break;
-            case "BTSX":
-                withdrawalDescription = getString(R.string.withdrawal_description_btsx);
-                setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO));
-                memoLabel.setText(getString(R.string.withdrawal_memo));
-
-                break;
-            case "NXT":
-                withdrawalDescription = getString(R.string.withdrawal_description_btc);
-                setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO, OptItem.PUBKEY_DESCRIPTION));
-                memoLabel.setText(getString(R.string.withdrawal_nxt_pubkey));
-
-                break;
-            default:
-                withdrawalDescription = getString(R.string.withdrawal_description_btc);
-                setItemsVisibility(EnumSet.of(OptItem.ADDRESS));
-
-                break;
-        }
-        TextView description = (TextView) view.findViewById(R.id.withdrawal_description);
-        description.setText(String.format(withdrawalDescription, "100" + " " + currency, "1" + " " + currency));
+    private void fetchAsset(long delay) {
         TextView withdrawalSumLabel = (TextView) view.findViewById(R.id.withdrawal_sum_label);
         withdrawalSumLabel.setText(String.format(getString(R.string.withdrawal_sum_label), currency));
-        TextView withdrawalSum = (TextView) view.findViewById(R.id.withdrawal_sum);
-        withdrawalSum.setText("31323.234123");
-        updateWithdrawalHistory();
+        final TextView withdrawalSum = (TextView) view.findViewById(R.id.withdrawal_sum);
+        AccountInfo ai = App.getAccount();
+        String url = String.format(Constants.ASSET_URL, ai.uid);
+        NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.GET, delay)
+                .setOnSucceedListener(new OnApiResponseListener())
+                .setOnFailedListener(new OnApiResponseListener())
+                .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                    @Override
+                    public void onRender(NetworkRequest s) {
+                        withdrawalSum.setText("0.0");
+                        if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED)
+                            return;
+                        try {
+                            JSONObject assetJson = Util.getJsonObjectByPath(
+                                    s.getApiResult(), "data.accounts." + currency);
+                            if (assetJson == null)
+                                asset = 0;
+                            else {
+                                asset = assetJson.getJSONObject("available").getDouble("value");
+                                withdrawalSum.setText(Util.displayDouble(asset, 4));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        task.execute();
+    }
+
+    private void fetchBankCards(long delay) {
+        Button addBankCard = (Button) view.findViewById(R.id.withdrawal_add_bank_card);
+        addBankCard.setOnClickListener(WithdrawalFragment.this);
+
+        NetworkAsyncTask task = new NetworkAsyncTask(Constants.BANK_CARD_URL, Constants.HttpMethod.GET, delay)
+                .setOnSucceedListener(new OnApiResponseListener())
+                .setOnFailedListener(new OnApiResponseListener())
+                .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                    @Override
+                    public void onRender(NetworkRequest s) {
+                        if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
+                            if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
+                                Intent intent = new Intent(WithdrawalFragment.this.getActivity(), LoginActivity.class);
+                                WithdrawalFragment.this.getActivity().startActivity(intent);
+                            } else {
+                                Toast.makeText(getActivity(), getString(R.string.request_failed),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            JSONArray jsonArray = Util.getJsonArrayByPath(s.getApiResult(), "data");
+                            if (jsonArray == null || jsonArray.length() == 0) {
+                                cardList.clear();
+                                cardList.add(getString(R.string.add_bc_condition));
+                                cardAdapter.notifyDataSetChanged();
+                                bcSpinner.setEnabled(false);
+                            } else {
+                                bcSpinner.setEnabled(true);
+                                cardList.clear();
+                                for (int i = 0; i < jsonArray.length(); ++i) {
+                                    try {
+                                        JSONObject card = jsonArray.getJSONObject(i);
+                                        cardList.add(String.format("%1$s|%2$s|%3$s|%4$s", card.getString("ownerName"),
+                                                card.getString("cardNumber"), card.getString("bankName"),
+                                                card.getString("branchBankName")));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                cardAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                });
+        task.execute();
+    }
+
+    private void fetchFeeRule() {
+        if (currency.equals("CNY")) {
+            if (App.getAccount().realname.equals("")) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), UserVerifyActivity.class);
+                getActivity().startActivity(intent);
+                return;
+            }
+            String withdrawalDescription = getString(R.string.withdrawal_description_cny);
+            setItemsVisibility(EnumSet.of(OptItem.BANK));
+            limit = "100";
+            fee = getString(R.string.withdrawal_cny_fee_description);
+            TextView description = (TextView) view.findViewById(R.id.withdrawal_description);
+            description.setText(String.format(withdrawalDescription, limit + " " + currency, fee + " " + currency));
+
+            fetchBankCards(0);
+        } else {
+            NetworkAsyncTask task = new NetworkAsyncTask(Constants.FEE_URL, Constants.HttpMethod.GET)
+                    .setOnSucceedListener(new OnApiResponseListener())
+                    .setOnFailedListener(new OnApiResponseListener())
+                    .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                        @Override
+                        public void onRender(NetworkRequest s) {
+                            if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
+                                Toast.makeText(getActivity(), getString(R.string.request_failed),
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            JSONObject feeObj = null;
+                            feeObj = Util.getJsonObjectByPath(s.getApiResult(), "data." + currency);
+                            String withdrawalDescription = "";
+                            if (feeObj != null) {
+                                try {
+                                    limit = feeObj.getString("l");
+                                    fee = feeObj.getString("f");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            switch (currency) {
+                                case "CNY":
+                                    break;
+                                case "BTSX":
+                                    withdrawalDescription = getString(R.string.withdrawal_description_btsx);
+                                    setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO));
+                                    memoLabel.setText(getString(R.string.withdrawal_memo));
+
+                                    break;
+                                case "NXT":
+                                    withdrawalDescription = getString(R.string.withdrawal_description_btc);
+                                    setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO, OptItem.PUBKEY_DESCRIPTION));
+                                    memoLabel.setText(getString(R.string.withdrawal_nxt_pubkey));
+
+                                    break;
+                                default:
+                                    withdrawalDescription = getString(R.string.withdrawal_description_btc);
+                                    setItemsVisibility(EnumSet.of(OptItem.ADDRESS));
+
+                                    break;
+                            }
+                            TextView description = (TextView) view.findViewById(R.id.withdrawal_description);
+                            description.setText(String.format(withdrawalDescription, limit + " " + currency,
+                                    fee + " " + currency));
+                        }
+                    });
+            task.execute();
+        }
     }
 
     private void setItemsVisibility(EnumSet<OptItem> opts) {
@@ -187,13 +301,13 @@ public class WithdrawalFragment extends DWFragmentCommon {
     }
 
     // TODO(c): extract the common part with same name function in DepositFragment
-    private void updateWithdrawalHistory() {
+    private void updateWithdrawalHistory(long delay) {
         String url = String.format(Constants.TRANSFER_URL, currency, App.getAccount().uid);
         Map<String, String> params = new HashMap<>();
         params.put("limit", "10");
         params.put("page", "1");
         params.put("type", "1");
-        NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.GET)
+        NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.GET, delay)
                 .setOnSucceedListener(new OnApiResponseListener())
                 .setOnFailedListener(new OnApiResponseListener())
                 .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
@@ -232,6 +346,119 @@ public class WithdrawalFragment extends DWFragmentCommon {
                     }
                 });
         task.execute(params);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.get_withdrawal_email_code:
+                Util.countdownButton((Button) v);
+                NetworkAsyncTask task = new NetworkAsyncTask(Constants.EMAIL_CODE_URL, Constants.HttpMethod.GET)
+                        .setOnSucceedListener(new OnApiResponseListener())
+                        .setOnFailedListener(new OnApiResponseListener())
+                        .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                            @Override
+                            public void onRender(NetworkRequest s) {
+                                if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
+                                    if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
+                                        Intent intent = new Intent(WithdrawalFragment.this.getActivity(),
+                                                LoginActivity.class);
+                                        WithdrawalFragment.this.getActivity().startActivity(intent);
+                                    } else {
+                                        Toast.makeText(getActivity(), getString(R.string.request_failed),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                    return;
+                                }
+                                try {
+                                    withdrawalEmailUUID = s.getApiResult().getString("data");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                task.execute();
+                break;
+            case R.id.withdrawal_add_bank_card:
+                AddBankCardFragment dialog = new AddBankCardFragment();
+                dialog.setPositiveButton(new AddBankCardFragment.OnClickListener() {
+                    @Override
+                    public void onClick(Bundle args) {
+                        bcSpinner.setEnabled(true);
+                        cardList.add(String.format("%1$s|%2$s|%3$s|%4$s", args.getString("ownerName"),
+                                args.getString("cardNumber"), args.getString("bankName"),
+                                args.getString("branchBankName")));
+                        cardAdapter.notifyDataSetChanged();
+//                        if (args.getString("succeed").equals("true")) {
+//                            fetchBankCards(4000);
+//                        }
+                    }
+                });
+                dialog.setNegativeButton(new AddBankCardFragment.OnClickListener() {
+                    @Override
+                    public void onClick(Bundle args) {
+                        // do nothing
+                    }
+                });
+                dialog.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "AddBankCardFragment");
+                break;
+            case R.id.withdrawal_action:
+                String amountStr = "0.0", addressStr = "", memoStr = "", publickKeyStr = "";
+                amountStr = ((EditText) view.findViewById(R.id.withdrawal_amount_edit)).getText().toString();
+                if (amountStr.equals(""))
+                    amountStr = "0.0";
+                if (currency.equals("CNY")) {
+                    addressStr = ((BankCardSpinner) view.findViewById(R.id.bank_card_spinner)).toString();
+                } else {
+                    addressStr = ((EditText) view.findViewById(R.id.withdrawal_address_edit)).getText().toString();
+                }
+                if (currency.equals("NXT")) {
+                    publickKeyStr = ((EditText) view.findViewById(R.id.withdrawal_memo_edit)).getText().toString();
+                } else {
+                    memoStr = ((EditText) view.findViewById(R.id.withdrawal_memo_edit)).getText().toString();
+                }
+                String emailCode = ((EditText) view.findViewById(R.id.withdrawal_emailcode_edit)).getText().toString();
+                if (amountStr.equals("0.0") || addressStr.equals("") || emailCode.equals("")) {
+                    Toast.makeText(getActivity(), getString(R.string.need_withdrawal_params),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Map<String, String> params = new HashMap<>();
+                params.put("currency", currency);
+                params.put("amount", amountStr);
+                params.put("address", addressStr);
+                params.put("memo", memoStr);
+                params.put("publicKey", publickKeyStr);
+                params.put("emailuuid", withdrawalEmailUUID);
+                params.put("emailcode", emailCode);
+
+                NetworkAsyncTask withdrawalTask = new NetworkAsyncTask(Constants.WITHDRAWAL_URL,
+                        Constants.HttpMethod.POST)
+                        .setOnSucceedListener(new OnApiResponseListener())
+                        .setOnFailedListener(new OnApiResponseListener())
+                        .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                            @Override
+                            public void onRender(NetworkRequest s) {
+                                if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
+                                    if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
+                                        Intent intent = new Intent(WithdrawalFragment.this.getActivity(),
+                                                LoginActivity.class);
+                                        WithdrawalFragment.this.getActivity().startActivity(intent);
+                                    } else if (s.getApiStatus() == NetworkRequest.ApiStatus.INTERNAL_ERROR) {
+                                        Toast.makeText(getActivity(), s.getApiMessage(), Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getActivity(), getString(R.string.request_failed),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                    return;
+                                }
+                                fetchAsset(4000);
+                                updateWithdrawalHistory(4000);
+                            }
+                        });
+                withdrawalTask.execute(params);
+                break;
+        }
     }
 
     private enum OptItem {

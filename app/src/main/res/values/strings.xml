@@ -32,6 +32,15 @@
         <item>国家开发银行</item>
         <item>招商银行</item>
     </string-array>
+    <string-array name="region_array">
+        <item>中国</item>
+        <item>美国</item>
+        <item>其他地区</item>
+    </string-array>
+    <string-array name="type_array">
+        <item>身份证</item>
+        <item>护照</item>
+    </string-array>
 
     <string name="app_name">币丰港</string>
     <string name="action_settings">设置</string>
@@ -144,6 +153,9 @@
     <string name="withdrawal_abc_ok">确定</string>
     <string name="withdrawal_abc_cancel">取消</string>
     <string name="withdrawal_abc_delete">删除</string>
+    <string name="withdrawal_action">提现</string>
+    <string name="need_withdrawal_params">提现金额，提现地址，邮件验证码不能为空</string>
+
     <string name="user_info">账户信息</string>
     <string name="user_asset">账户资产</string>
     <string name="user_secure">账户安全</string>
@@ -172,9 +184,11 @@
     <string name="bind_phone_num">手机号码</string>
     <string name="bind_phone_verify_code">短信验证码</string>
     <string name="verify_name">真实姓名</string>
+    <string name="verify_region">区域</string>
     <string name="verify_type">证件类型</string>
     <string name="verify_id">证件号码</string>
     <string name="verify_name_description">实名认证一旦提交通过后不可更改，并且提现时会检查姓名是否和银行卡户主名一致，因此请确认姓名的正确。</string>
+    <string name="verify_lack_info">真实姓名, 证件号码不能为空</string>
     <string name="cpw_current">当前密码</string>
     <string name="cpw_new">新密码</string>
     <string name="cpw_new_confirm">确认新密码</string>
@@ -201,6 +215,11 @@
     <string name="submit_alert_sell_title">卖出挂单</string>
     <string name="submit_alert_message">价格:\t%1$f\n数量:\t%2$f\n金额:\t%3$f</string>
     <string name="request_failed">请求失败，请检查网络是否正常</string>
+
+    <string name="add_bc_condition">无银行卡</string>
+    <string name="add_bc_info_lack">开户名，卡号，开户银行，Email验证码不能为空</string>
+
+    <string name="withdrawal_cny_fee_description">0.4% (最小2元)</string>
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_register">用户注册</string>
