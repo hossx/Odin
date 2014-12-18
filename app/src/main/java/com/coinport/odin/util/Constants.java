@@ -25,7 +25,8 @@ public class Constants {
     public static final String ASSET_URL = PROTOCOL + DOMAIN_PORT + "/api/account/%1$s";
     public static final String ORDER_URL = PROTOCOL + DOMAIN_PORT + "/api/user/%1$s/order/%2$s-%3$s";
     public static final String CANCEL_ORDER_URL = PROTOCOL + DOMAIN_PORT + "/trade/%1$s-%2$s/order/cancel/%3$s";
-    public static final String TRANSFER_URL = PROTOCOL + DOMAIN_PORT + "/api/%1$s/transfer/%2$s";
+//    public static final String TRANSFER_URL = PROTOCOL + DOMAIN_PORT + "/api/%1$s/transfer/%2$s";
+    public static final String TRANSFER_URL = "https://exchange.coinport.com/api/%1$s/transfer/%2$s";
     public static final String DEPOSIT_ADDRESS_URL = PROTOCOL + DOMAIN_PORT + "/depoaddr/%1$s/%2$s";
 //    public static final String DEPOSIT_ADDRESS_URL = "https://exchange.coinport.com/depoaddr/%1$s/%2$s";
 

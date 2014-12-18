@@ -58,9 +58,9 @@ public class DepositFragment extends DWFragmentCommon {
     private TextView nxtPubkey;
     private ImageView qrView;
     private TextView link;
-    ArrayList<HashMap<String, String>> historyList = new ArrayList<>();
-    SimpleAdapter historyAdapter;
 
+    private ArrayList<HashMap<String, String>> historyList = new ArrayList<>();
+    private SimpleAdapter historyAdapter;
     private PullToRefreshScrollView refreshScrollView;
 
     static {
@@ -93,13 +93,13 @@ public class DepositFragment extends DWFragmentCommon {
         alias = (TextView) view.findViewById(R.id.deposit_alias);
         memo = (TextView) view.findViewById(R.id.deposit_memo);
         nxtPubkey = (TextView) view.findViewById(R.id.deposit_nxt_pubkey);
+
         ListView history = (ListView) view.findViewById(R.id.deposit_history);
         history.setFocusable(false);
         historyAdapter = new SimpleAdapter(getActivity(), historyList, R.layout.transfer_item, new String[]{
             "transfer_time", "transfer_amount", "transfer_status"}, new int[] {R.id.transfer_time, R.id.transfer_amount,
             R.id.transfer_status});
         history.setAdapter(historyAdapter);
-
         refreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.refreshable_view);
 
         updateDepositInfo();

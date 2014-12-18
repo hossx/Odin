@@ -1,7 +1,6 @@
 package com.coinport.odin.fragment;
 
-import android.app.Fragment;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.Time;
@@ -16,9 +15,17 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.coinport.odin.App;
 import com.coinport.odin.R;
+import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.layout.BankCardSpinner;
+import com.coinport.odin.library.ptr.PullToRefreshScrollView;
+import com.coinport.odin.network.NetworkAsyncTask;
+import com.coinport.odin.network.NetworkRequest;
+import com.coinport.odin.network.OnApiResponseListener;
+import com.coinport.odin.util.Constants;
 import com.coinport.odin.util.Util;
 
 import org.json.JSONArray;
@@ -28,6 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.Map;
 
 public class WithdrawalFragment extends DWFragmentCommon {
     private static final String CURRENCY = "currency";
@@ -40,6 +48,10 @@ public class WithdrawalFragment extends DWFragmentCommon {
     private TextView nxtPubkeyDesc;
 
     private Time timeFormat = new Time();
+
+    private ArrayList<HashMap<String, String>> historyList = new ArrayList<>();
+    private SimpleAdapter historyAdapter;
+    private PullToRefreshScrollView refreshScrollView;
 
     public static WithdrawalFragment newInstance(String currency) {
         WithdrawalFragment fragment = new WithdrawalFragment();
@@ -62,6 +74,14 @@ public class WithdrawalFragment extends DWFragmentCommon {
         memoLabel = (TextView) view.findViewById(R.id.withdrawal_memo_label);
         nxtPubkeyDesc = (TextView) view.findViewById(R.id.withdrawal_nxt_pubkey_description);
 
+        ListView history = (ListView) view.findViewById(R.id.withdrawal_history);
+        history.setFocusable(false);
+        historyAdapter = new SimpleAdapter(getActivity(), historyList, R.layout.transfer_item, new String[]{
+                "transfer_time", "transfer_amount", "transfer_status"}, new int[] {R.id.transfer_time, R.id.transfer_amount,
+                R.id.transfer_status});
+        history.setAdapter(historyAdapter);
+        refreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.refreshable_view);
+
         updateWithdrawalInfo();
         return view;
     }
@@ -74,7 +94,7 @@ public class WithdrawalFragment extends DWFragmentCommon {
     }
 
     private void updateWithdrawalInfo() {
-        String withdrawalDescription = null;
+        String withdrawalDescription;
         switch (currency) {
             case "CNY":
                 withdrawalDescription = getString(R.string.withdrawal_description_cny);
@@ -166,33 +186,54 @@ public class WithdrawalFragment extends DWFragmentCommon {
             nxtPubkeyDesc.setVisibility(View.VISIBLE);
     }
 
+    // TODO(c): extract the common part with same name function in DepositFragment
     private void updateWithdrawalHistory() {
-        ListView lv = (ListView) view.findViewById(R.id.withdrawal_history);
-        lv.setFocusable(false);
+        String url = String.format(Constants.TRANSFER_URL, currency, App.getAccount().uid);
+        Map<String, String> params = new HashMap<>();
+        params.put("limit", "10");
+        params.put("page", "1");
+        params.put("type", "1");
+        NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.GET)
+                .setOnSucceedListener(new OnApiResponseListener())
+                .setOnFailedListener(new OnApiResponseListener())
+                .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                    @Override
+                    public void onRender(NetworkRequest s) {
+                        if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
+                            if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
+                                Intent intent = new Intent(WithdrawalFragment.this.getActivity(), LoginActivity.class);
+                                WithdrawalFragment.this.getActivity().startActivity(intent);
+                            } else {
+                                Toast.makeText(getActivity(), getString(R.string.request_failed),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            historyList.clear();
+                            JSONArray jsonArray = Util.getJsonArrayByPath(s.getApiResult(), "data.items");
+                            if (jsonArray != null) {
+                                for (int i = 0; i < jsonArray.length(); ++i) {
+                                    HashMap<String, String> fields = new HashMap<>();
+                                    try {
+                                        JSONObject jsonObj = jsonArray.getJSONObject(i);
+                                        timeFormat.set(jsonObj.getLong("updated"));
+                                        fields.put("transfer_time", timeFormat.format("%Y-%m-%d %k:%M:%S"));
+                                        fields.put("transfer_amount", jsonObj.getJSONObject("amount").getString("display"));
+                                        fields.put("transfer_status", getString(Util.transferStatus.get(jsonObj.getInt("status"))));
+                                        historyList.add(fields);
 
-        ArrayList<HashMap<String, String>> dhList = new ArrayList<>();
-        JSONArray jsonArray = Util.getJsonArrayFromFile(getActivity(), "deposit_history_mock.json");
-        if (jsonArray != null) {
-            for (int i = 0; i < jsonArray.length(); ++i) {
-                HashMap<String, String> fields = new HashMap<>();
-                try {
-                    JSONObject jsonObj = jsonArray.getJSONObject(i);
-                    timeFormat.set(jsonObj.getLong("updated"));
-                    fields.put("transfer_time", timeFormat.format("%Y-%m-%d %k:%M:%S"));
-                    fields.put("transfer_amount", jsonObj.getJSONObject("amount").getString("display"));
-                    fields.put("transfer_status", getString(Util.transferStatus.get(jsonObj.getInt("status"))));
-                    dhList.add(fields);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(), dhList, R.layout.transfer_item, new String[]{
-            "transfer_time", "transfer_amount", "transfer_status"}, new int[] {R.id.transfer_time, R.id.transfer_amount,
-            R.id.transfer_status});
-        lv.setAdapter(adapter);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            historyAdapter.notifyDataSetChanged();
+                        }
+                        refreshScrollView.onRefreshComplete();
+                    }
+                });
+        task.execute(params);
     }
+
     private enum OptItem {
         BANK, ADDRESS, MEMO, PUBKEY_DESCRIPTION
     }
