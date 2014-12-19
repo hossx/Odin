@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import com.coinport.odin.R;
 import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.activity.UserVerifyActivity;
 import com.coinport.odin.layout.BankCardSpinner;
+import com.coinport.odin.library.ptr.PullToRefreshBase;
 import com.coinport.odin.library.ptr.PullToRefreshScrollView;
 import com.coinport.odin.network.NetworkAsyncTask;
 import com.coinport.odin.network.NetworkRequest;
@@ -95,6 +97,12 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                 R.id.transfer_status});
         history.setAdapter(historyAdapter);
         refreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.refreshable_view);
+        refreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                updateWithdrawalInfo();
+            }
+        });
 
         Button getWithdrawalEmailCode = (Button) view.findViewById(R.id.get_withdrawal_email_code);
         getWithdrawalEmailCode.setOnClickListener(this);
@@ -218,7 +226,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
 
     private void fetchFeeRule() {
         if (currency.equals("CNY")) {
-            if (App.getAccount().realname.equals("")) {
+            if (App.getAccount().realname == null || App.getAccount().realname.equals("")) {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), UserVerifyActivity.class);
                 getActivity().startActivity(intent);
@@ -384,7 +392,10 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                 dialog.setPositiveButton(new AddBankCardFragment.OnClickListener() {
                     @Override
                     public void onClick(Bundle args) {
-                        bcSpinner.setEnabled(true);
+                        if (!bcSpinner.isEnabled()) {
+                            cardList.clear();
+                            bcSpinner.setEnabled(true);
+                        }
                         cardList.add(String.format("%1$s|%2$s|%3$s|%4$s", args.getString("ownerName"),
                                 args.getString("cardNumber"), args.getString("bankName"),
                                 args.getString("branchBankName")));

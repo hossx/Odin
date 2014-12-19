@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.coinport.odin.App;
 import com.coinport.odin.R;
 import com.coinport.odin.activity.LoginActivity;
+import com.coinport.odin.library.ptr.PullToRefreshBase;
 import com.coinport.odin.library.ptr.PullToRefreshScrollView;
 import com.coinport.odin.network.NetworkAsyncTask;
 import com.coinport.odin.network.NetworkRequest;
@@ -101,6 +103,12 @@ public class DepositFragment extends DWFragmentCommon {
             R.id.transfer_status});
         history.setAdapter(historyAdapter);
         refreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.refreshable_view);
+        refreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                updateDepositInfo();
+            }
+        });
 
         updateDepositInfo();
         return view;

@@ -6,7 +6,7 @@ import android.content.Context;
 import com.coinport.odin.obj.AccountInfo;
 
 public class App extends Application {
-    private static AccountInfo account = null;
+    private static AccountInfo account = new AccountInfo();
     private static Context context;
     private static boolean mainActivityCreated = false;
 
