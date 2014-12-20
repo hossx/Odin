@@ -221,6 +221,8 @@
 
     <string name="withdrawal_cny_fee_description">0.4% (最小2元)</string>
 
+    <string name="phone_unverified">手机未认证</string>
+
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_register">用户注册</string>
     <string name="title_activity_login">LoginActivity</string>

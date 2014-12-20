@@ -78,6 +78,7 @@
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
                         <TextView
+                            android:id="@+id/account_number"
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
                             android:layout_weight="3"
@@ -85,7 +86,6 @@
                             android:gravity="right"
                             android:includeFontPadding="false"
                             android:paddingRight="17.0dip"
-                            android:text="1000000013"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
                     </TableRow>
@@ -110,6 +110,7 @@
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
                         <TextView
+                            android:id="@+id/account_name"
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
                             android:layout_weight="3"
@@ -117,7 +118,6 @@
                             android:gravity="right"
                             android:includeFontPadding="false"
                             android:paddingRight="17.0dip"
-                            android:text="m_chao_1984@163.com"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
                     </TableRow>
@@ -142,6 +142,7 @@
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
                         <TextView
+                            android:id="@+id/account_phone"
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
                             android:layout_weight="3"
@@ -149,7 +150,6 @@
                             android:gravity="right"
                             android:includeFontPadding="false"
                             android:paddingRight="17.0dip"
-                            android:text="13111342356"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
                     </TableRow>
@@ -243,8 +243,12 @@
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_action_expand"/>
                             <TextView
+                                android:id="@+id/user_secure_verified"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:paddingRight="17.0dip"
+                                android:textColor="#ff333333"
+                                android:textSize="16.0sp"
                                 android:text="@string/user_secure_has_verified"
                                 android:visibility="gone"/>
                         </LinearLayout>
@@ -312,8 +316,12 @@
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_action_expand"/>
                             <TextView
+                                android:id="@+id/user_secure_phone_bind"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:paddingRight="17.0dip"
+                                android:textColor="#ff333333"
+                                android:textSize="16.0sp"
                                 android:text="@string/user_secure_has_bind_phone"
                                 android:visibility="gone"/>
                         </LinearLayout>
