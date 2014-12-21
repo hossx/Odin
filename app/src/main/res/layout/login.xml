@@ -105,19 +105,19 @@
             android:text="@string/login_remember_pw"
             android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/forgot_pw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/remember_pw"
-            android:paddingTop="3dp"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/cancel_order_button"
-            android:clickable="true"
-            android:button="@null"
-            android:textSize="12sp"
-            android:textColor="@color/cp_blue"
-            android:text="@string/login_forgot_pw"/>
+        <!--<TextView-->
+            <!--android:id="@+id/forgot_pw"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toRightOf="@id/remember_pw"-->
+            <!--android:paddingTop="3dp"-->
+            <!--android:layout_marginLeft="30dp"-->
+            <!--android:background="@drawable/cancel_order_button"-->
+            <!--android:clickable="true"-->
+            <!--android:button="@null"-->
+            <!--android:textSize="12sp"-->
+            <!--android:textColor="@color/cp_blue"-->
+            <!--android:text="@string/login_forgot_pw"/>-->
 
         <Button
             android:id="@+id/btn_login_regist"

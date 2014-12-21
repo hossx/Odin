@@ -2,6 +2,7 @@ package com.coinport.odin.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -30,9 +32,9 @@ import java.util.Map;
 
 /**登陆界面activity*/
 public class LoginActivity extends Activity implements OnClickListener {
-	private Button btn_login_regist;//注册按钮
-    private Button btn_login;
-    private TextView forgotPw;
+    private CheckBox rememberPw;
+    private SharedPreferences settings;
+//    private TextView forgotPw;
 
 	public static final int MENU_PWD_BACK = 1;
 	public static final int MENU_HELP = 2;
@@ -44,24 +46,41 @@ public class LoginActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.login);
-		
+        EditText usernameEt = (EditText) findViewById(R.id.user_name);
+        EditText passwordEt = (EditText) findViewById(R.id.password);
+        rememberPw = (CheckBox) findViewById(R.id.remember_pw);
+
+        settings = getSharedPreferences("SETTING_Infos", 0);
+        String strJudge = settings.getString("judgeText", "no");
+        String strUserName = settings.getString("userNameText", "");
+        String strPassword = settings.getString("passwordText", "");
+        if (strJudge.equals("yes")) {
+            rememberPw.setChecked(true);
+            usernameEt.setText(strUserName);
+            passwordEt.setText(strPassword);
+        } else {
+            rememberPw.setChecked(false);
+            usernameEt.setText("");
+            passwordEt.setText("");
+        }
+
 		initView();
 	}
 	
 	private void initView(){
-		btn_login_regist = (Button) findViewById(R.id.btn_login_regist);
+        Button btn_login_regist = (Button) findViewById(R.id.btn_login_regist);
 		btn_login_regist.setOnClickListener(this);
-        btn_login = (Button) findViewById(R.id.btn_login);
+        Button btn_login = (Button) findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
-        forgotPw = (TextView) findViewById(R.id.forgot_pw);
-        forgotPw.setOnClickListener(this);
+//        forgotPw = (TextView) findViewById(R.id.forgot_pw);
+//        forgotPw.setOnClickListener(this);
 	}
 	
 	
 	@Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
-        Intent intent = null;
+        Intent intent;
         final Activity self = this;
         switch (v.getId()) {
             case R.id.btn_login_regist:
@@ -69,10 +88,9 @@ public class LoginActivity extends Activity implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.btn_login:
-                String username = ((EditText) (self.findViewById(R.id.user_name))).getText().toString();
-                String pw = ((EditText) (self.findViewById(R.id.password))).getText().toString();
+                final String username = ((EditText) (self.findViewById(R.id.user_name))).getText().toString();
+                final String pw = ((EditText) (self.findViewById(R.id.password))).getText().toString();
                 Map<String, String> params = new HashMap<>();
-                params = new HashMap<>();
                 params.put("username", username);
                 params.put("password", Util.sha256base64(pw));
                 NetworkAsyncTask task = new NetworkAsyncTask(Constants.LOGIN_URL, Constants.HttpMethod.POST)
@@ -93,6 +111,17 @@ public class LoginActivity extends Activity implements OnClickListener {
                                     startActivity(intent);
                                     tv.setVisibility(View.GONE);
                                 }
+                                if (rememberPw.isChecked()) {
+                                    settings.edit().putString("judgeText", "yes")
+                                            .putString("userNameText", username)
+                                            .putString("passwordText", pw)
+                                            .apply();
+                                } else {
+                                    settings.edit().putString("judgeText", "no")
+                                            .putString("userNameText", "")
+                                            .putString("passwordText", "")
+                                            .apply();
+                                }
                                 finish();
                             } else if (s.getApiStatus() == NetworkRequest.ApiStatus.INTERNAL_ERROR) {
                                 tv.setVisibility(View.VISIBLE);
@@ -111,10 +140,10 @@ public class LoginActivity extends Activity implements OnClickListener {
                     });
                 task.execute(params);
                 break;
-            case R.id.forgot_pw:
-                intent = new Intent(LoginActivity.this, ResetPwActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.forgot_pw:
+//                intent = new Intent(LoginActivity.this, ResetPwActivity.class);
+//                startActivity(intent);
+//                break;
 
         }
     }
