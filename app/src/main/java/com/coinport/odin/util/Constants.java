@@ -36,6 +36,7 @@ public class Constants {
     public static final String BANK_CARD_URL = PROTOCOL + DOMAIN_PORT + "/account/querybankcards";
     public static final String ADD_BANK_CARD_URL = PROTOCOL + DOMAIN_PORT + "/account/addbankcard";
     public static final String RM_BANK_CARD_URL = PROTOCOL + DOMAIN_PORT + "/account/deletebankcard";
+    public static final String CHANGE_PW_URL = PROTOCOL + DOMAIN_PORT + "/account/dochangepwd";
 
     public static final String PLAY_SESSION = "PLAY_SESSION";
     static {

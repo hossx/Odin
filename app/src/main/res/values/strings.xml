@@ -223,6 +223,10 @@
 
     <string name="phone_unverified">手机未认证</string>
 
+    <string name="change_pw_null_fail">新,旧密码不能为空</string>
+    <string name="change_pw_check_fail">两次填入的新密码不一致</string>
+    <string name="change_pw_succeed">密码修改成功</string>
+
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_register">用户注册</string>
     <string name="title_activity_login">LoginActivity</string>

@@ -25,7 +25,9 @@
             android:gravity="right"
             android:text="@string/cpw_current"/>
         <EditText
+            android:id="@+id/oldPw"
             android:layout_marginLeft="4dip"
+            android:inputType="textPassword"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -44,7 +46,9 @@
             android:gravity="right"
             android:text="@string/cpw_new"/>
         <EditText
+            android:id="@+id/newPw"
             android:layout_marginLeft="4dip"
+            android:inputType="textPassword"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -63,7 +67,9 @@
             android:gravity="right"
             android:text="@string/cpw_new_confirm"/>
         <EditText
+            android:id="@+id/confirmNewPw"
             android:layout_marginLeft="4dip"
+            android:inputType="textPassword"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -76,11 +82,13 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btn_ok"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/button_ok"/>
         <Button
+            android:id="@+id/btn_cancel"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
