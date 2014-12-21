@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
@@ -19,9 +20,13 @@ import com.coinport.odin.activity.ChangePwActivity;
 import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.activity.ResetPwActivity;
 import com.coinport.odin.activity.UserVerifyActivity;
+import com.coinport.odin.network.CookieDBManager;
+import com.coinport.odin.network.NetworkAsyncTask;
+import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.obj.AccountInfo;
+import com.coinport.odin.util.Constants;
 
-public class UserFragment extends Fragment {
+public class UserFragment extends Fragment implements View.OnClickListener {
     private View view;
 
     @Override
@@ -117,5 +122,25 @@ public class UserFragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
+        Button logoutBtn = (Button) view.findViewById(R.id.logout_btn);
+        logoutBtn.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.logout_btn:
+                NetworkAsyncTask task = new NetworkAsyncTask(Constants.LOGOUT_URL, Constants.HttpMethod.GET)
+                        .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                            @Override
+                            public void onRender(NetworkRequest s) {
+                                CookieDBManager.getInstance().clear();
+                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                getActivity().startActivity(intent);
+                            }
+                        });
+                task.execute();
+                break;
+        }
     }
 }

@@ -227,6 +227,8 @@
     <string name="change_pw_check_fail">两次填入的新密码不一致</string>
     <string name="change_pw_succeed">密码修改成功</string>
 
+    <string name="logout">登出或切换帐号</string>
+
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_register">用户注册</string>
     <string name="title_activity_login">LoginActivity</string>
