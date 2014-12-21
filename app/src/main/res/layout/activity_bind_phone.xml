@@ -67,7 +67,7 @@
             android:text="@string/bind_phone_verify_code"/>
         <EditText
             android:layout_marginLeft="4dip"
-            android:layout_width="100dip"
+            android:layout_width="150dip"
             android:layout_height="wrap_content"/>
         <Button
             android:layout_width="fill_parent"
