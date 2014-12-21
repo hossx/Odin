@@ -384,8 +384,9 @@ public class DepositFragment extends DWFragmentCommon {
                                 Intent intent = new Intent(DepositFragment.this.getActivity(), LoginActivity.class);
                                 DepositFragment.this.getActivity().startActivity(intent);
                             } else {
-                                Toast.makeText(getActivity(), getString(R.string.request_failed),
-                                    Toast.LENGTH_SHORT).show();
+                                if (isAdded())
+                                    Toast.makeText(getActivity(), getString(R.string.request_failed),
+                                            Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             historyList.clear();

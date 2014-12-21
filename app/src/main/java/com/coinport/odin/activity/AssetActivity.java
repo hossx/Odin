@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,11 +14,13 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.coinport.odin.App;
 import com.coinport.odin.R;
 import com.coinport.odin.library.ptr.PullToRefreshBase;
 import com.coinport.odin.library.ptr.PullToRefreshScrollView;
+import com.coinport.odin.network.BarrierTaskSet;
 import com.coinport.odin.network.NetworkAsyncTask;
 import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.network.OnApiResponseListener;
@@ -25,6 +28,7 @@ import com.coinport.odin.obj.AccountInfo;
 import com.coinport.odin.util.Constants;
 import com.coinport.odin.util.Util;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +37,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class AssetActivity extends Activity {
     private ArrayList<HashMap<String, String>> assetItems = new ArrayList<>();
@@ -105,42 +110,120 @@ public class AssetActivity extends Activity {
 
     private void fetchAsset(final boolean isRefresh) {
         AccountInfo ai = App.getAccount();
-        String url = String.format(Constants.ASSET_URL, ai.uid);
-        NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.GET)
+        String assetUrl = String.format(Constants.ASSET_URL, ai.uid);
+        NetworkAsyncTask assetTask = new NetworkAsyncTask(assetUrl, Constants.HttpMethod.GET)
                 .setOnSucceedListener(new OnApiResponseListener())
-                .setOnFailedListener(new OnApiResponseListener())
-                .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
-                    @Override
-                    public void onRender(NetworkRequest s) {
-                        if (isRefresh)
-                            refreshableView.onRefreshComplete();
-                        if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED)
-                            return;
-                        TextView sumCny = (TextView) findViewById(R.id.asset_sum_cny);
-                        TextView sumBtc = (TextView) findViewById(R.id.asset_sum_btc);
-                        sumCny.setText(String.format(getString(R.string.asset_sum_cny), "314324.2432"));
-                        sumBtc.setText(String.format(getString(R.string.asset_sum_btc), "4324.2432"));
+                .setOnFailedListener(new OnApiResponseListener());
+        String cnyTickerUrl = Constants.TICKER_URL + "cny";
+        NetworkAsyncTask cnyTickerTask = new NetworkAsyncTask(cnyTickerUrl, Constants.HttpMethod.GET)
+                .setOnSucceedListener(new OnApiResponseListener())
+                .setOnFailedListener(new OnApiResponseListener());
+        String btcTickerUrl = Constants.TICKER_URL + "btc";
+        NetworkAsyncTask btcTickerTask = new NetworkAsyncTask(btcTickerUrl, Constants.HttpMethod.GET)
+                .setOnSucceedListener(new OnApiResponseListener())
+                .setOnFailedListener(new OnApiResponseListener());
+        Map<String, NetworkAsyncTask> tasks = new HashMap<>();
+        tasks.put("asset", assetTask);
+        tasks.put("cnyT", cnyTickerTask);
+        tasks.put("btcT", btcTickerTask);
+        BarrierTaskSet ts = new BarrierTaskSet(tasks, null);
+        ts.setRenderListener(new BarrierTaskSet.OnPostRenderListener() {
+            @Override
+            public void onRender(Map<String, NetworkRequest> s) {
+                NetworkRequest assetRes = s.get("asset");
+                NetworkRequest cnyTickerRes = s.get("cnyT");
+                NetworkRequest btcTickerRes = s.get("btcT");
+                if (isRefresh)
+                    refreshableView.onRefreshComplete();
+                if (assetRes.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED ||
+                    cnyTickerRes.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED ||
+                    btcTickerRes.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
+                    Toast.makeText(AssetActivity.this, getString(R.string.request_failed), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                try {
+                    JSONObject assetObject = Util.getJsonObjectByPath(assetRes.getApiResult(), "data.accounts");
+                    Map<String, Double> assetMap = new HashMap<String, Double>();
+                    assetItems.clear();
+                    Iterator<String> it = assetObject.keys();
+                    while (it.hasNext()) {
+                        HashMap<String, String> fields = new HashMap<>();
+                        JSONObject jsonObj = assetObject.getJSONObject(it.next());
+                        double pending = jsonObj.getJSONObject("locked").getDouble("value") +
+                                jsonObj.getJSONObject("pendingWithdrawal").getDouble("value");
+                        fields.put("currency", jsonObj.getString("currency"));
+                        fields.put("valid", jsonObj.getJSONObject("available").getString("display"));
+                        fields.put("pending", (new BigDecimal(pending).setScale(4, RoundingMode.CEILING))
+                            .toPlainString());
+                        assetMap.put(jsonObj.getString("currency"), jsonObj.getJSONObject("total").getDouble("value"));
+                        assetItems.add(fields);
+                    }
+                    adapter.notifyDataSetChanged();
 
-                        try {
-                            JSONObject jsonObject = Util.getJsonObjectByPath(s.getApiResult(), "data.accounts");
-                            assetItems.clear();
-                            Iterator<String> it = jsonObject.keys();
-                            while (it.hasNext()) {
-                                HashMap<String, String> fields = new HashMap<>();
-                                JSONObject jsonObj = jsonObject.getJSONObject(it.next());
-                                double pending = jsonObj.getJSONObject("locked").getDouble("value") +
-                                        jsonObj.getJSONObject("pendingWithdrawal").getDouble("value");
-                                fields.put("currency", jsonObj.getString("currency"));
-                                fields.put("valid", jsonObj.getJSONObject("available").getString("display"));
-                                fields.put("pending", (new BigDecimal(pending).setScale(4, RoundingMode.CEILING)).toPlainString());
-                                assetItems.add(fields);
+                    Map<String, Double> cnyPriceMap = getPriceMap(Util.getJsonArrayByPath(cnyTickerRes.getApiResult(),
+                        "data"));
+                    Map<String, Double> btcPriceMap = getPriceMap(Util.getJsonArrayByPath(btcTickerRes.getApiResult(),
+                        "data"));
+                    double sumCnyAmount = 0.0, sumBtcAmount = 0.0;
+                    double cnyBtcPrice = 2000.0;
+                    if (cnyPriceMap.containsKey("BTC"))
+                        cnyBtcPrice = cnyPriceMap.get("BTC");
+                    for (String c : assetMap.keySet()) {
+                        double amount = assetMap.get(c);
+                        if (c.equals("CNY")) {
+                            sumCnyAmount += amount;
+                            sumBtcAmount += (amount / cnyBtcPrice);
+                        } else if (c.equals("BTC")) {
+                            sumBtcAmount += amount;
+                            sumCnyAmount += (amount * cnyBtcPrice);
+                        } else {
+                            if (cnyPriceMap.containsKey(c)) {
+                                sumCnyAmount += amount * cnyPriceMap.get(c);
+                            } else {
+                                if (btcPriceMap.containsKey(c)) {
+                                    sumCnyAmount += amount * btcPriceMap.get(c) * cnyBtcPrice;
+                                } else {
+                                    sumCnyAmount += amount;
+                                }
                             }
-                            adapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            if (btcPriceMap.containsKey(c)) {
+                                sumBtcAmount += amount * btcPriceMap.get(c);
+                            } else {
+                                if (cnyPriceMap.containsKey(c)) {
+                                    sumBtcAmount += amount * cnyPriceMap.get(c) / cnyBtcPrice;
+                                } else {
+                                    sumBtcAmount += amount;
+                                }
+                            }
                         }
                     }
-                });
-        task.execute();
+                    TextView sumCny = (TextView) findViewById(R.id.asset_sum_cny);
+                    TextView sumBtc = (TextView) findViewById(R.id.asset_sum_btc);
+                    sumCny.setText(String.format(getString(R.string.asset_sum_cny),
+                        Util.displayDouble(sumCnyAmount, 4)));
+                    sumBtc.setText(String.format(getString(R.string.asset_sum_btc),
+                        Util.displayDouble(sumBtcAmount, 4)));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        ts.execute();
+    }
+
+    private Map<String, Double> getPriceMap(JSONArray jsonArray) {
+        Map<String, Double> priceMap = new HashMap<>();
+        if (jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); ++i) {
+                try {
+                    JSONObject jsonObj = jsonArray.getJSONObject(i);
+                    priceMap.put(jsonObj.getString("c"), Double.valueOf(jsonObj.getString("p")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return priceMap;
     }
 }
