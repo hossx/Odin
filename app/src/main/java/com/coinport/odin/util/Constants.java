@@ -15,6 +15,7 @@ public class Constants {
     public static final String DOMAIN_PORT = "10.0.2.2:9000";
     public static final String PROTOCOL = "http://";
 
+    public static final String TERMS_RUL = PROTOCOL + DOMAIN_PORT + "terms.html";
     public static final String TICKER_URL = PROTOCOL + DOMAIN_PORT + "/api/m/ticker/";
     public static final String DEPTH_URL = PROTOCOL + DOMAIN_PORT + "/api/m/%1$s-%2$s/depth";
     public static final String TX_URL = PROTOCOL + DOMAIN_PORT + "/api/%1$s-%2$s/transaction";
@@ -38,6 +39,8 @@ public class Constants {
     public static final String RM_BANK_CARD_URL = PROTOCOL + DOMAIN_PORT + "/account/deletebankcard";
     public static final String CHANGE_PW_URL = PROTOCOL + DOMAIN_PORT + "/account/dochangepwd";
     public static final String LOGOUT_URL = PROTOCOL + DOMAIN_PORT + "/account/logout";
+    public static final String CAPTCHA_URL = PROTOCOL + DOMAIN_PORT + "/captcha";
+    public static final String REGISTER_URL = PROTOCOL + DOMAIN_PORT + "/account/register";
 
     public static final String PLAY_SESSION = "PLAY_SESSION";
     static {

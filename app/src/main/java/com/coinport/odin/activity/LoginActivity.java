@@ -23,6 +23,7 @@ import com.coinport.odin.util.Constants;
 import com.coinport.odin.util.Util;
 
 import org.apache.http.cookie.Cookie;
+import org.json.JSONException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -93,8 +94,18 @@ public class LoginActivity extends Activity implements OnClickListener {
                                     tv.setVisibility(View.GONE);
                                 }
                                 finish();
+                            } else if (s.getApiStatus() == NetworkRequest.ApiStatus.INTERNAL_ERROR) {
+                                tv.setVisibility(View.VISIBLE);
+                                try {
+                                    String times = s.getApiResult().getString("data");
+                                    tv.setText(String.format(getString(R.string.login_fail), times));
+                                } catch (JSONException e) {
+                                    tv.setText(R.string.request_failed);
+                                    e.printStackTrace();
+                                }
                             } else {
                                 tv.setVisibility(View.VISIBLE);
+                                tv.setText(R.string.request_failed);
                             }
                         }
                     });
