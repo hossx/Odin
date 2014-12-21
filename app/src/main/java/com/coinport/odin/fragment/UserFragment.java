@@ -86,24 +86,24 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                 }
             });
         }
-        TableRow bindPhone = (TableRow) view.findViewById(R.id.bind_phone);
-        if (info.mobileVerified) {
-            bindPhone.setClickable(false);
-            ImageView usbpi = (ImageView) view.findViewById(R.id.user_secure_bind_phone_icon);
-            usbpi.setVisibility(View.GONE);
-            TextView uspb = (TextView) view.findViewById(R.id.user_secure_phone_bind);
-            uspb.setVisibility(View.VISIBLE);
-        } else {
-            bindPhone.setClickable(true);
-            bindPhone.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.setClass(getActivity(), BindPhoneActivity.class);
-                    getActivity().startActivity(intent);
-                }
-            });
-        }
+//        TableRow bindPhone = (TableRow) view.findViewById(R.id.bind_phone);
+//        if (info.mobileVerified) {
+//            bindPhone.setClickable(false);
+//            ImageView usbpi = (ImageView) view.findViewById(R.id.user_secure_bind_phone_icon);
+//            usbpi.setVisibility(View.GONE);
+//            TextView uspb = (TextView) view.findViewById(R.id.user_secure_phone_bind);
+//            uspb.setVisibility(View.VISIBLE);
+//        } else {
+//            bindPhone.setClickable(true);
+//            bindPhone.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent();
+//                    intent.setClass(getActivity(), BindPhoneActivity.class);
+//                    getActivity().startActivity(intent);
+//                }
+//            });
+//        }
         LinearLayout userAsset = (LinearLayout) view.findViewById(R.id.user_asset);
         userAsset.setOnClickListener(new View.OnClickListener() {
             @Override
