@@ -197,6 +197,8 @@ public class DepositFragment extends DWFragmentCommon {
 
                     @Override
                     public void onRender(NetworkRequest s) {
+                        if (!isAdded())
+                            return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                             address.setVisibility(View.GONE);
                             qrView.setVisibility(View.GONE);
@@ -223,6 +225,8 @@ public class DepositFragment extends DWFragmentCommon {
         updateAddress(new NetworkAsyncTask.OnPostRenderListener() {
             @Override
             public void onRender(NetworkRequest s) {
+                if (!isAdded())
+                    return;
                 TextView tv = (TextView) view.findViewById(R.id.deposit_header);
                 tv.setText(String.format(getString(R.string.deposit_info), currency));
                 JSONObject obj = Util.getJsonObjectByPath(s.getApiResult(), "data");
@@ -320,6 +324,8 @@ public class DepositFragment extends DWFragmentCommon {
         updateAddress(new NetworkAsyncTask.OnPostRenderListener() {
             @Override
             public void onRender(NetworkRequest s) {
+                if (!isAdded())
+                    return;
                 TextView tv = (TextView) view.findViewById(R.id.deposit_header);
                 tv.setText(String.format(getString(R.string.deposit_info), currency));
                 JSONObject obj = Util.getJsonObjectByPath(s.getApiResult(), "data");
@@ -379,6 +385,8 @@ public class DepositFragment extends DWFragmentCommon {
                 .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                     @Override
                     public void onRender(NetworkRequest s) {
+                        if (!isAdded())
+                            return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                             if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
                                 Intent intent = new Intent(DepositFragment.this.getActivity(), LoginActivity.class);

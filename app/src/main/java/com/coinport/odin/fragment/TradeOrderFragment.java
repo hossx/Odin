@@ -161,6 +161,8 @@ public class TradeOrderFragment extends Fragment {
                 .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                     @Override
                     public void onRender(NetworkRequest s) {
+                        if (!isAdded())
+                            return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED || loadAll) {
                             refreshableView.onRefreshComplete();
                             return;

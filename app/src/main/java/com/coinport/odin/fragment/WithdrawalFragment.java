@@ -153,6 +153,8 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                 .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                     @Override
                     public void onRender(NetworkRequest s) {
+                        if (!isAdded())
+                            return;
                         withdrawalSum.setText("0.0");
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED)
                             return;
@@ -183,6 +185,8 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                 .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                     @Override
                     public void onRender(NetworkRequest s) {
+                        if (!isAdded())
+                            return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                             if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
                                 Intent intent = new Intent(WithdrawalFragment.this.getActivity(), LoginActivity.class);
@@ -242,6 +246,8 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                     .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                         @Override
                         public void onRender(NetworkRequest s) {
+                            if (!isAdded())
+                                return;
                             if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                 Toast.makeText(getActivity(), getString(R.string.request_failed),
                                         Toast.LENGTH_SHORT).show();
@@ -316,6 +322,8 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                 .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                     @Override
                     public void onRender(NetworkRequest s) {
+                        if (!isAdded())
+                            return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                             if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
                                 Intent intent = new Intent(WithdrawalFragment.this.getActivity(), LoginActivity.class);
@@ -362,6 +370,8 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                         .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                             @Override
                             public void onRender(NetworkRequest s) {
+                                if (!isAdded())
+                                    return;
                                 if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                     if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
                                         Intent intent = new Intent(WithdrawalFragment.this.getActivity(),
@@ -445,6 +455,8 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                         .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                             @Override
                             public void onRender(NetworkRequest s) {
+                                if (!isAdded())
+                                    return;
                                 if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                     if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
                                         Intent intent = new Intent(WithdrawalFragment.this.getActivity(),

@@ -2,8 +2,8 @@
 <resources>
 
     <string-array name="currency_array">
-        <item> CNY </item>
         <item> BTC </item>
+        <item> CNY </item>
         <item> LTC </item>
         <item> DOGE </item>
         <item> BC </item>

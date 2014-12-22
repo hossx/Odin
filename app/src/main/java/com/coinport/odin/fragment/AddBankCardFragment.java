@@ -128,6 +128,8 @@ public class AddBankCardFragment extends DialogFragment implements DialogInterfa
                     .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                         @Override
                         public void onRender(NetworkRequest s) {
+                            if (!isAdded())
+                                return;
                             if (s.getApiStatus() == NetworkRequest.ApiStatus.SUCCEED) {
                                 Bundle args = new Bundle();
                                 args.putString("bankName", bankStr);
@@ -166,6 +168,8 @@ public class AddBankCardFragment extends DialogFragment implements DialogInterfa
                 .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                     @Override
                     public void onRender(NetworkRequest s) {
+                        if (!isAdded())
+                            return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                             if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
                                 Intent intent = new Intent(AddBankCardFragment.this.getActivity(), LoginActivity.class);

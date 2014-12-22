@@ -292,6 +292,8 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                     .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                         @Override
                         public void onRender(NetworkRequest s) {
+                            if (!isAdded())
+                                return;
                             if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                 if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
                                     Intent intent = new Intent(TradeBuySellFragment.this.getActivity(),
@@ -491,6 +493,8 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                 .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                     @Override
                     public void onRender(NetworkRequest s) {
+                        if (!isAdded())
+                            return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED)
                             return;
                         JSONObject inCurrencyObj = Util.getJsonObjectByPath(s.getApiResult(),
