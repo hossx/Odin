@@ -3,6 +3,31 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/verification_hint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dip"
+        android:layout_marginBottom="8dip"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="8dip"
+        android:background="@drawable/background_card"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dip"
+            android:layout_marginBottom="20dip"
+            android:gravity="center"
+            android:text="@string/withdrawal_cny_verification_requirement"/>
+        <Button
+            android:id="@+id/realname_verify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/user_secure_verify"/>
+    </LinearLayout>
     <com.coinport.odin.library.ptr.PullToRefreshScrollView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:scrollbars="none"

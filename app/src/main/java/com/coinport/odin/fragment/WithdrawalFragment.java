@@ -46,6 +46,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
     private View view;
     private LinearLayout bankSelector;
     private LinearLayout address;
+    private LinearLayout realnameHint;
     private LinearLayout memo;
     private TextView memoLabel;
     private TextView nxtPubkeyDesc;
@@ -91,6 +92,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                 "transfer_time", "transfer_amount", "transfer_status"}, new int[] {R.id.transfer_time, R.id.transfer_amount,
                 R.id.transfer_status});
         history.setAdapter(historyAdapter);
+        realnameHint = (LinearLayout) view.findViewById(R.id.verification_hint);
         refreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.refreshable_view);
         refreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
             @Override
@@ -136,6 +138,22 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
     }
 
     private void updateWithdrawalInfo() {
+        if (currency.equals("CNY") && (App.getAccount().realname == null || App.getAccount().realname.equals(""))) {
+            refreshScrollView.setVisibility(View.GONE);
+            realnameHint.setVisibility(View.VISIBLE);
+            Button goToVerifyBtn = (Button) view.findViewById(R.id.realname_verify);
+            goToVerifyBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), UserVerifyActivity.class);
+                    getActivity().startActivity(intent);
+                }
+            });
+            return;
+        }
+        realnameHint.setVisibility(View.GONE);
+        refreshScrollView.setVisibility(View.VISIBLE);
         fetchFeeRule();
         fetchAsset(0);
         updateWithdrawalHistory(0);
@@ -225,19 +243,12 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
 
     private void fetchFeeRule() {
         if (currency.equals("CNY")) {
-            if (App.getAccount().realname == null || App.getAccount().realname.equals("")) {
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), UserVerifyActivity.class);
-                getActivity().startActivity(intent);
-                return;
-            }
             String withdrawalDescription = getString(R.string.withdrawal_description_cny);
             setItemsVisibility(EnumSet.of(OptItem.BANK));
             limit = "100";
             fee = getString(R.string.withdrawal_cny_fee_description);
             TextView description = (TextView) view.findViewById(R.id.withdrawal_description);
             description.setText(String.format(withdrawalDescription, limit + " " + currency, fee + " " + currency));
-
             fetchBankCards(0);
         } else {
             NetworkAsyncTask task = new NetworkAsyncTask(Constants.FEE_URL, Constants.HttpMethod.GET)

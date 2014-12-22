@@ -69,13 +69,15 @@ public class UserFragment extends Fragment implements View.OnClickListener {
             accountPhone.setText(R.string.phone_unverified);
         }
         TableRow userVerify = (TableRow) view.findViewById(R.id.user_verify);
+        ImageView usvi = (ImageView) view.findViewById(R.id.user_secure_verify_icon);
+        TextView usv = (TextView) view.findViewById(R.id.user_secure_verified);
         if (info.realname != null) {
             userVerify.setClickable(false);
-            ImageView usvi = (ImageView) view.findViewById(R.id.user_secure_verify_icon);
             usvi.setVisibility(View.GONE);
-            TextView usv = (TextView) view.findViewById(R.id.user_secure_verified);
             usv.setVisibility(View.VISIBLE);
         } else {
+            usvi.setVisibility(View.VISIBLE);
+            usv.setVisibility(View.GONE);
             userVerify.setClickable(true);
             userVerify.setOnClickListener(new View.OnClickListener() {
                 @Override

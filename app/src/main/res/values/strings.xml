@@ -155,6 +155,7 @@
     <string name="withdrawal_abc_cancel">取消</string>
     <string name="withdrawal_abc_delete">删除</string>
     <string name="withdrawal_action">提现</string>
+    <string name="withdrawal_cny_verification_requirement">需要进行实名认证才能提现人民币</string>
     <string name="need_withdrawal_params">提现金额，提现地址，邮件验证码不能为空</string>
 
     <string name="user_info">账户信息</string>
