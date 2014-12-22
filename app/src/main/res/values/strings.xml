@@ -203,7 +203,7 @@
     <string name="register_claim">我已阅读并同意：</string>
     <string name="register_terms">服务条款</string>
     <string name="register_captcha">输入验证码</string>
-    <string name="register_null_fail">邮箱，密码，验证码不能为空</string>
+    <string name="register_null_fail">邮箱，密码不能为空</string>
     <string name="register_agree_fail">您必须同意服务条款才能注册</string>
     <string name="register_email_sent">验证邮件已发送到您的注册邮箱，请登录邮箱点击链接完成注册</string>
 

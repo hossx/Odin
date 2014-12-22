@@ -62,30 +62,29 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onStart() {
         super.onStart();
-        NetworkAsyncTask task = new NetworkAsyncTask(Constants.CAPTCHA_URL, Constants.HttpMethod.GET)
-                .setOnSucceedListener(new OnApiResponseListener())
-                .setOnFailedListener(new OnApiResponseListener())
-                .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
-                    @Override
-                    public void onRender(NetworkRequest s) {
-                        if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED)
-                            return;
-                        JSONObject obj = Util.getJsonObjectByPath(s.getApiResult(), "data");
-                        try {
-                            uuid = obj.getString("uuid");
-                            String imageStr = obj.getString("imageSrc");
-                            imageStr = imageStr.substring(imageStr.indexOf(BASE64) + BASE64.length());
-                            byte[] imageBytes = Base64.decode(imageStr, Base64.DEFAULT);
-                            Bitmap bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-                            ImageView iv = (ImageView) findViewById(R.id.captcha);
-                            iv.setImageBitmap(bmp);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-        task.execute();
-
+//        NetworkAsyncTask task = new NetworkAsyncTask(Constants.CAPTCHA_URL, Constants.HttpMethod.GET)
+//                .setOnSucceedListener(new OnApiResponseListener())
+//                .setOnFailedListener(new OnApiResponseListener())
+//                .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+//                    @Override
+//                    public void onRender(NetworkRequest s) {
+//                        if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED)
+//                            return;
+//                        JSONObject obj = Util.getJsonObjectByPath(s.getApiResult(), "data");
+//                        try {
+//                            uuid = obj.getString("uuid");
+//                            String imageStr = obj.getString("imageSrc");
+//                            imageStr = imageStr.substring(imageStr.indexOf(BASE64) + BASE64.length());
+//                            byte[] imageBytes = Base64.decode(imageStr, Base64.DEFAULT);
+//                            Bitmap bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+//                            ImageView iv = (ImageView) findViewById(R.id.captcha);
+//                            iv.setImageBitmap(bmp);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//        task.execute();
     }
 
 //    @Override
@@ -117,9 +116,9 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 String email = ((EditText) findViewById(R.id.register_email)).getText().toString();
                 String pw = ((EditText) findViewById(R.id.register_pw)).getText().toString();
                 String pwConfirm = ((EditText) findViewById(R.id.register_confirm_pw)).getText().toString();
-                String code = ((EditText) findViewById(R.id.register_code)).getText().toString();
+//                String code = ((EditText) findViewById(R.id.register_code)).getText().toString();
                 CheckBox cb = (CheckBox) findViewById(R.id.agree_terms);
-                if (email.equals("") || pw.equals("") || code.equals("")) {
+                if (email.equals("") || pw.equals("")) {
                     Toast.makeText(RegisterActivity.this, getString(R.string.register_null_fail),
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -136,7 +135,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 }
                 Map<String, String> params = new HashMap<>();
                 params.put("uuid", uuid);
-                params.put("text", code);
+//                params.put("text", code);
                 params.put("email", email);
                 params.put("password", Util.sha256base64(pw));
                 NetworkAsyncTask task = new NetworkAsyncTask(Constants.REGISTER_URL, Constants.HttpMethod.POST)
