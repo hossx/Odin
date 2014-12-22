@@ -72,7 +72,7 @@ public class BankCardSpinner extends Spinner implements AdapterView.OnItemClickL
         listview.setAdapter(adapters);
         listview.setOnItemClickListener(this);
         dialog = new BankCardSelectDialog(context, R.style.dialog);//创建Dialog并设置样式主题
-        LayoutParams params = new LayoutParams(650, LayoutParams.FILL_PARENT);
+        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         dialog.setCanceledOnTouchOutside(true);// 设置点击Dialog外部任意区域关闭Dialog
         dialog.show();
         dialog.addContentView(view, params);

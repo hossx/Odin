@@ -12,8 +12,10 @@ public class Constants {
     public static final int CP_GREEN = Color.rgb(10, 185, 43);
     public static final int CP_RED = Color.RED;
     public static final Map<Integer, Integer> ORDER_STATUS_MAP;
-    public static final String DOMAIN_PORT = "10.0.2.2:9000";
-    public static final String PROTOCOL = "http://";
+//    public static final String DOMAIN_PORT = "10.0.2.2:9000";
+//    public static final String PROTOCOL = "http://";
+    public static final String DOMAIN_PORT = "exchange.coinport.com";
+    public static final String PROTOCOL = "https://";
 
     public static final String TERMS_RUL = PROTOCOL + DOMAIN_PORT + "terms.html";
     public static final String TICKER_URL = PROTOCOL + DOMAIN_PORT + "/api/m/ticker/";
