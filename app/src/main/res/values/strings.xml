@@ -58,6 +58,7 @@
     <string name="hello">你好</string>
     <string name="button_ok">确定</string>
     <string name="button_cancel">取消</string>
+    <string name="company">币丰港（香港）网络科技有限公司</string>
 
     <!-- text name in setting page -->
     <string name="menu_item_more">更多</string>
@@ -233,6 +234,13 @@
     <string name="change_pw_succeed">密码修改成功</string>
 
     <string name="logout">登出或切换帐号</string>
+
+    <string name="contact_address">上海市闵行区紫竹科学园区</string>
+    <string name="contact_mail">exchange-support@coinport.com</string>
+    <!--<string name="contact_phone"></string>-->
+    <string name="contact_weibo">http://weibo.com/coinport</string>
+    <string name="contact_qq">1691767742</string>
+    <string name="contact_weixin"></string>
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_register">用户注册</string>

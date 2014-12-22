@@ -14,12 +14,19 @@ import com.coinport.odin.fragment.QuickContactFragment;
 public class ContactPagerAdapter extends PagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
     private QuickContactFragment context;
 
-    private final int[] ICONS = { R.drawable.ic_launcher_gplus, R.drawable.ic_launcher_gmail,
-            R.drawable.ic_launcher_gmaps, R.drawable.ic_launcher_chrome };
+    private final String[] MESSAGES;
+
+    private final int[] ICONS = { R.drawable.ic_launcher_gmaps, R.drawable.ic_launcher_gmail,
+        /* R.drawable.ic_launcher_phone, R.drawable.ic_launcher_weixin*/R.drawable.ic_launcher_qq,
+        R.drawable.ic_launcher_weibo};
 
     public ContactPagerAdapter(QuickContactFragment context) {
         super();
         this.context = context;
+        MESSAGES = new String[]{context.getString(R.string.contact_address),
+                context.getString(R.string.contact_mail),
+                context.getString(R.string.contact_qq),
+                context.getString(R.string.contact_weibo)};
     }
 
     @Override
@@ -37,7 +44,7 @@ public class ContactPagerAdapter extends PagerAdapter implements PagerSlidingTab
         // looks a little bit messy here
         TextView v = new TextView(context.getActivity());
         v.setBackgroundResource(R.color.background_window);
-        v.setText("PAGE " + (position + 1));
+        v.setText(MESSAGES[position]);
         final int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, context.getResources()
                 .getDisplayMetrics());
         v.setPadding(padding, padding, padding, padding);
