@@ -8,15 +8,18 @@
         android:layout_width="40dip"
         android:layout_height="wrap_content"
         android:id="@+id/depth_index"
-        android:layout_marginLeft="10dip"/>
+        android:layout_marginLeft="10dip"
+        android:textSize="18dip"/>
     <TextView
         android:layout_width="120dip"
         android:layout_height="wrap_content"
         android:id="@+id/depth_price"
-        android:paddingLeft="10dip"/>
+        android:paddingLeft="10dip"
+        android:textSize="18dip"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/depth_amount"
-        android:paddingLeft="10dip"/>
+        android:paddingLeft="10dip"
+        android:textSize="18dip"/>
 </LinearLayout>

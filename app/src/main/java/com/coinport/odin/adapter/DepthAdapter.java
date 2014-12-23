@@ -19,7 +19,6 @@ public class DepthAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context context = null;
     private ArrayList<DepthItem> depthItems = null;
-    private View container;
 
     public DepthAdapter setDepthItems(ArrayList<DepthItem> depthItems) {
         if (depthItems == null)
@@ -29,9 +28,8 @@ public class DepthAdapter extends BaseAdapter {
         return this;
     }
 
-    public DepthAdapter(Context context, View container) {
+    public DepthAdapter(Context context) {
         this.context = context;
-        this.container = container;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -68,46 +66,16 @@ public class DepthAdapter extends BaseAdapter {
         price.setText(di.getPriceDisplay());
         amount.setText(di.getAmountDisplay());
 
-        final EditText buyPrice = (EditText) container.findViewById(R.id.buy_price_edit);
-        final EditText buyQuantity = (EditText) container.findViewById(R.id.buy_quantity_edit);
-        final EditText buyAmount = (EditText) container.findViewById(R.id.buy_amount_edit);
-        final EditText sellPrice = (EditText) container.findViewById(R.id.sell_price_edit);
-        final EditText sellQuantity = (EditText) container.findViewById(R.id.sell_quantity_edit);
-        final EditText sellAmount = (EditText) container.findViewById(R.id.sell_amount_edit);
         if (di.isBuy()) {
             index.setText(context.getString(R.string.depth_index_buy) + (position + 1));
             index.setTextColor(Constants.CP_GREEN);
             price.setTextColor(Constants.CP_GREEN);
             amount.setTextColor(Constants.CP_GREEN);
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    sellPrice.setText(Util.autoDisplayDouble(di.getPrice()));
-                    double quantity = 0;
-                    for (int i = 0; i <= position; ++i ) {
-                        quantity += depthItems.get(i).getAmount();
-                    }
-                    sellQuantity.setText(Double.toString(quantity));
-                    sellAmount.setText(Double.toString(di.getPrice() * quantity));
-                }
-            });
         } else {
             index.setText(context.getString(R.string.depth_index_sell) + (depthItems.size() - position));
             index.setTextColor(Constants.CP_RED);
             price.setTextColor(Constants.CP_RED);
             amount.setTextColor(Constants.CP_RED);
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    buyPrice.setText(Util.autoDisplayDouble(di.getPrice()));
-                    double quantity = 0;
-                    for (int i = position; i < depthItems.size(); ++i ) {
-                        quantity += depthItems.get(i).getAmount();
-                    }
-                    buyQuantity.setText(Double.toString(quantity));
-                    buyAmount.setText(Double.toString(di.getPrice() * quantity));
-                }
-            });
         }
         return convertView;
     }

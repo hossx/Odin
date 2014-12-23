@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -42,7 +43,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TradeBuySellFragment extends Fragment implements View.OnClickListener {
+public class TradeBuySellFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     private DepthAdapter buyAdapter;
     private DepthAdapter sellAdapter;
     private String inCurrency, outCurrency;
@@ -101,9 +102,11 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
         buySellView = inflater.inflate(R.layout.trade_buy_sell_fragment, container, false);
         ListView buyListView = (ListView) buySellView.findViewById(R.id.buy_depth);
         ListView sellListView = (ListView) buySellView.findViewById(R.id.sell_depth);
-        buyAdapter = new DepthAdapter(getActivity(), buySellView);
+        buyListView.setOnItemClickListener(this);
+        sellListView.setOnItemClickListener(this);
+        buyAdapter = new DepthAdapter(getActivity());
         buyListView.setAdapter(buyAdapter);
-        sellAdapter = new DepthAdapter(getActivity(), buySellView);
+        sellAdapter = new DepthAdapter(getActivity());
         sellListView.setAdapter(sellAdapter);
         lastPriceView = (TextView) buySellView.findViewById(R.id.last_price);
         lastPriceView.setOnClickListener(this);
@@ -331,6 +334,29 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
             }
         });
         builder.create().show();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (parent.getId() == R.id.buy_depth) {
+            DepthItem di = buyItems.get(position);
+            sellPrice.setText(Util.autoDisplayDouble(di.getPrice()));
+            double quantity = 0;
+            for (int i = 0; i <= position; ++i ) {
+                quantity += buyItems.get(i).getAmount();
+            }
+            sellQuantity.setText(Double.toString(quantity));
+            sellAmount.setText(Double.toString(di.getPrice() * quantity));
+        } else if (parent.getId() == R.id.sell_depth) {
+            DepthItem di = sellItems.get(position);
+            buyPrice.setText(Util.autoDisplayDouble(di.getPrice()));
+            double quantity = 0;
+            for (int i = position; i < sellItems.size(); ++i ) {
+                quantity += sellItems.get(i).getAmount();
+            }
+            buyQuantity.setText(Double.toString(quantity));
+            buyAmount.setText(Double.toString(di.getPrice() * quantity));
+        }
     }
 
     private class FetchDepthTask extends TimerTask {

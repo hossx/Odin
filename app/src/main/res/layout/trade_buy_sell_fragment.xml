@@ -52,7 +52,7 @@
                     <ListView
                         android:id="@+id/sell_depth"
                         android:layout_width="match_parent"
-                        android:layout_height="100dip"
+                        android:layout_height="125dip"
                         android:isScrollContainer="false"
                         android:layout_marginTop="8dip"/>
                     <TextView
@@ -61,11 +61,11 @@
                         android:id="@+id/last_price"
                         android:layout_gravity="center_horizontal"
                         android:textSize="20dp"
-                        android:text=""/>
+                        android:textStyle="bold"/>
                     <ListView
                         android:id="@+id/buy_depth"
                         android:layout_width="match_parent"
-                        android:layout_height="100dip"
+                        android:layout_height="125dip"
                         android:isScrollContainer="false"/>
                 </LinearLayout>
 
