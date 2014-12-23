@@ -202,6 +202,15 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
         sellAmount = (EditText) buySellView.findViewById(R.id.sell_amount_edit);
         sellAmount.addTextChangedListener(watchers.get(R.id.sell_amount_edit));
 
+        TextView outValidLabel = (TextView) buySellView.findViewById(R.id.out_valid_label);
+        outValidLabel.setText(getString(R.string.trade_valid) + " " + outCurrency);
+        TextView outFrozenLabel = (TextView) buySellView.findViewById(R.id.out_frozen_label);
+        outFrozenLabel.setText(getString(R.string.trade_frozen) + " " + outCurrency);
+        TextView inValidLabel = (TextView) buySellView.findViewById(R.id.in_valid_label);
+        inValidLabel.setText(getString(R.string.trade_valid) + " " + inCurrency);
+        TextView inFrozenLabel = (TextView) buySellView.findViewById(R.id.in_frozen_label);
+        inFrozenLabel.setText(getString(R.string.trade_frozen) + " " + inCurrency);
+
         return buySellView;
     }
 
