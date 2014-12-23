@@ -123,6 +123,8 @@ public class OrderAdapter extends BaseAdapter {
                                                     Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
+                                        Toast.makeText(context, context.getString(R.string.cancel_order_succeed),
+                                                Toast.LENGTH_SHORT).show();
                                         orderItems.remove(position);
                                         OrderAdapter.this.notifyDataSetChanged();
                                         if (cancelledHandler != null)

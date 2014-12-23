@@ -221,6 +221,8 @@
     <string name="submit_alert_buy_title">买入挂单</string>
     <string name="submit_alert_sell_title">卖出挂单</string>
     <string name="submit_alert_message">价格:\t%1$f\n数量:\t%2$f\n金额:\t%3$f</string>
+    <string name="submit_order_succeed">下单成功</string>
+    <string name="cancel_order_succeed">撤单成功</string>
     <string name="request_failed">请求失败，请检查网络是否正常</string>
 
     <string name="add_bc_condition">无银行卡</string>

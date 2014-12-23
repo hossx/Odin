@@ -302,6 +302,8 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                                             Toast.LENGTH_SHORT).show();
                                 }
                             } else {
+                                Toast.makeText(getActivity(), getString(R.string.submit_order_succeed),
+                                        Toast.LENGTH_SHORT).show();
                                 fetchAsset(4000);
                             }
                         }
