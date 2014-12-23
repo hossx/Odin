@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.coinport.odin.R;
 import com.coinport.odin.obj.DepthItem;
 import com.coinport.odin.util.Constants;
+import com.coinport.odin.util.Util;
 
 import java.util.ArrayList;
 
@@ -81,7 +82,7 @@ public class DepthAdapter extends BaseAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    sellPrice.setText(Double.toString(di.getPrice()));
+                    sellPrice.setText(Util.displayDouble(di.getPrice(), 8));
                     double quantity = 0;
                     for (int i = 0; i <= position; ++i ) {
                         quantity += depthItems.get(i).getAmount();
@@ -98,7 +99,7 @@ public class DepthAdapter extends BaseAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    buyPrice.setText(Double.toString(di.getPrice()));
+                    buyPrice.setText(Util.displayDouble(di.getPrice(), 8));
                     double quantity = 0;
                     for (int i = position; i < depthItems.size(); ++i ) {
                         quantity += depthItems.get(i).getAmount();
