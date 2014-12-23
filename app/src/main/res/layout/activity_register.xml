@@ -111,7 +111,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:button="@null"
-            android:checked="true"
+            android:checked="false"
             android:drawableLeft="@drawable/checkbox_bg"
             android:paddingTop="2dp"
             android:text="@string/register_claim"
