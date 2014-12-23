@@ -88,6 +88,8 @@ public class LoginActivity extends Activity implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.btn_login:
+                final TextView tv = (TextView) LoginActivity.this.findViewById(R.id.login_fail_message);
+                tv.setVisibility(View.GONE);
                 final String username = ((EditText) (self.findViewById(R.id.user_name))).getText().toString();
                 final String pw = ((EditText) (self.findViewById(R.id.password))).getText().toString();
                 Map<String, String> params = new HashMap<>();
@@ -99,7 +101,6 @@ public class LoginActivity extends Activity implements OnClickListener {
                     .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                         @Override
                         public void onRender(NetworkRequest s) {
-                            TextView tv = (TextView) LoginActivity.this.findViewById(R.id.login_fail_message);
                             if (s.getApiStatus() != null && s.getApiStatus() == NetworkRequest.ApiStatus.SUCCEED) {
                                 Cookie session = ((CustomCookieStore) s.getHttpClient().getCookieStore()).getCookie(
                                     Constants.PLAY_SESSION);
@@ -109,7 +110,6 @@ public class LoginActivity extends Activity implements OnClickListener {
                                 if (!App.isMainActivityCreated()) {
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
-                                    tv.setVisibility(View.GONE);
                                 }
                                 if (rememberPw.isChecked()) {
                                     settings.edit().putString("judgeText", "yes")
