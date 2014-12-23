@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.coinport.odin.App;
 import com.coinport.odin.R;
+import com.coinport.odin.dialog.CustomProgressDialog;
 import com.coinport.odin.library.ptr.PullToRefreshBase;
 import com.coinport.odin.library.ptr.PullToRefreshScrollView;
 import com.coinport.odin.network.BarrierTaskSet;
@@ -45,6 +46,9 @@ public class AssetActivity extends Activity {
     protected PullToRefreshScrollView refreshableView;
 
     private Typeface iconTF;
+
+    private CustomProgressDialog cpd = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +87,9 @@ public class AssetActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+        cpd = CustomProgressDialog.createDialog(this);
+        cpd.setCancelable(false);
+        cpd.show();
         fetchAsset(false);
     }
 
@@ -130,6 +137,10 @@ public class AssetActivity extends Activity {
         ts.setRenderListener(new BarrierTaskSet.OnPostRenderListener() {
             @Override
             public void onRender(Map<String, NetworkRequest> s) {
+                if (cpd != null) {
+                    cpd.dismiss();
+                    cpd = null;
+                }
                 NetworkRequest assetRes = s.get("asset");
                 NetworkRequest cnyTickerRes = s.get("cnyT");
                 NetworkRequest btcTickerRes = s.get("btcT");

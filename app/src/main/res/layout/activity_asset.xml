@@ -42,13 +42,11 @@
                     <TextView
                         android:id="@+id/asset_sum_cny"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/asset_sum_cny"/>
+                        android:layout_height="wrap_content"/>
                     <TextView
                         android:id="@+id/asset_sum_btc"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/asset_sum_btc"/>
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
