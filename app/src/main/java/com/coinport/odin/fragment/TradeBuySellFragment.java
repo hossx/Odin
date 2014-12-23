@@ -23,11 +23,11 @@ import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.DepthAdapter;
 import com.coinport.odin.network.NetworkAsyncTask;
+import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.network.OnApiResponseListener;
 import com.coinport.odin.obj.AccountInfo;
 import com.coinport.odin.obj.DepthItem;
 import com.coinport.odin.util.Constants;
-import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.util.Util;
 
 import org.apache.http.protocol.HTTP;
@@ -35,8 +35,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -506,23 +504,23 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                         try {
                             String inValid, outValid, inPending, outPending;
                             double inPendingV, outPendingV;
-                            if (inCurrencyObj != null) {
+                            if (inCurrencyObj != null && inCurrencyObj.length() != 0) {
                                 inValid = inCurrencyObj.getJSONObject("available").getString("display");
                                 inPendingV = inCurrencyObj.getJSONObject("locked").getDouble("value") +
                                         inCurrencyObj.getJSONObject("pendingWithdrawal").getDouble("value");
                                 inPending = Util.displayDouble(inPendingV, 4);
                             } else {
-                                inValid = "0";
-                                inPending = "0";
+                                inValid = "0.0";
+                                inPending = "0.0";
                             }
-                            if (outCurrencyObj != null) {
+                            if (outCurrencyObj != null && outCurrencyObj.length() != 0) {
                                 outValid = outCurrencyObj.getJSONObject("available").getString("display");
                                 outPendingV = outCurrencyObj.getJSONObject("locked").getDouble("value") +
                                         outCurrencyObj.getJSONObject("pendingWithdrawal").getDouble("value");
                                 outPending = Util.displayDouble(outPendingV, 4);
                             } else {
-                                outValid = "0";
-                                outPending = "0";
+                                outValid = "0.0";
+                                outPending = "0.0";
                             }
                             inValidView.setText(inValid);
                             TextView inFrozenView = (TextView) buySellView.findViewById(R.id.in_frozen_amount);
