@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.coinport.odin.App;
 import com.coinport.odin.R;
 import com.coinport.odin.activity.LoginActivity;
+import com.coinport.odin.dialog.CustomProgressDialog;
 import com.coinport.odin.library.ptr.PullToRefreshBase;
 import com.coinport.odin.library.ptr.PullToRefreshScrollView;
 import com.coinport.odin.network.NetworkAsyncTask;
@@ -64,6 +65,7 @@ public class DepositFragment extends DWFragmentCommon {
     private ArrayList<HashMap<String, String>> historyList = new ArrayList<>();
     private SimpleAdapter historyAdapter;
     private PullToRefreshScrollView refreshScrollView;
+    private CustomProgressDialog cpd = null;
 
     static {
         uriHeader.put("BTC", "bitcoin:");
@@ -122,6 +124,9 @@ public class DepositFragment extends DWFragmentCommon {
     }
 
     private void updateDepositInfo() {
+        cpd = CustomProgressDialog.createDialog(getActivity());
+        cpd.setCancelable(false);
+        cpd.show();
         switch (currency) {
             case "CNY":
                 updateDepositCnyInfo();
@@ -385,6 +390,10 @@ public class DepositFragment extends DWFragmentCommon {
                 .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                     @Override
                     public void onRender(NetworkRequest s) {
+                        if (cpd != null) {
+                            cpd.dismiss();
+                            cpd = null;
+                        }
                         if (!isAdded())
                             return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {

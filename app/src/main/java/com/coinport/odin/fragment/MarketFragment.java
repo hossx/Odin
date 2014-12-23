@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.coinport.odin.R;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.TickerAdapter;
+import com.coinport.odin.dialog.CustomProgressDialog;
 import com.coinport.odin.obj.TickerItem;
 import com.coinport.odin.util.Constants;
 import com.coinport.odin.network.NetworkRequest;
@@ -41,6 +42,7 @@ public class MarketFragment extends Fragment {
     private ArrayList<TickerItem> tickerItems = new ArrayList<>();
 
     private Time now = new Time();
+    private CustomProgressDialog cpd = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -92,18 +94,19 @@ public class MarketFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        fetchDataWithBaseCurrency(baseCurrency);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (timer != null)
-            timer.cancel();
-        if (fetchTickerTask != null)
-            fetchTickerTask.cancel();
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            cpd = CustomProgressDialog.createDialog(getActivity());
+            cpd.setCancelable(false);
+            cpd.show();
+            fetchDataWithBaseCurrency(baseCurrency);
+        } else {
+            if (timer != null)
+                timer.cancel();
+            if (fetchTickerTask != null)
+                fetchTickerTask.cancel();
+        }
     }
 
     private class FetchTickerTask extends TimerTask {
@@ -151,6 +154,10 @@ public class MarketFragment extends Fragment {
                     now.setToNow();
                     updateTimeRef.setText(now.format("%Y-%m-%d %k:%M:%S"));
                     tva.notifyDataSetChanged();
+                    if (cpd != null) {
+                        cpd.dismiss();
+                        cpd = null;
+                    }
 //                    dialogRef.dismiss();
                 }
             });

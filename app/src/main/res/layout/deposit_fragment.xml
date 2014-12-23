@@ -68,8 +68,7 @@
                 <TextView
                     android:id="@+id/deposit_header"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/deposit_info"/>
+                    android:layout_height="wrap_content"/>
                 <TextView
                     android:id="@+id/crypto_currency_address"
                     android:layout_width="wrap_content"
@@ -78,19 +77,16 @@
                     android:id="@+id/deposit_alias"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/deposit_alias_name"
                     android:visibility="gone"/>
                 <TextView
                     android:id="@+id/deposit_nxt_pubkey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/deposit_nxt_pubkey"
                     android:visibility="gone"/>
                 <TextView
                     android:id="@+id/deposit_memo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/deposit_memo"
                     android:textColor="@android:color/holo_red_dark"
                     android:visibility="gone"/>
                 <ImageView

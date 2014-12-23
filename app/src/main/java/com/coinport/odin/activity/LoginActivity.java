@@ -1,6 +1,7 @@
 package com.coinport.odin.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.coinport.odin.App;
 import com.coinport.odin.R;
+import com.coinport.odin.dialog.CustomProgressDialog;
 import com.coinport.odin.network.CustomCookieStore;
 import com.coinport.odin.network.NetworkAsyncTask;
 import com.coinport.odin.network.NetworkRequest;
@@ -88,6 +90,9 @@ public class LoginActivity extends Activity implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.btn_login:
+                final CustomProgressDialog cpd = CustomProgressDialog.createDialog(this);
+                cpd.setCancelable(false);
+                cpd.show();
                 final TextView tv = (TextView) LoginActivity.this.findViewById(R.id.login_fail_message);
                 tv.setVisibility(View.GONE);
                 final String username = ((EditText) (self.findViewById(R.id.user_name))).getText().toString();
@@ -101,6 +106,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                     .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                         @Override
                         public void onRender(NetworkRequest s) {
+                            cpd.dismiss();
                             if (s.getApiStatus() != null && s.getApiStatus() == NetworkRequest.ApiStatus.SUCCEED) {
                                 Cookie session = ((CustomCookieStore) s.getHttpClient().getCookieStore()).getCookie(
                                     Constants.PLAY_SESSION);

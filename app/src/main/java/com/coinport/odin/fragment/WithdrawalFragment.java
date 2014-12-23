@@ -21,6 +21,7 @@ import com.coinport.odin.App;
 import com.coinport.odin.R;
 import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.activity.UserVerifyActivity;
+import com.coinport.odin.dialog.CustomProgressDialog;
 import com.coinport.odin.layout.BankCardSpinner;
 import com.coinport.odin.library.ptr.PullToRefreshBase;
 import com.coinport.odin.library.ptr.PullToRefreshScrollView;
@@ -64,6 +65,8 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
     private ArrayList<String> cardList = new ArrayList<>();
     private ArrayAdapter<String> cardAdapter;
     private BankCardSpinner bcSpinner;
+
+    private CustomProgressDialog cpd = null;
 
     public static WithdrawalFragment newInstance(String currency) {
         WithdrawalFragment fragment = new WithdrawalFragment();
@@ -127,6 +130,9 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
     @Override
     public void onStart() {
         super.onStart();
+        cpd = CustomProgressDialog.createDialog(getActivity());
+        cpd.setCancelable(false);
+        cpd.show();
         updateWithdrawalInfo();
     }
 
@@ -333,6 +339,10 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                 .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                     @Override
                     public void onRender(NetworkRequest s) {
+                        if (cpd != null) {
+                            cpd.dismiss();
+                            cpd = null;
+                        }
                         if (!isAdded())
                             return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
