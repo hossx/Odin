@@ -30,12 +30,14 @@
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".activity.TradeActivity"
             android:label="@string/title_activity_trade"
             android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -44,6 +46,7 @@
         <activity
             android:name=".activity.UserVerifyActivity"
             android:label="@string/title_activity_user_verify"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -52,6 +55,7 @@
         <activity
             android:name=".activity.BindPhoneActivity"
             android:label="@string/title_activity_bind_phone"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -60,6 +64,7 @@
         <activity
             android:name=".activity.ChangePwActivity"
             android:label="@string/title_activity_change_pw"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -67,11 +72,13 @@
         </activity>
         <activity
             android:name=".activity.ResetPwActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_reset_pw" >
         </activity>
         <activity
             android:name=".activity.AssetActivity"
             android:label="@string/title_activity_asset"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -79,10 +86,12 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_register" >
         </activity>
     </application>
