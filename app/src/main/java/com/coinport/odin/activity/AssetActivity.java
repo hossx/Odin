@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -82,6 +79,7 @@ public class AssetActivity extends Activity {
 
         ListView lv = (ListView) findViewById(R.id.assets);
         lv.setAdapter(adapter);
+        lv.setEnabled(false);
     }
 
     @Override
@@ -154,7 +152,7 @@ public class AssetActivity extends Activity {
                 }
                 try {
                     JSONObject assetObject = Util.getJsonObjectByPath(assetRes.getApiResult(), "data.accounts");
-                    Map<String, Double> assetMap = new HashMap<String, Double>();
+                    Map<String, Double> assetMap = new HashMap<>();
                     assetItems.clear();
                     Iterator<String> it = assetObject.keys();
                     while (it.hasNext()) {
@@ -181,31 +179,35 @@ public class AssetActivity extends Activity {
                         cnyBtcPrice = cnyPriceMap.get("BTC");
                     for (String c : assetMap.keySet()) {
                         double amount = assetMap.get(c);
-                        if (c.equals("CNY")) {
-                            sumCnyAmount += amount;
-                            sumBtcAmount += (amount / cnyBtcPrice);
-                        } else if (c.equals("BTC")) {
-                            sumBtcAmount += amount;
-                            sumCnyAmount += (amount * cnyBtcPrice);
-                        } else {
-                            if (cnyPriceMap.containsKey(c)) {
-                                sumCnyAmount += amount * cnyPriceMap.get(c);
-                            } else {
-                                if (btcPriceMap.containsKey(c)) {
-                                    sumCnyAmount += amount * btcPriceMap.get(c) * cnyBtcPrice;
-                                } else {
-                                    sumCnyAmount += amount;
-                                }
-                            }
-                            if (btcPriceMap.containsKey(c)) {
-                                sumBtcAmount += amount * btcPriceMap.get(c);
-                            } else {
+                        switch (c) {
+                            case "CNY":
+                                sumCnyAmount += amount;
+                                sumBtcAmount += (amount / cnyBtcPrice);
+                                break;
+                            case "BTC":
+                                sumBtcAmount += amount;
+                                sumCnyAmount += (amount * cnyBtcPrice);
+                                break;
+                            default:
                                 if (cnyPriceMap.containsKey(c)) {
-                                    sumBtcAmount += amount * cnyPriceMap.get(c) / cnyBtcPrice;
+                                    sumCnyAmount += amount * cnyPriceMap.get(c);
                                 } else {
-                                    sumBtcAmount += amount;
+                                    if (btcPriceMap.containsKey(c)) {
+                                        sumCnyAmount += amount * btcPriceMap.get(c) * cnyBtcPrice;
+                                    } else {
+                                        sumCnyAmount += amount;
+                                    }
                                 }
-                            }
+                                if (btcPriceMap.containsKey(c)) {
+                                    sumBtcAmount += amount * btcPriceMap.get(c);
+                                } else {
+                                    if (cnyPriceMap.containsKey(c)) {
+                                        sumBtcAmount += amount * cnyPriceMap.get(c) / cnyBtcPrice;
+                                    } else {
+                                        sumBtcAmount += amount;
+                                    }
+                                }
+                                break;
                         }
                     }
                     TextView sumCny = (TextView) findViewById(R.id.asset_sum_cny);
