@@ -82,7 +82,7 @@ public class DepthAdapter extends BaseAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    sellPrice.setText(Util.displayDouble(di.getPrice(), 8));
+                    sellPrice.setText(Util.autoDisplayDouble(di.getPrice()));
                     double quantity = 0;
                     for (int i = 0; i <= position; ++i ) {
                         quantity += depthItems.get(i).getAmount();
@@ -99,7 +99,7 @@ public class DepthAdapter extends BaseAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    buyPrice.setText(Util.displayDouble(di.getPrice(), 8));
+                    buyPrice.setText(Util.autoDisplayDouble(di.getPrice()));
                     double quantity = 0;
                     for (int i = position; i < depthItems.size(); ++i ) {
                         quantity += depthItems.get(i).getAmount();

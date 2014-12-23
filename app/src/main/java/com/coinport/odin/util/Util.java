@@ -172,6 +172,16 @@ public final class Util {
         return result;
     }
 
+    public static String autoDisplayDouble(double v) {
+        int precision;
+        if (v > 0.001) {
+            precision = 4;
+        } else {
+            precision = 8;
+        }
+        return (new BigDecimal(v).setScale(precision, RoundingMode.HALF_EVEN)).toPlainString();
+    }
+
     public static String displayDouble(double v, int precision) {
         return (new BigDecimal(v).setScale(precision, RoundingMode.HALF_EVEN)).toPlainString();
     }
