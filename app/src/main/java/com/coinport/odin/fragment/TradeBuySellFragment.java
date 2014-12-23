@@ -22,6 +22,7 @@ import com.coinport.odin.R;
 import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.DepthAdapter;
+import com.coinport.odin.dialog.CustomProgressDialog;
 import com.coinport.odin.network.NetworkAsyncTask;
 import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.network.OnApiResponseListener;
@@ -57,6 +58,8 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
     private TextView inValidView;
     private TextView outValidView;
 
+    private CustomProgressDialog cpd = null;
+
     EditText buyPrice;
     EditText buyQuantity;
     EditText buyAmount;
@@ -79,15 +82,16 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        stopFetchData();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        startFetchData();
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            cpd = CustomProgressDialog.createDialog(getActivity());
+            cpd.setCancelable(false);
+            cpd.show();
+            startFetchData();
+        } else {
+            stopFetchData();
+        }
     }
 
     @Override
@@ -396,6 +400,10 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                     buyAdapter.notifyDataSetChanged();
                     sellAdapter.notifyDataSetChanged();
                     lastPriceView.setText(lastPrice);
+                    if (cpd != null) {
+                        cpd.dismiss();
+                        cpd = null;
+                    }
                 }
             });
         }

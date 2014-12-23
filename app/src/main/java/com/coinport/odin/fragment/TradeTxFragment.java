@@ -126,4 +126,9 @@ public class TradeTxFragment extends TradeOrderFragment {
     protected String getStatus() {
         return "3";
     }
+
+    @Override
+    protected String getNullMessage() {
+        return getString(R.string.order_history_null);
+    }
 }

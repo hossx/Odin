@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.coinport.odin.App;
 import com.coinport.odin.R;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.OrderAdapter;
+import com.coinport.odin.dialog.CustomProgressDialog;
 import com.coinport.odin.library.ptr.PullToRefreshBase;
 import com.coinport.odin.library.ptr.PullToRefreshListView;
 import com.coinport.odin.network.NetworkAsyncTask;
@@ -66,6 +68,9 @@ public class TradeOrderFragment extends Fragment {
     private final int LIMIT = 10;
     private int page = 1;
     private boolean loadAll = false;
+
+    private CustomProgressDialog cpd = null;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -130,9 +135,14 @@ public class TradeOrderFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        fetchOrder(true, "", 0);
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            cpd = CustomProgressDialog.createDialog(getActivity());
+            cpd.setCancelable(false);
+            cpd.show();
+            fetchOrder(true, "", 0);
+        }
     }
 
     protected String getStatus() {
@@ -161,6 +171,10 @@ public class TradeOrderFragment extends Fragment {
                 .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                     @Override
                     public void onRender(NetworkRequest s) {
+                        if (cpd != null) {
+                            cpd.dismiss();
+                            cpd = null;
+                        }
                         if (!isAdded())
                             return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED || loadAll) {
@@ -184,6 +198,9 @@ public class TradeOrderFragment extends Fragment {
                         }
                         orderAdapter.setOrderItems(orderItems);
                         orderAdapter.notifyDataSetChanged();
+                        if (orderItems.isEmpty()) {
+                            Toast.makeText(getActivity(), getNullMessage(), Toast.LENGTH_SHORT).show();
+                        }
                         if (!direction.equals("")) {
                             now.setToNow();
                             if (direction.equals("header")) {
@@ -198,6 +215,10 @@ public class TradeOrderFragment extends Fragment {
                     }
                 });
         task.execute(params);
+    }
+
+    protected String getNullMessage() {
+        return getString(R.string.order_null);
     }
 
 //    @Override
