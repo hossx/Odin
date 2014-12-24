@@ -108,10 +108,17 @@
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:text="@string/withdrawal_address"/>
-                    <EditText
-                        android:id="@+id/withdrawal_address_edit"
+                    <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true">
+                        <EditText
+                            android:id="@+id/withdrawal_address_edit"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -122,10 +129,17 @@
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:text="@string/withdrawal_amount"/>
-                    <EditText
-                        android:id="@+id/withdrawal_amount_edit"
+                    <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true">
+                        <EditText
+                            android:id="@+id/withdrawal_amount_edit"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/withdrawal_memo"

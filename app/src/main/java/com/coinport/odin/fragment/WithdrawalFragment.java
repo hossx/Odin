@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
     private View view;
     private LinearLayout bankSelector;
     private LinearLayout address;
+
     private LinearLayout realnameHint;
     private LinearLayout memo;
     private TextView memoLabel;
@@ -133,6 +135,13 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
         this.currency = currency;
         if (view != null)
             updateWithdrawalInfo(false);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isVisibleToUser && view != null)
+            view.clearFocus();
     }
 
     private void updateWithdrawalInfo(boolean isPull) {
