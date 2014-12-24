@@ -100,7 +100,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
         refreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                updateWithdrawalInfo();
+                updateWithdrawalInfo(true);
             }
         });
 
@@ -124,26 +124,23 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
             }
         });
 
+        updateWithdrawalInfo(false);
         return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        cpd = CustomProgressDialog.createDialog(getActivity());
-        cpd.setCancelable(false);
-        cpd.show();
-        updateWithdrawalInfo();
     }
 
     @Override
     public void setCurrency(String currency) {
         this.currency = currency;
         if (view != null)
-            updateWithdrawalInfo();
+            updateWithdrawalInfo(false);
     }
 
-    private void updateWithdrawalInfo() {
+    private void updateWithdrawalInfo(boolean isPull) {
+        if (!isPull) {
+            cpd = CustomProgressDialog.createDialog(getActivity());
+            cpd.setCancelable(false);
+            cpd.show();
+        }
         if (currency.equals("CNY") && (App.getAccount().realname == null || App.getAccount().realname.equals(""))) {
             refreshScrollView.setVisibility(View.GONE);
             realnameHint.setVisibility(View.VISIBLE);

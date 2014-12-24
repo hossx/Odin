@@ -108,11 +108,11 @@ public class DepositFragment extends DWFragmentCommon {
         refreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                updateDepositInfo();
+                updateDepositInfo(true);
             }
         });
 
-        updateDepositInfo();
+        updateDepositInfo(false);
         return view;
     }
 
@@ -120,13 +120,15 @@ public class DepositFragment extends DWFragmentCommon {
     public void setCurrency(String currency) {
         this.currency = currency;
         if (view != null)
-            updateDepositInfo();
+            updateDepositInfo(false);
     }
 
-    private void updateDepositInfo() {
-        cpd = CustomProgressDialog.createDialog(getActivity());
-        cpd.setCancelable(false);
-        cpd.show();
+    private void updateDepositInfo(boolean isPull) {
+        if (!isPull) {
+            cpd = CustomProgressDialog.createDialog(getActivity());
+            cpd.setCancelable(false);
+            cpd.show();
+        }
         switch (currency) {
             case "CNY":
                 updateDepositCnyInfo();
