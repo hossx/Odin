@@ -1,5 +1,7 @@
 package com.coinport.odin.obj;
 
+import com.coinport.odin.util.Util;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,8 +37,8 @@ public class OrderItem {
                 item.setId(json.getString("id")).setOperation(json.getString("operation"))
                     .setStatus(json.getInt("status")).setSubmitTime(json.getLong("submitTime")).setActualPrice(price)
                     .setSubmitPrice(json.getJSONObject("price").getString("display"))
-                    .setSubmitAmount(json.getJSONObject("amount").getString("display"))
-                    .setActualAmount(json.getJSONObject("finishedQuantity").getString("display"));
+                    .setSubmitAmount(Util.autoDisplayDouble(json.getJSONObject("amount").getDouble("value")))
+                    .setActualAmount(Util.autoDisplayDouble(json.getJSONObject("finishedQuantity").getDouble("value")));
                 return item;
             } catch (JSONException e) {
                 e.printStackTrace();

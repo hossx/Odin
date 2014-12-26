@@ -9,12 +9,13 @@
         android:layout_height="wrap_content"
         android:paddingLeft="4dip"
         android:paddingRight="4dip"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
         <TextView
             android:id="@+id/transfer_time"
-            android:layout_width="140dip"
-            android:layout_height="wrap_content"
-            android:text="2014-12-06 7:02:42"/>
+            android:layout_width="100dip"
+            android:textSize="10dip"
+            android:layout_height="wrap_content"/>
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -24,15 +25,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
-                android:textStyle="bold"
-                android:text="3000"/>
+                android:textStyle="bold"/>
             <TextView
                 android:id="@+id/transfer_status"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:gravity="right"
-                android:text="成功"/>
+                android:gravity="right"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -63,8 +63,8 @@ public class DepthAdapter extends BaseAdapter {
         TextView amount = (TextView) convertView.findViewById(R.id.depth_amount);
 //        index.setWidth(width / 3);
 //        price.setWidth(width / 3);
-        price.setText(di.getPriceDisplay());
-        amount.setText(di.getAmountDisplay());
+        price.setText(Util.autoDisplayDouble(di.getPrice()));
+        amount.setText(Util.autoDisplayDouble(di.getAmount()));
 
         if (di.isBuy()) {
             index.setText(context.getString(R.string.depth_index_buy) + (position + 1));

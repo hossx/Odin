@@ -550,19 +550,19 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                             String inValid, outValid, inPending, outPending;
                             double inPendingV, outPendingV;
                             if (inCurrencyObj != null && inCurrencyObj.length() != 0) {
-                                inValid = inCurrencyObj.getJSONObject("available").getString("display");
+                                inValid = Util.autoDisplayDouble(inCurrencyObj.getJSONObject("available").getDouble("value"));
                                 inPendingV = inCurrencyObj.getJSONObject("locked").getDouble("value") +
                                         inCurrencyObj.getJSONObject("pendingWithdrawal").getDouble("value");
-                                inPending = Util.displayDouble(inPendingV, 4);
+                                inPending = Util.autoDisplayDouble(inPendingV);
                             } else {
                                 inValid = "0.0";
                                 inPending = "0.0";
                             }
                             if (outCurrencyObj != null && outCurrencyObj.length() != 0) {
-                                outValid = outCurrencyObj.getJSONObject("available").getString("display");
+                                outValid = Util.autoDisplayDouble(outCurrencyObj.getJSONObject("available").getDouble("value"));
                                 outPendingV = outCurrencyObj.getJSONObject("locked").getDouble("value") +
                                         outCurrencyObj.getJSONObject("pendingWithdrawal").getDouble("value");
-                                outPending = Util.displayDouble(outPendingV, 4);
+                                outPending = Util.autoDisplayDouble(outPendingV);
                             } else {
                                 outValid = "0.0";
                                 outPending = "0.0";

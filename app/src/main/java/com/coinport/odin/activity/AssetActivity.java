@@ -161,7 +161,8 @@ public class AssetActivity extends Activity {
                         double pending = jsonObj.getJSONObject("locked").getDouble("value") +
                                 jsonObj.getJSONObject("pendingWithdrawal").getDouble("value");
                         fields.put("currency", jsonObj.getString("currency"));
-                        fields.put("valid", jsonObj.getJSONObject("available").getString("display"));
+                        fields.put("valid",
+                            Util.autoDisplayDouble(jsonObj.getJSONObject("available").getDouble("value")));
                         fields.put("pending", (new BigDecimal(pending).setScale(4, RoundingMode.CEILING))
                             .toPlainString());
                         assetMap.put(jsonObj.getString("currency"), jsonObj.getJSONObject("total").getDouble("value"));
@@ -213,9 +214,9 @@ public class AssetActivity extends Activity {
                     TextView sumCny = (TextView) findViewById(R.id.asset_sum_cny);
                     TextView sumBtc = (TextView) findViewById(R.id.asset_sum_btc);
                     sumCny.setText(String.format(getString(R.string.asset_sum_cny),
-                        Util.displayDouble(sumCnyAmount, 4)));
+                            Util.autoDisplayDouble(sumCnyAmount)));
                     sumBtc.setText(String.format(getString(R.string.asset_sum_btc),
-                        Util.displayDouble(sumBtcAmount, 4)));
+                            Util.autoDisplayDouble(sumBtcAmount)));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

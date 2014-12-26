@@ -94,14 +94,14 @@
                             <TextView
                                 android:id="@+id/out_valid_label"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
+                                android:layout_weight="3"
                                 android:layout_height="wrap_content"
                                 android:text="@string/trade_valid"
                                 android:textSize="10dp"/>
                             <TextView
                                 android:id="@+id/out_valid_amount"
                                 android:layout_width="0dp"
-                                android:layout_weight="2"
+                                android:layout_weight="5"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
                                 android:text="0.0"
@@ -117,14 +117,14 @@
                             <TextView
                                 android:id="@+id/out_frozen_label"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
+                                android:layout_weight="3"
                                 android:layout_height="wrap_content"
                                 android:text="@string/trade_frozen"
                                 android:textSize="10dp"/>
                             <TextView
                                 android:id="@+id/out_frozen_amount"
                                 android:layout_width="0dp"
-                                android:layout_weight="2"
+                                android:layout_weight="5"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
                                 android:text="0.0"
@@ -242,14 +242,14 @@
                             <TextView
                                 android:id="@+id/in_valid_label"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
+                                android:layout_weight="3"
                                 android:layout_height="wrap_content"
                                 android:text="@string/trade_valid"
                                 android:textSize="10dp"/>
                             <TextView
                                 android:id="@+id/in_valid_amount"
                                 android:layout_width="0dp"
-                                android:layout_weight="2"
+                                android:layout_weight="5"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
                                 android:text="0.0"
@@ -265,14 +265,14 @@
                             <TextView
                                 android:id="@+id/in_frozen_label"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
+                                android:layout_weight="3"
                                 android:layout_height="wrap_content"
                                 android:text="@string/trade_frozen"
                                 android:textSize="10dp"/>
                             <TextView
                                 android:id="@+id/in_frozen_amount"
                                 android:layout_width="0dp"
-                                android:layout_weight="2"
+                                android:layout_weight="5"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
                                 android:text="0.0"

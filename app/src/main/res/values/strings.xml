@@ -13,9 +13,11 @@
         <item> BTSX </item>
         <item> NXT </item>
         <item> XRP </item>
+        <item> GOOC </item>
     </string-array>
     <string-array name="bank_array">
         <item>建设银行</item>
+        <item>支付宝</item>
         <item>工商银行</item>
         <item>农业银行</item>
         <item>中国银行</item>
@@ -127,7 +129,8 @@
     <string name="transfer_cancelled">已取消</string>
     <string name="transfer_rejected">拒绝</string>
     <string name="btsx_alias">coinport-deposit</string>
-    <string name="btsx_address">BTSX5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ</string>
+    <string name="btsx_address">BTS5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ</string>
+    <string name="gooc_address">15026841984</string>
     <string name="nxt_address">17877957575450228524</string>
     <string name="nxt_alias">NXT-FXTE-Q835-9Z5U-H5U8J</string>
     <string name="nxt_pubkey">330a962b2a247fda9a62f10a701222842e057d833fe363b91ab459fc6257ce21</string>
@@ -148,9 +151,9 @@
     <string name="withdrawal_send_email_code">获取</string>
     <string name="withdrawal_abc_title">添加银行卡</string>
     <string name="withdrawal_abc_description">（银行卡的开户名必须和实名认证的真实姓名一致）</string>
-    <string name="withdrawal_abc_name">开户名</string>
-    <string name="withdrawal_abc_account">卡号</string>
-    <string name="withdrawal_abc_bank">开户银行</string>
+    <string name="withdrawal_abc_name">户名</string>
+    <string name="withdrawal_abc_account">帐号</string>
+    <string name="withdrawal_abc_bank">开户行</string>
     <string name="withdrawal_abc_branch_bank">开户支行</string>
     <string name="withdrawal_abc_email_code">Email验证码</string>
     <string name="withdrawal_abc_ok">确定</string>
@@ -244,6 +247,7 @@
     <string name="contact_mail">exchange-support@coinport.com</string>
     <!--<string name="contact_phone"></string>-->
     <string name="contact_weibo">http://weibo.com/coinport</string>
+    <string name="contact_phone">13122201140(9:00 ~ 23:00)</string>
     <string name="contact_qq">1691767742</string>
     <string name="contact_weixin"></string>
 

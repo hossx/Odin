@@ -17,8 +17,8 @@ public class ContactPagerAdapter extends PagerAdapter implements PagerSlidingTab
     private final String[] MESSAGES;
 
     private final int[] ICONS = { R.drawable.ic_launcher_gmaps, R.drawable.ic_launcher_gmail,
-        /* R.drawable.ic_launcher_phone, R.drawable.ic_launcher_weixin*/R.drawable.ic_launcher_qq,
-        R.drawable.ic_launcher_weibo};
+        /* R.drawable.ic_launcher_weixin*/R.drawable.ic_launcher_qq,
+        R.drawable.ic_launcher_weibo, R.drawable.ic_launcher_phone};
 
     public ContactPagerAdapter(QuickContactFragment context) {
         super();
@@ -26,7 +26,8 @@ public class ContactPagerAdapter extends PagerAdapter implements PagerSlidingTab
         MESSAGES = new String[]{context.getString(R.string.contact_address),
                 context.getString(R.string.contact_mail),
                 context.getString(R.string.contact_qq),
-                context.getString(R.string.contact_weibo)};
+                context.getString(R.string.contact_weibo),
+                context.getString(R.string.contact_phone)};
     }
 
     @Override

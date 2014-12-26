@@ -142,6 +142,9 @@ public class DepositFragment extends DWFragmentCommon {
             case "XRP":
                 updateDepositXrpInfo();
                 break;
+            case "GOOC":
+                updateDepositGoocInfo();
+                break;
             default:
                 updateDepositBtcInfo();
                 break;
@@ -318,6 +321,20 @@ public class DepositFragment extends DWFragmentCommon {
         alias.setText(String.format(getString(R.string.deposit_alias_name), getString(R.string.btsx_alias)));
         memo.setText(String.format(getString(R.string.deposit_memo), App.getAccount().uid));
         renderLinkQrcode(getString(R.string.btsx_address));
+        updateDepositHistory();
+    }
+
+    private void updateDepositGoocInfo() {
+        depositInfo.setVisibility(View.VISIBLE);
+        depositCnyInfo.setVisibility(View.GONE);
+        setItemsVisibility(EnumSet.of(OptItem.QR_CODE));
+
+        TextView tv = (TextView) view.findViewById(R.id.deposit_header);
+        tv.setText(String.format(getString(R.string.deposit_info), currency));
+
+        address.setText(R.string.gooc_address);
+        address.setVisibility(View.VISIBLE);
+        renderLinkQrcode(getString(R.string.gooc_address));
         updateDepositHistory();
     }
 
