@@ -126,7 +126,17 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
             }
         });
 
-        updateWithdrawalInfo(false);
+        View unsupportedHint = view.findViewById(R.id.unsupported_hint);
+        if (App.getAccount().needGoogleAuth() || App.getAccount().needSms()) {
+            unsupportedHint.setVisibility(View.VISIBLE);
+            realnameHint.setVisibility(View.GONE);
+            refreshScrollView.setVisibility(View.GONE);
+        } else {
+            unsupportedHint.setVisibility(View.GONE);
+            realnameHint.setVisibility(View.GONE);
+            refreshScrollView.setVisibility(View.VISIBLE);
+            updateWithdrawalInfo(false);
+        }
         return view;
     }
 
