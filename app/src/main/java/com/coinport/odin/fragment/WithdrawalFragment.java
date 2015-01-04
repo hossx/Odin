@@ -257,7 +257,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
         if (currency.equals("CNY")) {
             String withdrawalDescription = getString(R.string.withdrawal_description_cny);
             setItemsVisibility(EnumSet.of(OptItem.BANK));
-            limit = "100";
+            limit = "2";
             fee = getString(R.string.withdrawal_cny_fee_description);
             TextView description = (TextView) view.findViewById(R.id.withdrawal_description);
             description.setText(String.format(withdrawalDescription, limit + " " + currency, fee + " " + currency));
