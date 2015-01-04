@@ -240,7 +240,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                                         JSONObject card = jsonArray.getJSONObject(i);
                                         cardList.add(String.format("%1$s|%2$s|%3$s|%4$s", card.getString("ownerName"),
                                                 card.getString("cardNumber"), card.getString("bankName"),
-                                                card.getString("branchBankName")));
+                                                Util.getStringFromJson(card, "branchBankName")));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }

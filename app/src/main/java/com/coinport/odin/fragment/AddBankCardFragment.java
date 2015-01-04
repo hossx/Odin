@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.coinport.odin.App;
 import com.coinport.odin.R;
 import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.network.NetworkAsyncTask;
@@ -56,6 +57,9 @@ public class AddBankCardFragment extends DialogFragment implements DialogInterfa
             dialogBuilder.setPositiveButton(R.string.withdrawal_abc_ok, this);
         if (negativeListener != null)
             dialogBuilder.setNegativeButton(R.string.withdrawal_abc_cancel, this);
+        TextView realname = (TextView) view.findViewById(R.id.withdrawal_abc_name);
+        realname.setText(App.getAccount().realname);
+        realname.setEnabled(false);
         Button getEmailCodeBtn = (Button) view.findViewById(R.id.get_email_code);
         getEmailCodeBtn.setOnClickListener(this);
         Dialog dialog = dialogBuilder.create();
