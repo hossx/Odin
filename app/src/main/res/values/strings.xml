@@ -112,6 +112,7 @@
     <string name="deposit_alias_name">或 %1$s</string>
     <string name="deposit_nxt_pubkey">Public Key: %1$s</string>
     <string name="deposit_memo">填写memo(非常重要)：%1$s</string>
+    <string name="deposit_comment">\"转帐内容描述\"请填写成(非常重要)：%1$s</string>
     <string name="deposit_tag">填写Destination tag(非常重要)：%1$s</string>
     <string name="deposit_history_description">最近10笔充值记录:</string>
     <string name="deposit_cny_info_label">充值流程：</string>
@@ -130,7 +131,7 @@
     <string name="transfer_rejected">拒绝</string>
     <string name="btsx_alias">coinport-deposit</string>
     <string name="btsx_address">BTS5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ</string>
-    <string name="gooc_address">15026841984</string>
+    <string name="gooc_address">50001</string>
     <string name="nxt_address">17877957575450228524</string>
     <string name="nxt_alias">NXT-FXTE-Q835-9Z5U-H5U8J</string>
     <string name="nxt_pubkey">330a962b2a247fda9a62f10a701222842e057d833fe363b91ab459fc6257ce21</string>

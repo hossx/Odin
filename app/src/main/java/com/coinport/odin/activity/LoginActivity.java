@@ -113,10 +113,11 @@ public class LoginActivity extends Activity implements OnClickListener {
                                 if (session != null) {
                                     App.setAccount(new AccountInfo(session.getValue()));
                                 }
-                                if (!App.isMainActivityCreated()) {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
+                                if (App.isMainActivityCreated()) {
+                                    App.destoryMainActivity();
                                 }
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
                                 if (rememberPw.isChecked()) {
                                     settings.edit().putString("judgeText", "yes")
                                             .putString("userNameText", username)

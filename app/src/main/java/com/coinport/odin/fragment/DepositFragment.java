@@ -327,13 +327,14 @@ public class DepositFragment extends DWFragmentCommon {
     private void updateDepositGoocInfo() {
         depositInfo.setVisibility(View.VISIBLE);
         depositCnyInfo.setVisibility(View.GONE);
-        setItemsVisibility(EnumSet.of(OptItem.QR_CODE));
+        setItemsVisibility(EnumSet.of(OptItem.MEMO, OptItem.QR_CODE, OptItem.LINK));
 
         TextView tv = (TextView) view.findViewById(R.id.deposit_header);
         tv.setText(String.format(getString(R.string.deposit_info), currency));
 
         address.setText(R.string.gooc_address);
         address.setVisibility(View.VISIBLE);
+        memo.setText(String.format(getString(R.string.deposit_comment), App.getAccount().uid));
         renderLinkQrcode(getString(R.string.gooc_address));
         updateDepositHistory();
     }

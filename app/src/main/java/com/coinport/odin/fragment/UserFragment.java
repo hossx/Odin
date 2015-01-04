@@ -137,6 +137,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                             @Override
                             public void onRender(NetworkRequest s) {
                                 CookieDBManager.getInstance().clear();
+                                App.destoryMainActivity();
                                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                                 getActivity().startActivity(intent);
                             }

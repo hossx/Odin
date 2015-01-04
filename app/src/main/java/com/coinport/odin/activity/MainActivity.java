@@ -62,7 +62,7 @@ public class MainActivity extends FragmentActivity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_main);
 
-        App.setMainActivityCreated(true);
+        App.setMainActivity(this);
 
         pDialog = new ProgressDialog(this);
         baseCurrencySelector = (LinearLayout) getLayoutInflater().inflate(R.layout.base_currency_selector, null);
