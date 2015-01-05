@@ -62,6 +62,10 @@
     <string name="button_cancel">取消</string>
     <string name="company">币丰港（香港）网络科技有限公司</string>
 
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_register">用户注册</string>
+    <string name="title_activity_login">LoginActivity</string>
+
     <!-- text name in setting page -->
     <string name="menu_item_more">更多</string>
     <string name="setting">设置</string>
@@ -253,8 +257,10 @@
     <string name="contact_qq">1691767742</string>
     <string name="contact_weixin"></string>
 
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="title_activity_register">用户注册</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="auto_update_title">软件版本更新</string>
+    <string name="auto_update_msg">检测到新的版本</string>
+    <string name="auto_update_download">下载更新</string>
+    <string name="auto_update_later">稍后再说</string>
+    <string name="auto_update_downloading">软件版本更新</string>
 
 </resources>
