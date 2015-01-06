@@ -12,6 +12,7 @@ import com.coinport.odin.R;
 import com.coinport.odin.network.CookieDBManager;
 import com.coinport.odin.obj.AccountInfo;
 import com.coinport.odin.util.Constants;
+import com.coinport.odin.util.UpdateManager;
 
 import org.apache.http.cookie.Cookie;
 
@@ -21,11 +22,22 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                goHome();
+        UpdateManager um = new UpdateManager(this);
+        um.setOnUpdateChecked(new UpdateManager.OnUpdateChecked() {
+            @Override
+            public void onChecked(boolean goHome) {
+                if (goHome) {
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            goHome();
+                        }
+                    }, 3000);
+                } else {
+                    SplashActivity.this.finish();
+                    System.exit(0);
+                }
             }
-        }, 3000);
+        });
     }
 
     @Override

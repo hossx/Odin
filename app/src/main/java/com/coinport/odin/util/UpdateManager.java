@@ -15,6 +15,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.coinport.odin.R;
+import com.coinport.odin.network.NetworkAsyncTask;
+import com.coinport.odin.network.NetworkRequest;
+import com.coinport.odin.network.OnApiResponseListener;
+
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -52,6 +57,12 @@ public class UpdateManager {
 
     private boolean interceptFlag = false;
 
+    private OnUpdateChecked afterUpdateCheckedHandler = null;
+
+    private boolean needUpdate = false;
+
+    private boolean forceUpdate = false;
+
     private Handler mHandler = new Handler(){
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -73,14 +84,43 @@ public class UpdateManager {
     }
 
     public void checkUpdateInfo() {
-        showNoticeDialog();
+        NetworkAsyncTask task = new NetworkAsyncTask(Constants.ANDROID_APP_VERSION_URL, Constants.HttpMethod.GET)
+            .setOnSucceedListener(new OnApiResponseListener())
+            .setOnFailedListener(new OnApiResponseListener())
+            .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                @Override
+                public void onRender(NetworkRequest s) {
+                    if (s.getApiStatus() == NetworkRequest.ApiStatus.SUCCEED) {
+                        try {
+                            int latestVersion = Util.getJsonObjectByPath(s.getApiResult(), "data").getInt("v");
+                            int currentVersion = getVersionCode();
+                            if (latestVersion > currentVersion)
+                                needUpdate = true;
+                            if ((latestVersion / 100) > (currentVersion / 100)) {
+                                forceUpdate = true;
+                            }
+                            if (needUpdate) {
+                                showNoticeDialog();
+                            } else {
+                                if (afterUpdateCheckedHandler != null)
+                                    afterUpdateCheckedHandler.onChecked(true);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+    }
+
+    public void setOnUpdateChecked(OnUpdateChecked afterUpdateCheckHandler) {
+        this.afterUpdateCheckedHandler = afterUpdateCheckHandler;
     }
 
     private int getVersionCode() {
         int verCode = -1;
         try {
-            verCode = mContext.getPackageManager().getPackageInfo(
-                    "com.myapp", 0).versionCode;
+            verCode = mContext.getPackageManager().getPackageInfo("com.coinport.odin", 0).versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, e.getMessage());
         }
@@ -90,15 +130,14 @@ public class UpdateManager {
     private String getVersionName(Context context) {
         String verName = "";
         try {
-            verName = context.getPackageManager().getPackageInfo(
-                    "com.myapp", 0).versionName;
+            verName = context.getPackageManager().getPackageInfo("com.coinport.odin", 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, e.getMessage());
         }
         return verName;
     }
 
-    private void showNoticeDialog(){
+    private void showNoticeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(R.string.auto_update_title);
         builder.setMessage(R.string.auto_update_msg);
@@ -109,12 +148,27 @@ public class UpdateManager {
                 showDownloadDialog();
             }
         });
-        builder.setNegativeButton(R.string.auto_update_later, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        if (forceUpdate) {
+            builder.setNegativeButton(R.string.auto_update_exit, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    if (afterUpdateCheckedHandler != null) {
+                        afterUpdateCheckedHandler.onChecked(false);
+                    }
+                }
+            });
+        } else {
+            builder.setNegativeButton(R.string.auto_update_later, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    if (afterUpdateCheckedHandler != null) {
+                        afterUpdateCheckedHandler.onChecked(true);
+                    }
+                }
+            });
+        }
         noticeDialog = builder.create();
         noticeDialog.show();
     }
@@ -128,7 +182,7 @@ public class UpdateManager {
         mProgress = (ProgressBar)v.findViewById(R.id.progress);
 
         builder.setView(v);
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.auto_update_cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -200,5 +254,9 @@ public class UpdateManager {
         i.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
         mContext.startActivity(i);
 
+    }
+
+    public interface OnUpdateChecked {
+        public void onChecked(boolean goHome);
     }
 }

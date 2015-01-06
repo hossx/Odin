@@ -261,6 +261,8 @@
     <string name="auto_update_msg">检测到新的版本</string>
     <string name="auto_update_download">下载更新</string>
     <string name="auto_update_later">稍后再说</string>
+    <string name="auto_update_exit">退出程序</string>
     <string name="auto_update_downloading">软件版本更新</string>
+    <string name="auto_update_cancel">取消</string>
 
 </resources>

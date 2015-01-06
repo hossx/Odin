@@ -315,11 +315,10 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                                     TradeBuySellFragment.this.getActivity().startActivity(intent);
                                 } else {
                                     Toast.makeText(getActivity(), getString(R.string.request_failed),
-                                            Toast.LENGTH_SHORT).show();
+                                        Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                Toast.makeText(getActivity(), getString(R.string.submit_order_succeed),
-                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), getString(R.string.submit_order_succeed), Toast.LENGTH_SHORT).show();
                                 fetchAsset(4000);
                             }
                         }
