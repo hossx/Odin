@@ -3,9 +3,6 @@ package com.coinport.odin.network;
 import org.apache.http.HttpStatus;
 import org.json.JSONObject;
 
-/**
- * Created by hoss on 14-12-15.
- */
 public class OnApiResponseListener implements NetworkAsyncTask.OnHttpResponseListener {
     @Override
     public NetworkRequest onResponse(int statusCode, NetworkRequest request) {

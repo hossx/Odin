@@ -242,7 +242,7 @@ public final class NetworkRequest {
         if (respCharset != null)
             return new String(baos.toByteArray(), respCharset);
         else
-            return "";
+            return new String(baos.toByteArray(), "UTF-8");
     }
 
     public String getInputStream() throws Exception
