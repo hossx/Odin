@@ -34,13 +34,10 @@ public class UpdateManager {
     private final String TAG = "update_manager";
     private Context mContext;
 
-    private String apkUrl = "http://softfile.3g.qq.com:8080/msoft/179/24659/43549/qq_hd_mini_1.4.apk";
-
-
     private Dialog noticeDialog;
 
     private Dialog downloadDialog;
-    private static final String savePath = "/sdcard/updatedemo/";
+    private static final String savePath = "/sdcard/updatecoinport/";
 
     private static final String saveFileName = savePath + "coinport.apk";
 
@@ -108,9 +105,13 @@ public class UpdateManager {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    } else {
+                        if (afterUpdateCheckedHandler != null)
+                            afterUpdateCheckedHandler.onChecked(true);
                     }
                 }
             });
+        task.execute();
     }
 
     public void setOnUpdateChecked(OnUpdateChecked afterUpdateCheckHandler) {
@@ -120,21 +121,11 @@ public class UpdateManager {
     private int getVersionCode() {
         int verCode = -1;
         try {
-            verCode = mContext.getPackageManager().getPackageInfo("com.coinport.odin", 0).versionCode;
+            verCode = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, e.getMessage());
         }
         return verCode;
-    }
-
-    private String getVersionName(Context context) {
-        String verName = "";
-        try {
-            verName = context.getPackageManager().getPackageInfo("com.coinport.odin", 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.e(TAG, e.getMessage());
-        }
-        return verName;
     }
 
     private void showNoticeDialog() {
@@ -187,6 +178,12 @@ public class UpdateManager {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 interceptFlag = true;
+                if (afterUpdateCheckedHandler != null) {
+                    if (forceUpdate)
+                        afterUpdateCheckedHandler.onChecked(false);
+                    else
+                        afterUpdateCheckedHandler.onChecked(true);
+                }
             }
         });
         downloadDialog = builder.create();
@@ -199,7 +196,7 @@ public class UpdateManager {
         @Override
         public void run() {
             try {
-                URL url = new URL(apkUrl);
+                URL url = new URL(Constants.ANDROID_APP_DOWNLOAD_URL);
 
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.connect();
@@ -252,6 +249,7 @@ public class UpdateManager {
         }
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(i);
 
     }

@@ -18,7 +18,7 @@ public class ContactPagerAdapter extends PagerAdapter implements PagerSlidingTab
 
     private final int[] ICONS = { R.drawable.ic_launcher_gmaps, R.drawable.ic_launcher_gmail,
         /* R.drawable.ic_launcher_weixin*/R.drawable.ic_launcher_qq,
-        R.drawable.ic_launcher_weibo, R.drawable.ic_launcher_phone};
+        R.drawable.ic_launcher_weibo};
 
     public ContactPagerAdapter(QuickContactFragment context) {
         super();

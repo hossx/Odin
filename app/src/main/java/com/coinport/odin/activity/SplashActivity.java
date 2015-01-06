@@ -31,13 +31,14 @@ public class SplashActivity extends Activity {
                         public void run() {
                             goHome();
                         }
-                    }, 3000);
+                    }, 1000);
                 } else {
                     SplashActivity.this.finish();
                     System.exit(0);
                 }
             }
         });
+        um.checkUpdateInfo();
     }
 
     @Override
