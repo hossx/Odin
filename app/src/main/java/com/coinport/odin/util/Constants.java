@@ -43,7 +43,7 @@ public class Constants {
     public static final String LOGOUT_URL = PROTOCOL + DOMAIN_PORT + "/account/logout";
     public static final String CAPTCHA_URL = PROTOCOL + DOMAIN_PORT + "/captcha";
     public static final String REGISTER_URL = PROTOCOL + DOMAIN_PORT + "/account/register";
-    public static final String ANDROID_APP_VERSION_URL = PROTOCOL + DOMAIN_PORT + "/app/android/latestVersion";
+    public static final String ANDROID_APP_VERSION_URL  = PROTOCOL + DOMAIN_PORT + "/app/android/download/version.json";
     public static final String ANDROID_APP_DOWNLOAD_URL = PROTOCOL + DOMAIN_PORT + "/app/android/download/coinport.apk";
 
     public static final String PLAY_SESSION = "PLAY_SESSION";
