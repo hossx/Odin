@@ -9,4 +9,7 @@
     <color name="white">#fff</color>
     <color name="black">#000</color>
     <color name="weibo_listtab_off">#8d8d8d</color>
+    <color name="gesture_background">#ff303237</color>
+    <color name="color_hei_8">#00000000</color>
+    <drawable name="trans">@color/color_hei_8</drawable>
 </resources>

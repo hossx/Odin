@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.coinport.odin.lock.LockPatternUtils;
 import com.coinport.odin.obj.AccountInfo;
 
 public class App extends Application {
@@ -11,6 +12,7 @@ public class App extends Application {
     private static Context context;
     private static boolean mainActivityCreated = false;
     private static Activity mainActivity = null;
+    private static LockPatternUtils mLockPatternUtils = null;
 
     public static boolean isMainActivityCreated() {
         return mainActivityCreated;
@@ -38,9 +40,14 @@ public class App extends Application {
     public void onCreate(){
         super.onCreate();
         App.context = getApplicationContext();
+        mLockPatternUtils = new LockPatternUtils(this);
     }
 
     public static Context getAppContext() {
         return App.context;
+    }
+
+    public static LockPatternUtils getLockPatternUtils() {
+        return mLockPatternUtils;
     }
 }
