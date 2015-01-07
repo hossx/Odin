@@ -14,6 +14,8 @@ public class App extends Application {
     private static Activity mainActivity = null;
     private static LockPatternUtils mLockPatternUtils = null;
 
+    private static boolean setGesturePw = true;
+
     public static boolean isMainActivityCreated() {
         return mainActivityCreated;
     }
@@ -50,4 +52,13 @@ public class App extends Application {
     public static LockPatternUtils getLockPatternUtils() {
         return mLockPatternUtils;
     }
+
+    public static boolean isSetGesturePw() {
+        return setGesturePw;
+    }
+
+    public static void setSetGesturePw(boolean setGesturePw) {
+        App.setGesturePw = setGesturePw;
+    }
+
 }

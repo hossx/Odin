@@ -19,8 +19,7 @@ public class GuideGesturePasswordActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				App.getLockPatternUtils().clearLock();
-				Intent intent = new Intent(GuideGesturePasswordActivity.this,
-						CreateGesturePasswordActivity.class);
+				Intent intent = new Intent(GuideGesturePasswordActivity.this, CreateGesturePasswordActivity.class);
 				// 打开新的Activity
 				startActivity(intent);
 				finish();

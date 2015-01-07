@@ -403,6 +403,7 @@ public class CreateGesturePasswordActivity extends Activity implements
 
 	private void saveChosenPatternAndFinish() {
 		App.getLockPatternUtils().saveLockPattern(mChosenPattern);
+        App.setSetGesturePw(true);
 		showToast("密码设置成功");
 		startActivity(new Intent(this,UnlockGesturePasswordActivity.class));
 		finish();

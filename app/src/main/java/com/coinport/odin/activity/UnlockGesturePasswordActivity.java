@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.Gravity;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,8 @@ import com.coinport.odin.R;
 import com.coinport.odin.lock.LockPatternUtils;
 import com.coinport.odin.lock.LockPatternView;
 import com.coinport.odin.network.CookieDBManager;
+import com.coinport.odin.network.NetworkAsyncTask;
+import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.obj.AccountInfo;
 import com.coinport.odin.util.Constants;
 
@@ -55,6 +59,26 @@ public class UnlockGesturePasswordActivity extends Activity {
 		mLockPatternView.setTactileFeedbackEnabled(true);
 		mHeadTextView = (TextView) findViewById(R.id.gesturepwd_unlock_text);
 		mShakeAnim = AnimationUtils.loadAnimation(this, R.anim.shake_x);
+
+        Button forgetPw = (Button) findViewById(R.id.gesturepwd_unlock_forget);
+        forgetPw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NetworkAsyncTask task = new NetworkAsyncTask(Constants.LOGOUT_URL, Constants.HttpMethod.GET)
+                        .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                            @Override
+                            public void onRender(NetworkRequest s) {
+                                CookieDBManager.getInstance().clear();
+                                App.destoryMainActivity();
+                                App.setSetGesturePw(false);
+                                Intent intent = new Intent(UnlockGesturePasswordActivity.this, LoginActivity.class);
+                                UnlockGesturePasswordActivity.this.startActivity(intent);
+                                UnlockGesturePasswordActivity.this.finish();
+                            }
+                        });
+                task.execute();
+            }
+        });
 	}
 
 	@Override

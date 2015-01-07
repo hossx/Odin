@@ -64,7 +64,11 @@ public class SplashActivity extends Activity {
     }
 
     private void goHome() {
-        Intent intent = new Intent(SplashActivity.this, UnlockGesturePasswordActivity.class);
+        Intent intent;
+        if (App.isSetGesturePw())
+            intent = new Intent(SplashActivity.this, UnlockGesturePasswordActivity.class);
+        else
+            intent = new Intent(SplashActivity.this, MainActivity.class);
         SplashActivity.this.startActivity(intent);
         SplashActivity.this.finish();
     }
