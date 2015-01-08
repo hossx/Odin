@@ -156,6 +156,36 @@ ADDED from AndroidManifest.xml:92:9
 		ADDED from AndroidManifest.xml:95:13
 	android:name
 		ADDED from AndroidManifest.xml:93:13
+activity#com.coinport.odin.activity.UnlockGesturePasswordActivity
+ADDED from AndroidManifest.xml:97:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:100:13
+	android:theme
+		ADDED from AndroidManifest.xml:101:13
+	android:name
+		ADDED from AndroidManifest.xml:98:13
+	android:launchMode
+		ADDED from AndroidManifest.xml:99:13
+activity#com.coinport.odin.activity.CreateGesturePasswordActivity
+ADDED from AndroidManifest.xml:102:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:105:13
+	android:theme
+		ADDED from AndroidManifest.xml:106:14
+	android:name
+		ADDED from AndroidManifest.xml:103:13
+	android:launchMode
+		ADDED from AndroidManifest.xml:104:13
+activity#com.coinport.odin.activity.GuideGesturePasswordActivity
+ADDED from AndroidManifest.xml:107:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:110:13
+	android:theme
+		ADDED from AndroidManifest.xml:111:13
+	android:name
+		ADDED from AndroidManifest.xml:108:13
+	android:launchMode
+		ADDED from AndroidManifest.xml:109:13
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.astuetz:library:1.0.1:5:5
