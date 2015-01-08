@@ -205,6 +205,7 @@
             </LinearLayout>
             <Button
                 android:id="@+id/withdrawal_action"
+                style="@style/ButtonGreen"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/withdrawal_action"/>

@@ -133,12 +133,14 @@
 
         <Button
             android:id="@+id/btn_ok"
+            style="@style/ButtonGreen"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/button_ok"/>
         <Button
             android:id="@+id/btn_cancel"
+            style="@style/ButtonRed"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
