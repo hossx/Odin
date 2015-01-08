@@ -15,6 +15,7 @@ import com.coinport.odin.App;
 import com.coinport.odin.R;
 import com.coinport.odin.lock.LockPatternUtils;
 import com.coinport.odin.lock.LockPatternView;
+import com.coinport.odin.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -215,8 +216,7 @@ public class CreateGesturePasswordActivity extends Activity implements
 		super.onSaveInstanceState(outState);
 		outState.putInt(KEY_UI_STAGE, mUiStage.ordinal());
 		if (mChosenPattern != null) {
-			outState.putString(KEY_PATTERN_CHOICE,
-					LockPatternUtils.patternToString(mChosenPattern));
+			outState.putString(KEY_PATTERN_CHOICE, LockPatternUtils.patternToString(mChosenPattern));
 		}
 	}
 
@@ -405,6 +405,10 @@ public class CreateGesturePasswordActivity extends Activity implements
 		App.getLockPatternUtils().saveLockPattern(mChosenPattern);
         App.setSetGesturePw(true);
 		showToast(getString(R.string.gesture_password_succeed));
+        if (!App.isMainActivityCreated()) {
+            Intent intent = Util.toMainOrLogin(CreateGesturePasswordActivity.this);
+            CreateGesturePasswordActivity.this.startActivity(intent);
+        }
 //		startActivity(new Intent(this,UnlockGesturePasswordActivity.class));
 		finish();
 	}

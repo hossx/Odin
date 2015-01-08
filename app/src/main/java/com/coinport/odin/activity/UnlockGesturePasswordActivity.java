@@ -23,6 +23,7 @@ import com.coinport.odin.network.NetworkAsyncTask;
 import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.obj.AccountInfo;
 import com.coinport.odin.util.Constants;
+import com.coinport.odin.util.Util;
 
 import org.apache.http.cookie.Cookie;
 
@@ -119,6 +120,10 @@ public class UnlockGesturePasswordActivity extends Activity {
 				return;
 			if (App.getLockPatternUtils().checkPattern(pattern)) {
 				mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Correct);
+                if (!App.isMainActivityCreated()) {
+                    Intent intent = Util.toMainOrLogin(UnlockGesturePasswordActivity.this);
+                    UnlockGesturePasswordActivity.this.startActivity(intent);
+                }
                 finish();
 			} else {
 				mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Wrong);

@@ -13,6 +13,7 @@ import com.coinport.odin.network.CookieDBManager;
 import com.coinport.odin.obj.AccountInfo;
 import com.coinport.odin.util.Constants;
 import com.coinport.odin.util.UpdateManager;
+import com.coinport.odin.util.Util;
 
 import org.apache.http.cookie.Cookie;
 
@@ -65,16 +66,10 @@ public class SplashActivity extends Activity {
 
     private void goHome() {
         Intent intent;
-        if (App.isSetGesturePw())
+        if (!App.getLockPatternUtils().savedPatternExists() || App.isSetGesturePw()) {
             intent = new Intent(SplashActivity.this, UnlockGesturePasswordActivity.class);
-        else {
-            Cookie session = CookieDBManager.getInstance().getCookie(Constants.PLAY_SESSION);
-            if (session != null && !session.getValue().equals("")) {
-                App.setAccount(new AccountInfo(session.getValue()));
-                intent = new Intent(SplashActivity.this, MainActivity.class);
-            } else {
-                intent = new Intent(SplashActivity.this, LoginActivity.class);
-            }
+        } else {
+            intent = Util.toMainOrLogin(SplashActivity.this);
         }
         SplashActivity.this.startActivity(intent);
         SplashActivity.this.finish();
