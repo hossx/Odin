@@ -1,9 +1,9 @@
 package com.coinport.odin.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +16,11 @@ import com.coinport.odin.R;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.TickerAdapter;
 import com.coinport.odin.dialog.CustomProgressDialog;
+import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.obj.TickerItem;
 import com.coinport.odin.util.Constants;
-import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.util.Util;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;

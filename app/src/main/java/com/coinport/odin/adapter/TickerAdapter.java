@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.coinport.odin.R;
 import com.coinport.odin.obj.TickerItem;
 import com.coinport.odin.util.Constants;
+import com.coinport.odin.util.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,7 +89,7 @@ public class TickerAdapter extends BaseAdapter {
 //        icon.setText(iconFont.get(ti.getInCurrency()));
 //        icon.setTextSize(20);
         price.setText(ti.getPrice());
-        volume.setText(ti.getVolume());
+        volume.setText(Util.autoDisplayDouble(Double.valueOf(ti.getVolume())));
         amplitude.setText(String.format("%1$.2f", ti.getAmplitude() * 100) + "%");
         unit.setText(ti.getOutCurrency());
         if (ti.getAmplitude() >= 0) {

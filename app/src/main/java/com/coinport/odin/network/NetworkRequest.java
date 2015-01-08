@@ -184,8 +184,7 @@ public final class NetworkRequest {
         return this.checkStatus();
     }
 
-    protected void httpClientExecute() throws Exception
-    {
+    protected void httpClientExecute() throws Exception {
         // 配置 HTTP 请求参数
         this.httpParameters = new BasicHttpParams();
         this.httpParameters.setParameter("charset", this.charset);

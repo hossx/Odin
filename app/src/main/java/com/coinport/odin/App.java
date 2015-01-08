@@ -7,11 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.coinport.odin.activity.UnlockGesturePasswordActivity;
 import com.coinport.odin.lock.LockPatternUtils;
 import com.coinport.odin.obj.AccountInfo;
+import com.coinport.odin.util.CrashHandler;
 
 import java.util.List;
 
@@ -112,6 +112,9 @@ public class App extends Application {
                 return false;
             }
         });
+
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(App.context);
     }
 
     public static Context getAppContext() {
