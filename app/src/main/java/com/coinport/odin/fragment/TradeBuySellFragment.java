@@ -297,9 +297,9 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                 }
                 Map<String, String> params = new HashMap<>();
                 params.put("type", type);
-                params.put("price", Util.displayDouble(price, 8));
-                params.put("amount", Util.displayDouble(quantity, 8));
-                params.put("total", Util.displayDouble(amount, 8));
+                params.put("price", Util.autoDisplayDouble(price));
+                params.put("amount", Util.autoDisplayDouble(quantity));
+                params.put("total", Util.autoDisplayDouble(amount));
                 NetworkAsyncTask task = new NetworkAsyncTask(url, Constants.HttpMethod.POST)
                     .setOnSucceedListener(new OnApiResponseListener())
                     .setOnFailedListener(new OnApiResponseListener())
@@ -344,8 +344,8 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
             for (int i = 0; i <= position; ++i ) {
                 quantity += buyItems.get(i).getAmount();
             }
-            sellQuantity.setText(Double.toString(quantity));
-            sellAmount.setText(Double.toString(di.getPrice() * quantity));
+            sellQuantity.setText(Util.autoDisplayDouble(quantity));
+            sellAmount.setText(Util.autoDisplayDouble(di.getPrice() * quantity));
         } else if (parent.getId() == R.id.sell_depth) {
             DepthItem di = sellItems.get(position);
             buyPrice.setText(Util.autoDisplayDouble(di.getPrice()));
@@ -353,8 +353,8 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
             for (int i = position; i < sellItems.size(); ++i ) {
                 quantity += sellItems.get(i).getAmount();
             }
-            buyQuantity.setText(Double.toString(quantity));
-            buyAmount.setText(Double.toString(di.getPrice() * quantity));
+            buyQuantity.setText(Util.autoDisplayDouble(quantity));
+            buyAmount.setText(Util.autoDisplayDouble(di.getPrice() * quantity));
         }
     }
 
