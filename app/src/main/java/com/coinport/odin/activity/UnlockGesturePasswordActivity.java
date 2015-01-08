@@ -75,6 +75,7 @@ public class UnlockGesturePasswordActivity extends Activity {
                                 Intent intent = new Intent(UnlockGesturePasswordActivity.this, LoginActivity.class);
                                 UnlockGesturePasswordActivity.this.startActivity(intent);
                                 UnlockGesturePasswordActivity.this.finish();
+                                showToast(getString(R.string.gesture_cancel_hint));
                             }
                         });
                 task.execute();

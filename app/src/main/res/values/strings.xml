@@ -281,10 +281,11 @@
     <string name="lockpattern_need_to_unlock_wrong">"与上次输入不一致，请重试"</string>
     <string name="lockpattern_pattern_confirmed_header">"确认保存新解锁图案"</string>
     <string name="lockpattern_recording_inprogress">"完成后松开手指"</string>
-    <string name="gesture_password_guide_text">你可以创建一个解锁图案，这样他人在借用你的手机时，将无法打开应用。</string>
+    <string name="gesture_password_guide_text">您可以创建一个解锁图案，这样他人借用你的手机时，将无法打开应用</string>
     <string name="gesture_password_guide_creat_btn">创建手势密码</string>
     <string name="gesture_password_forget">忘记手势密码 重新登陆</string>
     <string name="gesture_password_succeed">手势密码设置成功</string>
+    <string name="gesture_cancel_hint">手势密码已取消, 您可以在用户->手势密码中重新设定</string>
 
     <string name="crash_message">很抱歉，程序出现异常，即将退出</string>
 </resources>
