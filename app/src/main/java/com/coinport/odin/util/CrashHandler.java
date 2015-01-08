@@ -89,7 +89,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             // 重新启动程序
             Intent intent = new Intent();
             intent.setClass(mContext,SplashActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            // FLAG_ACTIVITY_CLEAR_TASK if very important to clean all bad activities
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             mContext.startActivity(intent);
             android.os.Process.killProcess(android.os.Process.myPid());
         }

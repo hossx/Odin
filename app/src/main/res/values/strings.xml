@@ -285,4 +285,6 @@
     <string name="gesture_password_guide_creat_btn">创建手势密码</string>
     <string name="gesture_password_forget">忘记手势密码 重新登陆</string>
     <string name="gesture_password_succeed">手势密码设置成功</string>
+
+    <string name="crash_message">很抱歉，程序出现异常，即将退出</string>
 </resources>
