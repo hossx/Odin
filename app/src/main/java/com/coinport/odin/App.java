@@ -3,6 +3,7 @@ package com.coinport.odin;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.coinport.odin.lock.LockPatternUtils;
 import com.coinport.odin.obj.AccountInfo;
@@ -14,7 +15,7 @@ public class App extends Application {
     private static Activity mainActivity = null;
     private static LockPatternUtils mLockPatternUtils = null;
 
-    private static boolean setGesturePw = true;
+    private static boolean setGesturePw = false;
 
     public static boolean isMainActivityCreated() {
         return mainActivityCreated;
@@ -54,11 +55,13 @@ public class App extends Application {
     }
 
     public static boolean isSetGesturePw() {
-        return setGesturePw;
+        SharedPreferences sp = context.getSharedPreferences("SETTING_Gesture", 0);
+        return sp.getBoolean("isSet", false);
     }
 
     public static void setSetGesturePw(boolean setGesturePw) {
-        App.setGesturePw = setGesturePw;
+        SharedPreferences sp = context.getSharedPreferences("SETTING_Gesture", 0);
+        sp.edit().putBoolean("isSet", setGesturePw).apply();
     }
 
 }
