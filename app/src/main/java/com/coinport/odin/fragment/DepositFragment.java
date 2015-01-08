@@ -276,8 +276,6 @@ public class DepositFragment extends DWFragmentCommon {
                     JSONObject jsonObj = jsonArray.getJSONObject(i);
                     fields.put("agent_card_nick_name", jsonObj.getString("nn"));
                     fields.put("agent_card_name", jsonObj.getString("n"));
-                    fields.put("agent_card_bank", jsonObj.getString("b"));
-                    fields.put("agent_card_account", jsonObj.getString("a"));
                     fields.put("agent_card_qq", jsonObj.getString("q"));
                     acList.add(fields);
 
@@ -287,9 +285,8 @@ public class DepositFragment extends DWFragmentCommon {
             }
         }
         SimpleAdapter sa = new SimpleAdapter(getActivity(), acList, R.layout.agent_card, new String[]{
-            "agent_card_nick_name", "agent_card_name", "agent_card_bank", "agent_card_account", "agent_card_qq"},
-            new int[]{R.id.agent_card_nick_name, R.id.agent_card_name, R.id.agent_card_bank, R.id.agent_card_account,
-                R.id.agent_card_qq}) {
+            "agent_card_nick_name", "agent_card_name", "agent_card_qq"},
+            new int[]{R.id.agent_card_nick_name, R.id.agent_card_name, R.id.agent_card_qq}) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);

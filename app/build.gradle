@@ -8,8 +8,8 @@ android {
         applicationId "com.coinport.odin"
         minSdkVersion 17
         targetSdkVersion 21
-        versionCode 100004
-        versionName "1.0.4"
+        versionCode 100005
+        versionName "1.0.5"
     }
     buildTypes {
         release {
