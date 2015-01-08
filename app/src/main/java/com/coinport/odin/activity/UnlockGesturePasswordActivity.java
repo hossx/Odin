@@ -119,10 +119,9 @@ public class UnlockGesturePasswordActivity extends Activity {
 				return;
 			if (App.getLockPatternUtils().checkPattern(pattern)) {
 				mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Correct);
-                goHome();
+                finish();
 			} else {
-				mLockPatternView
-						.setDisplayMode(LockPatternView.DisplayMode.Wrong);
+				mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Wrong);
 				if (pattern.size() >= LockPatternUtils.MIN_PATTERN_REGISTER_FAIL) {
 					mFailedPatternAttemptsSinceLastTimeout++;
 					int retry = LockPatternUtils.FAILED_ATTEMPTS_BEFORE_TIMEOUT
@@ -184,17 +183,4 @@ public class UnlockGesturePasswordActivity extends Activity {
 			}.start();
 		}
 	};
-
-    private void goHome() {
-        Intent intent;
-        Cookie session = CookieDBManager.getInstance().getCookie(Constants.PLAY_SESSION);
-        if (session != null && !session.getValue().equals("")) {
-            App.setAccount(new AccountInfo(session.getValue()));
-            intent = new Intent(UnlockGesturePasswordActivity.this, MainActivity.class);
-        } else {
-            intent = new Intent(UnlockGesturePasswordActivity.this, LoginActivity.class);
-        }
-        UnlockGesturePasswordActivity.this.startActivity(intent);
-        UnlockGesturePasswordActivity.this.finish();
-    }
 }

@@ -177,6 +177,7 @@
     <string name="user_info_phone">手机</string>
     <string name="user_secure_verify">实名认证</string>
     <string name="user_secure_change_pw">修改密码</string>
+    <string name="user_secure_gesture_pw">手势密码</string>
     <string name="user_secure_reset_pw">重置密码</string>
     <string name="user_secure_bind_phone">绑定手机</string>
     <string name="user_secure_has_bind_phone">已绑定</string>
@@ -283,4 +284,5 @@
     <string name="gesture_password_guide_text">你可以创建一个解锁图案，这样他人在借用你的手机时，将无法打开应用。</string>
     <string name="gesture_password_guide_creat_btn">创建手势密码</string>
     <string name="gesture_password_forget">忘记手势密码 重新登陆</string>
+    <string name="gesture_password_succeed">手势密码设置成功</string>
 </resources>

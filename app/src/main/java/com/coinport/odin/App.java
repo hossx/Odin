@@ -1,12 +1,19 @@
 package com.coinport.odin;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
 
+import com.coinport.odin.activity.UnlockGesturePasswordActivity;
 import com.coinport.odin.lock.LockPatternUtils;
 import com.coinport.odin.obj.AccountInfo;
+
+import java.util.List;
 
 public class App extends Application {
     private static AccountInfo account = new AccountInfo();
@@ -14,8 +21,6 @@ public class App extends Application {
     private static boolean mainActivityCreated = false;
     private static Activity mainActivity = null;
     private static LockPatternUtils mLockPatternUtils = null;
-
-    private static boolean setGesturePw = false;
 
     public static boolean isMainActivityCreated() {
         return mainActivityCreated;
@@ -44,6 +49,69 @@ public class App extends Application {
         super.onCreate();
         App.context = getApplicationContext();
         mLockPatternUtils = new LockPatternUtils(this);
+        this.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            private boolean isActive = true;
+
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+                if (!isActive && isSetGesturePw()) {
+                    isActive = true;
+                    Intent intent = new Intent(activity, UnlockGesturePasswordActivity.class);
+                    activity.startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+                if (!isAppOnForeground()) {
+                    isActive = false;
+                }
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+
+            }
+
+            private boolean isAppOnForeground() {
+                ActivityManager activityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+                String packageName = getApplicationContext().getPackageName();
+
+                List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+                if (appProcesses == null)
+                    return false;
+
+                for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+                    // The name of the process that this object is associated with.
+                    if (appProcess.processName.equals(packageName)
+                            && appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        });
     }
 
     public static Context getAppContext() {

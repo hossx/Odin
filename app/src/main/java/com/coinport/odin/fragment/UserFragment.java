@@ -17,6 +17,7 @@ import com.coinport.odin.R;
 import com.coinport.odin.activity.AssetActivity;
 import com.coinport.odin.activity.BindPhoneActivity;
 import com.coinport.odin.activity.ChangePwActivity;
+import com.coinport.odin.activity.GuideGesturePasswordActivity;
 import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.activity.ResetPwActivity;
 import com.coinport.odin.activity.UserVerifyActivity;
@@ -121,6 +122,15 @@ public class UserFragment extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), ChangePwActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+        TableRow gesturePw = (TableRow) view.findViewById(R.id.gesture_pw);
+        gesturePw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), GuideGesturePasswordActivity.class);
                 getActivity().startActivity(intent);
             }
         });
