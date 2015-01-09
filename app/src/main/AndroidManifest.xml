@@ -35,6 +35,7 @@
         </activity>
         <activity
             android:name=".activity.TradeActivity"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_trade"
             android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"
@@ -45,6 +46,7 @@
         </activity>
         <activity
             android:name=".activity.UserVerifyActivity"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_user_verify"
             android:screenOrientation="portrait"
             android:parentActivityName=".activity.MainActivity" >
@@ -54,6 +56,7 @@
         </activity>
         <activity
             android:name=".activity.BindPhoneActivity"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_bind_phone"
             android:screenOrientation="portrait"
             android:parentActivityName=".activity.MainActivity" >
@@ -63,6 +66,7 @@
         </activity>
         <activity
             android:name=".activity.ChangePwActivity"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_change_pw"
             android:screenOrientation="portrait"
             android:parentActivityName=".activity.MainActivity" >
@@ -72,11 +76,13 @@
         </activity>
         <activity
             android:name=".activity.ResetPwActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_reset_pw" >
         </activity>
         <activity
             android:name=".activity.AssetActivity"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_asset"
             android:screenOrientation="portrait"
             android:parentActivityName=".activity.MainActivity" >
@@ -86,11 +92,13 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_register" >
         </activity>
