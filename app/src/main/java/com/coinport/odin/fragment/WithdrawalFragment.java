@@ -162,8 +162,9 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+                    intent.putExtra("fromWDPage", true);
                     intent.setClass(getActivity(), UserVerifyActivity.class);
-                    getActivity().startActivity(intent);
+                    startActivityForResult(intent, 0);
                 }
             });
             return;
@@ -178,6 +179,13 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
         fetchFeeRule();
         fetchAsset(0);
         updateWithdrawalHistory(0);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == 0 && view != null) {
+            updateWithdrawalInfo(false);
+        }
     }
 
     private void fetchAsset(long delay) {

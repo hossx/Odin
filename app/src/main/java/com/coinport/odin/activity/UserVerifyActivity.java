@@ -109,6 +109,9 @@ public class UserVerifyActivity extends Activity implements View.OnClickListener
                                 if (session != null) {
                                     App.setAccount(new AccountInfo(session.getValue()));
                                 }
+                                if (getIntent().getBooleanExtra("fromWDPage", false)) {
+                                    UserVerifyActivity.this.setResult(0);
+                                }
                                 UserVerifyActivity.this.finish();
                             }
                         });

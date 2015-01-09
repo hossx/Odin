@@ -46,7 +46,6 @@
         </activity>
         <activity
             android:name=".activity.UserVerifyActivity"
-            android:launchMode="singleTask"
             android:label="@string/title_activity_user_verify"
             android:screenOrientation="portrait"
             android:parentActivityName=".activity.MainActivity" >
