@@ -17,7 +17,7 @@ public class Constants {
     public static final String DOMAIN_PORT = "exchange.coinport.com";
     public static final String PROTOCOL = "https://";
 
-    public static final String TERMS_RUL = PROTOCOL + DOMAIN_PORT + "terms.html";
+    public static final String TERMS_RUL = PROTOCOL + DOMAIN_PORT + "/terms.html";
     public static final String TICKER_URL = PROTOCOL + DOMAIN_PORT + "/api/m/ticker/";
     public static final String DEPTH_URL = PROTOCOL + DOMAIN_PORT + "/api/m/%1$s-%2$s/depth";
     public static final String TX_URL = PROTOCOL + DOMAIN_PORT + "/api/%1$s-%2$s/transaction";
