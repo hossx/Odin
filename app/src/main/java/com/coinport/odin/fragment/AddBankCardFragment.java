@@ -38,8 +38,7 @@ public class AddBankCardFragment extends DialogFragment implements DialogInterfa
     private OnClickListener positiveListener = null;
     private OnClickListener negativeListener = null;
     private View view;
-    private String emailUUID = "";
-    private String addBankEmailUUID = "";
+    private static String addBankEmailUUID = "";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -132,8 +131,6 @@ public class AddBankCardFragment extends DialogFragment implements DialogInterfa
                     .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                         @Override
                         public void onRender(NetworkRequest s) {
-                            if (!isAdded())
-                                return;
                             if (s.getApiStatus() == NetworkRequest.ApiStatus.SUCCEED) {
                                 Bundle args = new Bundle();
                                 args.putString("bankName", bankStr);
