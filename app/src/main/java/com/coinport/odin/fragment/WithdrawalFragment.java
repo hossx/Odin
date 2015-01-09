@@ -154,11 +154,6 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
     }
 
     private void updateWithdrawalInfo(boolean isPull) {
-        if (!isPull) {
-            cpd = CustomProgressDialog.createDialog(getActivity());
-            cpd.setCancelable(false);
-            cpd.show();
-        }
         if (currency.equals("CNY") && (App.getAccount().realname == null || App.getAccount().realname.equals(""))) {
             refreshScrollView.setVisibility(View.GONE);
             realnameHint.setVisibility(View.VISIBLE);
@@ -172,6 +167,11 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                 }
             });
             return;
+        }
+        if (!isPull) {
+            cpd = CustomProgressDialog.createDialog(getActivity());
+            cpd.setCancelable(false);
+            cpd.show();
         }
         realnameHint.setVisibility(View.GONE);
         refreshScrollView.setVisibility(View.VISIBLE);
