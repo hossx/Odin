@@ -4,7 +4,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -18,6 +17,7 @@ import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
@@ -194,6 +194,7 @@ public final class NetworkRequest {
         HttpConnectionParams.setSoTimeout(this.httpParameters, this.soTimeout);
         // 开启一个客户端 HTTP 请求
         this.httpClient = new DefaultHttpClient(this.httpParameters);
+        this.httpClient.getParams().setParameter(CoreProtocolPNames.USER_AGENT, System.getProperty("http.agent"));
         CustomCookieStore ccs = new CustomCookieStore();
         this.httpClient.setCookieStore(ccs);
         Cookie cookie = ccs.getCookie("XSRF-TOKEN");
