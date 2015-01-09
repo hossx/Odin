@@ -163,8 +163,7 @@ public class AssetActivity extends Activity {
                         fields.put("currency", jsonObj.getString("currency"));
                         fields.put("valid",
                             Util.autoDisplayDouble(jsonObj.getJSONObject("available").getDouble("value")));
-                        fields.put("pending", (new BigDecimal(pending).setScale(4, RoundingMode.CEILING))
-                            .toPlainString());
+                        fields.put("pending", Util.autoDisplayDouble(pending));
                         assetMap.put(jsonObj.getString("currency"), jsonObj.getJSONObject("total").getDouble("value"));
                         assetItems.add(fields);
                     }

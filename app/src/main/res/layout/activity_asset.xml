@@ -31,8 +31,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="50dip"
+                    android:layout_width="60dip"
                     android:layout_height="wrap_content"
+                    android:textSize="20dp"
                     android:text="@string/asset_sum"/>
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -41,6 +42,7 @@
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/asset_sum_cny"
+                        android:textSize="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
@@ -61,13 +63,16 @@
                     android:text="@string/asset_currency"/>
                 <TextView
                     android:layout_width="0dip"
-                    android:layout_weight="1"
+                    android:layout_weight="5"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:text="@string/asset_valid"/>
                 <TextView
                     android:layout_width="0dip"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_marginRight="10dip"
                     android:text="@string/asset_pending"/>
             </LinearLayout>
             <com.coinport.odin.layout.NestedListView
