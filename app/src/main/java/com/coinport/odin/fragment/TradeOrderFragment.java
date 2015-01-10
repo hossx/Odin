@@ -139,7 +139,6 @@ public class TradeOrderFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             cpd = CustomProgressDialog.createDialog(getActivity());
-            cpd.setCancelable(false);
             cpd.show();
             fetchOrder(true, "", 0);
         }

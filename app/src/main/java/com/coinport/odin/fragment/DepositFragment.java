@@ -126,7 +126,6 @@ public class DepositFragment extends DWFragmentCommon {
     private void updateDepositInfo(boolean isPull) {
         if (!isPull) {
             cpd = CustomProgressDialog.createDialog(getActivity());
-            cpd.setCancelable(false);
             cpd.show();
         }
         switch (currency) {

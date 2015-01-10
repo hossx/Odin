@@ -87,7 +87,6 @@ public class MarketFragment extends Fragment {
 //        dialogRef = ((MainActivity) getActivity()).getpDialog();
 //        dialogRef.setTitle("提示");
 //        dialogRef.setMessage("正在下载，请稍后...");
-//        dialogRef.setCancelable(false);
 //        new Thread(new FetchTickerTask()).start();
 //        dialogRef.show();
     }
@@ -97,7 +96,6 @@ public class MarketFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             cpd = CustomProgressDialog.createDialog(getActivity());
-            cpd.setCancelable(false);
             cpd.show();
             fetchDataWithBaseCurrency(baseCurrency);
         } else {

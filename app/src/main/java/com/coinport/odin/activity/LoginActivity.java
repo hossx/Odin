@@ -91,7 +91,6 @@ public class LoginActivity extends Activity implements OnClickListener {
                 break;
             case R.id.btn_login:
                 final CustomProgressDialog cpd = CustomProgressDialog.createDialog(this);
-                cpd.setCancelable(false);
                 cpd.show();
                 final TextView tv = (TextView) LoginActivity.this.findViewById(R.id.login_fail_message);
                 tv.setVisibility(View.GONE);

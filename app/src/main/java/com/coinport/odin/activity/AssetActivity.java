@@ -86,7 +86,6 @@ public class AssetActivity extends Activity {
     protected void onStart() {
         super.onStart();
         cpd = CustomProgressDialog.createDialog(this);
-        cpd.setCancelable(false);
         cpd.show();
         fetchAsset(false);
     }

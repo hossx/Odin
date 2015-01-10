@@ -147,7 +147,6 @@ public class AddBankCardFragment extends DialogFragment implements DialogInterfa
 //            final Bundle fargs = args;
 //            new AlertDialog.Builder(getActivity()).setMessage("BUTTON_POSITIVE")
 //                    .setTitle("Alert Postive ")
-//                    .setCancelable(true)
 //                    .setNeutralButton(android.R.string.ok,
 //                            new DialogInterface.OnClickListener() {
 //                                public void onClick(DialogInterface dialog, int whichButton){

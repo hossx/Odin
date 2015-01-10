@@ -171,7 +171,6 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
         }
         if (!isPull) {
             cpd = CustomProgressDialog.createDialog(getActivity());
-            cpd.setCancelable(false);
             cpd.show();
         }
         realnameHint.setVisibility(View.GONE);

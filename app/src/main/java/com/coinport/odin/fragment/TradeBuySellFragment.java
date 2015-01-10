@@ -87,7 +87,6 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             cpd = CustomProgressDialog.createDialog(getActivity());
-            cpd.setCancelable(false);
             cpd.show();
             startFetchData();
         } else {
