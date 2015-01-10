@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,6 +113,7 @@ public class MarketFragment extends Fragment {
             tickerItems.clear();
             try {
                 String url = Constants.TICKER_URL + baseCurrency.toLowerCase();
+                final Long start = System.currentTimeMillis();
                 NetworkRequest get = new NetworkRequest();
                 get.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(5000);
                 get.setOnHttpRequestListener(new NetworkRequest.OnHttpRequestListener() {
@@ -128,6 +130,7 @@ public class MarketFragment extends Fragment {
                                 JSONObject jsonObj = jsonList.getJSONObject(i);
                                 tickerItems.add(TickerItem.TickerItemBuilder.generateFromJson(jsonObj));
                             }
+                        Log.i("market_fragment", String.valueOf(System.currentTimeMillis() - start));
                         return request;
                     }
 

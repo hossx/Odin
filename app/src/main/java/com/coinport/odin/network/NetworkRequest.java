@@ -11,8 +11,6 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.cookie.Cookie;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -49,7 +47,6 @@ public final class NetworkRequest {
     protected List<NameValuePair> requestParams = new ArrayList<>();
     protected HttpResponse httpResponse = null;
     protected AbstractHttpClient httpClient = null;
-    protected MultipartEntityBuilder multipartEntityBuilder = null;
     protected OnHttpRequestListener onHttpRequestListener = null;
 
     private ApiStatus apiStatus = null;
@@ -145,25 +142,6 @@ public final class NetworkRequest {
         return this.checkStatus();
     }
 
-    public MultipartEntityBuilder getMultipartEntityBuilder()
-    {
-        if (this.multipartEntityBuilder == null) {
-            this.multipartEntityBuilder = MultipartEntityBuilder.create();
-            // 设置为浏览器兼容模式
-            multipartEntityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-            // 设置请求的编码格式
-            multipartEntityBuilder.setCharset(Charset.forName(this.charset));
-        }
-        return this.multipartEntityBuilder;
-    }
-
-    public void buildPostEntity()
-    {
-        // 生成 HTTP POST 实体
-        HttpEntity httpEntity = this.multipartEntityBuilder.build();
-        this.getHttpPost().setEntity(httpEntity);
-    }
-
     public void addRequestParameters(Map<String, String> params) {
         Set<String> keySet = params.keySet();
         for(String key : keySet) {
@@ -226,17 +204,8 @@ public final class NetworkRequest {
     }
 
     static public String getInputStream(HttpResponse response) throws IOException {
-        // 接收远程输入流
-        InputStream inStream = response.getEntity().getContent();
-        // 分段读取输入流数据
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] buf = new byte[1024];
-        int len;
-        while ((len = inStream.read(buf)) != -1) {
-            baos.write(buf, 0, len);
-        }
-        // 数据接收完毕退出
-        inStream.close();
+        response.getEntity().writeTo(baos);
         // 将数据转换为字符串保存
         String respCharset = EntityUtils.getContentCharSet(response.getEntity());
         if (respCharset != null)
