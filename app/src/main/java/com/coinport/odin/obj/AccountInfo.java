@@ -16,8 +16,9 @@ public class AccountInfo {
 
     public AccountInfo() {}
 
-    public AccountInfo(String session) {
+    public AccountInfo(String s) {
         // 35cdbfb5888ddc0d8c24922e8ab5edeee22a540a-COINPORT_COOKIE_REAL_NAME=&username=c%40coinport.com&COINPORT_COOKIE_MOBILE=&COINPORT_COOKIE_MOBILE_VERIFIED=false&CP_SP=01&U_RN=&uid=1000000000&CP_GAS=
+        String session = s.replace("\"", "");
         String[] items = session.split("-")[1].split("&");
         for (int i = 0; i < items.length; ++i) {
             String[] kv = items[i].split("=");

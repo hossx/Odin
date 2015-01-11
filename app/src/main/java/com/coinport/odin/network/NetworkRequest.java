@@ -1,142 +1,53 @@
 package com.coinport.odin.network;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGetHC4;
+import org.apache.http.client.methods.HttpPostHC4;
+import org.apache.http.client.methods.HttpRequestBaseHC4;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.client.AbstractHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public final class NetworkRequest {
-    public final String HTTP_GET = "GET";
-    public final String HTTP_POST = "POST";
+public class NetworkRequest {
+    public static final String HTTP_GET = "GET";
+    public static final String HTTP_POST = "POST";
 
-    protected String url = "";
-    protected String requsetType = HTTP_GET;
-    protected int connectionTimeout = 5000;
-    protected int soTimeout = 10000;
-    protected int statusCode = -1;
-    protected String charset = HTTP.UTF_8;
-    protected HttpRequestBase httpRequest = null;
-    protected HttpParams httpParameters = null;
-    protected List<NameValuePair> requestParams = new ArrayList<>();
-    protected HttpResponse httpResponse = null;
-    protected AbstractHttpClient httpClient = null;
-    protected OnHttpRequestListener onHttpRequestListener = null;
+    private HttpClientContext context = HttpClientContext.create();
+    private String result = null;
+
+    private String uri = null;
+    private String type = HTTP_GET;
+    private List<NameValuePair> requestParams = new ArrayList<>();
+    private OnHttpRequestListener onHttpRequestListener = null;
+
+    private int socketTimeout = 5000;
+    private int connectTimeout = 5000;
+    private int connectionRequestTimeout = 10000;
 
     private ApiStatus apiStatus = null;
     private JSONObject apiResult = null;
     private String apiMessage = null;
 
-    public NetworkRequest(){}
-
-    public NetworkRequest(OnHttpRequestListener listener) {
-        this.setOnHttpRequestListener(listener);
-    }
-
-    public NetworkRequest setUrl(String url)
-    {
-        this.url = url;
-        return this;
-    }
-
-    public NetworkRequest setConnectionTimeout(int timeout)
-    {
-        this.connectionTimeout = timeout;
-        return this;
-    }
-
-    public NetworkRequest setSoTimeout(int timeout)
-    {
-        this.soTimeout = timeout;
-        return this;
-    }
-
-    public NetworkRequest setCharset(String charset)
-    {
-        this.charset = charset;
-        return this;
-    }
-
-    public String getRequestType()
-    {
-        return this.requsetType;
-    }
-
-    public boolean isGet()
-    {
-        return this.requsetType.equals(HTTP_GET);
-    }
-
-    public boolean isPost()
-    {
-        return this.requsetType.equals(HTTP_POST);
-    }
-
-    public HttpResponse getHttpResponse()
-    {
-        return this.httpResponse;
-    }
-
-    public AbstractHttpClient getHttpClient()
-    {
-        return this.httpClient;
-    }
-
-    public NetworkRequest addHeader(String name, String value)
-    {
-        this.httpRequest.addHeader(name, value);
-        return this;
-    }
-
-    public HttpGet getHttpGet()
-    {
-        return (HttpGet) this.httpRequest;
-    }
-
-    public HttpPost getHttpPost()
-    {
-        return (HttpPost) this.httpRequest;
-    }
-
-    public int getStatusCode()
-    {
-        return this.statusCode;
-    }
-
-    public NetworkRequest get(String url) throws Exception
-    {
-        this.requsetType = HTTP_GET;
-        // 设置当前请求的链接
-        this.setUrl(url);
-        // 新建 HTTP GET 请求
-        this.httpRequest = new HttpGet(this.url);
-        // 执行客户端请求
-        this.httpClientExecute();
-        // 监听服务端响应事件并返回服务端内容
-        return this.checkStatus();
+    public NetworkRequest(String uri, String type) {
+        this.uri = uri;
+        this.type = type;
     }
 
     public void addRequestParameters(Map<String, String> params) {
@@ -146,115 +57,104 @@ public final class NetworkRequest {
         }
     }
 
-    public NetworkRequest post(String url) throws Exception
-    {
-        this.requsetType = HTTP_POST;
-        // 设置当前请求的链接
-        this.setUrl(url);
-        // 新建 HTTP POST 请求
-        this.httpRequest = new HttpPost(this.url);
-        // 执行客户端请求
-        this.httpClientExecute();
-        // 监听服务端响应事件并返回服务端内容
-        return this.checkStatus();
+    public NetworkRequest setSocketTimeout(int socketTimeout) {
+        this.socketTimeout = socketTimeout;
+        return this;
     }
 
-    protected void httpClientExecute() throws Exception {
-        // 配置 HTTP 请求参数
-        this.httpParameters = new BasicHttpParams();
-        this.httpParameters.setParameter("charset", this.charset);
-        // 设置 连接请求超时时间
-        HttpConnectionParams.setConnectionTimeout(this.httpParameters, this.connectionTimeout);
-        // 设置 socket 读取超时时间
-        HttpConnectionParams.setSoTimeout(this.httpParameters, this.soTimeout);
-        // 开启一个客户端 HTTP 请求
-        this.httpClient = new DefaultHttpClient(this.httpParameters);
-        this.httpClient.getParams().setParameter(CoreProtocolPNames.USER_AGENT, System.getProperty("http.agent"));
-        CustomCookieStore ccs = new CustomCookieStore();
-        this.httpClient.setCookieStore(ccs);
-        Cookie cookie = ccs.getCookie("XSRF-TOKEN");
-        if (cookie != null) {
-            String token = cookie.getValue();
-            httpRequest.setHeader("X-XSRF-TOKEN", token);
-        }
-        // 启动 HTTP POST 请求执行前的事件监听回调操作(如: 自定义提交的数据字段或上传的文件等)
-        this.getOnHttpRequestListener().onRequest(this);
+    public NetworkRequest setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
+        return this;
+    }
 
-        if (!requestParams.isEmpty()) {
-            if (isPost()) {
-                ((HttpPost) httpRequest).setEntity(new UrlEncodedFormEntity(requestParams, "UTF-8"));
-            } else {
-                URI oldUri = httpRequest.getURI();
-                String query = "";
-                if (oldUri.getQuery() != null && !oldUri.getQuery().equals(""))
-                    query += oldUri.getQuery() + "&";
-                query += URLEncodedUtils.format(requestParams, "UTF-8");
-                URI newUri = URIUtils.createURI(oldUri.getScheme(), oldUri.getHost(), oldUri.getPort(),
-                    oldUri.getPath(), query, null);
-                this.httpRequest.setURI(newUri);
+    public NetworkRequest setConnectionRequestTimeout(int connectionRequestTimeout) {
+        this.connectionRequestTimeout = connectionRequestTimeout;
+        return this;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public CustomCookieStore getCookieStore() {
+        return (CustomCookieStore) context.getCookieStore();
+    }
+
+    public void execute() throws Exception {
+        HttpRequestBaseHC4 request;
+        if (isPost()) {
+            request = new HttpPostHC4(uri);
+            if (onHttpRequestListener != null)
+                onHttpRequestListener.onRequest(this);
+            if (!requestParams.isEmpty()) {
+                try {
+                    ((HttpPostHC4) request).setEntity(new UrlEncodedFormEntity(requestParams, "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        // 发送 HTTP 请求并获取服务端响应状态
-        this.httpResponse = this.httpClient.execute(this.httpRequest);
-        // 获取请求返回的状态码
-        this.statusCode = this.httpResponse.getStatusLine().getStatusCode();
-    }
-
-    static public String getInputStream(HttpResponse response) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        response.getEntity().writeTo(baos);
-        // 将数据转换为字符串保存
-        String respCharset = EntityUtils.getContentCharSet(response.getEntity());
-        if (respCharset != null)
-            return new String(baos.toByteArray(), respCharset);
-        else
-            return new String(baos.toByteArray(), "UTF-8");
-    }
-
-    public String getInputStream() throws Exception
-    {
-        return getInputStream(this.httpResponse);
-    }
-
-    protected void shutdownHttpClient()
-    {
-        if (this.httpClient != null && this.httpClient.getConnectionManager() != null) {
-            this.httpClient.getConnectionManager().shutdown();
-        }
-    }
-
-    protected NetworkRequest checkStatus() throws Exception
-    {
-        OnHttpRequestListener listener = this.getOnHttpRequestListener();
-        NetworkRequest response;
-        if (this.statusCode == HttpStatus.SC_OK) {
-            // 请求成功, 回调监听事件
-            response = listener.onSucceed(this.statusCode, this);
         } else {
-            // 请求失败或其他, 回调监听事件
-            response = listener.onFailed(this.statusCode, this);
+            if (onHttpRequestListener != null)
+                onHttpRequestListener.onRequest(this);
+            if (!requestParams.isEmpty()) {
+                try {
+                    URI oldUri = new URI(uri);
+                    String query = "";
+                    if (oldUri.getQuery() != null && !oldUri.getQuery().equals(""))
+                        query += oldUri.getQuery() + "&";
+                    query += URLEncodedUtils.format(requestParams, "UTF-8");
+                    URI newUri = URIUtils.createURI(oldUri.getScheme(), oldUri.getHost(), oldUri.getPort(),
+                            oldUri.getPath(), query, null);
+                    uri = newUri.toString();
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+            request = new HttpGetHC4(uri);
         }
-        // 关闭连接管理器释放资源
-        this.shutdownHttpClient();
-        return response;
+
+        RequestConfig rc = RequestConfig.custom()
+                .setSocketTimeout(socketTimeout)
+                .setConnectTimeout(connectTimeout)
+                .setConnectionRequestTimeout(connectionRequestTimeout)
+                .build();
+        request.setConfig(rc);
+
+        try {
+            CloseableHttpResponse response = CpHttpClient.getHttpClient().execute(request, context);
+            try {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                response.getEntity().writeTo(baos);
+                // 将数据转换为字符串保存
+                String respCharset = EntityUtils.getContentCharSet(response.getEntity());
+                if (respCharset != null)
+                    result = new String(baos.toByteArray(), respCharset);
+                else
+                    result = new String(baos.toByteArray(), "UTF-8");
+                if (onHttpRequestListener != null) {
+                    int statusCode = response.getStatusLine().getStatusCode();
+                    if (statusCode == HttpStatus.SC_OK)
+                        onHttpRequestListener.onSucceed(statusCode, this);
+                    else
+                        onHttpRequestListener.onFailed(statusCode, this);
+                }
+            } finally {
+                response.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            CpHttpClient.shutDown();
+        }
     }
 
-    public interface OnHttpRequestListener
+    public boolean isGet()
     {
-        /**
-         * 初始化 HTTP GET 或 POST 请求之前的 header 信息配置 或 其他数据配置等操作
-         */
-        public void onRequest(NetworkRequest request) throws Exception;
+        return type.equals(HTTP_GET);
+    }
 
-        /**
-         * 当 HTTP 请求响应成功时的回调方法
-         */
-        public NetworkRequest onSucceed(int statusCode, NetworkRequest request) throws Exception;
-
-        /**
-         * 当 HTTP 请求响应失败时的回调方法
-         */
-        public NetworkRequest onFailed(int statusCode, NetworkRequest request) throws Exception;
+    public boolean isPost()
+    {
+        return type.equals(HTTP_POST);
     }
 
     public NetworkRequest setOnHttpRequestListener(OnHttpRequestListener listener)
@@ -263,9 +163,21 @@ public final class NetworkRequest {
         return this;
     }
 
-    public OnHttpRequestListener getOnHttpRequestListener()
-    {
-        return this.onHttpRequestListener;
+    public interface OnHttpRequestListener {
+        /**
+         * 初始化 HTTP GET 或 POST 请求之前的 header 信息配置 或 其他数据配置等操作
+         */
+        public void onRequest(NetworkRequest request) throws Exception;
+
+        /**
+         * 当 HTTP 请求响应成功时的回调方法
+         */
+        public void onSucceed(int statusCode, NetworkRequest request) throws Exception;
+
+        /**
+         * 当 HTTP 请求响应失败时的回调方法
+         */
+        public void onFailed(int statusCode, NetworkRequest request) throws Exception;
     }
 
     public enum ApiStatus {
@@ -298,5 +210,4 @@ public final class NetworkRequest {
         this.apiStatus = status;
         return this;
     }
-
 }

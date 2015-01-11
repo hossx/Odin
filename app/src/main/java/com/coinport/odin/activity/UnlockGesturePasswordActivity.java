@@ -21,11 +21,8 @@ import com.coinport.odin.lock.LockPatternView;
 import com.coinport.odin.network.CookieDBManager;
 import com.coinport.odin.network.NetworkAsyncTask;
 import com.coinport.odin.network.NetworkRequest;
-import com.coinport.odin.obj.AccountInfo;
 import com.coinport.odin.util.Constants;
 import com.coinport.odin.util.Util;
-
-import org.apache.http.cookie.Cookie;
 
 import java.util.List;
 

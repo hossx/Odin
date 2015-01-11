@@ -29,7 +29,6 @@ import com.coinport.odin.util.Util;
 
 import org.json.JSONException;
 
-import java.io.PipedOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 

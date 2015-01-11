@@ -32,7 +32,6 @@ import com.coinport.odin.obj.DepthItem;
 import com.coinport.odin.util.Constants;
 import com.coinport.odin.util.Util;
 
-import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -363,8 +362,8 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
         public void run() {
             try {
                 String url = String.format(Constants.DEPTH_URL, inCurrency.toLowerCase(), outCurrency.toLowerCase());
-                NetworkRequest get = new NetworkRequest();
-                get.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(5000).setOnHttpRequestListener(
+                NetworkRequest get = new NetworkRequest(url, NetworkRequest.HTTP_GET);
+                get.setOnHttpRequestListener(
                         new NetworkRequest.OnHttpRequestListener() {
                     @Override
                     public void onRequest(NetworkRequest request) throws Exception {
@@ -372,8 +371,8 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                     }
 
                     @Override
-                    public NetworkRequest onSucceed(int statusCode, NetworkRequest request) throws Exception {
-                        JSONObject depthResult = new JSONObject(request.getInputStream());
+                    public void onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                        JSONObject depthResult = new JSONObject(request.getResult());
                         JSONArray buyJsonList = Util.getJsonArrayByPath(depthResult, "data.b");
                         buyItems.clear();
                         for (int i = 0; i < buyJsonList.length(); ++i) {
@@ -386,19 +385,17 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                             JSONObject jsonObj = sellJsonList.getJSONObject(i);
                             sellItems.add(0, DepthItem.DepthItemBuilder.generateFromJson(jsonObj, false));
                         }
-                        return request;
                     }
 
                     @Override
-                    public NetworkRequest onFailed(int statusCode, NetworkRequest request) throws Exception {
-                        return request;
+                    public void onFailed(int statusCode, NetworkRequest request) throws Exception {
 //                        return "GET 请求失败：statusCode "+ statusCode;
                     }
-                }).get(url);
+                }).execute();
 
                 url = String.format(Constants.TX_URL, inCurrency.toLowerCase(), outCurrency.toLowerCase());
-                NetworkRequest getTx = new NetworkRequest();
-                getTx.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(5000).setOnHttpRequestListener(
+                NetworkRequest getTx = new NetworkRequest(url, NetworkRequest.HTTP_GET);
+                getTx.setOnHttpRequestListener(
                         new NetworkRequest.OnHttpRequestListener() {
                             @Override
                             public void onRequest(NetworkRequest request) throws Exception {
@@ -409,19 +406,17 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                             }
 
                             @Override
-                            public NetworkRequest onSucceed(int statusCode, NetworkRequest request) throws Exception {
-                                JSONObject txResult = new JSONObject(request.getInputStream());
+                            public void onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                                JSONObject txResult = new JSONObject(request.getResult());
                                 lastPrice = Util.getJsonObjectByPath(Util.getJsonArrayByPath(txResult, "data.items")
                                     .getJSONObject(0), "price").getString("display");
-                                return request;
                             }
 
                             @Override
-                            public NetworkRequest onFailed(int statusCode, NetworkRequest request) throws Exception {
-                                return request;
+                            public void onFailed(int statusCode, NetworkRequest request) throws Exception {
 //                                return "GET 请求失败：statusCode "+ statusCode;
                             }
-                        }).get(url);
+                        }).execute();
             } catch (Exception e) {
                 e.printStackTrace();
             }

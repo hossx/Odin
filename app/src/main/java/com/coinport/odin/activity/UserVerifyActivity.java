@@ -3,8 +3,6 @@ package com.coinport.odin.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -104,7 +102,7 @@ public class UserVerifyActivity extends Activity implements View.OnClickListener
                                     }
                                     return;
                                 }
-                                Cookie session = ((CustomCookieStore) s.getHttpClient().getCookieStore()).getCookie(
+                                Cookie session = ((CustomCookieStore) s.getCookieStore()).getCookie(
                                         Constants.PLAY_SESSION);
                                 if (session != null) {
                                     App.setAccount(new AccountInfo(session.getValue()));

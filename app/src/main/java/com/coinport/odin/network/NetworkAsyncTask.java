@@ -4,8 +4,6 @@ import android.os.AsyncTask;
 
 import com.coinport.odin.util.Constants.HttpMethod;
 
-import org.apache.http.protocol.HTTP;
-
 import java.util.Map;
 
 public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, NetworkRequest> {
@@ -58,8 +56,14 @@ public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, Netwo
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        NetworkRequest request = new NetworkRequest();
-        request.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(10000).setOnHttpRequestListener(
+        String m;
+        if (method == HttpMethod.GET)
+            m = NetworkRequest.HTTP_GET;
+        else
+            m = NetworkRequest.HTTP_POST;
+
+        NetworkRequest request = new NetworkRequest(url, m);
+        request.setOnHttpRequestListener(
             new NetworkRequest.OnHttpRequestListener() {
                 @Override
                 public void onRequest(NetworkRequest request) throws Exception {
@@ -70,31 +74,20 @@ public class NetworkAsyncTask extends AsyncTask<Map<String, String>, Void, Netwo
                 }
 
                 @Override
-                public NetworkRequest onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                public void onSucceed(int statusCode, NetworkRequest request) throws Exception {
                     if (onSucceedListener != null)
-                        return onSucceedListener.onResponse(statusCode, request);
-                    else
-                        return request;
+                        onSucceedListener.onResponse(statusCode, request);
                 }
 
                 @Override
-                public NetworkRequest onFailed(int statusCode, NetworkRequest request) throws Exception {
+                public void onFailed(int statusCode, NetworkRequest request) throws Exception {
                     if (onFailedListener != null)
-                        return onFailedListener.onResponse(statusCode, request);
-                    else
-                        return request;
+                        onFailedListener.onResponse(statusCode, request);
                 }
             });
 
         try {
-            switch (method) {
-                case GET:
-                    request.get(url);
-                    break;
-                case POST:
-                    request.post(url);
-                    break;
-            }
+            request.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }

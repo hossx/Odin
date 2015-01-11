@@ -1,10 +1,7 @@
 package com.coinport.odin.activity;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;

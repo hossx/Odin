@@ -18,12 +18,10 @@ import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.TickerAdapter;
 import com.coinport.odin.dialog.CustomProgressDialog;
 import com.coinport.odin.network.NetworkRequest;
-import com.coinport.odin.network.NetworkRequest2;
 import com.coinport.odin.obj.TickerItem;
 import com.coinport.odin.util.Constants;
 import com.coinport.odin.util.Util;
 
-import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -115,16 +113,15 @@ public class MarketFragment extends Fragment {
             try {
                 String url = Constants.TICKER_URL + baseCurrency.toLowerCase();
                 final Long start = System.currentTimeMillis();
-                NetworkRequest2 get = new NetworkRequest2(url, NetworkRequest2.HTTP_GET);
-//                get.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(5000);
-                get.setOnHttpRequestListener(new NetworkRequest2.OnHttpRequestListener() {
+                NetworkRequest get = new NetworkRequest(url, NetworkRequest.HTTP_GET);
+                get.setOnHttpRequestListener(new NetworkRequest.OnHttpRequestListener() {
                     @Override
-                    public void onRequest(NetworkRequest2 request) throws Exception {
+                    public void onRequest(NetworkRequest request) throws Exception {
 
                     }
 
                     @Override
-                    public void onSucceed(int statusCode, NetworkRequest2 request) throws Exception {
+                    public void onSucceed(int statusCode, NetworkRequest request) throws Exception {
                         JSONArray jsonList = Util.getJsonArrayByPath(new JSONObject(request.getResult()), "data");
                         if (jsonList != null)
                             for (int i = 0; i < jsonList.length(); ++i) {
@@ -135,7 +132,7 @@ public class MarketFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailed(int statusCode, NetworkRequest2 request) throws Exception {
+                    public void onFailed(int statusCode, NetworkRequest request) throws Exception {
 //                        return "GET 请求失败：statusCode "+ statusCode;
                     }
                 });

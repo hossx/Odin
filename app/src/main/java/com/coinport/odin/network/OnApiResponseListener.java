@@ -1,5 +1,7 @@
 package com.coinport.odin.network;
 
+import com.coinport.odin.network.NetworkRequest;
+
 import org.apache.http.HttpStatus;
 import org.json.JSONObject;
 
@@ -12,7 +14,7 @@ public class OnApiResponseListener implements NetworkAsyncTask.OnHttpResponseLis
             request.setApiStatus(NetworkRequest.ApiStatus.NETWORK_ERROR);
         } else {
             try {
-                JSONObject json = new JSONObject(request.getInputStream());
+                JSONObject json = new JSONObject(request.getResult());
                 request.setApiResult(json);
                 request.setApiMessage(json.getString("message"));
                 if (json.getBoolean("success")) {

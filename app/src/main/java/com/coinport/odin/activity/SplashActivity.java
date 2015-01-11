@@ -32,7 +32,7 @@ public class SplashActivity extends Activity {
                         public void run() {
                             goHome();
                         }
-                    }, 1000);
+                    }, 1);
                 } else {
                     SplashActivity.this.finish();
                     System.exit(0);

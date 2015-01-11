@@ -1,10 +1,8 @@
 package com.coinport.odin.network;
 
-import com.coinport.odin.network.NetworkAsyncTask;
+import com.coinport.odin.network.NetworkRequest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BarrierTaskSet {

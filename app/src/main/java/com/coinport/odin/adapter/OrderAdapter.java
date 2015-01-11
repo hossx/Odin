@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.coinport.odin.App;
 import com.coinport.odin.R;
 import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.network.NetworkAsyncTask;
@@ -19,9 +18,6 @@ import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.network.OnApiResponseListener;
 import com.coinport.odin.obj.OrderItem;
 import com.coinport.odin.util.Constants;
-import com.coinport.odin.util.Util;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 

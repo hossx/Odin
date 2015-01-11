@@ -1,7 +1,6 @@
 package com.coinport.odin.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -107,7 +106,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                         public void onRender(NetworkRequest s) {
                             cpd.dismiss();
                             if (s.getApiStatus() != null && s.getApiStatus() == NetworkRequest.ApiStatus.SUCCEED) {
-                                Cookie session = ((CustomCookieStore) s.getHttpClient().getCookieStore()).getCookie(
+                                Cookie session = ((CustomCookieStore) s.getCookieStore()).getCookie(
                                     Constants.PLAY_SESSION);
                                 if (session != null) {
                                     App.setAccount(new AccountInfo(session.getValue()));
