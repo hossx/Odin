@@ -467,7 +467,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                 if (amountStr.equals(""))
                     amountStr = "0.0";
                 if (currency.equals("CNY")) {
-                    addressStr = ((BankCardSpinner) view.findViewById(R.id.bank_card_spinner)).toString();
+                    addressStr = ((BankCardSpinner) view.findViewById(R.id.bank_card_spinner)).getSelectedItem().toString();
                 } else {
                     addressStr = ((EditText) view.findViewById(R.id.withdrawal_address_edit)).getText().toString();
                 }
@@ -512,6 +512,9 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                     return;
+                                } else {
+                                    Toast.makeText(getActivity(), getString(R.string.withdrawal_succeed),
+                                            Toast.LENGTH_SHORT).show();
                                 }
                                 fetchAsset(4000);
                                 updateWithdrawalHistory(4000);
