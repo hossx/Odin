@@ -112,7 +112,6 @@ public class MarketFragment extends Fragment {
             tickerItems.clear();
             try {
                 String url = Constants.TICKER_URL + baseCurrency.toLowerCase();
-                final Long start = System.currentTimeMillis();
                 NetworkRequest get = new NetworkRequest(url, NetworkRequest.HTTP_GET);
                 get.setOnHttpRequestListener(new NetworkRequest.OnHttpRequestListener() {
                     @Override
@@ -128,7 +127,6 @@ public class MarketFragment extends Fragment {
                                 JSONObject jsonObj = jsonList.getJSONObject(i);
                                 tickerItems.add(TickerItem.TickerItemBuilder.generateFromJson(jsonObj));
                             }
-                        Log.i("market_fragment", String.valueOf(System.currentTimeMillis() - start));
                     }
 
                     @Override
