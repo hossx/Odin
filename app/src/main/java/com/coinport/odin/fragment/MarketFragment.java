@@ -18,6 +18,7 @@ import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.TickerAdapter;
 import com.coinport.odin.dialog.CustomProgressDialog;
 import com.coinport.odin.network.NetworkRequest;
+import com.coinport.odin.network.NetworkRequest2;
 import com.coinport.odin.obj.TickerItem;
 import com.coinport.odin.util.Constants;
 import com.coinport.odin.util.Util;
@@ -114,34 +115,32 @@ public class MarketFragment extends Fragment {
             try {
                 String url = Constants.TICKER_URL + baseCurrency.toLowerCase();
                 final Long start = System.currentTimeMillis();
-                NetworkRequest get = new NetworkRequest();
-                get.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(5000);
-                get.setOnHttpRequestListener(new NetworkRequest.OnHttpRequestListener() {
+                NetworkRequest2 get = new NetworkRequest2(url, NetworkRequest2.HTTP_GET);
+//                get.setCharset(HTTP.UTF_8).setConnectionTimeout(5000).setSoTimeout(5000);
+                get.setOnHttpRequestListener(new NetworkRequest2.OnHttpRequestListener() {
                     @Override
-                    public void onRequest(NetworkRequest request) throws Exception {
+                    public void onRequest(NetworkRequest2 request) throws Exception {
 
                     }
 
                     @Override
-                    public NetworkRequest onSucceed(int statusCode, NetworkRequest request) throws Exception {
-                        JSONArray jsonList = Util.getJsonArrayByPath(new JSONObject(request.getInputStream()), "data");
+                    public void onSucceed(int statusCode, NetworkRequest2 request) throws Exception {
+                        JSONArray jsonList = Util.getJsonArrayByPath(new JSONObject(request.getResult()), "data");
                         if (jsonList != null)
                             for (int i = 0; i < jsonList.length(); ++i) {
                                 JSONObject jsonObj = jsonList.getJSONObject(i);
                                 tickerItems.add(TickerItem.TickerItemBuilder.generateFromJson(jsonObj));
                             }
                         Log.i("market_fragment", String.valueOf(System.currentTimeMillis() - start));
-                        return request;
                     }
 
                     @Override
-                    public NetworkRequest onFailed(int statusCode, NetworkRequest request) throws Exception {
-                        return request;
+                    public void onFailed(int statusCode, NetworkRequest2 request) throws Exception {
 //                        return "GET 请求失败：statusCode "+ statusCode;
                     }
                 });
 
-                get.get(url);
+                get.execute();
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception e) {
