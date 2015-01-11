@@ -21,7 +21,7 @@ import java.nio.charset.CodingErrorAction;
 public class CpHttpClient {
     private static final int CONNECT_TIME_OUT = 5000;
     private static final int SOCKET_TIME_OUT = 5000;
-    private static final int CONNECTION_REQUEST_TIMEOUT = 20000;
+    private static final int CONNECTION_REQUEST_TIMEOUT = 10000;
 
     private static CloseableHttpClient client = null;
 
@@ -51,7 +51,7 @@ public class CpHttpClient {
                 .setConnectionRequestTimeout(CONNECTION_REQUEST_TIMEOUT)
                 .build();
 
-        CloseableHttpClient c = HttpClients.custom()
+        client = HttpClients.custom()
                 .setConnectionManager(cm)
                 .setDefaultCookieStore(new CustomCookieStore())
                 .setDefaultRequestConfig(rc)
@@ -69,7 +69,7 @@ public class CpHttpClient {
                     }
                 })
                 .build();
-        return c;
+        return client;
     }
 
     public static void shutDown() {

@@ -1,13 +1,13 @@
 package com.coinport.odin.network;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.HttpGetHC4;
+import org.apache.http.client.methods.HttpPostHC4;
+import org.apache.http.client.methods.HttpRequestBaseHC4;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -35,7 +35,11 @@ public class NetworkRequest2 {
     private String uri = null;
     private String type = HTTP_GET;
     private List<NameValuePair> requestParams = new ArrayList<>();
-    protected OnHttpRequestListener onHttpRequestListener = null;
+    private OnHttpRequestListener onHttpRequestListener = null;
+
+    private int socketTimeout = 5000;
+    private int connectTimeout = 5000;
+    private int connectionRequestTimeout = 10000;
 
     private ApiStatus apiStatus = null;
     private JSONObject apiResult = null;
@@ -53,19 +57,34 @@ public class NetworkRequest2 {
         }
     }
 
+    public NetworkRequest2 setSocketTimeout(int socketTimeout) {
+        this.socketTimeout = socketTimeout;
+        return this;
+    }
+
+    public NetworkRequest2 setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
+        return this;
+    }
+
+    public NetworkRequest2 setConnectionRequestTimeout(int connectionRequestTimeout) {
+        this.connectionRequestTimeout = connectionRequestTimeout;
+        return this;
+    }
+
     public String getResult() {
         return result;
     }
 
     public void execute() throws Exception {
-        HttpRequestBase request;
+        HttpRequestBaseHC4 request;
         if (isPost()) {
-            request = new HttpPost(uri);
+            request = new HttpPostHC4(uri);
             if (onHttpRequestListener != null)
                 onHttpRequestListener.onRequest(this);
             if (!requestParams.isEmpty()) {
                 try {
-                    ((HttpPost) request).setEntity(new UrlEncodedFormEntity(requestParams, "UTF-8"));
+                    ((HttpPostHC4) request).setEntity(new UrlEncodedFormEntity(requestParams, "UTF-8"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -87,8 +106,15 @@ public class NetworkRequest2 {
                     e.printStackTrace();
                 }
             }
-            request = new HttpGet(uri);
+            request = new HttpGetHC4(uri);
         }
+
+        RequestConfig rc = RequestConfig.custom()
+                .setSocketTimeout(socketTimeout)
+                .setConnectTimeout(connectTimeout)
+                .setConnectionRequestTimeout(connectionRequestTimeout)
+                .build();
+        request.setConfig(rc);
 
         try {
             CloseableHttpResponse response = CpHttpClient.getHttpClient().execute(request, context);

@@ -233,7 +233,12 @@ public class MainActivity extends FragmentActivity {
                 exitTime = System.currentTimeMillis();
             } else {
                 finish();
-                CpHttpClient.shutDown();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CpHttpClient.shutDown();
+                    }
+                }).start();
                 System.exit(0);
             }
 
