@@ -39,7 +39,8 @@ public class DepositWithdrawalFragment extends Fragment {
 
     public void setCurrency(String currency) {
         this.currency = currency;
-        currentFragment.setCurrency(currency);
+        if (currentFragment != null)
+            currentFragment.setCurrency(currency);
     }
     @Override
     public void onAttach(final Activity activity) {
