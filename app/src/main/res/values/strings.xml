@@ -206,6 +206,8 @@
     <string name="withdrawal_abc_delete">删除</string>
     <string name="withdrawal_action">提现</string>
     <string name="withdrawal_succeed">提现请求已成功发出，请下拉刷新查看记录</string>
+    <string name="withdrawal_not_enough">您的余额不足</string>
+    <string name="withdrawal_under_limit">提现数量不满足最小提现数量限制</string>
     <string name="withdrawal_cny_verification_requirement">需要进行实名认证才能提现人民币</string>
     <string name="need_withdrawal_params">提现金额，提现地址，邮件验证码不能为空</string>
 

@@ -465,6 +465,17 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                 amountStr = ((EditText) view.findViewById(R.id.withdrawal_amount_edit)).getText().toString();
                 if (amountStr.equals(""))
                     amountStr = "0.0";
+                double amount = Double.valueOf(amountStr);
+                if (amount > asset) {
+                    Toast.makeText(getActivity(), getString(R.string.withdrawal_not_enough),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (amount < Double.valueOf(limit)) {
+                    Toast.makeText(getActivity(), getString(R.string.withdrawal_under_limit),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (currency.equals("CNY")) {
                     addressStr = ((BankCardSpinner) view.findViewById(R.id.bank_card_spinner)).getSelectedItem().toString();
                 } else {
