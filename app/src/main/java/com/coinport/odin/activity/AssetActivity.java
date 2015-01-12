@@ -228,7 +228,7 @@ public class AssetActivity extends Activity {
             for (int i = 0; i < jsonArray.length(); ++i) {
                 try {
                     JSONObject jsonObj = jsonArray.getJSONObject(i);
-                    priceMap.put(jsonObj.getString("c"), Double.valueOf(jsonObj.getString("p")));
+                    priceMap.put(jsonObj.getString("c"), Util.s2d(jsonObj.getString("p")));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

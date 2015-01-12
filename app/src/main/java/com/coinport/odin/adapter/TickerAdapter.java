@@ -89,7 +89,7 @@ public class TickerAdapter extends BaseAdapter {
 //        icon.setText(iconFont.get(ti.getInCurrency()));
 //        icon.setTextSize(20);
         price.setText(ti.getPrice());
-        volume.setText(Util.autoDisplayDouble(Double.valueOf(ti.getVolume())));
+        volume.setText(Util.autoDisplayDouble(Util.s2d(ti.getVolume())));
         amplitude.setText(String.format("%1$.2f", ti.getAmplitude() * 100) + "%");
         unit.setText(ti.getOutCurrency());
         if (ti.getAmplitude() >= 0) {

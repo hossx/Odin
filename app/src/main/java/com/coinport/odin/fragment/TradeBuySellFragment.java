@@ -227,10 +227,10 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                     Toast.makeText(getActivity(), getString(R.string.submit_non_zero), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                price = Double.valueOf(buyPriceStr);
-                quantity = Double.valueOf(buyQuantityStr);
-                amount = Double.valueOf(buyAmountStr);
-                if (amount > Double.valueOf(outValidView.getText().toString())) {
+                price = Util.s2d(buyPriceStr);
+                quantity = Util.s2d(buyQuantityStr);
+                amount = Util.s2d(buyAmountStr);
+                if (amount > Util.s2d(outValidView.getText().toString())) {
                     Toast.makeText(getActivity(), getString(R.string.submit_lack_amount), Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -248,10 +248,10 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                     Toast.makeText(getActivity(), getString(R.string.submit_non_zero), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                price = Double.valueOf(sellPriceStr);
-                quantity = Double.valueOf(sellQuantityStr);
-                amount = Double.valueOf(sellAmountStr);
-                if (quantity > Double.valueOf(inValidView.getText().toString())) {
+                price = Util.s2d(sellPriceStr);
+                quantity = Util.s2d(sellQuantityStr);
+                amount = Util.s2d(sellAmountStr);
+                if (quantity > Util.s2d(inValidView.getText().toString())) {
                     Toast.makeText(getActivity(), getString(R.string.submit_lack_amount), Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -451,8 +451,8 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
             if (quantityStr.equals("")) {
                 return;
             }
-            price = Double.valueOf(s.toString());
-            quantity = Double.valueOf(quantityStr);
+            price = Util.s2d(s.toString());
+            quantity = Util.s2d(quantityStr);
             amount = price * quantity;
             tmpStr = Util.displayDouble(amount, 4);
             if (!amountStr.equals(tmpStr)) {
@@ -465,8 +465,8 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
             if (priceStr.equals("")) {
                 return;
             }
-            price = Double.valueOf(priceStr);
-            quantity = Double.valueOf(s.toString());
+            price = Util.s2d(priceStr);
+            quantity = Util.s2d(s.toString());
             amount = price * quantity;
             tmpStr = Util.displayDouble(amount, 4);
             if (!amountStr.equals(tmpStr)) {
@@ -478,10 +478,10 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
         } else if (id == amountId) {
             if (priceStr.equals(""))
                 return;
-            price = Double.valueOf(priceStr);
+            price = Util.s2d(priceStr);
             if (price < 0.000000001)
                 return;
-            amount = Double.valueOf(s.toString());
+            amount = Util.s2d(s.toString());
             quantity = amount / price;
             tmpStr = Util.displayDouble(quantity, 4);
             if (!quantityStr.equals(tmpStr)) {
@@ -575,6 +575,6 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
     }
 
     private boolean nonZero(String numStr) {
-        return !(numStr == null || numStr.equals("")) && Double.valueOf(numStr) > 0.000000001;
+        return !(numStr == null || numStr.equals("")) && Util.s2d(numStr) > 0.000000001;
     }
 }
