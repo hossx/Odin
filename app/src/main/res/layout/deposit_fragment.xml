@@ -71,20 +71,24 @@
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:id="@+id/crypto_currency_address"
+                    android:textIsSelectable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:id="@+id/deposit_alias"
+                    android:textIsSelectable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"/>
                 <TextView
                     android:id="@+id/deposit_nxt_pubkey"
+                    android:textIsSelectable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"/>
                 <TextView
                     android:id="@+id/deposit_memo"
+                    android:textIsSelectable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/holo_red_dark"
