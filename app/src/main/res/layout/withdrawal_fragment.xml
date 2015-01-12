@@ -157,6 +157,7 @@
                         android:focusableInTouchMode="true">
                         <EditText
                             android:id="@+id/withdrawal_amount_edit"
+                            android:inputType="numberDecimal"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"/>
                     </LinearLayout>

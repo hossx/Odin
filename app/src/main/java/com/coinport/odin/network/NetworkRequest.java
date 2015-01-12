@@ -44,6 +44,7 @@ public class NetworkRequest {
     private ApiStatus apiStatus = null;
     private JSONObject apiResult = null;
     private String apiMessage = null;
+    private Integer apiCode = -1;
 
     public NetworkRequest(String uri, String type) {
         this.uri = uri;
@@ -182,6 +183,15 @@ public class NetworkRequest {
 
     public enum ApiStatus {
         SUCCEED, UNAUTH, INTERNAL_ERROR, NETWORK_ERROR, BAD_FORMAT
+    }
+
+    public Integer getApiCode() {
+        return apiCode;
+    }
+
+    public NetworkRequest setApiCode(Integer apiCode) {
+        this.apiCode = apiCode;
+        return this;
     }
 
     public String getApiMessage() {

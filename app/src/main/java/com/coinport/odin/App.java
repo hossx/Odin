@@ -13,7 +13,9 @@ import com.coinport.odin.lock.LockPatternUtils;
 import com.coinport.odin.obj.AccountInfo;
 import com.coinport.odin.util.CrashHandler;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class App extends Application {
     private static AccountInfo account = new AccountInfo();
@@ -21,6 +23,7 @@ public class App extends Application {
     private static boolean mainActivityCreated = false;
     private static Activity mainActivity = null;
     private static LockPatternUtils mLockPatternUtils = null;
+    private static Map<Integer, String> errorMessage = new HashMap<>();
 
     public static boolean isMainActivityCreated() {
         return mainActivityCreated;
@@ -45,10 +48,11 @@ public class App extends Application {
         App.account = account;
     }
 
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
         App.context = getApplicationContext();
         mLockPatternUtils = new LockPatternUtils(this);
+        initErrorMessage(App.context);
         this.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             private boolean isActive = true;
 
@@ -135,4 +139,19 @@ public class App extends Application {
         sp.edit().putBoolean("isSet", setGesturePw).apply();
     }
 
+    public static String getErrorMessage(int code) {
+        if (errorMessage.containsKey(code))
+            return errorMessage.get(code);
+        else
+            return context.getString(R.string.general_error);
+    }
+
+    private void initErrorMessage(Context context) {
+        String[] stringArray = context.getResources().getStringArray(R.array.be_message_array);
+        errorMessage.clear();
+        for (String entry : stringArray) {
+            String[] splitResult = entry.split("-", 2);
+            errorMessage.put(Integer.valueOf(splitResult[0]), splitResult[1]);
+        }
+    }
 }

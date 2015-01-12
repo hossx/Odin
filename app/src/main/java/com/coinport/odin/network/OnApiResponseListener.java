@@ -17,6 +17,7 @@ public class OnApiResponseListener implements NetworkAsyncTask.OnHttpResponseLis
                 JSONObject json = new JSONObject(request.getResult());
                 request.setApiResult(json);
                 request.setApiMessage(json.getString("message"));
+                request.setApiCode(json.getInt("code"));
                 if (json.getBoolean("success")) {
                     request.setApiStatus(NetworkRequest.ApiStatus.SUCCEED);
                 } else {

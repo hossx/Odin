@@ -43,6 +43,45 @@
         <item>身份证</item>
         <item>护照</item>
     </string-array>
+    <string-array name="be_message_array">
+        <item>0-请求已成功处理</item>                                 // OK
+        <item>1-服务器忙，请稍后再试</item>                            // UNKNOWN
+
+        // User related
+        <item>1001-该帐号已存在,请更换帐号注册</item>                   // EMAIL_ALREADY_REGISTERED
+        <item>1002-缺少信息，请完善信息后重试</item>                    // MISSING_INFORMATION
+        <item>1003-此用户不存在</item>                                // USER_NOT_EXIST
+        <item>1004-密码错误</item>                                    // PASSWORD_NOT_MATCH
+        <item>1005-验证码错误</item>                                 // TOKEN_NOT_MATCH
+        <item>1006-邮箱未验证</item>                                 // EMAIL_NOT_VERIFIED
+
+        // Account related
+        <item>2001-价格超出范围</item>                                 // PRICE_OUT_OF_RANGE
+        <item>2002-余额不足</item>                                     // INSUFFICIENT_FUND
+        <item>2003-数目格式错误</item>                                 // INVALID_AMOUNT
+        <item>2007-转帐类型不支持</item>                               // UNSUPPORT_TRANSFER_TYPE
+
+        // Bitway
+        <item>8001-地址获取失败，请稍候再试</item>                     // NOT_ENOUGH_ADDRESS_IN_POOL
+        <item>8004-地址获取失败，请稍候再试</item>                     // NO_ADDRESS_FOUND
+        <item>8005-提现到非法地址</item>                               // WITHDRAWAL_TO_BAD_ADDRESS
+        <item>8006-提现地址出错</item>                                 // ADDRESS_FAIL                      // NO_ADDRESS_FOUND or WITHDRAWAL_TO_BAD_ADDRESS
+
+        // Controller and Services
+        <item>9001-参数错误</item>                                     // PARAM_EMPTY
+        <item>9002-验证码不匹配</item>                                 // CAPTCHA_NOT_MATCH
+        <item>9003-邮箱格式不正确</item>                               // INVALID_EMAIL_FORMAT
+        <item>9004-密码格式不正确</item>                               // INVALID_PASSWORD_FORMAT
+        <item>9005-短信验证码错误</item>                               // SMS_CODE_NOT_MATCH
+        <item>9006-手机未验证</item>                                   // MOBILE_NOT_VERIFIED
+        <item>9007-短信验证码发送过于频繁，请稍候再试</item>           // SEND_SMS_FREQUENCY_TOO_HIGH
+        <item>9009-手机号码格式不正确</item>                           // INVALID_PHONE_NUMBER_FORMAT
+        <item>9010-谷歌二次验证码错误</item>                           // INVALID_GOOGLE_VERIFY_CODE
+        <item>9012-邮件验证码错误</item>                               // INVALID_EMAIL_VERIFY_CODE
+        <item>9013-登陆失败，帐号被锁定，请2小时后再试</item>          // LOGIN_FAILED_AND_LOCKED
+    </string-array>
+
+    <string name="general_error">请求失败，请稍后重试</string>
 
     <string name="app_name">币丰港</string>
     <string name="action_settings">设置</string>

@@ -238,8 +238,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                                 Intent intent = new Intent(WithdrawalFragment.this.getActivity(), LoginActivity.class);
                                 WithdrawalFragment.this.getActivity().startActivity(intent);
                             } else {
-                                Toast.makeText(getActivity(), getString(R.string.request_failed),
-                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), getString(R.string.request_failed), Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             JSONArray jsonArray = Util.getJsonArrayByPath(s.getApiResult(), "data");
@@ -506,7 +505,8 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                                                 LoginActivity.class);
                                         WithdrawalFragment.this.getActivity().startActivity(intent);
                                     } else if (s.getApiStatus() == NetworkRequest.ApiStatus.INTERNAL_ERROR) {
-                                        Toast.makeText(getActivity(), s.getApiMessage(), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), App.getErrorMessage(s.getApiCode()),
+                                                Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(getActivity(), getString(R.string.request_failed),
                                                 Toast.LENGTH_SHORT).show();

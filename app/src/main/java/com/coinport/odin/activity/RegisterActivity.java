@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.coinport.odin.App;
 import com.coinport.odin.R;
 import com.coinport.odin.network.NetworkAsyncTask;
 import com.coinport.odin.network.NetworkRequest;
@@ -137,7 +138,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                             public void onRender(NetworkRequest s) {
                                 if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                     if (s.getApiStatus() == NetworkRequest.ApiStatus.INTERNAL_ERROR)
-                                        Toast.makeText(RegisterActivity.this, s.getApiMessage(),
+                                        Toast.makeText(RegisterActivity.this, App.getErrorMessage(s.getApiCode()),
                                                 Toast.LENGTH_SHORT).show();
                                     else
                                         Toast.makeText(RegisterActivity.this, getString(R.string.request_failed),
