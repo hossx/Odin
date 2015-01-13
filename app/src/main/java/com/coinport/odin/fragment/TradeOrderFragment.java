@@ -46,7 +46,7 @@ public class TradeOrderFragment extends Fragment {
     protected String inCurrency, outCurrency;
 
     protected OrderAdapter orderAdapter;
-    private ArrayList<OrderItem> orderItems = new ArrayList<OrderItem>();
+    private ArrayList<OrderItem> orderItems = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -120,12 +120,14 @@ public class TradeOrderFragment extends Fragment {
             }
         });
         orderAdapter = new OrderAdapter(getActivity(), inCurrency, outCurrency);
+        /*
         orderAdapter.setCancelledHandler(new OrderAdapter.OnOrderCancelled() {
             @Override
             public void onCancelled() {
                 fetchOrder(true, "", 4000);
             }
         });
+        */
         refreshableView.getRefreshableView().setAdapter(orderAdapter);
         return view;
     }
