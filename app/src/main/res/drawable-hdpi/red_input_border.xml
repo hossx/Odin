@@ -17,6 +17,7 @@
         android:width="1px"
         android:color="#ffff0000"/>
 
+    <solid android:color="#FFFFFF"/>
     <!-- 设置背景颜色渐变 从 红色  -> 绿色 -> 蓝色, 渐变的类型为sweep渐变 -->
     <!--<gradient-->
         <!--android:startColor="#f00"-->

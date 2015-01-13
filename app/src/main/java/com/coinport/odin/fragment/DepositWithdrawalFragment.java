@@ -1,11 +1,10 @@
 package com.coinport.odin.fragment;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +20,13 @@ public class DepositWithdrawalFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.deposit_withdrawal_fragment, container, false);
-        fragmentManager = getActivity().getFragmentManager();
+        fragmentManager = getActivity().getSupportFragmentManager();
         RadioGroup subTabs = (RadioGroup) view.findViewById(R.id.rg_tab);
         subTabs.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                android.app.Fragment fragment = FragmentFactory.getInstanceByIndex(checkedId, currency);
+                Fragment fragment = FragmentFactory.getInstanceByIndex(checkedId, currency);
                 transaction.replace(R.id.content, fragment);
                 transaction.commit();
                 currentFragment = (DWFragmentCommon) fragment;
