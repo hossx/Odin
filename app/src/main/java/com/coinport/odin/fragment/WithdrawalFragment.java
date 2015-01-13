@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.coinport.odin.App;
 import com.coinport.odin.R;
-import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.activity.UserVerifyActivity;
 import com.coinport.odin.dialog.CustomProgressDialog;
 import com.coinport.odin.layout.BankCardSpinner;
@@ -235,7 +234,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                             return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                             if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                Intent intent = new Intent(WithdrawalFragment.this.getActivity(), LoginActivity.class);
+                                Intent intent = Util.toLoginFromAuthFail(WithdrawalFragment.this.getActivity());
                                 WithdrawalFragment.this.getActivity().startActivity(intent);
                             } else {
                                 Toast.makeText(getActivity(), getString(R.string.request_failed), Toast.LENGTH_SHORT).show();
@@ -368,7 +367,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                             return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                             if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                Intent intent = new Intent(WithdrawalFragment.this.getActivity(), LoginActivity.class);
+                                Intent intent = Util.toLoginFromAuthFail(WithdrawalFragment.this.getActivity());
                                 WithdrawalFragment.this.getActivity().startActivity(intent);
                             } else {
                                 Toast.makeText(getActivity(), getString(R.string.request_failed),
@@ -416,8 +415,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                                     return;
                                 if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                     if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                        Intent intent = new Intent(WithdrawalFragment.this.getActivity(),
-                                                LoginActivity.class);
+                                        Intent intent = Util.toLoginFromAuthFail(WithdrawalFragment.this.getActivity());
                                         WithdrawalFragment.this.getActivity().startActivity(intent);
                                     } else {
                                         Toast.makeText(getActivity(), getString(R.string.request_failed),
@@ -512,8 +510,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                                     return;
                                 if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                     if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                        Intent intent = new Intent(WithdrawalFragment.this.getActivity(),
-                                                LoginActivity.class);
+                                        Intent intent = Util.toLoginFromAuthFail(WithdrawalFragment.this.getActivity());
                                         WithdrawalFragment.this.getActivity().startActivity(intent);
                                     } else if (s.getApiStatus() == NetworkRequest.ApiStatus.INTERNAL_ERROR) {
                                         Toast.makeText(getActivity(), App.getErrorMessage(s.getApiCode()),

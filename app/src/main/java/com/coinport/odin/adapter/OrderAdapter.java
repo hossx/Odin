@@ -12,12 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coinport.odin.R;
-import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.network.NetworkAsyncTask;
 import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.network.OnApiResponseListener;
 import com.coinport.odin.obj.OrderItem;
 import com.coinport.odin.util.Constants;
+import com.coinport.odin.util.Util;
 
 import java.util.ArrayList;
 
@@ -112,7 +112,7 @@ public class OrderAdapter extends BaseAdapter {
                                 public void onRender(NetworkRequest s) {
                                     if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                         if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                            Intent intent = new Intent(context, LoginActivity.class);
+                                            Intent intent = Util.toLoginFromAuthFail(context);
                                             context.startActivity(intent);
                                         } else {
                                             Toast.makeText(context, context.getString(R.string.request_failed),

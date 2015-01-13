@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.coinport.odin.App;
 import com.coinport.odin.R;
-import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.dialog.CustomProgressDialog;
 import com.coinport.odin.library.ptr.PullToRefreshBase;
 import com.coinport.odin.library.ptr.PullToRefreshScrollView;
@@ -211,7 +210,7 @@ public class DepositFragment extends DWFragmentCommon {
                             address.setVisibility(View.GONE);
                             qrView.setVisibility(View.GONE);
                             if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                Intent intent = new Intent(DepositFragment.this.getActivity(), LoginActivity.class);
+                                Intent intent = Util.toLoginFromAuthFail(DepositFragment.this.getActivity());
                                 DepositFragment.this.getActivity().startActivity(intent);
                             } else {
                                 Toast.makeText(getActivity(), getString(R.string.request_failed),
@@ -413,7 +412,7 @@ public class DepositFragment extends DWFragmentCommon {
                             return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                             if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                Intent intent = new Intent(DepositFragment.this.getActivity(), LoginActivity.class);
+                                Intent intent = Util.toLoginFromAuthFail(DepositFragment.this.getActivity());
                                 DepositFragment.this.getActivity().startActivity(intent);
                             } else {
                                 if (isAdded())

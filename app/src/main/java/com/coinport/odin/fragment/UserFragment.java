@@ -17,13 +17,13 @@ import com.coinport.odin.R;
 import com.coinport.odin.activity.AssetActivity;
 import com.coinport.odin.activity.ChangePwActivity;
 import com.coinport.odin.activity.GuideGesturePasswordActivity;
-import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.activity.UserVerifyActivity;
 import com.coinport.odin.network.CookieDBManager;
 import com.coinport.odin.network.NetworkAsyncTask;
 import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.obj.AccountInfo;
 import com.coinport.odin.util.Constants;
+import com.coinport.odin.util.Util;
 
 public class UserFragment extends Fragment implements View.OnClickListener {
     private View view;
@@ -42,7 +42,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
     private void initUi() {
         if (App.getAccount().uid == null) {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            Intent intent = Util.toLoginFromAuthFail(getActivity());
             startActivity(intent);
             return;
         }
@@ -144,9 +144,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                         .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                             @Override
                             public void onRender(NetworkRequest s) {
-                                CookieDBManager.getInstance().clear();
-                                App.destoryMainActivity();
-                                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                Intent intent = Util.toLoginFromAuthFail(getActivity());
                                 getActivity().startActivity(intent);
                             }
                         });

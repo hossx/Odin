@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.coinport.odin.App;
 import com.coinport.odin.R;
-import com.coinport.odin.activity.LoginActivity;
 import com.coinport.odin.activity.TradeActivity;
 import com.coinport.odin.adapter.DepthAdapter;
 import com.coinport.odin.dialog.CustomProgressDialog;
@@ -308,8 +307,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                                 return;
                             if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                 if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                    Intent intent = new Intent(TradeBuySellFragment.this.getActivity(),
-                                            LoginActivity.class);
+                                    Intent intent = Util.toLoginFromAuthFail(TradeBuySellFragment.this.getActivity());
                                     TradeBuySellFragment.this.getActivity().startActivity(intent);
                                 } else {
                                     Toast.makeText(getActivity(), getString(R.string.request_failed),

@@ -4,11 +4,13 @@ import org.apache.http.Consts;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpRequestInterceptor;
+import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.ConnectionConfig;
 import org.apache.http.config.MessageConstraints;
 import org.apache.http.cookie.Cookie;
+import org.apache.http.cookie.CookieSpec;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -49,6 +51,7 @@ public class CpHttpClient {
                 .setSocketTimeout(SOCKET_TIME_OUT)
                 .setConnectTimeout(CONNECT_TIME_OUT)
                 .setConnectionRequestTimeout(CONNECTION_REQUEST_TIMEOUT)
+                .setCookieSpec(CookieSpecs.BEST_MATCH)
                 .build();
 
         client = HttpClients.custom()

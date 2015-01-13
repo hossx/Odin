@@ -66,10 +66,8 @@ public class UnlockGesturePasswordActivity extends Activity {
                         .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                             @Override
                             public void onRender(NetworkRequest s) {
-                                CookieDBManager.getInstance().clear();
-                                App.destoryMainActivity();
                                 App.setSetGesturePw(false);
-                                Intent intent = new Intent(UnlockGesturePasswordActivity.this, LoginActivity.class);
+                                Intent intent = Util.toLoginFromAuthFail(UnlockGesturePasswordActivity.this);
                                 UnlockGesturePasswordActivity.this.startActivity(intent);
                                 UnlockGesturePasswordActivity.this.finish();
                                 showToast(getString(R.string.gesture_cancel_hint));

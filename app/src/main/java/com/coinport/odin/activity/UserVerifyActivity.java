@@ -19,6 +19,7 @@ import com.coinport.odin.network.NetworkRequest;
 import com.coinport.odin.network.OnApiResponseListener;
 import com.coinport.odin.obj.AccountInfo;
 import com.coinport.odin.util.Constants;
+import com.coinport.odin.util.Util;
 
 import org.apache.http.cookie.Cookie;
 
@@ -94,7 +95,7 @@ public class UserVerifyActivity extends Activity implements View.OnClickListener
                             public void onRender(NetworkRequest s) {
                                 if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                     if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                        Intent intent = new Intent(UserVerifyActivity.this, LoginActivity.class);
+                                        Intent intent = Util.toLoginFromAuthFail(UserVerifyActivity.this);
                                         UserVerifyActivity.this.startActivity(intent);
                                     } else {
                                         Toast.makeText(UserVerifyActivity.this, getString(R.string.request_failed),
