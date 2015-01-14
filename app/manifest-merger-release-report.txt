@@ -185,7 +185,7 @@ ADDED from AndroidManifest.xml:109:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:112:13
 	android:theme
-		ADDED from AndroidManifest.xml:113:14
+		ADDED from AndroidManifest.xml:113:13
 	android:name
 		ADDED from AndroidManifest.xml:110:13
 	android:launchMode
