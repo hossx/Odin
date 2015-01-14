@@ -233,12 +233,18 @@ public class MainActivity extends FragmentActivity {
                 exitTime = System.currentTimeMillis();
             } else {
                 finish();
-                new Thread(new Runnable() {
+                Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         CpHttpClient.shutDown();
                     }
-                }).start();
+                });
+                t.start();
+                try {
+                    t.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 System.exit(0);
             }
 
