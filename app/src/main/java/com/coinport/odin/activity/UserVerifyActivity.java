@@ -95,7 +95,7 @@ public class UserVerifyActivity extends Activity implements View.OnClickListener
                             public void onRender(NetworkRequest s) {
                                 if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                     if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                        Intent intent = Util.toLoginFromAuthFail(UserVerifyActivity.this);
+                                        Intent intent = Util.toLoginFromAuthFail(UserVerifyActivity.this, true);
                                         UserVerifyActivity.this.startActivity(intent);
                                     } else {
                                         Toast.makeText(UserVerifyActivity.this, getString(R.string.request_failed),

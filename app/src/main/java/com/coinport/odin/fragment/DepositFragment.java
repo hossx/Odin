@@ -210,7 +210,7 @@ public class DepositFragment extends DWFragmentCommon {
                             address.setVisibility(View.GONE);
                             qrView.setVisibility(View.GONE);
                             if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                Intent intent = Util.toLoginFromAuthFail(DepositFragment.this.getActivity());
+                                Intent intent = Util.toLoginFromAuthFail(DepositFragment.this.getActivity(), true);
                                 DepositFragment.this.getActivity().startActivity(intent);
                             } else {
                                 Toast.makeText(getActivity(), getString(R.string.request_failed),
@@ -412,7 +412,7 @@ public class DepositFragment extends DWFragmentCommon {
                             return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                             if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                Intent intent = Util.toLoginFromAuthFail(DepositFragment.this.getActivity());
+                                Intent intent = Util.toLoginFromAuthFail(DepositFragment.this.getActivity(), true);
                                 DepositFragment.this.getActivity().startActivity(intent);
                             } else {
                                 if (isAdded())

@@ -330,4 +330,5 @@
     <string name="gesture_cancel_hint">手势密码已取消, 您可以在用户->手势密码中重新设定</string>
 
     <string name="crash_message">很抱歉，程序出现异常，即将退出</string>
+    <string name="session_expired_hint">您的登陆信息已过期，请重新登陆</string>
 </resources>

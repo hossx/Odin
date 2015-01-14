@@ -42,7 +42,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
     private void initUi() {
         if (App.getAccount().uid == null) {
-            Intent intent = Util.toLoginFromAuthFail(getActivity());
+            Intent intent = Util.toLoginFromAuthFail(getActivity(), true);
             startActivity(intent);
             return;
         }
@@ -144,7 +144,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                         .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
                             @Override
                             public void onRender(NetworkRequest s) {
-                                Intent intent = Util.toLoginFromAuthFail(getActivity());
+                                Intent intent = Util.toLoginFromAuthFail(getActivity(), false);
                                 getActivity().startActivity(intent);
                             }
                         });

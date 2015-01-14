@@ -234,7 +234,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                             return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                             if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                Intent intent = Util.toLoginFromAuthFail(WithdrawalFragment.this.getActivity());
+                                Intent intent = Util.toLoginFromAuthFail(WithdrawalFragment.this.getActivity(), true);
                                 WithdrawalFragment.this.getActivity().startActivity(intent);
                             } else {
                                 Toast.makeText(getActivity(), getString(R.string.request_failed), Toast.LENGTH_SHORT).show();
@@ -367,7 +367,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                             return;
                         if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                             if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                Intent intent = Util.toLoginFromAuthFail(WithdrawalFragment.this.getActivity());
+                                Intent intent = Util.toLoginFromAuthFail(WithdrawalFragment.this.getActivity(), true);
                                 WithdrawalFragment.this.getActivity().startActivity(intent);
                             } else {
                                 Toast.makeText(getActivity(), getString(R.string.request_failed),
@@ -415,7 +415,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                                     return;
                                 if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                     if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                        Intent intent = Util.toLoginFromAuthFail(WithdrawalFragment.this.getActivity());
+                                        Intent intent = Util.toLoginFromAuthFail(WithdrawalFragment.this.getActivity(), true);
                                         WithdrawalFragment.this.getActivity().startActivity(intent);
                                     } else {
                                         Toast.makeText(getActivity(), getString(R.string.request_failed),
@@ -510,7 +510,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                                     return;
                                 if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                     if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                        Intent intent = Util.toLoginFromAuthFail(WithdrawalFragment.this.getActivity());
+                                        Intent intent = Util.toLoginFromAuthFail(WithdrawalFragment.this.getActivity(), true);
                                         WithdrawalFragment.this.getActivity().startActivity(intent);
                                     } else if (s.getApiStatus() == NetworkRequest.ApiStatus.INTERNAL_ERROR) {
                                         Toast.makeText(getActivity(), App.getErrorMessage(s.getApiCode()),

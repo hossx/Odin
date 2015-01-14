@@ -112,7 +112,7 @@ public class OrderAdapter extends BaseAdapter {
                                 public void onRender(NetworkRequest s) {
                                     if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                         if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                            Intent intent = Util.toLoginFromAuthFail(context);
+                                            Intent intent = Util.toLoginFromAuthFail(context, true);
                                             context.startActivity(intent);
                                         } else {
                                             Toast.makeText(context, context.getString(R.string.request_failed),

@@ -307,7 +307,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
                                 return;
                             if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
                                 if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
-                                    Intent intent = Util.toLoginFromAuthFail(TradeBuySellFragment.this.getActivity());
+                                    Intent intent = Util.toLoginFromAuthFail(TradeBuySellFragment.this.getActivity(), true);
                                     TradeBuySellFragment.this.getActivity().startActivity(intent);
                                 } else {
                                     Toast.makeText(getActivity(), getString(R.string.request_failed),
