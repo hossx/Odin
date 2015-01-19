@@ -124,6 +124,7 @@
     <string name="trade_tab_buy_sell">买卖</string>
     <string name="trade_tab_order">挂单</string>
     <string name="trade_tab_tx">历史</string>
+    <string name="trade_tab_kline">k线</string>
     <string name="depth_price">出价</string>
     <string name="depth_amount">数量</string>
     <string name="depth_index_buy">买</string>
