@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +47,8 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
     private DepthAdapter sellAdapter;
     private String inCurrency, outCurrency;
 
-    private Timer timer = new Timer();
-    private TimerTask fetchDepthTask = null;
+    private static Timer timer = null;
+    private static TimerTask fetchDepthTask = null;
     ArrayList<DepthItem> buyItems = new ArrayList<>();
     ArrayList<DepthItem> sellItems = new ArrayList<>();
     private final Handler depthHandler = new Handler();
@@ -90,6 +91,12 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
         } else {
             stopFetchData();
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        stopFetchData();
     }
 
     @Override
@@ -502,7 +509,8 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
     }
 
     private void startFetchData() {
-        timer.cancel();
+        if (timer != null)
+            timer.cancel();
         if (fetchDepthTask != null)
             fetchDepthTask.cancel();
         fetchDepthTask = new FetchDepthTask();
@@ -512,10 +520,14 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
     }
 
     private void stopFetchData() {
-        if (timer != null)
+        if (timer != null) {
             timer.cancel();
-        if (fetchDepthTask != null)
+            timer = null;
+        }
+        if (fetchDepthTask != null) {
             fetchDepthTask.cancel();
+            fetchDepthTask = null;
+        }
     }
 
     private void fetchAsset(long delay) {
