@@ -474,6 +474,11 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (currency.equals("GOOC") && ((int) amount) != amount) {
+                    Toast.makeText(getActivity(), getString(R.string.withdrawal_not_int),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (currency.equals("CNY")) {
                     addressStr = ((BankCardSpinner) view.findViewById(R.id.bank_card_spinner)).getSelectedItem().toString();
                 } else {
