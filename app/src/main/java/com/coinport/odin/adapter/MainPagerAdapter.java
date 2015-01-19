@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.coinport.odin.App;
 import com.coinport.odin.library.psts.PagerSlidingTabStrip;
 import com.coinport.odin.R;
 import com.coinport.odin.fragment.DepositWithdrawalFragment;
@@ -107,8 +108,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter implements PagerSlidi
     private void initTab(View tab, String icon, String title) {
         TextView iconTextView = (TextView) tab.findViewById(R.id.tab_icon);
         iconTextView.setGravity(Gravity.CENTER);
-        Typeface tf = Typeface.createFromAsset(context.getAssets(), "coinport.ttf");
-        iconTextView.setTypeface(tf);
+        iconTextView.setTypeface(App.getIconTf());
         iconTextView.setText(icon);
         iconTextView.setTextColor(Color.WHITE);
         iconTextView.setTextSize(30);

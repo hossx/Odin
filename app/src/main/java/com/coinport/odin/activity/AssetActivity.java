@@ -40,8 +40,6 @@ public class AssetActivity extends Activity {
     private SimpleAdapter adapter;
     protected PullToRefreshScrollView refreshableView;
 
-    private Typeface iconTF;
-
     private CustomProgressDialog cpd = null;
 
     @Override
@@ -50,7 +48,6 @@ public class AssetActivity extends Activity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_asset);
 
-        iconTF = Typeface.createFromAsset(getAssets(), "coinport.ttf");
         refreshableView = (PullToRefreshScrollView) findViewById(R.id.refreshable_view);
         refreshableView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
             @Override
@@ -67,7 +64,7 @@ public class AssetActivity extends Activity {
                 View view = super.getView(position, convertView, parent);
                 String currency = ((TextView) view.findViewById(R.id.asset_currency)).getText().toString();
                 TextView icon = (TextView) view.findViewById(R.id.currency_icon);
-                icon.setTypeface(iconTF);
+                icon.setTypeface(App.getIconTf());
                 icon.setTextColor(Color.BLACK);
                 icon.setText(Util.iconFont.get(currency));
                 icon.setTextSize(20);

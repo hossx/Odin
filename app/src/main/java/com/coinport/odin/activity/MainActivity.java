@@ -70,14 +70,13 @@ public class MainActivity extends FragmentActivity {
 //        final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources()
 //                .getDisplayMetrics());
 //        baseCurrencySelector.setPadding(0, 0, margin, 0);
-        Typeface tf = Typeface.createFromAsset(getAssets(), "coinport.ttf");
         final TextView cnyTV = ((TextView) baseCurrencySelector.findViewById(R.id.base_cny_view));
-        cnyTV.setTypeface(tf);
+        cnyTV.setTypeface(App.getIconTf());
         cnyTV.setTextSize(30);
         cnyTV.setTextColor(Color.WHITE);
         cnyTV.setBackgroundResource(R.drawable.background_tab);
         final TextView btcTV = ((TextView) baseCurrencySelector.findViewById(R.id.base_btc_view));
-        btcTV.setTypeface(tf);
+        btcTV.setTypeface(App.getIconTf());
         btcTV.setTextSize(30);
         btcTV.setTextColor(Color.GRAY);
         btcTV.setBackgroundResource(R.drawable.background_tab);

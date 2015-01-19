@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import com.coinport.odin.activity.UnlockGesturePasswordActivity;
@@ -24,6 +25,7 @@ public class App extends Application {
     private static Activity mainActivity = null;
     private static LockPatternUtils mLockPatternUtils = null;
     private static Map<Integer, String> errorMessage = new HashMap<>();
+    private static Typeface tf = null;
 
     public static boolean isMainActivityCreated() {
         return mainActivityCreated;
@@ -119,8 +121,14 @@ public class App extends Application {
 
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(App.context);
+
+        tf = Typeface.createFromAsset(App.context.getAssets(), "coinport.ttf");
     }
 
+    public static Typeface getIconTf() {
+        return tf;
+    }
+    
     public static Context getAppContext() {
         return App.context;
     }
