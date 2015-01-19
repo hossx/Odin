@@ -24,7 +24,7 @@ public class TradeActivity extends FragmentActivity {
     private PagerSlidingTabStrip tabs;
     private ViewPager pager;
     private TradePagerAdapter adapter;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +67,9 @@ public class TradeActivity extends FragmentActivity {
         tv.setClickable(true);
         tv.setBackgroundResource(R.drawable.background_tab);
 
-        menu.add(Menu.NONE, R.id.kline, Menu.NONE, "k").setActionView(tv)
-                .setVisible(true).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        // TODO(c): use this code
+//        menu.add(Menu.NONE, R.id.kline, Menu.NONE, "k").setActionView(tv)
+//                .setVisible(true).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
 

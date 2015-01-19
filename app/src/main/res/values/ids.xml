@@ -15,4 +15,5 @@
     <item name="trade_sell_fragment" type="id"/>
     <item name="trade_order_fragment" type="id"/>
     <item name="trade_tx_fragment" type="id"/>
+    <item name="kline" type="id"/>
 </resources>
