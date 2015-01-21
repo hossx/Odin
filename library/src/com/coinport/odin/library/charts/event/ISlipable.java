@@ -41,8 +41,8 @@ public interface ISlipable extends IZoomable {
 	
 	static final int SLIP_STEP = 4;
 	
-	void moveLeft();
-	void moveRight();
+	void moveLeft(float distance);
+	void moveRight(float distance);
 	
 	void setOnSlipGestureListener(OnSlipGestureListener listener);
 	OnSlipGestureListener getOnSlipGestureListener();

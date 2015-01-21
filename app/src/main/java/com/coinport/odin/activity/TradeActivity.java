@@ -97,7 +97,8 @@ public class TradeActivity extends FragmentActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.kline:
-                
+                Intent intent = new Intent(this, KLineActivity.class);
+                this.startActivity(intent);
                 break;
         }
     }

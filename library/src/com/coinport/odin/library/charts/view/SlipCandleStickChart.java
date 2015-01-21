@@ -273,8 +273,7 @@ public class SlipCandleStickChart extends SlipStickChart {
 			return;
 		}
 
-		float stickWidth = dataQuadrant.getQuadrantPaddingWidth() / displayNumber
-				- stickSpacing;
+		float stickWidth = dataQuadrant.getQuadrantPaddingWidth() / displayNumber - stickSpacing;
 		float stickX = dataQuadrant.getQuadrantPaddingStartX();
 
 		Paint mPaintPositive = new Paint();

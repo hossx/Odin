@@ -35,15 +35,15 @@ import android.view.MotionEvent;
  */
 public class OnSlipGestureListener {
 	
-	public void onMoveLeft(ISlipable slipable,MotionEvent event) {
+	public void onMoveLeft(ISlipable slipable, MotionEvent event, float distance) {
 		if (slipable != null) {
-			slipable.moveLeft();
+			slipable.moveLeft(distance);
 		}
 	}
 	
-	public void onMoveRight(ISlipable slipable,MotionEvent event) {
+	public void onMoveRight(ISlipable slipable, MotionEvent event, float distance) {
 		if (slipable != null) {
-			slipable.moveRight();
+			slipable.moveRight(distance);
 		}
 	}
 }
