@@ -930,10 +930,8 @@ public class GridChart extends AbstractBaseChart implements ITouchable, IFlexabl
 		float lineVLength = dataQuadrant.getQuadrantHeight() + axisWidth;
 
 		// TODO calculate points to draw
-		PointF boxVS = new PointF(touchPoint.x - longitudeFontSize * 5f / 2f,
-				borderWidth + lineVLength);
-		PointF boxVE = new PointF(touchPoint.x + longitudeFontSize * 5f / 2f,
-				borderWidth + lineVLength + axisXTitleQuadrantHeight);
+		PointF boxVS = new PointF(touchPoint.x - longitudeFontSize * 3.6f, borderWidth + lineVLength);
+		PointF boxVE = new PointF(touchPoint.x + longitudeFontSize * 3.6f, borderWidth + lineVLength + axisXTitleQuadrantHeight);
 
 		// draw text
 		drawAlphaTextBox(boxVS, boxVE, getAxisXGraduate(touchPoint.x),

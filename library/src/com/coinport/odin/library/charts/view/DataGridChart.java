@@ -50,8 +50,8 @@ public abstract class DataGridChart extends GridChart implements IDataCursor {
 	public static final boolean DEFAULT_AUTO_CALC_VALUE_RANGE = true;
 	
 	public static final int DEFAULT_DATA_MULTIPLE = 1;
-	public static final String DEFAULT_AXIS_Y_DECIMAL_FORMAT = "#,##0";
-	public static final String DEFAULT_AXIS_X_DATE_TARGET_FORMAT = "yyyy/MM/dd";
+	public static final String DEFAULT_AXIS_Y_DECIMAL_FORMAT = "0.00E0";
+	public static final String DEFAULT_AXIS_X_DATE_TARGET_FORMAT = "yy-MM-dd HH:mm";
 	public static final String DEFAULT_AXIS_X_DATE_SOURCE_FORMAT = "yyyyMMdd";
 	
 	protected int dataMultiple =  DEFAULT_DATA_MULTIPLE;
@@ -298,16 +298,12 @@ public abstract class DataGridChart extends GridChart implements IDataCursor {
 	
 	
 	public String formatAxisYDegree(double value) {
-		return new DecimalFormat(axisYDecimalFormat).format(Math.floor(value)/dataMultiple);
+		return new DecimalFormat(axisYDecimalFormat).format(value / dataMultiple);
 	}
 	
-	public String formatAxisXDegree(int date) {
-		try {
-			Date dt = new SimpleDateFormat(axisXDateSourceFormat).parse(String.valueOf(date));
-			return new SimpleDateFormat(axisXDateTargetFormat).format(dt);
-		} catch (ParseException e) {
-			return "";
-		}
+	public String formatAxisXDegree(long date) {
+        Date dt = new Date(date);
+        return new SimpleDateFormat(axisXDateTargetFormat).format(dt);
 	}
 	
 	/**

@@ -105,6 +105,7 @@ public class SlipGestureDetector<T extends ISlipable> extends ZoomGestureDetecto
                         onSlipGestureListener.onMoveLeft((ISlipable) instance, event, Math.abs(distance));
                     }
                     singlePoint = new PointF(event.getX(0), event.getY(0));
+                    return true;
                 }
             }
 			break;
