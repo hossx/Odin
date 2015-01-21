@@ -43,7 +43,7 @@ public interface IZoomable extends ITouchable {
 	static final int ZOOM_IN = 1;
 	static final int ZOOM_OUT = 2;
 	
-	static final int ZOOM_STEP = 4;
+	static final int ZOOM_STEP = 2;
 	
 	/**
 	 * <p>

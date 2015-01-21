@@ -192,7 +192,7 @@ public class SlipStickChart extends StickChart implements ISlipable {
 	 */
 	public void moveRight(float distance) {
 		int dataSize = stickData.size();
-        int step = (int) (distance * getDisplayNumber() / dataQuadrant.getQuadrantPaddingWidth());
+        int step = Math.max((int) (distance * getDisplayNumber() / dataQuadrant.getQuadrantPaddingWidth()), 1);
 		if (getDisplayTo() < dataSize - step) {
 			setDisplayFrom(getDisplayFrom() + step);
 		} else {
@@ -218,7 +218,7 @@ public class SlipStickChart extends StickChart implements ISlipable {
 	 */
 	public void moveLeft(float distance) {
 		int dataSize = stickData.size();
-        int step = (int) (distance * getDisplayNumber() / dataQuadrant.getQuadrantPaddingWidth());
+        int step = Math.max((int) (distance * getDisplayNumber() / dataQuadrant.getQuadrantPaddingWidth()), 1);
 		if (getDisplayFrom() <= step) {
 			setDisplayFrom(0);
 		} else if (getDisplayFrom() > step) {

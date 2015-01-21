@@ -50,6 +50,7 @@ public class KLineActivity extends FragmentActivity {
         candlestickchart.setMinDisplayNumber(10);
         candlestickchart.setDisplayNumber(52);
         candlestickchart.setZoomBaseLine(IZoomable.ZOOM_BASE_LINE_CENTER);
+        candlestickchart.setStickSpacing(5);
 
         candlestickchart.setDisplayLongitudeTitle(true);
         candlestickchart.setDisplayLatitudeTitle(true);

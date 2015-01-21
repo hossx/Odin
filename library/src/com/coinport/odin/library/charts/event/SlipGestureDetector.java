@@ -41,14 +41,9 @@ import android.view.MotionEvent;
  * 
  */
 public class SlipGestureDetector<T extends ISlipable> extends ZoomGestureDetector<IZoomable> {
-	protected PointF startPointA;
-	protected PointF startPointB;
-    
     private PointF singlePoint;
-    private PointF moveEdge = null;
     private float MIN_MOVE_DISTANCE = 10;
-    private boolean isMoving = false;
-    
+
 	private OnSlipGestureListener onSlipGestureListener;
 
 	public SlipGestureDetector(ISlipable slipable){
@@ -77,71 +72,43 @@ public class SlipGestureDetector<T extends ISlipable> extends ZoomGestureDetecto
 			break;
 		case MotionEvent.ACTION_UP:
             singlePoint = null;
-			startPointA = null;
-			startPointB = null;
-            moveEdge = null;
-            isMoving = false;
 			break;
 		case MotionEvent.ACTION_POINTER_UP:
-			startPointA = null;
-			startPointB = null;
 		case MotionEvent.ACTION_POINTER_DOWN:
 			olddistance = calcDistance(event);
 			if (olddistance > MIN_DISTANCE) {
 				touchMode = TOUCH_MODE_MULTI;
-				startPointA = new PointF(event.getX(0), event.getY(0));
-				startPointB = new PointF(event.getX(1), event.getY(1));
 			}
 			return true;
 			//break;
 		case MotionEvent.ACTION_MOVE:
 			if (touchMode == TOUCH_MODE_MULTI) {
 				newdistance = calcDistance(event);
-				if (newdistance > MIN_DISTANCE) {
-                    if (Math.abs(newdistance - olddistance) > MIN_DISTANCE) {
-                        if (onZoomGestureListener != null) {
-                            if (newdistance > olddistance) {
-                                onZoomGestureListener.onZoomIn((IZoomable)instance,event);
-                            } else {
-                                onZoomGestureListener.onZoomOut((IZoomable)instance,event);
-                            }
+                float distance = newdistance - olddistance;
+				if (Math.abs(distance) > MIN_DISTANCE) {
+                    if (onZoomGestureListener != null) {
+                        if (distance > 0) {
+                            onZoomGestureListener.onZoomIn((IZoomable)instance,event);
+                        } else {
+                            onZoomGestureListener.onZoomOut((IZoomable)instance,event);
                         }
-                        // reset distance
-                        olddistance = newdistance;
                     }
-					startPointA = new PointF(event.getX(0), event.getY(0));
-					startPointB = new PointF(event.getX(1), event.getY(1));
-
-					return true;
+                    olddistance = newdistance;
+                    return true;
 				}
 			} else {
                 float distance = singlePoint.x - event.getX(0);
-                if (isMoving) {
+                if (Math.abs(distance) > MIN_MOVE_DISTANCE) {
                     if (distance > 0f && onSlipGestureListener != null) {
-                        if (moveEdge == null || moveEdge.x > event.getX(0)) {
-                            moveEdge = new PointF(event.getX(0), event.getY(0));
-                            onSlipGestureListener.onMoveRight((ISlipable) instance, event, Math.abs(distance));
-                        } else {
-                            singlePoint = new PointF(moveEdge.x, moveEdge.y);
-                        }
+                        onSlipGestureListener.onMoveRight((ISlipable) instance, event, Math.abs(distance));
                     } else if (distance < 0f && onSlipGestureListener != null) {
-                        if (moveEdge == null || moveEdge.x < event.getX(0)) {
-                            moveEdge = new PointF(event.getX(0), event.getY(0));
-                            onSlipGestureListener.onMoveLeft((ISlipable) instance, event, Math.abs(distance));
-                        } else {
-                            singlePoint = new PointF(moveEdge.x, moveEdge.y);
-                        }
+                        onSlipGestureListener.onMoveLeft((ISlipable) instance, event, Math.abs(distance));
                     }
-//                    singlePoint = new PointF(event.getX(0), event.getY(0));
-                } else {
-                    if (Math.abs(distance) > MIN_MOVE_DISTANCE) {
-                        isMoving = true;
-                    }
+                    singlePoint = new PointF(event.getX(0), event.getY(0));
                 }
             }
 			break;
 		}
 		return super.onTouchEvent(event);
 	}
-
 }
