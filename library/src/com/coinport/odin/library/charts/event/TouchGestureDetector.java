@@ -60,7 +60,7 @@ public class TouchGestureDetector<T extends ITouchable> implements IGestureDetec
 	 * <p>TouchGestureDetector类对象的构造函数</p>
 	 * <p>TouchGestureDetectorのコンストラクター</p>
 	 *
-	 * @param touchGestureListener
+	 * @param touchListener
 	 */
 	public TouchGestureDetector(OnTouchGestureListener touchListener) {
 		super();
@@ -94,7 +94,7 @@ public class TouchGestureDetector<T extends ITouchable> implements IGestureDetec
 			if (event.getPointerCount() == 1) {
 				float moveXdistance = Math.abs(event.getX() - touchPoint.x);
 				float moveYdistance = Math.abs(event.getY() - touchPoint.y);
-				if (moveXdistance > TOUCH_MOVE_MIN_DISTANCE || 
+				if (moveXdistance > TOUCH_MOVE_MIN_DISTANCE ||
 						moveYdistance > TOUCH_MOVE_MIN_DISTANCE) {
 					//reset touchPoint
 					touchPoint = new PointF(event.getX(),event.getY());
