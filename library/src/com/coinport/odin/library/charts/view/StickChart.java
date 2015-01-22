@@ -231,7 +231,6 @@ public class StickChart extends PeriodDataGridChart implements IZoomable {
 		if (null == stickData || stickData.size() == 0) {
 			return false;
 		}
-		
 		return zoomGestureDetector.onTouchEvent(event);
 	}
 

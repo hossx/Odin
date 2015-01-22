@@ -54,11 +54,13 @@ public class SlipStickChart extends StickChart implements ISlipable {
 	public static final int DEFAULT_DISPLAY_FROM = 0;
 	public static final int DEFAULT_DISPLAY_NUMBER = 50;
 	public static final int DEFAULT_MIN_DISPLAY_NUMBER = 20;
+    public static final int DEFAULT_MAX_DISPLAY_NUMBER = 120;
 	public static final int DEFAULT_ZOOM_BASE_LINE = ZOOM_BASE_LINE_CENTER;
 
 	protected int displayFrom = DEFAULT_DISPLAY_FROM;
 	protected int displayNumber = DEFAULT_DISPLAY_NUMBER;
 	protected int minDisplayNumber = DEFAULT_MIN_DISPLAY_NUMBER;
+    protected int maxDisplayNumber = DEFAULT_MAX_DISPLAY_NUMBER;
 	protected int zoomBaseLine = DEFAULT_ZOOM_BASE_LINE;
 	
 	protected OnSlipGestureListener onSlipGestureListener = new OnSlipGestureListener();
@@ -286,7 +288,7 @@ public class SlipStickChart extends StickChart implements ISlipable {
 	 */
 	@Override
 	public void zoomOut() {
-		if (getDisplayNumber() < stickData.size() - 1) {
+		if (getDisplayNumber() < stickData.size() - 1 && getDisplayNumber() <= maxDisplayNumber) {
 			if (getDisplayNumber() + ZOOM_STEP > stickData.size() - 1) {
 				setDisplayNumber(stickData.size() - 1);
 				setDisplayFrom(0);
