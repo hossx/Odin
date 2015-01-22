@@ -280,7 +280,9 @@ public abstract class DataGridChart extends GridChart implements IDataCursor {
 			index = 0;
 		}
 
-		return formatAxisXDegree(stickData.get(index).getDate());
+        index += getDisplayFrom();
+
+        return formatAxisXDegree(stickData.get(index).getDate());
 	}
 
 	/*
@@ -347,7 +349,6 @@ public abstract class DataGridChart extends GridChart implements IDataCursor {
 		} else if (index < 0) {
 			index = 0;
 		}
-		
 		return getDisplayFrom() + index;
 	}	
 	

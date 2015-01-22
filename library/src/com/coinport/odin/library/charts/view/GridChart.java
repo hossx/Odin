@@ -790,8 +790,7 @@ public class GridChart extends AbstractBaseChart implements ITouchable, IFlexabl
 	 * 
 	 * @param canvas
 	 */
-	private void drawAlphaTextBox(PointF ptStart, PointF ptEnd, String content,
-			int fontSize, Canvas canvas) {
+	private void drawAlphaTextBox(PointF ptStart, PointF ptEnd, String content, int fontSize, Canvas canvas) {
 
 		Paint mPaintBox = new Paint();
 		mPaintBox.setColor(Color.WHITE);
@@ -851,8 +850,7 @@ public class GridChart extends AbstractBaseChart implements ITouchable, IFlexabl
 	 *         </p>
 	 */
 	public String getAxisXGraduate(Object value) {
-		float valueLength = ((Float) value).floatValue()
-				- dataQuadrant.getQuadrantPaddingStartX();
+		float valueLength = ((Float) value).floatValue() - dataQuadrant.getQuadrantPaddingStartX();
 		return String.valueOf(valueLength / this.dataQuadrant.getQuadrantPaddingWidth());
 	}
 
@@ -890,10 +888,8 @@ public class GridChart extends AbstractBaseChart implements ITouchable, IFlexabl
 	 *         </p>
 	 */
 	public String getAxisYGraduate(Object value) {
-		float valueLength = ((Float) value).floatValue()
-				- dataQuadrant.getQuadrantPaddingStartY();
-		return String
-				.valueOf(1f - valueLength / this.dataQuadrant.getQuadrantPaddingHeight());
+		float valueLength = ((Float) value).floatValue() - dataQuadrant.getQuadrantPaddingStartY();
+		return String.valueOf(1f - valueLength / this.dataQuadrant.getQuadrantPaddingHeight());
 	}
 
 	/**
@@ -934,11 +930,9 @@ public class GridChart extends AbstractBaseChart implements ITouchable, IFlexabl
 		PointF boxVE = new PointF(touchPoint.x + longitudeFontSize * 3.6f, borderWidth + lineVLength + axisXTitleQuadrantHeight);
 
 		// draw text
-		drawAlphaTextBox(boxVS, boxVE, getAxisXGraduate(touchPoint.x),
-				longitudeFontSize, canvas);
+		drawAlphaTextBox(boxVS, boxVE, getAxisXGraduate(touchPoint.x), longitudeFontSize, canvas);
 
-		canvas.drawLine(touchPoint.x, borderWidth, touchPoint.x, lineVLength,
-				mPaint);
+		canvas.drawLine(touchPoint.x, borderWidth, touchPoint.x, lineVLength, mPaint);
 	}
 
 	protected void drawHorizontalLine(Canvas canvas) {
@@ -968,8 +962,7 @@ public class GridChart extends AbstractBaseChart implements ITouchable, IFlexabl
 					touchPoint.y + latitudeFontSize / 2f + 2);
 
 			// draw text
-			drawAlphaTextBox(boxHS, boxHE, getAxisYGraduate(touchPoint.y),
-					latitudeFontSize, canvas);
+			drawAlphaTextBox(boxHS, boxHE, getAxisYGraduate(touchPoint.y), latitudeFontSize, canvas);
 
 			canvas.drawLine(borderWidth + axisYTitleQuadrantWidth, touchPoint.y,
 					borderWidth + axisYTitleQuadrantWidth + lineHLength,
@@ -982,8 +975,7 @@ public class GridChart extends AbstractBaseChart implements ITouchable, IFlexabl
 					touchPoint.y + latitudeFontSize / 2f + 2);
 
 			// draw text
-			drawAlphaTextBox(boxHS, boxHE, getAxisYGraduate(touchPoint.y),
-					latitudeFontSize, canvas);
+			drawAlphaTextBox(boxHS, boxHE, getAxisYGraduate(touchPoint.y), latitudeFontSize, canvas);
 
 			canvas.drawLine(borderWidth, touchPoint.y, borderWidth + lineHLength,
 					touchPoint.y, mPaint);
