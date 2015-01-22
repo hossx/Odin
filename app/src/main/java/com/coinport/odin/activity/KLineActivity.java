@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.coinport.odin.R;
+import com.coinport.odin.library.charts.entity.DateValueEntity;
 import com.coinport.odin.library.charts.entity.IStickEntity;
+import com.coinport.odin.library.charts.entity.LineEntity;
 import com.coinport.odin.library.charts.entity.ListChartData;
 import com.coinport.odin.library.charts.entity.OHLCEntity;
 import com.coinport.odin.library.charts.event.IZoomable;
 import com.coinport.odin.library.charts.view.GridChart;
-import com.coinport.odin.library.charts.view.SlipCandleStickChart;
+import com.coinport.odin.library.charts.view.MASlipCandleStickChart;
 import com.coinport.odin.util.Util;
 
 import org.json.JSONArray;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KLineActivity extends FragmentActivity {
-    private SlipCandleStickChart candlestickchart;
+    private MASlipCandleStickChart candlestickchart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +31,7 @@ public class KLineActivity extends FragmentActivity {
     }
     
     private void initCandleStickChart() {
-        candlestickchart = (SlipCandleStickChart) findViewById(R.id.candlestickchart);
+        candlestickchart = (MASlipCandleStickChart) findViewById(R.id.candlestickchart);
 
         candlestickchart.setAxisXColor(Color.LTGRAY);
         candlestickchart.setAxisYColor(Color.LTGRAY);
@@ -84,10 +86,51 @@ public class KLineActivity extends FragmentActivity {
                 }
             }
         }
+
+        List<LineEntity<DateValueEntity>> lines = new ArrayList<LineEntity<DateValueEntity>>();
+
+        LineEntity<DateValueEntity> MA7 = new LineEntity<DateValueEntity>();
+        MA7.setTitle("MA7");
+        MA7.setLineColor(Color.WHITE);
+        MA7.setLineData(computeMA(datas, 7));
+        lines.add(MA7);
         
+        LineEntity<DateValueEntity> MA30 = new LineEntity<DateValueEntity>();
+        MA30.setTitle("MA30");
+        MA30.setLineColor(Color.YELLOW);
+        MA30.setLineData(computeMA(datas, 30));
+        lines.add(MA30);
+
+        candlestickchart.setLinesData(lines);
         candlestickchart.setStickData(new ListChartData<IStickEntity>(datas));
     }
     
+    private List<DateValueEntity> computeMA(List<IStickEntity> ohlc, int days) {
+
+        if (days < 2) {
+            return null;
+        }
+
+        List<DateValueEntity> MAValues = new ArrayList<DateValueEntity>();
+
+        float sum = 0;
+        float avg = 0;
+        for (int i = 0; i < ohlc.size(); i++) {
+            float close = (float) ((OHLCEntity) ohlc.get(i)).getClose();
+            if (i < days) {
+                sum = sum + close;
+                avg = sum / (i + 1f);
+            } else {
+                sum = sum + close
+                        - (float) ((OHLCEntity) ohlc.get(i - days)).getClose();
+                avg = sum / days;
+            }
+            MAValues.add(new DateValueEntity(avg, ohlc.get(i).getDate()));
+        }
+
+        return MAValues;
+    }
+
     private long standerlize(long date, long interval) {
         return date / interval * interval;
     }

@@ -4,7 +4,7 @@
               android:background="@android:color/black"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <com.coinport.odin.library.charts.view.SlipCandleStickChart
+    <com.coinport.odin.library.charts.view.MASlipCandleStickChart
         android:id="@+id/candlestickchart"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
