@@ -95,7 +95,8 @@ public abstract class DataGridChart extends GridChart implements IDataCursor {
 		IMeasurable first = this.stickData.get(getDisplayFrom());
 		// 第一个stick为停盘的情况
 		if (first.getHigh() == 0 && first.getLow() == 0) {
-
+            maxValue = 0.000000001;
+            minValue = 0.0;
 		} else {
 			maxValue = first.getHigh();
 			minValue = first.getLow();
@@ -200,7 +201,7 @@ public abstract class DataGridChart extends GridChart implements IDataCursor {
 			this.maxValue = 0;
 			this.minValue = 0;
 		}
-		this.calcValueRangeFormatForAxis();
+		// this.calcValueRangeFormatForAxis();
 	}
 	
 	

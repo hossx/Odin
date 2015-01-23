@@ -119,8 +119,7 @@ public class TouchGestureDetector<T extends ITouchable> implements IGestureDetec
 	/**
 	 * @param onTouchGestureListener the onTouchGestureListener to set
 	 */
-	public void setOnTouchGestureListener(
-			OnTouchGestureListener onTouchGestureListener) {
+	public void setOnTouchGestureListener(OnTouchGestureListener onTouchGestureListener) {
 		this.onTouchGestureListener = onTouchGestureListener;
 	}
 }

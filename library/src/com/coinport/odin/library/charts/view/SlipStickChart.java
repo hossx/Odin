@@ -30,8 +30,11 @@ import android.view.MotionEvent;
 import com.coinport.odin.library.charts.entity.IMeasurable;
 import com.coinport.odin.library.charts.event.IGestureDetector;
 import com.coinport.odin.library.charts.event.ISlipable;
+import com.coinport.odin.library.charts.event.ITouchable;
 import com.coinport.odin.library.charts.event.OnSlipGestureListener;
+import com.coinport.odin.library.charts.event.OnTouchGestureListener;
 import com.coinport.odin.library.charts.event.SlipGestureDetector;
+import com.coinport.odin.library.charts.event.TouchGestureDetector;
 import com.coinport.odin.library.charts.mole.StickMole;
 
 /**
@@ -326,13 +329,17 @@ public class SlipStickChart extends StickChart implements ISlipable {
 		}
 	}
 
+    @Override
+    public void setOnTouchGestureListener(OnTouchGestureListener listener) {
+        ((TouchGestureDetector<ITouchable>) slipGestureDetector).setOnTouchGestureListener(listener);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @return 
-	 * @see cn.limc.androidcharts.view.StickChart#getDisplayFrom()
-	 */
+    /*
+         * (non-Javadoc)
+         * 
+         * @return 
+         * @see cn.limc.androidcharts.view.StickChart#getDisplayFrom()
+         */
 	@Override
 	public int getDisplayFrom() {
 		return displayFrom;

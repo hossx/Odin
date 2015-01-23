@@ -691,21 +691,20 @@ public class GridChart extends AbstractBaseChart implements ITouchable, IFlexabl
 //		((Axis)axisY).setPosition(AXIS_Y_POSITION_RIGHT);
 //		((Axis)axisY).drawAxis(canvas);
 
-		if (displayLongitude || displayLongitudeTitle) {
+		if (displayLongitude)
 			drawLongitudeLine(canvas);
-			drawLongitudeTitle(canvas);
-		}
-		if (displayLatitude || displayLatitudeTitle) {
+        if (displayLongitudeTitle)
+            drawLongitudeTitle(canvas);
+		if (displayLatitude)
 			drawLatitudeLine(canvas);
-			drawLatitudeTitle(canvas);
-		}
+        if (displayLatitudeTitle)
+            drawLatitudeTitle(canvas);
 
-		if (displayCrossXOnTouch || displayCrossYOnTouch) {
+		if (displayCrossXOnTouch)
 			// drawWithFingerClick(canvas);
 			drawHorizontalLine(canvas);
-			drawVerticalLine(canvas);
-
-		}
+        if (displayCrossYOnTouch)
+            drawVerticalLine(canvas);
 	}
 
 	/*
@@ -912,12 +911,6 @@ public class GridChart extends AbstractBaseChart implements ITouchable, IFlexabl
 	 */
 	protected void drawVerticalLine(Canvas canvas) {
 
-		if (!displayLongitudeTitle) {
-			return;
-		}
-		if (!displayCrossXOnTouch) {
-			return;
-		}
 		if (touchPoint == null) {
 			return;
 		}
@@ -934,23 +927,19 @@ public class GridChart extends AbstractBaseChart implements ITouchable, IFlexabl
 		PointF boxVS = new PointF(touchPoint.x - longitudeFontSize * 3.6f, borderWidth + lineVLength);
 		PointF boxVE = new PointF(touchPoint.x + longitudeFontSize * 3.6f, borderWidth + lineVLength + axisXTitleQuadrantHeight);
 
-		// draw text
-        if (!isMoving) {
-            latestVLabel = getAxisXGraduate(touchPoint.x);
+        if (displayLongitudeTitle) {
+            // draw text
+            if (!isMoving) {
+                latestVLabel = getAxisXGraduate(touchPoint.x);
+            }
+            drawAlphaTextBox(boxVS, boxVE, latestVLabel, longitudeFontSize, canvas);
         }
-        drawAlphaTextBox(boxVS, boxVE, latestVLabel, longitudeFontSize, canvas);
 
 		canvas.drawLine(touchPoint.x, borderWidth, touchPoint.x, lineVLength, mPaint);
 	}
 
 	protected void drawHorizontalLine(Canvas canvas) {
 
-		if (!displayLatitudeTitle) {
-			return;
-		}
-		if (!displayCrossYOnTouch) {
-			return;
-		}
 		if (touchPoint == null) {
 			return;
 		}
@@ -969,11 +958,13 @@ public class GridChart extends AbstractBaseChart implements ITouchable, IFlexabl
 			PointF boxHE = new PointF(borderWidth + axisYTitleQuadrantWidth,
 					touchPoint.y + latitudeFontSize / 2f + 2);
 
-			// draw text
-            if (!isMoving) {
-                latestHLabel = getAxisYGraduate(touchPoint.y);
+            if (displayLatitudeTitle) {
+                // draw text
+                if (!isMoving) {
+                    latestHLabel = getAxisYGraduate(touchPoint.y);
+                }
+                drawAlphaTextBox(boxHS, boxHE, latestHLabel, latitudeFontSize, canvas);
             }
-			drawAlphaTextBox(boxHS, boxHE, latestHLabel, latitudeFontSize, canvas);
 
 			canvas.drawLine(borderWidth + axisYTitleQuadrantWidth, touchPoint.y,
 					borderWidth + axisYTitleQuadrantWidth + lineHLength,
@@ -985,11 +976,13 @@ public class GridChart extends AbstractBaseChart implements ITouchable, IFlexabl
 			PointF boxHE = new PointF(super.getWidth() - borderWidth,
 					touchPoint.y + latitudeFontSize / 2f + 2);
 
-			// draw text
-            if (!isMoving) {
-                latestHLabel = getAxisYGraduate(touchPoint.y);
+            if (displayLatitudeTitle) {
+                // draw text
+                if (!isMoving) {
+                    latestHLabel = getAxisYGraduate(touchPoint.y);
+                }
+                drawAlphaTextBox(boxHS, boxHE, latestHLabel, latitudeFontSize, canvas);
             }
-			drawAlphaTextBox(boxHS, boxHE, latestHLabel, latitudeFontSize, canvas);
 
 			canvas.drawLine(borderWidth, touchPoint.y, borderWidth + lineHLength,
 					touchPoint.y, mPaint);
@@ -1803,6 +1796,7 @@ public class GridChart extends AbstractBaseChart implements ITouchable, IFlexabl
 	 */
 	public void setOnTouchGestureListener(OnTouchGestureListener listener) {
 		this.onTouchGestureListener = listener;
+        ((TouchGestureDetector<ITouchable>) touchGestureDetector).setOnTouchGestureListener(onTouchGestureListener);
 	}
 
 	/* (non-Javadoc)

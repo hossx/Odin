@@ -4,8 +4,19 @@
               android:background="@android:color/black"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <com.coinport.odin.library.charts.view.MASlipCandleStickChart
-        android:id="@+id/candlestickchart"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.coinport.odin.library.charts.view.MASlipCandleStickChart
+            android:id="@+id/candlestickchart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"/>
+        <com.coinport.odin.library.charts.view.ColoredMASlipStickChart
+            android:id="@+id/volumechart"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp" />
+    </LinearLayout>
 </LinearLayout>
