@@ -4,7 +4,13 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.coinport.odin.R;
 import com.coinport.odin.library.charts.common.ICrossLines;
@@ -29,28 +35,80 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class KLineActivity extends FragmentActivity {
+    static private final Map<String, Integer> PERIOD = new HashMap<>();
+    
     private MASlipCandleStickChart candlestickchart;
     private ColoredMASlipStickChart volumechart;
-    private List<IStickEntity> sticks = new ArrayList<IStickEntity>();
-    private List<IStickEntity> vols = new ArrayList<IStickEntity>();
+    private List<IStickEntity> sticks = new ArrayList<>();
+    private List<IStickEntity> vols = new ArrayList<>();
+
+    private int period = 1;
+    private Spinner periodSelector;
+    private TextView open;
+    private TextView close;
+    private TextView high;
+    private TextView low;
+    private TextView volume;
+    
+    static {
+        PERIOD.put("1分", 1);
+        PERIOD.put("3分", 2);
+        PERIOD.put("5分", 3);
+        PERIOD.put("15分", 4);
+        PERIOD.put("30分", 5);
+        PERIOD.put("1小时", 6);
+        PERIOD.put("2小时", 7);
+        PERIOD.put("4小时", 8);
+        PERIOD.put("6小时", 9);
+        PERIOD.put("12小时", 10);
+        PERIOD.put("1天", 11);
+        PERIOD.put("3天", 12);
+        PERIOD.put("1周", 13);
+    }
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kline);
         candlestickchart = (MASlipCandleStickChart) findViewById(R.id.candlestickchart);
         volumechart = (ColoredMASlipStickChart) findViewById(R.id.volumechart);
-        initData();
+
+        open = (TextView) findViewById(R.id.open);
+        close = (TextView) findViewById(R.id.close);
+        high = (TextView) findViewById(R.id.high);
+        low = (TextView) findViewById(R.id.low);
+        volume = (TextView) findViewById(R.id.volume);
         
+        periodSelector = (Spinner) findViewById(R.id.period_selector);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.period_array,
+                R.layout.white_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        periodSelector.setAdapter(spinnerAdapter);
+        periodSelector.setSelection(0);
+        periodSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                period = PERIOD.get(parent.getItemAtPosition(position).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        initData();
         initCandleStickChart();
         initVolumeChart();
     }
     
     private void initData() {
-        sticks = new ArrayList<IStickEntity>();
-        vols = new ArrayList<IStickEntity>();
+        sticks.clear();
+        vols.clear();
         JSONArray ja =  Util.getJsonArrayByPath(Util.getJsonObjectFromFile(this, "kline_mock.json"), "data.candles");
 
         if (ja != null) {
@@ -73,6 +131,7 @@ public class KLineActivity extends FragmentActivity {
                 }
             }
         }
+        updateMetrics(sticks.size() - 1);
     }
     
     private void initCandleStickChart() {
@@ -157,11 +216,25 @@ public class KLineActivity extends FragmentActivity {
             @Override
             public void onTouchUp(ITouchable touchable, MotionEvent event) {
                 super.onTouchUp(touchable, event);
+                updateMetrics(candlestickchart.getSelectedIndex());
                 volumechart.touchUp(new PointF(event.getX(), event.getY()));
             }
         });
     }
 
+    private void updateMetrics(int index) {
+        if (index < 0 || index >= sticks.size())
+            return;
+        OHLCEntity ohlc = (OHLCEntity) sticks.get(index);
+        open.setText(Util.autoDisplayDouble(ohlc.getOpen()));
+        close.setText(Util.autoDisplayDouble(ohlc.getClose()));
+        high.setText(Util.autoDisplayDouble(ohlc.getHigh()));
+        low.setText(Util.autoDisplayDouble(ohlc.getLow()));
+
+        StickEntity se = (StickEntity) vols.get(index);
+        volume.setText(Util.autoDisplayDouble(se.getHigh()));
+    }
+    
     private void initVolumeChart() {
         List<LineEntity<DateValueEntity>> lines = new ArrayList<LineEntity<DateValueEntity>>();
 
@@ -173,8 +246,8 @@ public class KLineActivity extends FragmentActivity {
 
         LineEntity<DateValueEntity> VMA10 = new LineEntity<DateValueEntity>();
         VMA10.setTitle("MA10");
-        VMA10.setLineColor(Color.RED);
-        VMA10.setLineData(computeVMA(vols, 10));
+        VMA10.setLineColor(Color.YELLOW);
+        VMA10.setLineData(computeVMA(vols, 30));
         lines.add(VMA10);
         
         volumechart.setAxisXColor(Color.LTGRAY);
@@ -255,6 +328,7 @@ public class KLineActivity extends FragmentActivity {
                 float oriY = 0;
                 if (candlestickchart.getTouchPoint() != null)
                     oriY = candlestickchart.getTouchPoint().y;
+                updateMetrics(volumechart.getSelectedIndex());
                 candlestickchart.touchUp(new PointF(event.getX(), oriY));
             }
 
