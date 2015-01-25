@@ -98,6 +98,8 @@ public class TradeActivity extends FragmentActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.kline:
                 Intent intent = new Intent(this, KLineActivity.class);
+                intent.putExtra("inCurrency", inCurrency);
+                intent.putExtra("outCurrency", outCurrency);
                 this.startActivity(intent);
                 break;
         }

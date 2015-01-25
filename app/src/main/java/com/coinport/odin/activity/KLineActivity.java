@@ -1,8 +1,10 @@
 package com.coinport.odin.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -29,18 +31,24 @@ import com.coinport.odin.library.charts.event.OnTouchGestureListener;
 import com.coinport.odin.library.charts.view.ColoredMASlipStickChart;
 import com.coinport.odin.library.charts.view.GridChart;
 import com.coinport.odin.library.charts.view.MASlipCandleStickChart;
+import com.coinport.odin.network.NetworkRequest;
+import com.coinport.odin.util.Constants;
 import com.coinport.odin.util.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class KLineActivity extends FragmentActivity {
     static private final Map<String, Integer> PERIOD = new HashMap<>();
+    static private final int MAX_STICK_NUM = 181;
     
     private MASlipCandleStickChart candlestickchart;
     private ColoredMASlipStickChart volumechart;
@@ -48,13 +56,22 @@ public class KLineActivity extends FragmentActivity {
     private List<IStickEntity> vols = new ArrayList<>();
 
     private int period = 1;
-    private Spinner periodSelector;
+    private long cursor = -1;
     private TextView open;
     private TextView close;
     private TextView high;
     private TextView low;
     private TextView volume;
-    
+
+    private String inCurrency;
+    private String outCurrency;
+
+    private Timer timer = null;
+    private TimerTask fetchKlineTask = null;
+
+    private boolean isTouched = false;
+    private final Handler handler = new Handler();
+
     static {
         PERIOD.put("1分", 1);
         PERIOD.put("3分", 2);
@@ -75,16 +92,22 @@ public class KLineActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kline);
+        Intent intent = this.getIntent();
+        inCurrency = intent.getStringExtra("inCurrency");
+        outCurrency = intent.getStringExtra("outCurrency");
         candlestickchart = (MASlipCandleStickChart) findViewById(R.id.candlestickchart);
         volumechart = (ColoredMASlipStickChart) findViewById(R.id.volumechart);
+
+        TextView title = (TextView) findViewById(R.id.kline_title);
+        title.setText(inCurrency + "\n" + outCurrency);
 
         open = (TextView) findViewById(R.id.open);
         close = (TextView) findViewById(R.id.close);
         high = (TextView) findViewById(R.id.high);
         low = (TextView) findViewById(R.id.low);
         volume = (TextView) findViewById(R.id.volume);
-        
-        periodSelector = (Spinner) findViewById(R.id.period_selector);
+
+        Spinner periodSelector = (Spinner) findViewById(R.id.period_selector);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.period_array,
                 R.layout.white_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -94,6 +117,7 @@ public class KLineActivity extends FragmentActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 period = PERIOD.get(parent.getItemAtPosition(position).toString());
+                cursor = -1;
             }
 
             @Override
@@ -101,39 +125,44 @@ public class KLineActivity extends FragmentActivity {
             }
         });
 
-        initData();
         initCandleStickChart();
         initVolumeChart();
     }
-    
-    private void initData() {
-        sticks.clear();
-        vols.clear();
-        JSONArray ja =  Util.getJsonArrayByPath(Util.getJsonObjectFromFile(this, "kline_mock.json"), "data.candles");
 
-        if (ja != null) {
-            for (int i = 0; i < ja.length(); ++i) {
-                try {
-                    JSONArray arr = ja.getJSONArray(i);
-                    long ts = arr.getLong(0);
-                    double open = arr.getDouble(1);
-                    double high = arr.getDouble(2);
-                    double low = arr.getDouble(3);
-                    double close = arr.getDouble(4);
-                    double amount = arr.getDouble(5);
-                    sticks.add(new OHLCEntity(open, high, low, close, standerlize(ts, 60 * 1000)));
-                    if (open > close)
-                        vols.add(new ColoredStickEntity(amount, 0, standerlize(ts, 60 * 1000), Color.RED));
-                    else
-                        vols.add(new ColoredStickEntity(amount, 0, standerlize(ts, 60 * 1000), Color.GREEN));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        updateMetrics(sticks.size() - 1);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startFetchKlineData();
     }
-    
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopFetchKlineData();
+    }
+
+    private void startFetchKlineData() {
+        if (timer != null)
+            timer.cancel();
+        if (fetchKlineTask != null)
+            fetchKlineTask.cancel();
+        fetchKlineTask = new FetchKlineTask();
+        timer = new Timer();
+        timer.schedule(fetchKlineTask, 0, 5000);
+
+    }
+
+    private void stopFetchKlineData() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        if (fetchKlineTask != null) {
+            fetchKlineTask.cancel();
+            fetchKlineTask = null;
+        }
+    }
+
     private void initCandleStickChart() {
 
         candlestickchart.setAxisXColor(Color.LTGRAY);
@@ -151,8 +180,6 @@ public class KLineActivity extends FragmentActivity {
         // 最小价格
         candlestickchart.setMinValue(0);
         candlestickchart.setMinDisplayNumber(10);
-        candlestickchart.setDisplayNumber(52);
-        candlestickchart.setDisplayFrom(sticks.size() - 52);
         candlestickchart.setZoomBaseLine(IZoomable.ZOOM_BASE_LINE_CENTER);
         candlestickchart.setStickSpacing(5);
 
@@ -173,23 +200,6 @@ public class KLineActivity extends FragmentActivity {
         candlestickchart.setAxisYPosition(GridChart.AXIS_Y_POSITION_RIGHT);
         candlestickchart.setBindCrossLinesToStick(ICrossLines.BIND_TO_TYPE_HIRIZIONAL);
 
-        List<LineEntity<DateValueEntity>> lines = new ArrayList<LineEntity<DateValueEntity>>();
-
-        LineEntity<DateValueEntity> MA7 = new LineEntity<DateValueEntity>();
-        MA7.setTitle("MA7");
-        MA7.setLineColor(Color.WHITE);
-        MA7.setLineData(computeMA(sticks, 7));
-        lines.add(MA7);
-        
-        LineEntity<DateValueEntity> MA30 = new LineEntity<DateValueEntity>();
-        MA30.setTitle("MA30");
-        MA30.setLineColor(Color.YELLOW);
-        MA30.setLineData(computeMA(sticks, 30));
-        lines.add(MA30);
-
-        candlestickchart.setLinesData(lines);
-        candlestickchart.setStickData(new ListChartData<IStickEntity>(sticks));
-        
         candlestickchart.setOnDisplayCursorListener(new IDisplayCursorListener() {
             @Override
             public void onCursorChanged(IDataCursor dataCursor, int displayFrom, int displayNumber) {
@@ -217,6 +227,7 @@ public class KLineActivity extends FragmentActivity {
             public void onTouchUp(ITouchable touchable, MotionEvent event) {
                 super.onTouchUp(touchable, event);
                 updateMetrics(candlestickchart.getSelectedIndex());
+                isTouched = true;
                 volumechart.touchUp(new PointF(event.getX(), event.getY()));
             }
         });
@@ -236,20 +247,6 @@ public class KLineActivity extends FragmentActivity {
     }
     
     private void initVolumeChart() {
-        List<LineEntity<DateValueEntity>> lines = new ArrayList<LineEntity<DateValueEntity>>();
-
-        LineEntity<DateValueEntity> MA7 = new LineEntity<DateValueEntity>();
-        MA7.setTitle("MA7");
-        MA7.setLineColor(Color.WHITE);
-        MA7.setLineData(computeVMA(vols, 7));
-        lines.add(MA7);
-
-        LineEntity<DateValueEntity> VMA10 = new LineEntity<DateValueEntity>();
-        VMA10.setTitle("MA10");
-        VMA10.setLineColor(Color.YELLOW);
-        VMA10.setLineData(computeVMA(vols, 30));
-        lines.add(VMA10);
-        
         volumechart.setAxisXColor(Color.LTGRAY);
         volumechart.setAxisYColor(Color.LTGRAY);
         volumechart.setLatitudeColor(Color.GRAY);
@@ -266,8 +263,6 @@ public class KLineActivity extends FragmentActivity {
         volumechart.setMinValue(0);
         volumechart.setLatitudeNum(3);
 
-        volumechart.setDisplayNumber(52);
-        volumechart.setDisplayFrom(vols.size() - 52);
         volumechart.setMinDisplayNumber(10);
         volumechart.setZoomBaseLine(IZoomable.ZOOM_BASE_LINE_CENTER);
         volumechart.setStickSpacing(5);
@@ -290,9 +285,6 @@ public class KLineActivity extends FragmentActivity {
         volumechart.setAxisXTitleQuadrantHeight(80);
         volumechart.setAxisXPosition(GridChart.AXIS_X_POSITION_BOTTOM);
         volumechart.setAxisYPosition(GridChart.AXIS_Y_POSITION_RIGHT);
-        
-        volumechart.setLineData(lines);
-        volumechart.setStickData(new ListChartData<IStickEntity>(vols));
         
         volumechart.setOnDisplayCursorListener(new IDisplayCursorListener() {
             @Override
@@ -329,6 +321,7 @@ public class KLineActivity extends FragmentActivity {
                 if (candlestickchart.getTouchPoint() != null)
                     oriY = candlestickchart.getTouchPoint().y;
                 updateMetrics(volumechart.getSelectedIndex());
+                isTouched = true;
                 candlestickchart.touchUp(new PointF(event.getX(), oriY));
             }
 
@@ -341,7 +334,7 @@ public class KLineActivity extends FragmentActivity {
             return null;
         }
 
-        List<DateValueEntity> MAValues = new ArrayList<DateValueEntity>();
+        List<DateValueEntity> MAValues = new ArrayList<>();
 
         float sum = 0;
         float avg = 0;
@@ -351,8 +344,7 @@ public class KLineActivity extends FragmentActivity {
                 sum = sum + close;
                 avg = sum / (i + 1f);
             } else {
-                sum = sum + close
-                        - (float) ((OHLCEntity) ohlc.get(i - days)).getClose();
+                sum = sum + close - (float) ((OHLCEntity) ohlc.get(i - days)).getClose();
                 avg = sum / days;
             }
             MAValues.add(new DateValueEntity(avg, ohlc.get(i).getDate()));
@@ -387,5 +379,133 @@ public class KLineActivity extends FragmentActivity {
 
     private long standerlize(long date, long interval) {
         return date / interval * interval;
+    }
+
+    private class FetchKlineTask extends TimerTask {
+
+        @Override
+        public void run() {
+            try {
+                String url = String.format(Constants.KLINE_URL,
+                    inCurrency.toLowerCase() + "-" + outCurrency.toLowerCase());
+                NetworkRequest get = new NetworkRequest(url, NetworkRequest.HTTP_GET);
+                get.setOnHttpRequestListener(
+                        new NetworkRequest.OnHttpRequestListener() {
+                            @Override
+                            public void onRequest(NetworkRequest request) throws Exception {
+                                Map<String, String> params = new HashMap<>();
+                                params.put("period", String.valueOf(period));
+                                if (cursor != -1)
+                                    params.put("from", String.valueOf(cursor));
+                                else
+                                    params.put("from", "0");
+                                request.addRequestParameters(params);
+                            }
+
+                            @Override
+                            public void onSucceed(int statusCode, NetworkRequest request) throws Exception {
+                                JSONObject klineResult = new JSONObject(request.getResult());
+                                JSONArray ja = Util.getJsonArrayByPath(klineResult, "data.candles");
+
+                                if (ja != null) {
+                                    if (cursor == -1) {
+                                        sticks.clear();
+                                        vols.clear();
+                                    }
+                                    for (int i = 0; i < ja.length(); ++i) {
+                                        try {
+                                            JSONArray arr = ja.getJSONArray(i);
+                                            long ts = arr.getLong(0);
+                                            double open = arr.getDouble(1);
+                                            double high = arr.getDouble(2);
+                                            double low = arr.getDouble(3);
+                                            double close = arr.getDouble(4);
+                                            double amount = arr.getDouble(5);
+                                            if (!sticks.isEmpty() && sticks.get(sticks.size() - 1).getDate() >= ts)
+                                                continue;
+                                            sticks.add(new OHLCEntity(open, high, low, close, standerlize(ts, 60 * 1000)));
+                                            if (open > close)
+                                                vols.add(new ColoredStickEntity(amount, 0, standerlize(ts, 60 * 1000), Color.RED));
+                                            else
+                                                vols.add(new ColoredStickEntity(amount, 0, standerlize(ts, 60 * 1000), Color.GREEN));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    if (sticks.size() > MAX_STICK_NUM) {
+                                        int removeNum = sticks.size() - MAX_STICK_NUM;
+                                        for (int i = 0; i < removeNum; ++i) {
+                                            sticks.remove(0);
+                                            vols.remove(0);
+                                        }
+                                    }
+                                    Log.i("kline", String.valueOf(sticks.size()));
+                                    if (cursor == -1) {
+                                        if (sticks.size() >= 52) {
+                                            candlestickchart.setDisplayNumber(52);
+                                            volumechart.setDisplayNumber(52);
+                                            candlestickchart.setDisplayFrom(sticks.size() - 52);
+                                            volumechart.setDisplayFrom(sticks.size() - 52);
+                                        } else {
+                                            candlestickchart.setDisplayNumber(sticks.size());
+                                            volumechart.setDisplayNumber(sticks.size());
+                                            candlestickchart.setDisplayFrom(0);
+                                            volumechart.setDisplayFrom(0);
+                                        }
+                                    }
+                                    cursor = sticks.get(sticks.size() - 1).getDate() + 1;
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            updateMetrics(sticks.size() - 1);
+                                        }
+                                    });
+                                    List<LineEntity<DateValueEntity>> cslines = new ArrayList<LineEntity<DateValueEntity>>();
+
+                                    LineEntity<DateValueEntity> csMA7 = new LineEntity<DateValueEntity>();
+                                    csMA7.setTitle("MA7");
+                                    csMA7.setLineColor(Color.WHITE);
+                                    csMA7.setLineData(computeMA(sticks, 7));
+                                    cslines.add(csMA7);
+
+                                    LineEntity<DateValueEntity> csMA30 = new LineEntity<DateValueEntity>();
+                                    csMA30.setTitle("MA30");
+                                    csMA30.setLineColor(Color.YELLOW);
+                                    csMA30.setLineData(computeMA(sticks, 30));
+                                    cslines.add(csMA30);
+
+                                    candlestickchart.setLinesData(cslines);
+                                    candlestickchart.setStickData(new ListChartData<IStickEntity>(sticks));
+                                    candlestickchart.postInvalidate();
+
+                                    List<LineEntity<DateValueEntity>> vlines = new ArrayList<LineEntity<DateValueEntity>>();
+
+                                    LineEntity<DateValueEntity> vMA7 = new LineEntity<DateValueEntity>();
+                                    vMA7.setTitle("MA7");
+                                    vMA7.setLineColor(Color.WHITE);
+                                    vMA7.setLineData(computeVMA(vols, 7));
+                                    vlines.add(vMA7);
+
+                                    LineEntity<DateValueEntity> vMA30 = new LineEntity<DateValueEntity>();
+                                    vMA30.setTitle("MA30");
+                                    vMA30.setLineColor(Color.YELLOW);
+                                    vMA30.setLineData(computeVMA(vols, 30));
+                                    vlines.add(vMA30);
+
+                                    volumechart.setLineData(vlines);
+                                    volumechart.setStickData(new ListChartData<IStickEntity>(vols));
+                                    volumechart.postInvalidate();
+                                }
+                            }
+
+                            @Override
+                            public void onFailed(int statusCode, NetworkRequest request) throws Exception {
+                            }
+                        }).execute();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
