@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.coinport.odin.R;
+import com.coinport.odin.dialog.CustomProgressDialog;
 import com.coinport.odin.library.charts.common.ICrossLines;
 import com.coinport.odin.library.charts.common.IDataCursor;
 import com.coinport.odin.library.charts.entity.ColoredStickEntity;
@@ -71,6 +72,7 @@ public class KLineActivity extends FragmentActivity {
 
     private boolean isTouched = false;
     private final Handler handler = new Handler();
+    private CustomProgressDialog cpd = null;
 
     static {
         PERIOD.put("1分", 1);
@@ -118,6 +120,10 @@ public class KLineActivity extends FragmentActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 period = PERIOD.get(parent.getItemAtPosition(position).toString());
                 cursor = -1;
+                if (cpd == null) {
+                    cpd = CustomProgressDialog.createDialog(KLineActivity.this);
+                    cpd.show();
+                }
             }
 
             @Override
@@ -386,6 +392,17 @@ public class KLineActivity extends FragmentActivity {
         @Override
         public void run() {
             try {
+                if (cursor == -1 && cpd == null) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (cpd == null) {
+                                cpd = CustomProgressDialog.createDialog(KLineActivity.this);
+                                cpd.show();
+                            }
+                        }
+                    });
+                }
                 String url = String.format(Constants.KLINE_URL,
                     inCurrency.toLowerCase() + "-" + outCurrency.toLowerCase());
                 NetworkRequest get = new NetworkRequest(url, NetworkRequest.HTTP_GET);
@@ -453,11 +470,17 @@ public class KLineActivity extends FragmentActivity {
                                         }
                                     }
                                     cursor = sticks.get(sticks.size() - 1).getDate() + 1;
-                                    if (!isTouched) {
+                                    if (!isTouched || cpd != null) {
                                         handler.post(new Runnable() {
                                             @Override
                                             public void run() {
-                                                updateMetrics(sticks.size() - 1);
+                                                if (!isTouched) {
+                                                    updateMetrics(sticks.size() - 1);
+                                                }
+                                                if (cpd != null) {
+                                                    cpd.dismiss();
+                                                    cpd = null;
+                                                }
                                             }
                                         });
                                     }
