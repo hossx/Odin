@@ -6,9 +6,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
@@ -18,12 +20,9 @@ import com.coinport.odin.library.psts.PagerSlidingTabStrip;
 import com.coinport.odin.R;
 import com.coinport.odin.adapter.TradePagerAdapter;
 
-public class TradeActivity extends FragmentActivity {
+public class TradeActivity extends FragmentActivity implements View.OnClickListener {
     private String inCurrency;
     private String outCurrency;
-    private PagerSlidingTabStrip tabs;
-    private ViewPager pager;
-    private TradePagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +38,9 @@ public class TradeActivity extends FragmentActivity {
 //        TextView tv = (TextView) findViewById(R.id.trade_page_text);
 //        tv.setText("inCurrency: " + inCurrency + " outCurrency: " + outCurrency);
 
-        tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        pager = (ViewPager) findViewById(R.id.pager);
-        adapter = new TradePagerAdapter(getSupportFragmentManager(), this);
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        TradePagerAdapter adapter = new TradePagerAdapter(getSupportFragmentManager(), this);
 
         pager.setAdapter(adapter);
 
@@ -67,9 +66,9 @@ public class TradeActivity extends FragmentActivity {
         tv.setClickable(true);
         tv.setBackgroundResource(R.drawable.background_tab);
 
-        // TODO(c): use this code
-//        menu.add(Menu.NONE, R.id.kline, Menu.NONE, "k").setActionView(tv)
-//                .setVisible(true).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        tv.setOnClickListener(this);
+        menu.add(Menu.NONE, R.id.kline, Menu.NONE, "k").setActionView(tv)
+                .setVisible(true).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
 
@@ -94,4 +93,15 @@ public class TradeActivity extends FragmentActivity {
         return outCurrency;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.kline:
+                Intent intent = new Intent(this, KLineActivity.class);
+                intent.putExtra("inCurrency", inCurrency);
+                intent.putExtra("outCurrency", outCurrency);
+                this.startActivity(intent);
+                break;
+        }
+    }
 }

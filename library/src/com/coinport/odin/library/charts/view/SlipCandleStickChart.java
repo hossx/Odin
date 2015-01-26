@@ -58,7 +58,7 @@ public class SlipCandleStickChart extends SlipStickChart {
 	 * 默认阳线的边框颜色
 	 * </p>
 	 */
-	public static final int DEFAULT_POSITIVE_STICK_BORDER_COLOR = Color.RED;
+	public static final int DEFAULT_POSITIVE_STICK_BORDER_COLOR = Color.GREEN;
 
 	/**
 	 * <p>
@@ -71,7 +71,7 @@ public class SlipCandleStickChart extends SlipStickChart {
 	 * 默认阳线的填充颜色
 	 * </p>
 	 */
-	public static final int DEFAULT_POSITIVE_STICK_FILL_COLOR = Color.RED;
+	public static final int DEFAULT_POSITIVE_STICK_FILL_COLOR = Color.GREEN;
 
 	/**
 	 * <p>
@@ -84,7 +84,7 @@ public class SlipCandleStickChart extends SlipStickChart {
 	 * 默认阴线的边框颜色
 	 * </p>
 	 */
-	public static final int DEFAULT_NEGATIVE_STICK_BORDER_COLOR = Color.GREEN;
+	public static final int DEFAULT_NEGATIVE_STICK_BORDER_COLOR = Color.RED;
 
 	/**
 	 * <p>
@@ -97,7 +97,7 @@ public class SlipCandleStickChart extends SlipStickChart {
 	 * 默认阴线的填充颜色
 	 * </p>
 	 */
-	public static final int DEFAULT_NEGATIVE_STICK_FILL_COLOR = Color.GREEN;
+	public static final int DEFAULT_NEGATIVE_STICK_FILL_COLOR = Color.RED;
 
 	/**
 	 * <p>
@@ -273,12 +273,12 @@ public class SlipCandleStickChart extends SlipStickChart {
 			return;
 		}
 
-		float stickWidth = dataQuadrant.getQuadrantPaddingWidth() / displayNumber
-				- stickSpacing;
+		float stickWidth = dataQuadrant.getQuadrantPaddingWidth() / displayNumber - stickSpacing;
 		float stickX = dataQuadrant.getQuadrantPaddingStartX();
 
 		Paint mPaintPositive = new Paint();
 		mPaintPositive.setColor(positiveStickFillColor);
+        mPaintPositive.setStyle(Paint.Style.STROKE);
 
 		Paint mPaintNegative = new Paint();
 		mPaintNegative.setColor(negativeStickFillColor);
@@ -304,11 +304,12 @@ public class SlipCandleStickChart extends SlipStickChart {
 			if (ohlc.getOpen() < ohlc.getClose()) {
 				// stick or line
 				if (stickWidth >= 2f) {
-					canvas.drawRect(stickX, closeY, stickX + stickWidth, openY,
-							mPaintPositive);
+					canvas.drawRect(stickX, closeY, stickX + stickWidth, openY, mPaintPositive);
 				}
-				canvas.drawLine(stickX + stickWidth / 2f, highY, stickX
-						+ stickWidth / 2f, lowY, mPaintPositive);
+                if (highY < closeY)
+                    canvas.drawLine(stickX + stickWidth / 2f, highY, stickX + stickWidth / 2f, closeY, mPaintPositive);
+                if (lowY > openY)
+                    canvas.drawLine(stickX + stickWidth / 2f, lowY, stickX + stickWidth / 2f, openY, mPaintPositive);
 			} else if (ohlc.getOpen() > ohlc.getClose()) {
 				// stick or line
 				if (stickWidth >= 2f) {

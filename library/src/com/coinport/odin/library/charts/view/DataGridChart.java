@@ -50,8 +50,8 @@ public abstract class DataGridChart extends GridChart implements IDataCursor {
 	public static final boolean DEFAULT_AUTO_CALC_VALUE_RANGE = true;
 	
 	public static final int DEFAULT_DATA_MULTIPLE = 1;
-	public static final String DEFAULT_AXIS_Y_DECIMAL_FORMAT = "#,##0";
-	public static final String DEFAULT_AXIS_X_DATE_TARGET_FORMAT = "yyyy/MM/dd";
+	public static final String DEFAULT_AXIS_Y_DECIMAL_FORMAT = "0.00E0";
+	public static final String DEFAULT_AXIS_X_DATE_TARGET_FORMAT = "yy-MM-dd HH:mm";
 	public static final String DEFAULT_AXIS_X_DATE_SOURCE_FORMAT = "yyyyMMdd";
 	
 	protected int dataMultiple =  DEFAULT_DATA_MULTIPLE;
@@ -95,7 +95,8 @@ public abstract class DataGridChart extends GridChart implements IDataCursor {
 		IMeasurable first = this.stickData.get(getDisplayFrom());
 		// 第一个stick为停盘的情况
 		if (first.getHigh() == 0 && first.getLow() == 0) {
-
+            maxValue = 0.000000001;
+            minValue = 0.0;
 		} else {
 			maxValue = first.getHigh();
 			minValue = first.getLow();
@@ -119,53 +120,60 @@ public abstract class DataGridChart extends GridChart implements IDataCursor {
 		this.minValue = minValue;
 	}
 
-	protected void calcValueRangePaddingZero() {
-		double maxValue = this.maxValue;
-		double minValue = this.minValue;
-
-		if ((long) maxValue > (long) minValue) {
-			if ((maxValue - minValue) < 10 && minValue > 1) {
-				this.maxValue = (long) (maxValue + 1);
-				this.minValue = (long) (minValue - 1);
-			} else {
-				this.maxValue = (long) (maxValue + (maxValue - minValue) * 0.1);
-				this.minValue = (long) (minValue - (maxValue - minValue) * 0.1);
-				if (this.minValue < 0) {
-					this.minValue = 0;
-				}
-			}
-		} else if ((long) maxValue == (long) minValue) {
-			if (maxValue <= 10 && maxValue > 1) {
-				this.maxValue = maxValue + 1;
-				this.minValue = minValue - 1;
-			} else if (maxValue <= 100 && maxValue > 10) {
-				this.maxValue = maxValue + 10;
-				this.minValue = minValue - 10;
-			} else if (maxValue <= 1000 && maxValue > 100) {
-				this.maxValue = maxValue + 100;
-				this.minValue = minValue - 100;
-			} else if (maxValue <= 10000 && maxValue > 1000) {
-				this.maxValue = maxValue + 1000;
-				this.minValue = minValue - 1000;
-			} else if (maxValue <= 100000 && maxValue > 10000) {
-				this.maxValue = maxValue + 10000;
-				this.minValue = minValue - 10000;
-			} else if (maxValue <= 1000000 && maxValue > 100000) {
-				this.maxValue = maxValue + 100000;
-				this.minValue = minValue - 100000;
-			} else if (maxValue <= 10000000 && maxValue > 1000000) {
-				this.maxValue = maxValue + 1000000;
-				this.minValue = minValue - 1000000;
-			} else if (maxValue <= 100000000 && maxValue > 10000000) {
-				this.maxValue = maxValue + 10000000;
-				this.minValue = minValue - 10000000;
-			}
-		} else {
-			this.maxValue = 0;
-			this.minValue = 0;
-		}
-
-	}
+    protected void calcValueRangePaddingZero() {
+        double margin = (this.maxValue - this.minValue) * 0.1;
+        this.maxValue += margin;
+        this.minValue -= margin;
+        this.minValue = Math.max(0, this.minValue);
+    }
+    
+//	protected void calcValueRangePaddingZero() {
+//		double maxValue = this.maxValue;
+//		double minValue = this.minValue;
+//
+//		if ((long) maxValue > (long) minValue) {
+//			if ((maxValue - minValue) < 10 && minValue > 1) {
+//				this.maxValue = (long) (maxValue + 1);
+//				this.minValue = (long) (minValue - 1);
+//			} else {
+//				this.maxValue = (long) (maxValue + (maxValue - minValue) * 0.1);
+//				this.minValue = (long) (minValue - (maxValue - minValue) * 0.1);
+//				if (this.minValue < 0) {
+//					this.minValue = 0;
+//				}
+//			}
+//		} else if ((long) maxValue == (long) minValue) {
+//			if (maxValue <= 10 && maxValue > 1) {
+//				this.maxValue = maxValue + 1;
+//				this.minValue = minValue - 1;
+//			} else if (maxValue <= 100 && maxValue > 10) {
+//				this.maxValue = maxValue + 10;
+//				this.minValue = minValue - 10;
+//			} else if (maxValue <= 1000 && maxValue > 100) {
+//				this.maxValue = maxValue + 100;
+//				this.minValue = minValue - 100;
+//			} else if (maxValue <= 10000 && maxValue > 1000) {
+//				this.maxValue = maxValue + 1000;
+//				this.minValue = minValue - 1000;
+//			} else if (maxValue <= 100000 && maxValue > 10000) {
+//				this.maxValue = maxValue + 10000;
+//				this.minValue = minValue - 10000;
+//			} else if (maxValue <= 1000000 && maxValue > 100000) {
+//				this.maxValue = maxValue + 100000;
+//				this.minValue = minValue - 100000;
+//			} else if (maxValue <= 10000000 && maxValue > 1000000) {
+//				this.maxValue = maxValue + 1000000;
+//				this.minValue = minValue - 1000000;
+//			} else if (maxValue <= 100000000 && maxValue > 10000000) {
+//				this.maxValue = maxValue + 10000000;
+//				this.minValue = minValue - 10000000;
+//			}
+//		} else {
+//			this.maxValue = 0;
+//			this.minValue = 0;
+//		}
+//
+//	}
 
 	protected void calcValueRangeFormatForAxis() {
 		// 修正最大值和最小值
@@ -200,7 +208,7 @@ public abstract class DataGridChart extends GridChart implements IDataCursor {
 			this.maxValue = 0;
 			this.minValue = 0;
 		}
-		this.calcValueRangeFormatForAxis();
+		// this.calcValueRangeFormatForAxis();
 	}
 	
 	
@@ -280,7 +288,9 @@ public abstract class DataGridChart extends GridChart implements IDataCursor {
 			index = 0;
 		}
 
-		return formatAxisXDegree(stickData.get(index).getDate());
+        index += getDisplayFrom();
+
+        return formatAxisXDegree(stickData.get(index).getDate());
 	}
 
 	/*
@@ -298,16 +308,12 @@ public abstract class DataGridChart extends GridChart implements IDataCursor {
 	
 	
 	public String formatAxisYDegree(double value) {
-		return new DecimalFormat(axisYDecimalFormat).format(Math.floor(value)/dataMultiple);
+		return new DecimalFormat(axisYDecimalFormat).format(value / dataMultiple);
 	}
 	
-	public String formatAxisXDegree(int date) {
-		try {
-			Date dt = new SimpleDateFormat(axisXDateSourceFormat).parse(String.valueOf(date));
-			return new SimpleDateFormat(axisXDateTargetFormat).format(dt);
-		} catch (ParseException e) {
-			return "";
-		}
+	public String formatAxisXDegree(long date) {
+        Date dt = new Date(date);
+        return new SimpleDateFormat(axisXDateTargetFormat).format(dt);
 	}
 	
 	/**
@@ -351,7 +357,6 @@ public abstract class DataGridChart extends GridChart implements IDataCursor {
 		} else if (index < 0) {
 			index = 0;
 		}
-		
 		return getDisplayFrom() + index;
 	}	
 	

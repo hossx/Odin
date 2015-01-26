@@ -195,8 +195,15 @@ public abstract class PeriodDataGridChart extends DataGridChart {
 			return new PointF(x, y);
 		}	
 	}
-	
-	protected PointF calcBindPoint(float x ,float y) {
+
+    @Override
+    public void touchDown(PointF pt) {
+//        this.touchPoint = calcTouchedPoint(pt.x, pt.y);
+        this.touchPoint = pt;
+        this.postInvalidate();
+    }
+
+    protected PointF calcBindPoint(float x ,float y) {
 		float calcX = 0;
 		float calcY = 0;
 		

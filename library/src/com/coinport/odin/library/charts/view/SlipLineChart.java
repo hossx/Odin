@@ -582,7 +582,7 @@ public class SlipLineChart extends GridChart implements IZoomable,ISlipable {
 		}
 	}
 	
-	public void moveRight() {
+	public void moveRight(float distance) {
 		int dataSize = linesData.get(0).getLineData().size();
 		if (displayFrom + displayNumber < dataSize - SLIP_STEP) {
 			displayFrom = displayFrom + SLIP_STEP;
@@ -603,7 +603,7 @@ public class SlipLineChart extends GridChart implements IZoomable,ISlipable {
 //		}
 	}
 
-	public void moveLeft() {
+	public void moveLeft(float distance) {
 		int dataSize = linesData.get(0).getLineData().size();
 		
 		if (displayFrom <= SLIP_STEP) {

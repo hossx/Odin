@@ -80,6 +80,22 @@
         <item>9012-邮件验证码错误</item>                               // INVALID_EMAIL_VERIFY_CODE
         <item>9013-登陆失败，帐号被锁定，请2小时后再试</item>          // LOGIN_FAILED_AND_LOCKED
     </string-array>
+    
+    <string-array name="period_array">
+        <item> 1分 </item>
+        <item> 3分 </item>
+        <item> 5分 </item>
+        <item> 15分 </item>
+        <item> 30分 </item>
+        <item> 1小时 </item>
+        <item> 2小时 </item>
+        <item> 4小时 </item>
+        <item> 6小时 </item>
+        <item> 12小时 </item>
+        <item> 1天 </item>
+        <item> 3天 </item>
+        <item> 1周 </item>
+    </string-array>
 
     <string name="general_error">请求失败，请稍后重试</string>
 
@@ -333,4 +349,10 @@
 
     <string name="crash_message">很抱歉，程序出现异常，即将退出</string>
     <string name="session_expired_hint">您的登陆信息已过期，请重新登陆</string>
+
+    <string name="kline_open">开</string>
+    <string name="kline_close">收</string>
+    <string name="kline_high">高</string>
+    <string name="kline_low">低</string>
+    <string name="kline_volume">量</string>
 </resources>

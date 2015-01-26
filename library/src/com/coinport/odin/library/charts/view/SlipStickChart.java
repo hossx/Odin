@@ -30,8 +30,11 @@ import android.view.MotionEvent;
 import com.coinport.odin.library.charts.entity.IMeasurable;
 import com.coinport.odin.library.charts.event.IGestureDetector;
 import com.coinport.odin.library.charts.event.ISlipable;
+import com.coinport.odin.library.charts.event.ITouchable;
 import com.coinport.odin.library.charts.event.OnSlipGestureListener;
+import com.coinport.odin.library.charts.event.OnTouchGestureListener;
 import com.coinport.odin.library.charts.event.SlipGestureDetector;
+import com.coinport.odin.library.charts.event.TouchGestureDetector;
 import com.coinport.odin.library.charts.mole.StickMole;
 
 /**
@@ -54,11 +57,13 @@ public class SlipStickChart extends StickChart implements ISlipable {
 	public static final int DEFAULT_DISPLAY_FROM = 0;
 	public static final int DEFAULT_DISPLAY_NUMBER = 50;
 	public static final int DEFAULT_MIN_DISPLAY_NUMBER = 20;
+    public static final int DEFAULT_MAX_DISPLAY_NUMBER = 120;
 	public static final int DEFAULT_ZOOM_BASE_LINE = ZOOM_BASE_LINE_CENTER;
 
 	protected int displayFrom = DEFAULT_DISPLAY_FROM;
 	protected int displayNumber = DEFAULT_DISPLAY_NUMBER;
 	protected int minDisplayNumber = DEFAULT_MIN_DISPLAY_NUMBER;
+    protected int maxDisplayNumber = DEFAULT_MAX_DISPLAY_NUMBER;
 	protected int zoomBaseLine = DEFAULT_ZOOM_BASE_LINE;
 	
 	protected OnSlipGestureListener onSlipGestureListener = new OnSlipGestureListener();
@@ -190,10 +195,11 @@ public class SlipStickChart extends StickChart implements ISlipable {
 	 *  
 	 * @see cn.limc.androidcharts.common.ISlipable#moveRight() 
 	 */
-	public void moveRight() {
+	public void moveRight(float distance) {
 		int dataSize = stickData.size();
-		if (getDisplayTo() < dataSize - SLIP_STEP) {
-			setDisplayFrom(getDisplayFrom() + SLIP_STEP);
+        int step = Math.max((int) (distance * getDisplayNumber() / dataQuadrant.getQuadrantPaddingWidth()), 1);
+		if (getDisplayTo() < dataSize - step) {
+			setDisplayFrom(getDisplayFrom() + step);
 		} else {
 			setDisplayFrom(dataSize - getDisplayNumber());
 		}
@@ -215,13 +221,13 @@ public class SlipStickChart extends StickChart implements ISlipable {
 	 *  
 	 * @see cn.limc.androidcharts.common.ISlipable#moveLeft() 
 	 */
-	public void moveLeft() {
+	public void moveLeft(float distance) {
 		int dataSize = stickData.size();
-
-		if (getDisplayFrom() <= SLIP_STEP) {
+        int step = Math.max((int) (distance * getDisplayNumber() / dataQuadrant.getQuadrantPaddingWidth()), 1);
+		if (getDisplayFrom() <= step) {
 			setDisplayFrom(0);
-		} else if (getDisplayFrom() > SLIP_STEP) {
-			setDisplayFrom(getDisplayFrom() - SLIP_STEP);
+		} else if (getDisplayFrom() > step) {
+			setDisplayFrom(getDisplayFrom() - step);
 		} else {
 
 		}
@@ -285,7 +291,7 @@ public class SlipStickChart extends StickChart implements ISlipable {
 	 */
 	@Override
 	public void zoomOut() {
-		if (getDisplayNumber() < stickData.size() - 1) {
+		if (getDisplayNumber() < stickData.size() - 1 && getDisplayNumber() <= maxDisplayNumber) {
 			if (getDisplayNumber() + ZOOM_STEP > stickData.size() - 1) {
 				setDisplayNumber(stickData.size() - 1);
 				setDisplayFrom(0);
@@ -323,13 +329,17 @@ public class SlipStickChart extends StickChart implements ISlipable {
 		}
 	}
 
+    @Override
+    public void setOnTouchGestureListener(OnTouchGestureListener listener) {
+        ((TouchGestureDetector<ITouchable>) slipGestureDetector).setOnTouchGestureListener(listener);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @return 
-	 * @see cn.limc.androidcharts.view.StickChart#getDisplayFrom()
-	 */
+    /*
+         * (non-Javadoc)
+         * 
+         * @return 
+         * @see cn.limc.androidcharts.view.StickChart#getDisplayFrom()
+         */
 	@Override
 	public int getDisplayFrom() {
 		return displayFrom;

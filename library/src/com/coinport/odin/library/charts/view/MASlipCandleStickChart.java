@@ -127,23 +127,25 @@ public class MASlipCandleStickChart extends SlipCandleStickChart {
 		double maxValue = this.maxValue;
 		double minValue = this.minValue;
 		// 逐条输出MA线
-		for (int i = 0; i < this.linesData.size(); i++) {
-			LineEntity<DateValueEntity> line = this.linesData.get(i);
-			if (line != null && line.getLineData().size() > 0) {
-				// 判断显示为方柱或显示为线条
-				for (int j = displayFrom; j < displayFrom + displayNumber; j++) {
-					DateValueEntity lineData = line.getLineData().get(j);
-					if (lineData.getValue() < minValue) {
-						minValue = lineData.getValue();
-					}
+        if (linesData != null) {
+            for (int i = 0; i < this.linesData.size(); i++) {
+                LineEntity<DateValueEntity> line = this.linesData.get(i);
+                if (line != null && line.getLineData().size() > 0) {
+                    // 判断显示为方柱或显示为线条
+                    for (int j = displayFrom; j < displayFrom + displayNumber; j++) {
+                        DateValueEntity lineData = line.getLineData().get(j);
+                        if (lineData.getValue() < minValue) {
+                            minValue = lineData.getValue();
+                        }
 
-					if (lineData.getValue() > maxValue) {
-						maxValue = lineData.getValue();
-					}
+                        if (lineData.getValue() > maxValue) {
+                            maxValue = lineData.getValue();
+                        }
 
-				}
-			}
-		}
+                    }
+                }
+            }
+        }
 		this.maxValue = maxValue;
 		this.minValue = minValue;
 	}

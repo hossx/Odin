@@ -105,7 +105,7 @@ public class OHLCEntity implements IStickEntity {
 	 * </p>
 	 * 
 	 */
-	private int date;
+	private long date;
 
 	/**
 	 * 
@@ -170,8 +170,7 @@ public class OHLCEntity implements IStickEntity {
 	 *            日期
 	 *            </p>
 	 */
-	public OHLCEntity(double open, double high, double low, double close,
-			int date) {
+	public OHLCEntity(double open, double high, double low, double close, long date) {
 		super();
 		this.open = open;
 		this.high = high;
@@ -259,7 +258,7 @@ public class OHLCEntity implements IStickEntity {
 	/**
 	 * @return the date
 	 */
-	public int getDate() {
+	public long getDate() {
 		return date;
 	}
 
@@ -267,7 +266,7 @@ public class OHLCEntity implements IStickEntity {
 	 * @param date
 	 *            the date to set
 	 */
-	public void setDate(int date) {
+	public void setDate(long date) {
 		this.date = date;
 	}
 }

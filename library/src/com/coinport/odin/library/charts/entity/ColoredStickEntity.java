@@ -39,7 +39,7 @@ package com.coinport.odin.library.charts.entity;
 public class ColoredStickEntity extends StickEntity implements IHasColor {
 	private int color;
 
-	public ColoredStickEntity(double high, double low, int date, int color) {
+	public ColoredStickEntity(double high, double low, long date, int color) {
 		super(high, low, date);
 		this.color = color;
 	}
