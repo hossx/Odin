@@ -200,6 +200,16 @@ ADDED from AndroidManifest.xml:114:9
 		ADDED from AndroidManifest.xml:115:13
 	android:launchMode
 		ADDED from AndroidManifest.xml:116:13
+activity#com.coinport.odin.activity.KLineActivity
+ADDED from AndroidManifest.xml:119:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:122:13
+	android:theme
+		ADDED from AndroidManifest.xml:123:13
+	android:name
+		ADDED from AndroidManifest.xml:120:13
+	android:launchMode
+		ADDED from AndroidManifest.xml:121:13
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.astuetz:library:1.0.1:5:5
