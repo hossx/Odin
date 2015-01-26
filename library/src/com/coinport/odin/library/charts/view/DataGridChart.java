@@ -120,53 +120,60 @@ public abstract class DataGridChart extends GridChart implements IDataCursor {
 		this.minValue = minValue;
 	}
 
-	protected void calcValueRangePaddingZero() {
-		double maxValue = this.maxValue;
-		double minValue = this.minValue;
-
-		if ((long) maxValue > (long) minValue) {
-			if ((maxValue - minValue) < 10 && minValue > 1) {
-				this.maxValue = (long) (maxValue + 1);
-				this.minValue = (long) (minValue - 1);
-			} else {
-				this.maxValue = (long) (maxValue + (maxValue - minValue) * 0.1);
-				this.minValue = (long) (minValue - (maxValue - minValue) * 0.1);
-				if (this.minValue < 0) {
-					this.minValue = 0;
-				}
-			}
-		} else if ((long) maxValue == (long) minValue) {
-			if (maxValue <= 10 && maxValue > 1) {
-				this.maxValue = maxValue + 1;
-				this.minValue = minValue - 1;
-			} else if (maxValue <= 100 && maxValue > 10) {
-				this.maxValue = maxValue + 10;
-				this.minValue = minValue - 10;
-			} else if (maxValue <= 1000 && maxValue > 100) {
-				this.maxValue = maxValue + 100;
-				this.minValue = minValue - 100;
-			} else if (maxValue <= 10000 && maxValue > 1000) {
-				this.maxValue = maxValue + 1000;
-				this.minValue = minValue - 1000;
-			} else if (maxValue <= 100000 && maxValue > 10000) {
-				this.maxValue = maxValue + 10000;
-				this.minValue = minValue - 10000;
-			} else if (maxValue <= 1000000 && maxValue > 100000) {
-				this.maxValue = maxValue + 100000;
-				this.minValue = minValue - 100000;
-			} else if (maxValue <= 10000000 && maxValue > 1000000) {
-				this.maxValue = maxValue + 1000000;
-				this.minValue = minValue - 1000000;
-			} else if (maxValue <= 100000000 && maxValue > 10000000) {
-				this.maxValue = maxValue + 10000000;
-				this.minValue = minValue - 10000000;
-			}
-		} else {
-			this.maxValue = 0;
-			this.minValue = 0;
-		}
-
-	}
+    protected void calcValueRangePaddingZero() {
+        double margin = (this.maxValue - this.minValue) * 0.1;
+        this.maxValue += margin;
+        this.minValue -= margin;
+        this.minValue = Math.max(0, this.minValue);
+    }
+    
+//	protected void calcValueRangePaddingZero() {
+//		double maxValue = this.maxValue;
+//		double minValue = this.minValue;
+//
+//		if ((long) maxValue > (long) minValue) {
+//			if ((maxValue - minValue) < 10 && minValue > 1) {
+//				this.maxValue = (long) (maxValue + 1);
+//				this.minValue = (long) (minValue - 1);
+//			} else {
+//				this.maxValue = (long) (maxValue + (maxValue - minValue) * 0.1);
+//				this.minValue = (long) (minValue - (maxValue - minValue) * 0.1);
+//				if (this.minValue < 0) {
+//					this.minValue = 0;
+//				}
+//			}
+//		} else if ((long) maxValue == (long) minValue) {
+//			if (maxValue <= 10 && maxValue > 1) {
+//				this.maxValue = maxValue + 1;
+//				this.minValue = minValue - 1;
+//			} else if (maxValue <= 100 && maxValue > 10) {
+//				this.maxValue = maxValue + 10;
+//				this.minValue = minValue - 10;
+//			} else if (maxValue <= 1000 && maxValue > 100) {
+//				this.maxValue = maxValue + 100;
+//				this.minValue = minValue - 100;
+//			} else if (maxValue <= 10000 && maxValue > 1000) {
+//				this.maxValue = maxValue + 1000;
+//				this.minValue = minValue - 1000;
+//			} else if (maxValue <= 100000 && maxValue > 10000) {
+//				this.maxValue = maxValue + 10000;
+//				this.minValue = minValue - 10000;
+//			} else if (maxValue <= 1000000 && maxValue > 100000) {
+//				this.maxValue = maxValue + 100000;
+//				this.minValue = minValue - 100000;
+//			} else if (maxValue <= 10000000 && maxValue > 1000000) {
+//				this.maxValue = maxValue + 1000000;
+//				this.minValue = minValue - 1000000;
+//			} else if (maxValue <= 100000000 && maxValue > 10000000) {
+//				this.maxValue = maxValue + 10000000;
+//				this.minValue = minValue - 10000000;
+//			}
+//		} else {
+//			this.maxValue = 0;
+//			this.minValue = 0;
+//		}
+//
+//	}
 
 	protected void calcValueRangeFormatForAxis() {
 		// 修正最大值和最小值

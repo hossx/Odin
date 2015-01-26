@@ -55,7 +55,7 @@ public class KLineActivity extends FragmentActivity {
     private List<IStickEntity> sticks = new ArrayList<>();
     private List<IStickEntity> vols = new ArrayList<>();
 
-    private int period = 1;
+    private int period = 6;
     private long cursor = -1;
     private TextView open;
     private TextView close;
@@ -112,7 +112,7 @@ public class KLineActivity extends FragmentActivity {
                 R.layout.white_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         periodSelector.setAdapter(spinnerAdapter);
-        periodSelector.setSelection(0);
+        periodSelector.setSelection(5);
         periodSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -439,7 +439,6 @@ public class KLineActivity extends FragmentActivity {
                                             vols.remove(0);
                                         }
                                     }
-                                    Log.i("kline", String.valueOf(sticks.size()));
                                     if (cursor == -1) {
                                         if (sticks.size() >= 52) {
                                             candlestickchart.setDisplayNumber(52);
@@ -454,12 +453,14 @@ public class KLineActivity extends FragmentActivity {
                                         }
                                     }
                                     cursor = sticks.get(sticks.size() - 1).getDate() + 1;
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            updateMetrics(sticks.size() - 1);
-                                        }
-                                    });
+                                    if (!isTouched) {
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                updateMetrics(sticks.size() - 1);
+                                            }
+                                        });
+                                    }
                                     List<LineEntity<DateValueEntity>> cslines = new ArrayList<LineEntity<DateValueEntity>>();
 
                                     LineEntity<DateValueEntity> csMA7 = new LineEntity<DateValueEntity>();
