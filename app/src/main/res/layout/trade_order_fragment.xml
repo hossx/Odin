@@ -13,9 +13,10 @@
         android:id="@+id/refreshable_view"
         android:dividerHeight="1dip"
         android:divider="@color/line_gray"
-        ptr:ptrAnimationStyle="flip"
         ptr:ptrHeaderTextColor="@color/white"
         ptr:ptrHeaderSubTextColor="@color/tab_gray"
+        ptr:ptrDrawable="@drawable/loading"
+        ptr:ptrAnimationStyle="rotate"
         ptr:ptrMode="both">
     </com.coinport.odin.library.ptr.PullToRefreshListView>
 </LinearLayout>
