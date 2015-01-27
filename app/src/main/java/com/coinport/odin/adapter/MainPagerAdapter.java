@@ -3,7 +3,6 @@ package com.coinport.odin.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -15,11 +14,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.coinport.odin.App;
-import com.coinport.odin.library.psts.PagerSlidingTabStrip;
 import com.coinport.odin.R;
 import com.coinport.odin.fragment.DepositWithdrawalFragment;
 import com.coinport.odin.fragment.MarketFragment;
 import com.coinport.odin.fragment.UserFragment;
+import com.coinport.odin.library.psts.PagerSlidingTabStrip;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,6 +64,19 @@ public class MainPagerAdapter extends FragmentPagerAdapter implements PagerSlidi
         }
     }
 
+    public void pageSelected(int position) {
+        for (int i = 0; i < tabs.length; ++i) {
+            TextView ti = (TextView) tabs[i].findViewById(R.id.tab_icon);
+            ti.setTextColor(context.getResources().getColor(R.color.tab_gray));
+            TextView tn = (TextView) tabs[i].findViewById(R.id.tab_name);
+            tn.setTextColor(context.getResources().getColor(R.color.tab_gray));
+        }
+        TextView ti = (TextView) tabs[position].findViewById(R.id.tab_icon);
+        ti.setTextColor(context.getResources().getColor(R.color.tab_green));
+        TextView tn = (TextView) tabs[position].findViewById(R.id.tab_name);
+        tn.setTextColor(context.getResources().getColor(R.color.tab_green));
+    }
+    
     private void initUI() {
         Display display = context.getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -110,13 +122,13 @@ public class MainPagerAdapter extends FragmentPagerAdapter implements PagerSlidi
         iconTextView.setGravity(Gravity.CENTER);
         iconTextView.setTypeface(App.getIconTf());
         iconTextView.setText(icon);
-        iconTextView.setTextColor(Color.WHITE);
+        iconTextView.setTextColor(context.getResources().getColor(R.color.tab_gray));
         iconTextView.setTextSize(30);
 
         TextView titleTextView = (TextView) tab.findViewById(R.id.tab_name);
         titleTextView.setGravity(Gravity.CENTER);
         titleTextView.setText(title);
-        titleTextView.setTextColor(Color.WHITE);
+        titleTextView.setTextColor(context.getResources().getColor(R.color.tab_gray));
         titleTextView.setTextSize(15);
         titleTextView.setPadding(0, 4, 0, 0);
     }

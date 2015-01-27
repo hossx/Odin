@@ -5,11 +5,7 @@
               android:layout_height="match_parent" >
 
     <LinearLayout
-        android:layout_marginTop="8dip"
-        android:layout_marginBottom="8dip"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
-        android:background="@drawable/background_card"
+        android:background="@color/page_background_color"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,8 +13,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/tab_gray"/>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/textview_underline"
+            android:background="@color/refresh_timer_banner_background_color"
             android:paddingLeft="4dip"
             android:paddingRight="4dip"
             android:paddingTop="4dip"
@@ -29,13 +30,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/market_refresh_time"
-                android:textColor="#DDFFFFFF"/>
+                android:textColor="#ff828fa0"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/updateTime"
-                android:textColor="#DDFFFFFF"/>
+                android:textColor="#ff828fa0"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/tab_gray"/>
         <!--<TextView-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="4dip"-->
@@ -43,7 +48,10 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:dividerHeight="4dip"
+            android:dividerHeight="1dip"
+            android:background="@color/page_background_color"
+            android:cacheColorHint="#00000000"
+            android:divider="@color/tab_gray"
             android:id="@+id/MarketView">
         </ListView>
     </LinearLayout>

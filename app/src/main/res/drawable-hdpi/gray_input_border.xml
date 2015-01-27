@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle">
+    <!--
+        android:shape="rectangle" 指定该图形的类型为矩形
+     -->
+
+    <!-- 设置该矩形的四个角的角度弧度 -->
+    <corners
+        android:topLeftRadius="4px"
+        android:topRightRadius="4px"
+        android:bottomRightRadius="4px"
+        android:bottomLeftRadius="4px"/>
+
+    <!-- 设置边框的宽度和颜色 -->
+    <stroke
+        android:width="1px"
+        android:color="#ff555A60"/>
+
+    <solid android:color="@android:color/transparent"/>
+    <!-- 设置背景颜色渐变 从 红色  -> 绿色 -> 蓝色, 渐变的类型为sweep渐变 -->
+    <!--<gradient-->
+    <!--android:startColor="#f00"-->
+    <!--android:centerColor="#0f0"-->
+    <!--android:endColor="#00f"-->
+    <!--android:type="sweep"/>-->
+
+
+</shape>

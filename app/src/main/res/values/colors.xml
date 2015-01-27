@@ -13,5 +13,9 @@
     <color name="gesture_background">#ff303237</color>
     <color name="color_hei_8">#00000000</color>
     <color name="gray_on_black">#ffabacb0</color>
+    <color name="tab_gray">#ff92959a</color>
+    <color name="tab_green">#ff4dbbb8</color>
+    <color name="page_background_color">#ff2a313b</color>
+    <color name="refresh_timer_banner_background_color">#ff242b35</color>
     <drawable name="trans">@color/color_hei_8</drawable>
 </resources>

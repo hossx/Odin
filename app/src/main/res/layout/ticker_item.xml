@@ -21,6 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:id="@+id/currency_name"
                 android:text="BTC"
                 android:textStyle="bold"
@@ -50,6 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dip"
+                android:textColor="@android:color/white"
                 android:id="@+id/price_unit"/>
         </LinearLayout>
     </RelativeLayout>
@@ -68,10 +70,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dip"
+                android:textColor="@android:color/white"
                 android:text="@string/volume_label"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:id="@+id/volume"
                 android:text="136785"/>
         </LinearLayout>
@@ -86,6 +90,7 @@
                 android:layout_weight="2"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dip"
+                android:textColor="@android:color/white"
                 android:text="@string/amplitude_label"/>
             <TextView
                 android:layout_width="0dp"

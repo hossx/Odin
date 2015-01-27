@@ -22,6 +22,7 @@ import android.view.ViewConfiguration;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -49,7 +50,8 @@ public class MainActivity extends FragmentActivity {
     private MainPagerAdapter adapter;
 
     private Drawable oldBackground = null;
-    private int currentColor = 0xFF5161BC;
+//    private int currentColor = 0xFF5161BC;
+    private int currentColor = 0xFF242B35;
     private Menu menu = null;
     private LinearLayout baseCurrencySelector = null;
     private LinearLayout currencySelector = null;
@@ -70,30 +72,25 @@ public class MainActivity extends FragmentActivity {
 //        final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources()
 //                .getDisplayMetrics());
 //        baseCurrencySelector.setPadding(0, 0, margin, 0);
-        final TextView cnyTV = ((TextView) baseCurrencySelector.findViewById(R.id.base_cny_view));
-        cnyTV.setTypeface(App.getIconTf());
-        cnyTV.setTextSize(30);
-        cnyTV.setTextColor(Color.WHITE);
-        cnyTV.setBackgroundResource(R.drawable.background_tab);
-        final TextView btcTV = ((TextView) baseCurrencySelector.findViewById(R.id.base_btc_view));
-        btcTV.setTypeface(App.getIconTf());
-        btcTV.setTextSize(30);
-        btcTV.setTextColor(Color.GRAY);
-        btcTV.setBackgroundResource(R.drawable.background_tab);
+        final ImageView cnyIV = ((ImageView) baseCurrencySelector.findViewById(R.id.base_cny_view));
+        cnyIV.setBackgroundResource(R.drawable.background_tab);
+        cnyIV.setBackgroundResource(R.drawable.cny_status_selected);
+        final ImageView btcIV = ((ImageView) baseCurrencySelector.findViewById(R.id.base_btc_view));
+        btcIV.setBackgroundResource(R.drawable.btc_status_mormal);
 
-        cnyTV.setOnClickListener(new View.OnClickListener() {
+        cnyIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cnyTV.setTextColor(Color.WHITE);
-                btcTV.setTextColor(Color.GRAY);
+                cnyIV.setBackgroundResource(R.drawable.cny_status_selected);
+                btcIV.setBackgroundResource(R.drawable.btc_status_mormal);
                 ((MarketFragment) adapter.getFragment(R.id.market_fragment)).fetchDataWithBaseCurrency("CNY");
             }
         });
-        btcTV.setOnClickListener(new View.OnClickListener() {
+        btcIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btcTV.setTextColor(Color.WHITE);
-                cnyTV.setTextColor(Color.GRAY);
+                btcIV.setBackgroundResource(R.drawable.btc_status_selected);
+                cnyIV.setBackgroundResource(R.drawable.cny_status_normal);
                 ((MarketFragment) adapter.getFragment(R.id.market_fragment)).fetchDataWithBaseCurrency("BTC");
             }
         });
@@ -144,9 +141,8 @@ public class MainActivity extends FragmentActivity {
 //        changeColor(currentColor);
         tabs.setIndicatorHeight(8);
         tabs.setBackgroundColor(currentColor);
-        tabs.setTextColor(Color.WHITE);
         tabs.setIndicatorColor(Color.WHITE);
-        tabs.setDividerColor(Color.WHITE);
+        tabs.setDividerColor(getResources().getColor(R.color.tab_gray));
         final FragmentActivity self = this;
         tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -159,6 +155,7 @@ public class MainActivity extends FragmentActivity {
                 currentPagePosition = position;
                 if (menu != null)
                     changeActionBar(currentPagePosition);
+                adapter.pageSelected(position);
             }
 
             @Override
@@ -166,6 +163,7 @@ public class MainActivity extends FragmentActivity {
 
             }
         });
+        adapter.pageSelected(0);
     }
 
     @Override
