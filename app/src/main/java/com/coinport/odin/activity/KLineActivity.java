@@ -456,6 +456,10 @@ public class KLineActivity extends FragmentActivity {
                                             vols.remove(0);
                                         }
                                     }
+                                    if (sticks.size() < 2) {
+                                        cursor = -1;
+                                        return;
+                                    }
                                     if (cursor == -1) {
                                         if (sticks.size() >= 52) {
                                             candlestickchart.setDisplayNumber(52);
