@@ -1,5 +1,6 @@
 package com.coinport.odin.fragment;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -85,6 +86,7 @@ public class TradeTxFragment extends TradeOrderFragment {
             }
         });
         orderAdapter = new OrderAdapter(getActivity(), inCurrency, outCurrency);
+        refreshableView.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
         refreshableView.getRefreshableView().setAdapter(orderAdapter);
 
         return view;

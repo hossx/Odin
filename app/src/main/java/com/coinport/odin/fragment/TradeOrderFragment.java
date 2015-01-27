@@ -1,5 +1,6 @@
 package com.coinport.odin.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
@@ -129,6 +130,7 @@ public class TradeOrderFragment extends Fragment {
         });
         */
         refreshableView.getRefreshableView().setAdapter(orderAdapter);
+        refreshableView.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
         return view;
     }
 

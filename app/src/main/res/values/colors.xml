@@ -19,5 +19,6 @@
     <color name="page_background_color">#ff2a313b</color>
     <color name="buy_sell_input_border">#ff6f7b93</color>
     <color name="refresh_timer_banner_background_color">#ff242b35</color>
+    <color name="line_gray">#ff363e4b</color>
     <drawable name="trans">@color/color_hei_8</drawable>
 </resources>

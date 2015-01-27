@@ -54,6 +54,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="125dip"
                         android:isScrollContainer="false"
+                        android:divider="@null"
                         android:layout_marginTop="8dip"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -67,6 +68,7 @@
                         android:id="@+id/buy_depth"
                         android:layout_width="match_parent"
                         android:layout_height="125dip"
+                        android:divider="@null"
                         android:isScrollContainer="false"/>
                 </LinearLayout>
 
@@ -236,6 +238,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="40dip"
                             android:text="@string/trade_buy"
+                            android:textColor="@color/white"
                             android:background="@drawable/trade_buy_button"/>
                     </LinearLayout>
                     <LinearLayout
@@ -390,6 +393,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="40dip"
                             android:text="@string/trade_sell"
+                            android:textColor="@color/white"
                             android:background="@drawable/trade_sell_button"/>
                     </LinearLayout>
 

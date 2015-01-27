@@ -75,6 +75,7 @@ public class OrderAdapter extends BaseAdapter {
         }
         final OrderItem oi = orderItems.get(position);
 
+        TextView indicator = (TextView) convertView.findViewById(R.id.indicator);
         TextView time = (TextView) convertView.findViewById(R.id.order_time);
         TextView operation = (TextView) convertView.findViewById(R.id.order_operation);
         TextView status = (TextView) convertView.findViewById(R.id.order_status);
@@ -90,10 +91,12 @@ public class OrderAdapter extends BaseAdapter {
         if (oi.getOperation().equals("Buy")) {
             operation.setText(context.getString(R.string.trade_buy));
             operation.setTextColor(Constants.CP_GREEN);
+            indicator.setBackgroundColor(Constants.CP_GREEN);
 //            tl.setBackgroundResource(R.drawable.green_input_border);
         } else {
             operation.setText(context.getString(R.string.trade_sell));
             operation.setTextColor(Constants.CP_RED);
+            indicator.setBackgroundColor(Constants.CP_RED);
 //            tl.setBackgroundResource(R.drawable.red_input_border);
         }
 
