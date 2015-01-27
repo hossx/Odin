@@ -141,7 +141,7 @@ public class MainActivity extends FragmentActivity {
 //        changeColor(currentColor);
         tabs.setIndicatorHeight(8);
         tabs.setBackgroundColor(currentColor);
-        tabs.setIndicatorColor(Color.WHITE);
+        tabs.setIndicatorColor(getResources().getColor(R.color.tab_gray));
         tabs.setDividerColor(getResources().getColor(R.color.tab_gray));
         final FragmentActivity self = this;
         tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {

@@ -50,6 +50,9 @@ public class TradeActivity extends FragmentActivity implements View.OnClickListe
 
         tabs.setViewPager(pager);
         tabs.setIndicatorHeight(8);
+        tabs.setIndicatorColor(getResources().getColor(R.color.tab_gray));
+        tabs.setDividerColor(getResources().getColor(R.color.tab_gray));
+        tabs.setTextColor(Color.WHITE);
     }
 
 
