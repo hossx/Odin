@@ -49,7 +49,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
 
     private LinearLayout realnameHint;
     private LinearLayout memo;
-    private TextView memoLabel;
+    private EditText memoEdit;
     private TextView nxtPubkeyDesc;
 
     private Time timeFormat = new Time();
@@ -86,11 +86,12 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
         bankSelector = (LinearLayout) view.findViewById(R.id.withdrawal_bank_card_selector);
         address = (LinearLayout) view.findViewById(R.id.withdrawal_address);
         memo = (LinearLayout) view.findViewById(R.id.withdrawal_memo);
-        memoLabel = (TextView) view.findViewById(R.id.withdrawal_memo_label);
+        memoEdit = (EditText) view.findViewById(R.id.withdrawal_memo_edit);
         nxtPubkeyDesc = (TextView) view.findViewById(R.id.withdrawal_nxt_pubkey_description);
 
         ListView history = (ListView) view.findViewById(R.id.withdrawal_history);
         history.setFocusable(false);
+        history.setEnabled(false);
         historyAdapter = new SimpleAdapter(getActivity(), historyList, R.layout.transfer_item, new String[]{
                 "transfer_time", "transfer_amount", "transfer_status"}, new int[] {R.id.transfer_time, R.id.transfer_amount,
                 R.id.transfer_status});
@@ -307,13 +308,13 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                                 case "BTSX":
                                     withdrawalDescription = getString(R.string.withdrawal_description_btsx);
                                     setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO));
-                                    memoLabel.setText(getString(R.string.withdrawal_memo));
+                                    memoEdit.setHint(getString(R.string.withdrawal_memo));
 
                                     break;
                                 case "NXT":
                                     withdrawalDescription = getString(R.string.withdrawal_description_btc);
                                     setItemsVisibility(EnumSet.of(OptItem.ADDRESS, OptItem.MEMO, OptItem.PUBKEY_DESCRIPTION));
-                                    memoLabel.setText(getString(R.string.withdrawal_nxt_pubkey));
+                                    memoEdit.setHint(getString(R.string.withdrawal_nxt_pubkey));
 
                                     break;
                                 default:
@@ -450,12 +451,6 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
 //                        }
                     }
                 });
-                dialog.setNegativeButton(new AddBankCardFragment.OnClickListener() {
-                    @Override
-                    public void onClick(Bundle args) {
-                        // do nothing
-                    }
-                });
                 dialog.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "AddBankCardFragment");
                 break;
             case R.id.withdrawal_action:
@@ -485,9 +480,9 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                     addressStr = ((EditText) view.findViewById(R.id.withdrawal_address_edit)).getText().toString();
                 }
                 if (currency.equals("NXT")) {
-                    publickKeyStr = ((EditText) view.findViewById(R.id.withdrawal_memo_edit)).getText().toString();
+                    publickKeyStr = memoEdit.getText().toString();
                 } else {
-                    memoStr = ((EditText) view.findViewById(R.id.withdrawal_memo_edit)).getText().toString();
+                    memoStr = memoEdit.getText().toString();
                 }
                 String emailCode = ((EditText) view.findViewById(R.id.withdrawal_emailcode_edit)).getText().toString();
                 if (amountStr.equals("0.0") || addressStr.equals("") || emailCode.equals("")) {

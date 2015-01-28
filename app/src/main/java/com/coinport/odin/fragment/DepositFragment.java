@@ -98,6 +98,7 @@ public class DepositFragment extends DWFragmentCommon {
 
         ListView history = (ListView) view.findViewById(R.id.deposit_history);
         history.setFocusable(false);
+        history.setEnabled(false);
         historyAdapter = new SimpleAdapter(getActivity(), historyList, R.layout.transfer_item, new String[]{
             "transfer_time", "transfer_amount", "transfer_status"}, new int[] {R.id.transfer_time, R.id.transfer_amount,
             R.id.transfer_status});
@@ -264,6 +265,7 @@ public class DepositFragment extends DWFragmentCommon {
 
         ListView lv = (ListView) view.findViewById(R.id.agent_cards);
         lv.setFocusable(false);
+        lv.setEnabled(false);
         ArrayList<HashMap<String, String>> acList = new ArrayList<>();
         JSONArray jsonArray = Util.getJsonArrayFromFile(getActivity(), "agent_cards.json");
         if (jsonArray != null) {
@@ -292,7 +294,6 @@ public class DepositFragment extends DWFragmentCommon {
                     qqTv.setText(Html.fromHtml("<a href=\"mqqwpa://im/chat?chat_type=wpa&uin=" + qqTv.getText() + "\">"
                         + qqTv.getText() + "</a>"));
                     qqTv.setMovementMethod(LinkMovementMethod.getInstance());
-                    qqTv.setBackgroundResource(R.drawable.cancel_order_button);
                 }
                 return view;
             }

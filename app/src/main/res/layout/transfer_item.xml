@@ -9,12 +9,15 @@
         android:layout_height="wrap_content"
         android:paddingLeft="4dip"
         android:paddingRight="4dip"
+        android:paddingTop="8dip"
+        android:paddingBottom="8dip"
         android:orientation="horizontal"
         android:gravity="center_vertical">
         <TextView
             android:id="@+id/transfer_time"
-            android:layout_width="100dip"
-            android:textSize="10dip"
+            android:layout_width="130dip"
+            android:textSize="12dip"
+            android:textColor="@color/tab_gray"
             android:layout_height="wrap_content"/>
         <LinearLayout
             android:layout_width="fill_parent"
@@ -22,16 +25,22 @@
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/transfer_amount"
+                android:textColor="@color/tab_gray"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
                 android:textStyle="bold"/>
             <TextView
                 android:id="@+id/transfer_status"
+                android:textColor="@color/tab_gray"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
                 android:gravity="right"/>
         </LinearLayout>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/line_gray"/>
 </LinearLayout>

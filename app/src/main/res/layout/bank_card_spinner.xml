@@ -5,6 +5,15 @@
 	android:layout_height="fill_parent"
     android:padding="0.0dip"
 	android:background="@android:color/background_light">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="45dip"
+        android:textColor="@color/white"
+        android:background="@color/page_background_color"
+        android:gravity="center_vertical"
+        android:textSize="20dip"
+        android:paddingLeft="10dip"
+        android:text="@string/remove_bank_card_title"/>
 	<ListView android:id="@+id/bank_card_spinner_list"
 		android:layout_width="fill_parent"
         android:layout_height="fill_parent"

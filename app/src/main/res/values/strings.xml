@@ -176,10 +176,13 @@
     <string name="deposit_tag">填写Destination tag(非常重要)：%1$s</string>
     <string name="deposit_history_description">最近10笔充值记录:</string>
     <string name="deposit_cny_info_label">充值流程：</string>
-    <string name="deposit_cny_info">选择并联系代理商 -> 付款给代理商 -> 充值成功</string>
+    <string name="deposit_cny_flow_step_1">选择并联系代理商</string>
+    <string name="deposit_cny_flow_step_2">付款给代理商</string>
+    <string name="deposit_cny_flow_step_3">充值成功</string>
     <string name="agent_label">请选择代理商：</string>
     <string name="agent_card_name">户名</string>
     <string name="agent_card_bank">开户行</string>
+    <string name="remove_bank_card_title">账户</string>
     <string name="agent_card_account">帐号</string>
     <string name="agent_card_qq">QQ</string>
     <string name="transfer_pending">等待处理</string>

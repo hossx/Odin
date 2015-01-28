@@ -52,7 +52,7 @@
         <item name="android:windowIsTranslucent">false</item><!--半透明-->
         <item name="android:windowNoTitle">true</item><!--无标题-->
         <!-- <item name="android:windowBackground">@color/alpha_bg</item>背景透明-->
-        <item name="android:backgroundDimEnabled">false</item><!--模糊-->
+        <item name="android:backgroundDimEnabled">true</item><!--模糊-->
     </style>
 
     <style name="CustomDialog" parent="@android:style/Theme.Dialog">
