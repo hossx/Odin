@@ -264,7 +264,7 @@
     <string name="verify_region">区域</string>
     <string name="verify_type">证件类型</string>
     <string name="verify_id">证件号码</string>
-    <string name="verify_name_description">实名认证一旦提交通过后不可更改，并且提现时会检查姓名是否和银行卡户主名一致，因此请确认姓名的正确。</string>
+    <string name="verify_name_description">名字与银行卡户主名一致，一旦审批通过不能修改真实名字</string>
     <string name="verify_lack_info">真实姓名, 证件号码不能为空</string>
     <string name="cpw_current">当前密码</string>
     <string name="cpw_new">新密码</string>
