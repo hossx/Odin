@@ -3,97 +3,80 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_marginTop="8dip"
-              android:layout_marginBottom="8dip"
-              android:layout_marginLeft="8dip"
-              android:layout_marginRight="8dip"
-              android:background="@drawable/background_card"
+              android:background="@color/page_background_color"
               android:orientation="vertical"
               tools:context="com.coinport.odin.activity.ChangePwActivity">
     <LinearLayout
-        android:paddingTop="10dip"
-        android:paddingLeft="4dip"
-        android:paddingRight="4dip"
+        android:layout_marginTop="20dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/login_input"
         android:orientation="horizontal">
 
-        <TextView
-            android:paddingRight="4dip"
-            android:layout_width="80dip"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:text="@string/cpw_current"/>
         <EditText
             android:id="@+id/oldPw"
             android:layout_marginLeft="4dip"
             android:inputType="textPassword"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="40dp"
+            android:background="#00ffffff"
+            android:hint="@string/cpw_current"/>
     </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="20dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="4dip"
-        android:paddingRight="4dip"
         android:gravity="center_vertical"
+        android:background="@drawable/login_input"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="80dip"
-            android:layout_height="wrap_content"
-            android:paddingRight="4dip"
-            android:gravity="right"
-            android:text="@string/cpw_new"/>
         <EditText
             android:id="@+id/newPw"
             android:layout_marginLeft="4dip"
             android:inputType="textPassword"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="40dp"
+            android:background="#00ffffff"
+            android:hint="@string/cpw_new"/>
     </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="20dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="4dip"
-        android:paddingRight="4dip"
         android:gravity="center_vertical"
+        android:background="@drawable/login_input"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="80dip"
-            android:layout_height="wrap_content"
-            android:paddingRight="4dip"
-            android:gravity="right"
-            android:text="@string/cpw_new_confirm"/>
         <EditText
             android:id="@+id/confirmNewPw"
             android:layout_marginLeft="4dip"
             android:inputType="textPassword"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="40dp"
+            android:background="#00ffffff"
+            android:hint="@string/cpw_new_confirm"/>
     </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="20dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="4dip"
-        android:paddingRight="4dip"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_ok"
-            style="@style/ButtonGreen"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:background="@drawable/cancel_order_button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:text="@string/button_ok"/>
-        <Button
-            android:id="@+id/btn_cancel"
-            style="@style/ButtonRed"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/button_cancel"/>
     </LinearLayout>
 </LinearLayout>
