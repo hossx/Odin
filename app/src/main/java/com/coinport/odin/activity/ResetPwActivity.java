@@ -15,6 +15,7 @@ public class ResetPwActivity extends Activity {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_reset_pw);
+        getActionBar().setDisplayShowHomeEnabled(false);
     }
 
 

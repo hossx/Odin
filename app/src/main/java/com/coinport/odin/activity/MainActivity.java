@@ -1,6 +1,7 @@
 package com.coinport.odin.activity;
 
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -119,7 +120,7 @@ public class MainActivity extends FragmentActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-//        final ActionBar actionBar = getActionBar();
+        getActionBar().setDisplayShowHomeEnabled(false);
 //        actionBar.setCustomView(baseCurrencySelector);
 
 //        actionBar.setDisplayShowCustomEnabled(true);

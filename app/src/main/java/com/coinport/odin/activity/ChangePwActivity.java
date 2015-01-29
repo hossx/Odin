@@ -30,6 +30,7 @@ public class ChangePwActivity extends Activity implements View.OnClickListener{
         okBtn.setOnClickListener(this);
         Button cancelBtn = (Button) findViewById(R.id.btn_cancel);
         cancelBtn.setOnClickListener(this);
+        getActionBar().setDisplayShowHomeEnabled(false);
     }
 
 

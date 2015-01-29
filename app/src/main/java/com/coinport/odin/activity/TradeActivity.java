@@ -33,6 +33,7 @@ public class TradeActivity extends FragmentActivity implements View.OnClickListe
         inCurrency = intent.getStringExtra("inCurrency");
         outCurrency = intent.getStringExtra("outCurrency");
         ActionBar bar = getActionBar();
+        bar.setDisplayShowHomeEnabled(false);
         if (bar != null)
             bar.setTitle(inCurrency + "-" + outCurrency);
 //        TextView tv = (TextView) findViewById(R.id.trade_page_text);

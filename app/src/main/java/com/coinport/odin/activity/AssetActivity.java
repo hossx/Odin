@@ -75,6 +75,7 @@ public class AssetActivity extends Activity {
         ListView lv = (ListView) findViewById(R.id.assets);
         lv.setAdapter(adapter);
         lv.setEnabled(false);
+        getActionBar().setDisplayShowHomeEnabled(false);
     }
 
     @Override

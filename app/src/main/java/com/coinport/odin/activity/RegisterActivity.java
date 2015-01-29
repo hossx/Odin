@@ -35,6 +35,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_register);
+        getActionBar().setDisplayShowHomeEnabled(false);
 
         TextView terms = (TextView) findViewById(R.id.register_terms);
         PackageManager pm = getPackageManager();

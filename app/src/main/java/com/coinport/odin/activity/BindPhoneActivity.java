@@ -15,6 +15,7 @@ public class BindPhoneActivity extends Activity {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_bind_phone);
+        getActionBar().setDisplayShowHomeEnabled(false);
     }
 
 

@@ -11,7 +11,7 @@
     </style>
 
     <style name="ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:icon">@drawable/cp_logo</item>
+        <!--<item name="android:icon">@drawable/cp_logo</item>-->
         <!--<item name="android:background">#FF5161BC</item>-->
         <item name="android:background">#FF2A313B</item>
         <item name="android:height">60dp</item>

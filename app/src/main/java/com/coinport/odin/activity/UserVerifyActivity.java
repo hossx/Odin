@@ -34,6 +34,7 @@ public class UserVerifyActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_user_verify);
+        getActionBar().setDisplayShowHomeEnabled(false);
         Button btnOk = (Button) findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(this);
         Button btnCancel = (Button) findViewById(R.id.btn_cancel);
