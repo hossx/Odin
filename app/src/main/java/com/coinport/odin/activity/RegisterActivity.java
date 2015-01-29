@@ -48,8 +48,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         }
         Button okBtn = (Button) findViewById(R.id.btn_ok);
         okBtn.setOnClickListener(this);
-        Button cancelBtn = (Button) findViewById(R.id.btn_cancel);
-        cancelBtn.setOnClickListener(this);
     }
 
     @Override
@@ -152,9 +150,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                             }
                         });
                 task.execute(params);
-                break;
-            case R.id.btn_cancel:
-                finish();
                 break;
         }
     }
