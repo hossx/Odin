@@ -165,51 +165,53 @@ ADDED from AndroidManifest.xml:98:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:101:13
 	android:label
+		ADDED from AndroidManifest.xml:103:13
+	android:parentActivityName
 		ADDED from AndroidManifest.xml:102:13
 	android:name
 		ADDED from AndroidManifest.xml:99:13
 	android:launchMode
 		ADDED from AndroidManifest.xml:100:13
 activity#com.coinport.odin.activity.UnlockGesturePasswordActivity
-ADDED from AndroidManifest.xml:104:9
+ADDED from AndroidManifest.xml:108:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:107:13
-	android:theme
-		ADDED from AndroidManifest.xml:108:13
-	android:name
-		ADDED from AndroidManifest.xml:105:13
-	android:launchMode
-		ADDED from AndroidManifest.xml:106:13
-activity#com.coinport.odin.activity.CreateGesturePasswordActivity
-ADDED from AndroidManifest.xml:109:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:112:13
-	android:theme
-		ADDED from AndroidManifest.xml:113:13
-	android:name
-		ADDED from AndroidManifest.xml:110:13
-	android:launchMode
 		ADDED from AndroidManifest.xml:111:13
-activity#com.coinport.odin.activity.GuideGesturePasswordActivity
-ADDED from AndroidManifest.xml:114:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:117:13
 	android:theme
-		ADDED from AndroidManifest.xml:118:13
+		ADDED from AndroidManifest.xml:112:13
 	android:name
-		ADDED from AndroidManifest.xml:115:13
+		ADDED from AndroidManifest.xml:109:13
 	android:launchMode
+		ADDED from AndroidManifest.xml:110:13
+activity#com.coinport.odin.activity.CreateGesturePasswordActivity
+ADDED from AndroidManifest.xml:113:9
+	android:screenOrientation
 		ADDED from AndroidManifest.xml:116:13
-activity#com.coinport.odin.activity.KLineActivity
-ADDED from AndroidManifest.xml:119:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:122:13
 	android:theme
-		ADDED from AndroidManifest.xml:123:13
+		ADDED from AndroidManifest.xml:117:13
 	android:name
-		ADDED from AndroidManifest.xml:120:13
+		ADDED from AndroidManifest.xml:114:13
 	android:launchMode
+		ADDED from AndroidManifest.xml:115:13
+activity#com.coinport.odin.activity.GuideGesturePasswordActivity
+ADDED from AndroidManifest.xml:118:9
+	android:screenOrientation
 		ADDED from AndroidManifest.xml:121:13
+	android:theme
+		ADDED from AndroidManifest.xml:122:13
+	android:name
+		ADDED from AndroidManifest.xml:119:13
+	android:launchMode
+		ADDED from AndroidManifest.xml:120:13
+activity#com.coinport.odin.activity.KLineActivity
+ADDED from AndroidManifest.xml:123:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:126:13
+	android:theme
+		ADDED from AndroidManifest.xml:127:13
+	android:name
+		ADDED from AndroidManifest.xml:124:13
+	android:launchMode
+		ADDED from AndroidManifest.xml:125:13
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.astuetz:library:1.0.1:5:5
