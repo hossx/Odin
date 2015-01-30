@@ -5,20 +5,23 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               tools:context="com.coinport.odin.activity.AssetActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/line_gray"/>
     <com.coinport.odin.library.ptr.PullToRefreshScrollView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:scrollbars="none"
-        android:layout_marginTop="8dip"
-        android:layout_marginBottom="8dip"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
-        android:background="@drawable/background_card"
+        android:background="@color/page_background_color"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/refreshable_view"
         android:dividerHeight="4dip"
-        ptr:ptrAnimationStyle="flip">
+        ptr:ptrHeaderTextColor="@color/white"
+        ptr:ptrHeaderSubTextColor="@color/tab_gray"
+        ptr:ptrDrawable="@drawable/loading"
+        ptr:ptrAnimationStyle="rotate">
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -33,6 +36,7 @@
                 <TextView
                     android:layout_width="60dip"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:textSize="20dp"
                     android:text="@string/asset_sum"/>
                 <LinearLayout
@@ -43,29 +47,36 @@
                     <TextView
                         android:id="@+id/asset_sum_cny"
                         android:textSize="20dp"
+                        android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
                         android:id="@+id/asset_sum_btc"
+                        android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="@color/line_gray"/>
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
-                android:orientation="horizontal"
-                android:background="@drawable/textview_underline">
+                android:orientation="horizontal">
                 <TextView
                     android:layout_width="70dip"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/tab_gray"
                     android:text="@string/asset_currency"/>
                 <TextView
                     android:layout_width="0dip"
                     android:layout_weight="5"
                     android:layout_height="wrap_content"
                     android:gravity="right"
+                    android:textColor="@color/tab_gray"
                     android:text="@string/asset_valid"/>
                 <TextView
                     android:layout_width="0dip"
@@ -73,11 +84,18 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:layout_marginRight="10dip"
+                    android:textColor="@color/tab_gray"
                     android:text="@string/asset_pending"/>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="@color/line_gray"/>
             <com.coinport.odin.layout.NestedListView
                 android:focusable="false"
                 android:id="@+id/assets"
+                android:dividerHeight="1dip"
+                android:divider="@color/line_gray"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
             </com.coinport.odin.layout.NestedListView>

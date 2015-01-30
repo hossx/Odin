@@ -56,18 +56,33 @@ public class BankCardAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(context);
             arg1 = inflater.inflate(R.layout.bank_card_item, null);
-            viewHolder.textView = (TextView)arg1.findViewById(R.id.bank_card_text);
+            viewHolder.bcName = (TextView)arg1.findViewById(R.id.bank_card_name);
+            viewHolder.bcAccount = (TextView)arg1.findViewById(R.id.bank_card_account);
+            viewHolder.bcBank = (TextView)arg1.findViewById(R.id.bank_card_bank);
+            viewHolder.bcBranch = (TextView)arg1.findViewById(R.id.bank_card_branch);
+
             viewHolder.button = (android.widget.Button) arg1.findViewById(R.id.delete_bank_card);
             arg1.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) arg1.getTag();
         }
-        viewHolder.textView.setText(list.get(arg0));
-        final String str = viewHolder.textView.getText().toString();
+        String bcDescription = list.get(arg0);
+        final String[] segments = bcDescription.split("\\|");
+        if (segments.length > 0) {
+            viewHolder.bcName.setText(segments[0]);
+        }
+        if (segments.length > 1) {
+            viewHolder.bcAccount.setText(segments[1]);
+        }
+        if (segments.length > 2) {
+            viewHolder.bcBank.setText(segments[2]);
+        }
+        if (segments.length > 3) {
+            viewHolder.bcBranch.setText(segments[3]);
+        }
         viewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                String[] segments = str.split("\\|");
                 if (segments.length < 2) {
                     return;
                 }

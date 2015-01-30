@@ -1,22 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="horizontal"
-    android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
-	<TextView android:layout_width="200dp"
-		android:layout_height="50dp"
-        android:id="@+id/bank_card_text"
-		android:textColor="#000000"
-        android:textSize="16dp"
-		android:layout_marginLeft="25dp"
-        android:gravity="center_vertical"/>
+    android:layout_width="match_parent"
+    android:padding="10dip"
+    android:layout_height="50dip">
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_weight="5"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView android:layout_width="70dip"
+                      android:layout_height="match_parent"
+                      android:id="@+id/bank_card_name"
+                      android:textColor="@color/black"
+                      android:textSize="16dp"
+                      android:text="无效路人"
+                      android:gravity="center_vertical"/>
+
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:id="@+id/bank_card_account"
+                      android:textColor="@color/black"
+                      android:textSize="16dp"
+                      android:text="1234123412341234"
+                      android:gravity="center_vertical"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView android:layout_width="100dip"
+                      android:layout_height="match_parent"
+                      android:id="@+id/bank_card_bank"
+                      android:textColor="@color/black"
+                      android:textSize="16dp"
+                      android:text="浦东发展银行"
+                      android:gravity="center_vertical"/>
+
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:id="@+id/bank_card_branch"
+                      android:textColor="@color/black"
+                      android:textSize="16dp"
+                      android:text="1234123412341234"
+                      android:gravity="center_vertical"/>
+        </LinearLayout>
+
+    </LinearLayout>
     <Button
         android:id="@+id/delete_bank_card"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="50dp"
+        android:background="@drawable/cancel_order_button"
+        android:layout_width="0dip"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:textColor="@color/white"
         android:text="@string/withdrawal_abc_delete"/>
 
 </LinearLayout>

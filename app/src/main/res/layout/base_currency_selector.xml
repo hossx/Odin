@@ -5,23 +5,21 @@
               android:layout_width="wrap_content"
               android:layout_height="fill_parent"
               android:gravity="center">
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/base_cny_view"
-        android:text="\ue633"
-        android:layout_marginRight="6dp"/>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:src="@drawable/bd_horizontal_line"
-        tools:ignore="ContentDescription" >
-    </ImageView>
-
+        android:background="@drawable/cny_status_selected"
+        android:layout_marginRight="12dp"/>
     <TextView
+        android:layout_width="1dip"
+        android:layout_height="match_parent"
+        android:background="#FF3F4650"/>
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/base_btc_view"
-        android:text="\ue62a"
-        android:layout_marginLeft="6dp"/>
+        android:background="@drawable/cny_status_normal"
+        android:layout_marginLeft="12dp"/>
 </LinearLayout>

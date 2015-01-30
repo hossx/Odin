@@ -12,5 +12,13 @@
     <color name="weibo_listtab_off">#8d8d8d</color>
     <color name="gesture_background">#ff303237</color>
     <color name="color_hei_8">#00000000</color>
+    <color name="gray_on_black">#ffabacb0</color>
+    <color name="tab_black">#ff242b35</color>
+    <color name="tab_gray">#ff92959a</color>
+    <color name="tab_green">#ff4dbbb8</color>
+    <color name="page_background_color">#ff2a313b</color>
+    <color name="buy_sell_input_border">#ff6f7b93</color>
+    <color name="refresh_timer_banner_background_color">#ff242b35</color>
+    <color name="line_gray">#ff363e4b</color>
     <drawable name="trans">@color/color_hei_8</drawable>
 </resources>

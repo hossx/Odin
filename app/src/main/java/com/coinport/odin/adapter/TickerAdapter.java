@@ -94,9 +94,11 @@ public class TickerAdapter extends BaseAdapter {
         unit.setText(ti.getOutCurrency());
         if (ti.getAmplitude() >= 0) {
             price.setTextColor(Constants.CP_GREEN);
+            unit.setTextColor(Constants.CP_GREEN);
             amplitude.setTextColor(Constants.CP_GREEN);
         } else {
             price.setTextColor(Color.RED);
+            unit.setTextColor(Color.RED);
             amplitude.setTextColor(Color.RED);
         }
 //        convertView.setOnClickListener(new View.OnClickListener() {

@@ -34,10 +34,9 @@ public class UserVerifyActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_user_verify);
+        getActionBar().setDisplayShowHomeEnabled(false);
         Button btnOk = (Button) findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(this);
-        Button btnCancel = (Button) findViewById(R.id.btn_cancel);
-        btnCancel.setOnClickListener(this);
         regionSelector = (Spinner) findViewById(R.id.region_selector);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.region_array,
                 R.layout.black_spinner_item);
@@ -115,9 +114,6 @@ public class UserVerifyActivity extends Activity implements View.OnClickListener
                             }
                         });
                 task.execute(params);
-                break;
-            case R.id.btn_cancel:
-                this.finish();
                 break;
         }
     }

@@ -3,32 +3,31 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_marginTop="8dip"
-              android:layout_marginBottom="8dip"
-              android:layout_marginLeft="8dip"
-              android:layout_marginRight="8dip"
-              android:background="@drawable/background_card"
+              android:background="@color/page_background_color"
               android:orientation="vertical"
               tools:context="com.coinport.odin.activity.UserVerifyActivity">
     <LinearLayout
-        android:paddingTop="10dip"
-        android:paddingLeft="4dip"
-        android:paddingRight="4dip"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/line_gray"/>
+    <LinearLayout
+        android:layout_marginTop="20dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@drawable/login_input"
+        android:paddingLeft="10dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:paddingRight="4dip"
-            android:layout_width="80dip"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:text="@string/verify_name"/>
         <EditText
             android:id="@+id/real_name"
             android:layout_marginLeft="4dip"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="40dp"
+            android:background="#00ffffff"
+            android:hint="@string/verify_name"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
@@ -37,90 +36,71 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="90dip"
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip"
+            android:textColor="@color/tab_gray"
             android:text="@string/verify_name_description"/>
     </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="20dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="4dip"
-        android:paddingRight="4dip"
         android:gravity="center_vertical"
         android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="80dip"
-            android:layout_height="wrap_content"
-            android:paddingRight="4dip"
-            android:gravity="right"
-            android:text="@string/verify_region"/>
         <Spinner
             android:id="@+id/region_selector"
-            android:layout_marginLeft="4dip"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
     </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="20dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="4dip"
-        android:paddingRight="4dip"
         android:gravity="center_vertical"
         android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="80dip"
-            android:layout_height="wrap_content"
-            android:paddingRight="4dip"
-            android:gravity="right"
-            android:text="@string/verify_type"/>
         <Spinner
             android:id="@+id/type_selector"
-            android:layout_marginLeft="4dip"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
     </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="20dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="4dip"
-        android:paddingRight="4dip"
         android:gravity="center_vertical"
+        android:background="@drawable/login_input"
+        android:paddingLeft="10dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="80dip"
-            android:layout_height="wrap_content"
-            android:paddingRight="4dip"
-            android:gravity="right"
-            android:text="@string/verify_id"/>
         <EditText
             android:id="@+id/id"
             android:layout_marginLeft="4dip"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="40dp"
+            android:background="#00ffffff"
+            android:hint="@string/verify_id"/>
     </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="20dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="4dip"
-        android:paddingRight="4dip"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_ok"
-            style="@style/ButtonGreen"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:background="@drawable/cancel_order_button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:text="@string/button_ok"/>
-        <Button
-            android:id="@+id/btn_cancel"
-            style="@style/ButtonRed"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/button_cancel"/>
     </LinearLayout>
 </LinearLayout>

@@ -99,7 +99,11 @@
             android:name=".activity.RegisterActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:parentActivityName=".activity.LoginActivity"
             android:label="@string/title_activity_register" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.coinport.odin.activity.LoginActivity" />
         </activity>
         <activity
             android:name=".activity.UnlockGesturePasswordActivity"

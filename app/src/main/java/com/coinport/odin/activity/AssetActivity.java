@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -41,6 +42,7 @@ public class AssetActivity extends Activity {
     protected PullToRefreshScrollView refreshableView;
 
     private CustomProgressDialog cpd = null;
+    private Time now = new Time();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class AssetActivity extends Activity {
                 String currency = ((TextView) view.findViewById(R.id.asset_currency)).getText().toString();
                 TextView icon = (TextView) view.findViewById(R.id.currency_icon);
                 icon.setTypeface(App.getIconTf());
-                icon.setTextColor(Color.BLACK);
+                icon.setTextColor(Color.WHITE);
                 icon.setText(Util.iconFont.get(currency));
                 icon.setTextSize(20);
                 return view;
@@ -75,6 +77,7 @@ public class AssetActivity extends Activity {
         ListView lv = (ListView) findViewById(R.id.assets);
         lv.setAdapter(adapter);
         lv.setEnabled(false);
+        getActionBar().setDisplayShowHomeEnabled(false);
     }
 
     @Override
@@ -136,8 +139,12 @@ public class AssetActivity extends Activity {
                 NetworkRequest assetRes = s.get("asset");
                 NetworkRequest cnyTickerRes = s.get("cnyT");
                 NetworkRequest btcTickerRes = s.get("btcT");
-                if (isRefresh)
+                if (isRefresh) {
+                    now.setToNow();
+                    String label = String.format(getString(R.string.last_updated_at), now.format("%Y-%m-%d %k:%M:%S"));
+                    refreshableView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
                     refreshableView.onRefreshComplete();
+                }
                 if (assetRes.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED ||
                     cnyTickerRes.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED ||
                     btcTickerRes.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {

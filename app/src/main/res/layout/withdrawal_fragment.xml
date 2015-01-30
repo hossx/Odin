@@ -7,11 +7,7 @@
         android:id="@+id/unsupported_hint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dip"
-        android:layout_marginBottom="8dip"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
-        android:background="@drawable/background_card"
+        android:background="@color/page_background_color"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -20,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="100dip"
             android:layout_marginBottom="20dip"
+            android:textColor="@color/white"
             android:gravity="center"
             android:text="@string/withdrawal_unsupported_hint"/>
     </LinearLayout>
@@ -27,11 +24,7 @@
         android:id="@+id/verification_hint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dip"
-        android:layout_marginBottom="8dip"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
-        android:background="@drawable/background_card"
+        android:background="@color/page_background_color"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -41,27 +34,29 @@
             android:layout_marginTop="100dip"
             android:layout_marginBottom="20dip"
             android:gravity="center"
+            android:textColor="@color/white"
             android:text="@string/withdrawal_cny_verification_requirement"/>
         <Button
             android:id="@+id/realname_verify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/cancel_order_button"
+            android:textColor="@color/white"
             android:text="@string/user_secure_verify"/>
     </LinearLayout>
     <com.coinport.odin.library.ptr.PullToRefreshScrollView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:scrollbars="none"
-        android:layout_marginTop="8dip"
-        android:layout_marginBottom="8dip"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
-        android:background="@drawable/background_card"
+        android:background="@color/page_background_color"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/refreshable_view"
         android:dividerHeight="4dip"
-        ptr:ptrAnimationStyle="flip">
+        ptr:ptrHeaderTextColor="@color/white"
+        ptr:ptrHeaderSubTextColor="@color/tab_gray"
+        ptr:ptrDrawable="@drawable/loading"
+        ptr:ptrAnimationStyle="rotate">
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -77,23 +72,31 @@
                     android:id="@+id/withdrawal_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="4dip"
-                    android:background="@drawable/red_input_border"/>
+                    android:padding="8dip"
+                    android:layout_marginTop="10dip"
+                    android:textColor="@color/white"
+                    android:background="@drawable/gray_input_border"/>
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:layout_marginTop="4dip"
+                    android:layout_marginTop="20dip"
                     android:layout_marginBottom="4dip"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/withdrawal_sum_label"
-                        android:layout_width="80dip"
+                        android:layout_width="100dip"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="15dp"
                         android:text="@string/withdrawal_sum_label"/>
                     <TextView
                         android:id="@+id/withdrawal_sum"
                         android:paddingLeft="3dip"
+                        android:textColor="@color/white"
+                        android:textSize="15dp"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -101,21 +104,27 @@
                 <LinearLayout
                     android:id="@+id/withdrawal_bank_card_selector"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dip"
                     android:gravity="center_vertical"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
                     android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="80dip"
-                        android:layout_height="wrap_content"
-                        android:text="@string/withdrawal_select_bank_card"/>
                     <com.coinport.odin.layout.BankCardSpinner
                         android:id="@+id/bank_card_spinner"
-                        android:layout_width="150dip"
-                        android:layout_height="wrap_content"/>
+                        android:layout_width="210dip"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="match_parent"/>
                     <Button
                         android:id="@+id/withdrawal_add_bank_card"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="2dip"
+                        android:layout_marginBottom="4dip"
+                        android:layout_marginLeft="4dip"
+                        android:layout_marginRight="4dip"
+                        android:background="@drawable/cancel_order_button"
                         android:text="@string/withdrawal_add_bank_card"/>
                 </LinearLayout>
                 <LinearLayout
@@ -123,11 +132,9 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
                     android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/withdrawal_address"/>
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -137,18 +144,17 @@
                         <EditText
                             android:id="@+id/withdrawal_address_edit"
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:hint="@string/withdrawal_address"/>
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
                     android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/withdrawal_amount"/>
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -158,6 +164,7 @@
                         <EditText
                             android:id="@+id/withdrawal_amount_edit"
                             android:inputType="numberDecimal"
+                            android:hint="@string/withdrawal_amount"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"/>
                     </LinearLayout>
@@ -167,13 +174,11 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
                     android:orientation="horizontal">
-                    <TextView
-                        android:id="@+id/withdrawal_memo_label"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/withdrawal_memo"/>
                     <EditText
+                        android:hint="@string/withdrawal_memo"
                         android:id="@+id/withdrawal_memo_edit"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
@@ -182,43 +187,56 @@
                     android:id="@+id/withdrawal_nxt_pubkey_description"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="80dip"
+                    android:textColor="@color/tab_gray"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:layout_marginBottom="10dip"
                     android:text="@string/withdrawal_nxt_pubkey_description"/>
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dip"
                     android:gravity="center_vertical"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
                     android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/withdrawal_email_code"/>
                     <EditText
                         android:id="@+id/withdrawal_emailcode_edit"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"/>
+                        android:layout_width="210dp"
+                        android:hint="@string/withdrawal_email_code"
+                        android:layout_height="match_parent"/>
                     <Button
                         android:id="@+id/get_withdrawal_email_code"
+                        android:background="@drawable/cancel_order_button"
+                        android:textColor="@color/white"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="2dip"
+                        android:layout_marginBottom="4dip"
+                        android:layout_marginLeft="4dip"
+                        android:layout_marginRight="4dip"
                         android:text="@string/withdrawal_send_email_code"/>
                 </LinearLayout>
             </LinearLayout>
             <Button
                 android:id="@+id/withdrawal_action"
-                style="@style/ButtonGreen"
+                android:background="@drawable/cancel_order_button"
+                android:textColor="@color/white"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="42dip"
+                android:layout_marginTop="10dip"
                 android:text="@string/withdrawal_action"/>
             <TextView
                 android:layout_marginTop="10dip"
                 android:layout_marginLeft="4dip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/tab_gray"
                 android:text="@string/withdrawal_history_description"/>
             <com.coinport.odin.layout.NestedListView
                 android:focusable="false"
+                android:cacheColorHint="@color/transparent"
                 android:id="@+id/withdrawal_history"
+                android:divider="@null"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
             </com.coinport.odin.layout.NestedListView>

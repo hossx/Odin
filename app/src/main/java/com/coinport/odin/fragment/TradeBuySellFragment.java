@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,8 +99,7 @@ public class TradeBuySellFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         buySellView = inflater.inflate(R.layout.trade_buy_sell_fragment, container, false);
         ListView buyListView = (ListView) buySellView.findViewById(R.id.buy_depth);

@@ -6,16 +6,16 @@
               android:orientation="vertical">
     <com.coinport.odin.library.ptr.PullToRefreshListView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
-        android:layout_marginTop="8dip"
-        android:layout_marginBottom="8dip"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
-        android:background="@drawable/background_card"
+        android:background="@color/page_background_color"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/refreshable_view"
-        android:dividerHeight="4dip"
-        ptr:ptrAnimationStyle="flip"
+        android:dividerHeight="1dip"
+        android:divider="@color/line_gray"
+        ptr:ptrHeaderTextColor="@color/white"
+        ptr:ptrHeaderSubTextColor="@color/tab_gray"
+        ptr:ptrDrawable="@drawable/loading"
+        ptr:ptrAnimationStyle="rotate"
         ptr:ptrMode="both">
     </com.coinport.odin.library.ptr.PullToRefreshListView>
 </LinearLayout>

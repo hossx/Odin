@@ -176,10 +176,13 @@
     <string name="deposit_tag">填写Destination tag(非常重要)：%1$s</string>
     <string name="deposit_history_description">最近10笔充值记录:</string>
     <string name="deposit_cny_info_label">充值流程：</string>
-    <string name="deposit_cny_info">选择并联系代理商 -> 付款给代理商 -> 充值成功</string>
+    <string name="deposit_cny_flow_step_1">选择并联系代理商</string>
+    <string name="deposit_cny_flow_step_2">付款给代理商</string>
+    <string name="deposit_cny_flow_step_3">充值成功</string>
     <string name="agent_label">请选择代理商：</string>
     <string name="agent_card_name">户名</string>
     <string name="agent_card_bank">开户行</string>
+    <string name="remove_bank_card_title">账户</string>
     <string name="agent_card_account">帐号</string>
     <string name="agent_card_qq">QQ</string>
     <string name="transfer_pending">等待处理</string>
@@ -261,7 +264,7 @@
     <string name="verify_region">区域</string>
     <string name="verify_type">证件类型</string>
     <string name="verify_id">证件号码</string>
-    <string name="verify_name_description">实名认证一旦提交通过后不可更改，并且提现时会检查姓名是否和银行卡户主名一致，因此请确认姓名的正确。</string>
+    <string name="verify_name_description">名字与银行卡户主名一致，一旦审批通过不能修改真实名字</string>
     <string name="verify_lack_info">真实姓名, 证件号码不能为空</string>
     <string name="cpw_current">当前密码</string>
     <string name="cpw_new">新密码</string>
@@ -279,8 +282,8 @@
     <string name="register_agree_fail">您必须同意服务条款才能注册</string>
     <string name="register_email_sent">验证邮件已发送到您的注册邮箱，请登录邮箱点击链接完成注册</string>
 
-    <string name="login_input_email">请输入注册邮箱</string>
-    <string name="login_input_pw">请输入密码</string>
+    <string name="login_input_email">帐号</string>
+    <string name="login_input_pw">密码</string>
     <string name="login">登陆</string>
     <string name="login_remember_pw">记住密码</string>
     <string name="login_forgot_pw">忘记密码</string>
