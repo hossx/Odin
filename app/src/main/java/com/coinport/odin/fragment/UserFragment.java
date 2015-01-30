@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.coinport.odin.App;
@@ -67,7 +66,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         } else {
             accountPhone.setText(R.string.phone_unverified);
         }
-        TableRow userVerify = (TableRow) view.findViewById(R.id.user_verify);
+        LinearLayout userVerify = (LinearLayout) view.findViewById(R.id.user_verify);
         ImageView usvi = (ImageView) view.findViewById(R.id.user_secure_verify_icon);
         TextView usv = (TextView) view.findViewById(R.id.user_secure_verified);
         if (info.realname != null) {
@@ -114,7 +113,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                 getActivity().startActivity(intent);
             }
         });
-        TableRow changePw = (TableRow) view.findViewById(R.id.change_pw);
+        LinearLayout changePw = (LinearLayout) view.findViewById(R.id.change_pw);
         changePw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +122,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                 getActivity().startActivity(intent);
             }
         });
-        TableRow gesturePw = (TableRow) view.findViewById(R.id.gesture_pw);
+        LinearLayout gesturePw = (LinearLayout) view.findViewById(R.id.gesture_pw);
         gesturePw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
