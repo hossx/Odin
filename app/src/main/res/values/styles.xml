@@ -22,11 +22,11 @@
     </style>
 
     <style name="PopupMenu" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
-        <item name="android:popupBackground">#EE4050AB</item>
+        <item name="android:popupBackground">#ffffffff</item>
     </style>
 
     <style name="menuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
-        <item name="android:textColor">@android:color/primary_text_dark</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
         <item name="android:textSize">20dp</item>
     </style>
 
