@@ -65,6 +65,8 @@ public class DepositFragment extends DWFragmentCommon {
     private PullToRefreshScrollView refreshScrollView;
     private CustomProgressDialog cpd = null;
 
+    private Time now = new Time();
+    
     static {
         uriHeader.put("BTC", "bitcoin:");
         uriHeader.put("LTC", "litecoin:");
@@ -441,6 +443,9 @@ public class DepositFragment extends DWFragmentCommon {
                             }
                             historyAdapter.notifyDataSetChanged();
                         }
+                        now.setToNow();
+                        String label = String.format(getString(R.string.last_updated_at), now.format("%Y-%m-%d %k:%M:%S"));
+                        refreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
                         refreshScrollView.onRefreshComplete();
                     }
                 });

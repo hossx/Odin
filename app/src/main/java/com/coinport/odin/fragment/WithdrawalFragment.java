@@ -68,6 +68,8 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
 
     private CustomProgressDialog cpd = null;
 
+    private Time now = new Time();
+    
     public static WithdrawalFragment newInstance(String currency) {
         WithdrawalFragment fragment = new WithdrawalFragment();
         Bundle args = new Bundle();
@@ -395,6 +397,9 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                             }
                             historyAdapter.notifyDataSetChanged();
                         }
+                        now.setToNow();
+                        String label = String.format(getString(R.string.last_updated_at), now.format("%Y-%m-%d %k:%M:%S"));
+                        refreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
                         refreshScrollView.onRefreshComplete();
                     }
                 });
