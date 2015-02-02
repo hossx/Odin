@@ -60,6 +60,8 @@ public class UpdateManager {
 
     private boolean forceUpdate = false;
 
+    private String updateInfo = null;
+    
     private Handler mHandler = new Handler(){
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -91,6 +93,7 @@ public class UpdateManager {
                         try {
                             int latestVersion = Util.getJsonObjectByPath(s.getApiResult(), "data").getInt("v");
                             int currentVersion = getVersionCode();
+                            updateInfo = Util.getJsonObjectByPath(s.getApiResult(), "data").getString("cl");
                             if (latestVersion > currentVersion)
                                 needUpdate = true;
                             if ((latestVersion / 100) > (currentVersion / 100)) {
@@ -131,7 +134,7 @@ public class UpdateManager {
     private void showNoticeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(R.string.auto_update_title);
-        builder.setMessage(R.string.auto_update_msg);
+        builder.setMessage(mContext.getString(R.string.auto_update_msg) + "\n" + updateInfo.replace(";", "\n"));
         builder.setPositiveButton(R.string.auto_update_download, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
