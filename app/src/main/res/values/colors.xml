@@ -20,5 +20,10 @@
     <color name="buy_sell_input_border">#ff6f7b93</color>
     <color name="refresh_timer_banner_background_color">#ff242b35</color>
     <color name="line_gray">#ff363e4b</color>
+    <color name="viewfinder_frame">#ff000000</color>
+    <color name="viewfinder_laser">#ffff0000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="result_view">#b0000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
     <drawable name="trans">@color/color_hei_8</drawable>
 </resources>
