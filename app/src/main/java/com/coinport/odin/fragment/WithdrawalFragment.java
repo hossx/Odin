@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.coinport.odin.App;
 import com.coinport.odin.R;
+import com.coinport.odin.activity.CaptureActivity;
 import com.coinport.odin.activity.UserVerifyActivity;
 import com.coinport.odin.dialog.CustomProgressDialog;
 import com.coinport.odin.layout.BankCardSpinner;
@@ -138,6 +140,9 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
             refreshScrollView.setVisibility(View.VISIBLE);
             updateWithdrawalInfo(false);
         }
+        
+        Button scanQr = (Button) view.findViewById(R.id.scan_qrcode);
+        scanQr.setOnClickListener(this);
         return view;
     }
 
@@ -184,8 +189,12 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == 0 && view != null) {
+        if (resultCode == 0 && requestCode == 0 && view != null) {
             updateWithdrawalInfo(false);
+        } else if (resultCode == -1 && requestCode == 1 && data != null && view != null) {
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("result");
+            Log.i("scan result:", scanResult);
         }
     }
 
@@ -534,6 +543,10 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                             }
                         });
                 withdrawalTask.execute(params);
+                break;
+            case R.id.scan_qrcode:
+                Intent openCameraIntent = new Intent(WithdrawalFragment.this.getActivity(), CaptureActivity.class);
+                startActivityForResult(openCameraIntent, 1);
                 break;
         }
     }

@@ -13,9 +13,6 @@ import android.os.Vibrator;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.coinport.odin.R;

@@ -150,6 +150,5 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/reg_button_select"
         android:text="@string/login_register"
-        android:textColor="#ffffffff"
-        />
+        android:textColor="#ffffffff"/>
 </RelativeLayout>
