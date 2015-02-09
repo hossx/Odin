@@ -359,6 +359,6 @@
     <string name="kline_low">低</string>
     <string name="kline_volume">量</string>
 
-    <string name="scan_qrcode">扫描二维码</string>
+    <string name="scan_qrcode">扫描</string>
     
 </resources>

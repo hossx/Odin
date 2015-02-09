@@ -101,6 +101,7 @@
         android:layout_marginLeft="42dp"
         android:layout_marginRight="42dp"
         android:layout_marginTop="20dp"
+        android:textColor="@color/white"
         android:background="@drawable/cancel_order_button"
         android:text="@string/login" />
 

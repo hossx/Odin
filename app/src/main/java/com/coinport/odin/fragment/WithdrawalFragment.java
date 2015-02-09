@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -144,7 +145,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
             updateWithdrawalInfo(false);
         }
         
-        Button scanQr = (Button) view.findViewById(R.id.scan_qrcode);
+        ImageButton scanQr = (ImageButton) view.findViewById(R.id.scan_qrcode);
         scanQr.setOnClickListener(this);
         return view;
     }
