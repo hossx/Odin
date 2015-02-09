@@ -14,8 +14,8 @@
 
     <!-- 设置边框的宽度和颜色 -->
     <stroke
-        android:width="1px"
-        android:color="#ff555A60"/>
+        android:width="2px"
+        android:color="@color/tab_gray"/>
 
     <solid android:color="@android:color/transparent"/>
     <!-- 设置背景颜色渐变 从 红色  -> 绿色 -> 蓝色, 渐变的类型为sweep渐变 -->

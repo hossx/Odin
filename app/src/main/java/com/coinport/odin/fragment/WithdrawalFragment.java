@@ -1,5 +1,6 @@
 package com.coinport.odin.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +71,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
     private BankCardSpinner bcSpinner;
 
     private CustomProgressDialog cpd = null;
+    private Spinner currencySpinner = null;
 
     private Time now = new Time();
     
@@ -160,6 +163,12 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
             view.clearFocus();
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        currencySpinner = (Spinner) activity.findViewById(R.id.currency_spinner);
+    }
+
     private void updateWithdrawalInfo(boolean isPull) {
         if (currency.equals("CNY") && (App.getAccount().realname == null || App.getAccount().realname.equals(""))) {
             refreshScrollView.setVisibility(View.GONE);
@@ -177,8 +186,10 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
             return;
         }
         if (!isPull) {
-            cpd = CustomProgressDialog.createDialog(getActivity());
-            cpd.show();
+            if (cpd == null) {
+                cpd = CustomProgressDialog.createDialog(getActivity());
+                cpd.show();
+            }
         }
         realnameHint.setVisibility(View.GONE);
         refreshScrollView.setVisibility(View.VISIBLE);
@@ -194,7 +205,34 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
         } else if (resultCode == -1 && requestCode == 1 && data != null && view != null) {
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString("result");
-            Log.i("scan result:", scanResult);
+            
+            int index = scanResult.indexOf(":");
+            if (index == -1) {
+                if (currency != "CNY")
+                    ((EditText) view.findViewById(R.id.withdrawal_address_edit)).setText(scanResult);
+            } else {
+                String protocol = scanResult.substring(0, index);
+                String info = scanResult.substring(index + 1);
+                if (Util.altcoinProtocol.containsKey(protocol) && Util.altcoinIndex.containsKey(
+                        Util.altcoinProtocol.get(protocol))) {
+                    int askIndex = info.indexOf("?");
+                    if (askIndex == -1) {
+                        ((EditText) view.findViewById(R.id.withdrawal_address_edit)).setText(info);
+                    } else {
+                        String scanedAddress = info.substring(0, askIndex);
+                        ((EditText) view.findViewById(R.id.withdrawal_address_edit)).setText(scanedAddress);
+                        String optionInfo = info.substring(askIndex + 1);
+                        String[] items = optionInfo.split("&");
+                        for (int i = 0; i < items.length; ++i) {
+                            String[] kv = items[i].split("=");
+                            if (kv.length > 1 && kv[0].equals("amount"))
+                                ((EditText) view.findViewById(R.id.withdrawal_amount_edit)).setText(kv[1]);
+                        }
+                    }
+                    if (currencySpinner != null)
+                        currencySpinner.setSelection(Util.altcoinIndex.get(Util.altcoinProtocol.get(protocol)), true);
+                }
+            }
         }
     }
 
