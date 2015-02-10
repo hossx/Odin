@@ -66,8 +66,8 @@ public class CpHttpClient {
                         Cookie cookie = ccs.getCookie("XSRF-TOKEN");
                         if (cookie != null) {
                             String token = cookie.getValue();
-                            httpRequest.addHeader("X-XSRF-TOKEN", token);
-                            httpRequest.addHeader(CoreProtocolPNames.USER_AGENT, System.getProperty("http.agent"));
+                            httpRequest.setHeader("X-XSRF-TOKEN", token);
+                            httpRequest.setHeader("user-agent", System.getProperty("http.agent"));
                         }
                     }
                 })
