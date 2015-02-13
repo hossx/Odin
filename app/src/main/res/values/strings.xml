@@ -213,6 +213,8 @@
     <string name="withdrawal_nxt_pubkey">Public Key</string>
     <string name="withdrawal_nxt_pubkey_description">没有可不填，地址首次使用请填写</string>
     <string name="withdrawal_email_code">Email验证码</string>
+    <string name="withdrawal_google_auth_code">谷歌二次验证码</string>
+    <string name="withdrawal_sms_code">短信验证码</string>
     <string name="withdrawal_send_email_code">获取</string>
     <string name="withdrawal_abc_title">添加银行卡</string>
     <string name="withdrawal_abc_description">（银行卡的开户名必须和实名认证的真实姓名一致）</string>

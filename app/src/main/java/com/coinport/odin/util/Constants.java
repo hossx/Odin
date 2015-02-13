@@ -34,6 +34,7 @@ public class Constants {
 //    public static final String DEPOSIT_ADDRESS_URL = "https://exchange.coinport.com/depoaddr/%1$s/%2$s";
     public static final String FEE_URL = PROTOCOL + DOMAIN_PORT + "/api/m/fee";
     public static final String EMAIL_CODE_URL = PROTOCOL + DOMAIN_PORT + "/emailverification";
+    public static final String SMS_CODE_URL = PROTOCOL + DOMAIN_PORT + "/smsverification2";
     public static final String WITHDRAWAL_URL = PROTOCOL + DOMAIN_PORT + "/account/withdrawal";
     public static final String USER_VERIFY_URL = PROTOCOL + DOMAIN_PORT + "/account/realnameverify";
     public static final String BANK_CARD_URL = PROTOCOL + DOMAIN_PORT + "/account/querybankcards";

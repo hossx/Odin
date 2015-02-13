@@ -50,6 +50,10 @@ public class AccountInfo {
     public boolean needSms() {
         return (securePreference != null && securePreference.charAt(0) == '1');
     }
+    
+    public boolean needEmail() {
+        return (securePreference != null && securePreference.charAt(1) == '1');
+    }
 
     public boolean needGoogleAuth() {
         return (googleAuthSecureCode != null && !googleAuthSecureCode.equals(""));

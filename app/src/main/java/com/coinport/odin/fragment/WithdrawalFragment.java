@@ -65,7 +65,8 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
 
     private String limit = "", fee = "";
     private double asset = 0.0;
-    private String withdrawalEmailUUID = "";
+    private static String withdrawalEmailUUID = "";
+    private static String withdrawalSmsUUID = "";
 
     private ArrayList<String> cardList = new ArrayList<>();
     private ArrayAdapter<String> cardAdapter;
@@ -115,6 +116,8 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
 
         Button getWithdrawalEmailCode = (Button) view.findViewById(R.id.get_withdrawal_email_code);
         getWithdrawalEmailCode.setOnClickListener(this);
+        Button getWithdrawalSmsCode = (Button) view.findViewById(R.id.get_withdrawal_sms_code);
+        getWithdrawalSmsCode.setOnClickListener(this);
         Button withdrawalBtn = (Button) view.findViewById(R.id.withdrawal_action);
         withdrawalBtn.setOnClickListener(this);
 
@@ -133,17 +136,24 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
             }
         });
 
-        View unsupportedHint = view.findViewById(R.id.unsupported_hint);
-        if (App.getAccount().needGoogleAuth() || App.getAccount().needSms()) {
-            unsupportedHint.setVisibility(View.VISIBLE);
-            realnameHint.setVisibility(View.GONE);
-            refreshScrollView.setVisibility(View.GONE);
-        } else {
-            unsupportedHint.setVisibility(View.GONE);
-            realnameHint.setVisibility(View.GONE);
-            refreshScrollView.setVisibility(View.VISIBLE);
-            updateWithdrawalInfo(false);
+        LinearLayout mail = (LinearLayout) view.findViewById(R.id.email_part);
+        mail.setVisibility(View.GONE);
+        LinearLayout sms = (LinearLayout) view.findViewById(R.id.sms_part);
+        sms.setVisibility(View.GONE);
+        LinearLayout google = (LinearLayout) view.findViewById(R.id.google_auth_part);
+        google.setVisibility(View.GONE);
+
+        if (App.getAccount().needEmail()) {
+            mail.setVisibility(View.VISIBLE);
         }
+        if (App.getAccount().needSms()) {
+            sms.setVisibility(View.VISIBLE);
+        }
+        if (App.getAccount().needGoogleAuth()) {
+            google.setVisibility(View.VISIBLE);
+        }
+        
+        updateWithdrawalInfo(false);
         
         ImageButton scanQr = (ImageButton) view.findViewById(R.id.scan_qrcode);
         scanQr.setOnClickListener(this);
@@ -486,6 +496,35 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                         });
                 task.execute();
                 break;
+            case R.id.get_withdrawal_sms_code:
+                Util.countdownButton((Button) v);
+                NetworkAsyncTask taskSms = new NetworkAsyncTask(Constants.SMS_CODE_URL, Constants.HttpMethod.GET)
+                        .setOnSucceedListener(new OnApiResponseListener())
+                        .setOnFailedListener(new OnApiResponseListener())
+                        .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
+                            @Override
+                            public void onRender(NetworkRequest s) {
+                                if (!isAdded())
+                                    return;
+                                if (s.getApiStatus() != NetworkRequest.ApiStatus.SUCCEED) {
+                                    if (s.getApiStatus() == NetworkRequest.ApiStatus.UNAUTH) {
+                                        Intent intent = Util.toLoginFromAuthFail(WithdrawalFragment.this.getActivity(), true);
+                                        WithdrawalFragment.this.getActivity().startActivity(intent);
+                                    } else {
+                                        Toast.makeText(getActivity(), getString(R.string.request_failed),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                    return;
+                                }
+                                try {
+                                    withdrawalSmsUUID = s.getApiResult().getString("data");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                taskSms.execute();
+                break;
             case R.id.withdrawal_add_bank_card:
                 AddBankCardFragment dialog = new AddBankCardFragment();
                 dialog.setPositiveButton(new AddBankCardFragment.OnClickListener() {
@@ -538,7 +577,10 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                     memoStr = memoEdit.getText().toString();
                 }
                 String emailCode = ((EditText) view.findViewById(R.id.withdrawal_emailcode_edit)).getText().toString();
-                if (amountStr.equals("0.0") || addressStr.equals("") || emailCode.equals("")) {
+                String phoneCode = ((EditText) view.findViewById(R.id.withdrawal_smscode_edit)).getText().toString();
+                String googleCode = ((EditText) view.findViewById(R.id.withdrawal_google_auth_edit)).getText().toString();
+
+                if (amountStr.equals("0.0") || addressStr.equals("")) {
                     Toast.makeText(getActivity(), getString(R.string.need_withdrawal_params),
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -551,6 +593,9 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
                 params.put("publicKey", publickKeyStr);
                 params.put("emailuuid", withdrawalEmailUUID);
                 params.put("emailcode", emailCode);
+                params.put("phoneuuid", withdrawalSmsUUID);
+                params.put("phonecode", phoneCode);
+                params.put("googlecode", googleCode);
 
                 NetworkAsyncTask withdrawalTask = new NetworkAsyncTask(Constants.WITHDRAWAL_URL,
                         Constants.HttpMethod.POST)

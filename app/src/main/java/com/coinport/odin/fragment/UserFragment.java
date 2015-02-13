@@ -139,15 +139,8 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.logout_btn:
-                NetworkAsyncTask task = new NetworkAsyncTask(Constants.LOGOUT_URL, Constants.HttpMethod.GET)
-                        .setRenderListener(new NetworkAsyncTask.OnPostRenderListener() {
-                            @Override
-                            public void onRender(NetworkRequest s) {
-                                Intent intent = Util.toLoginFromAuthFail(getActivity(), false);
-                                getActivity().startActivity(intent);
-                            }
-                        });
-                task.execute();
+                Intent intent = Util.toLoginFromAuthFail(getActivity(), false);
+                getActivity().startActivity(intent);
                 break;
         }
     }
