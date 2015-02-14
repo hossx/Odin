@@ -1,9 +1,15 @@
 package com.coinport.odin.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.telephony.SmsMessage;
+import android.text.TextUtils;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,6 +50,8 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class WithdrawalFragment extends DWFragmentCommon implements View.OnClickListener {
     private static final String CURRENCY = "currency";
@@ -76,7 +84,15 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
     private Spinner currencySpinner = null;
 
     private Time now = new Time();
-    
+
+    private BroadcastReceiver smsReceiver;
+    private IntentFilter smsFilter;
+    private Handler handler;
+    private EditText smsCodeEditor;
+    private String strContent = "";
+    private static String patternCoder = "(?<!\\d)\\d{6}(?!\\d)";
+    private static Pattern p = Pattern.compile(patternCoder);
+
     public static WithdrawalFragment newInstance(String currency) {
         WithdrawalFragment fragment = new WithdrawalFragment();
         Bundle args = new Bundle();
@@ -152,12 +168,49 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
         if (App.getAccount().needGoogleAuth()) {
             google.setVisibility(View.VISIBLE);
         }
-        
+
         updateWithdrawalInfo(false);
-        
+
         ImageButton scanQr = (ImageButton) view.findViewById(R.id.scan_qrcode);
         scanQr.setOnClickListener(this);
+
+        smsCodeEditor = (EditText) view.findViewById(R.id.withdrawal_smscode_edit);
+        handler = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+                smsCodeEditor.setText(strContent);
+            };
+        };
+        smsFilter= new IntentFilter();
+        smsFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
+        smsFilter.setPriority(Integer.MAX_VALUE);
+        smsReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Object[] objs = (Object[]) intent.getExtras().get("pdus");
+                for (Object obj : objs) {
+                    byte[] pdu = (byte[]) obj;
+                    SmsMessage sms = SmsMessage.createFromPdu(pdu);
+                    String message = sms.getMessageBody();
+                    String from = sms.getOriginatingAddress();
+                    if (!TextUtils.isEmpty(from)) {
+                        String code = patternCode(message);
+                        if (!TextUtils.isEmpty(code)) {
+                            strContent = code;
+                            handler.sendEmptyMessage(1);
+                        }
+                    }
+                }
+            }
+        };
+        getActivity().registerReceiver(smsReceiver, smsFilter);
+
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().unregisterReceiver(smsReceiver);
     }
 
     @Override
@@ -178,6 +231,17 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         currencySpinner = (Spinner) activity.findViewById(R.id.currency_spinner);
+    }
+
+    private String patternCode(String patternContent) {
+        if (TextUtils.isEmpty(patternContent)) {
+            return null;
+        }
+        Matcher matcher = p.matcher(patternContent);
+        if (matcher.find()) {
+            return matcher.group();
+        }
+        return null;
     }
 
     private void updateWithdrawalInfo(boolean isPull) {
@@ -216,7 +280,7 @@ public class WithdrawalFragment extends DWFragmentCommon implements View.OnClick
         } else if (resultCode == -1 && requestCode == 1 && data != null && view != null) {
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString("result");
-            
+
             int index = scanResult.indexOf(":");
             if (index == -1) {
                 if (currency != "CNY")
